@@ -85,4 +85,26 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.rgb_to_hex([255, 255, 0])).to eq('#ffff00')
     end
   end
+
+  describe 'hsl_to_rgb' do
+    it 'expects to return [255, 0, 0] when [0, 100, 50] is passed' do
+      expect(Utils.hsl_to_rgb([0, 100, 50])).to eq([255, 0, 0])
+    end
+
+    it 'expects to return [255, 128, 0] when [30, 100, 50] is passed' do
+      expect(Utils.hsl_to_rgb([30, 100, 50])).to eq([255, 128, 0])
+    end
+
+    it 'expects to return [255, 255, 0] when [60, 100, 50] is passed' do
+      expect(Utils.hsl_to_rgb([60, 100, 50])).to eq([255, 255, 0])
+    end
+
+    it 'expects to return [0, 255, 0] when [120, 100, 50] is passed' do
+      expect(Utils.hsl_to_rgb([120, 100, 50])).to eq([0, 255, 0])
+    end
+
+    it 'expects to return [0, 0, 255] when [240, 100, 50] is passed' do
+      expect(Utils.hsl_to_rgb([240, 100, 50])).to eq([0, 0, 255])
+    end
+  end
 end
