@@ -23,5 +23,9 @@ module ColorContrastCalc
       return lowered if prefix == lowered.start_with?('#')
       prefix ? "##{lowered}" : lowered[1..-1]
     end
+
+    def self.rgb_to_hex(rgb)
+      format('#%02x%02x%02x', *rgb)
+    end
   end
 end

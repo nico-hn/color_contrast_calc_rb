@@ -79,4 +79,10 @@ RSpec.describe ColorContrastCalc::Utils do
       end
     end
   end
+
+  describe 'rgb_to_hex' do
+    it 'expects to return #fff00 when [255, 255, 0] is passed' do
+      expect(Utils.rgb_to_hex([255, 255, 0])).to eq('#ffff00')
+    end
+  end
 end
