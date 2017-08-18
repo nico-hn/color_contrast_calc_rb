@@ -107,4 +107,34 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.hsl_to_rgb([240, 100, 50])).to eq([0, 0, 255])
     end
   end
+
+  describe 'hsl_to_hex' do
+    it 'expects to return #ff0000 when [0, 100, 50] is passed' do
+      expect(Utils.hsl_to_hex([0, 100, 50])).to eq('#ff0000')
+    end
+
+    it 'expects to return #ff8000 when [30, 100, 50] is passed' do
+      expect(Utils.hsl_to_hex([30, 100, 50])).to eq('#ff8000')
+    end
+
+    it 'expects to return #ffff00 when [60, 100, 50] is passed' do
+      expect(Utils.hsl_to_hex([60, 100, 50])).to eq('#ffff00')
+    end
+
+    it 'expects to return #00ff00 when [120, 100, 50] is passed' do
+      expect(Utils.hsl_to_hex([120, 100, 50])).to eq('#00ff00')
+    end
+
+    it 'expects to return #0000ff when [240, 100, 50] is passed' do
+      expect(Utils.hsl_to_hex([240, 100, 50])).to eq('#0000ff')
+    end
+
+    it 'expects to return #adff2f when [83.653, 100, 59.215] is passed' do
+      expect(Utils.hsl_to_hex([83.653, 100, 59.215])).to eq('#adff2f')
+    end
+
+    it 'expects to return #cd5c5c when [0, 53, 58.2352] is passed' do
+      expect(Utils.hsl_to_hex([0, 53, 58.2352])).to eq('#cd5c5c')
+    end
+  end
 end

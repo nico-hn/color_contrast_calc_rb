@@ -51,5 +51,9 @@ module ColorContrastCalc
     end
 
     private_class_method :hue_to_rgb
+
+    def self.hsl_to_hex(hsl)
+      rgb_to_hex(hsl_to_rgb(hsl))
+    end
   end
 end
