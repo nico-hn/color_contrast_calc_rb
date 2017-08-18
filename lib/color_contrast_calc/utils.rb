@@ -12,5 +12,16 @@ module ColorContrastCalc
         [0, 2, 4].map {|i| hex_part[i, 2].hex }
       end
     end
+
+    def self.normalize_hex(code, prefix = true)
+      if code.length < 6
+        hex_part = code.start_with?('#') ? code[1..-1] : code
+        code = hex_part.chars.map {|c| c * 2 }.join
+      end
+
+      lowered = code.downcase
+      return lowered if prefix == lowered.start_with?('#')
+      prefix ? "##{lowered}" : lowered[1..-1]
+    end
   end
 end
