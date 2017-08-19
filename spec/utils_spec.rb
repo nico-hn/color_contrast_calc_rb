@@ -340,4 +340,18 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.valid_hex?('#fga')).to be false
     end
   end
+
+  describe 'uppercase?' do
+    it 'expects to return true when "U" is passed' do
+      expect(Utils.uppercase?('U')).to be true
+    end
+
+    it 'expects to return false when "l" is passed' do
+      expect(Utils.uppercase?('l')).to be false
+    end
+
+    it 'expects to return false when "Ul" is passed' do
+      expect(Utils.uppercase?('Ul')).to be false
+    end
+  end
 end

@@ -129,5 +129,9 @@ module ColorContrastCalc
     def self.valid_hex?(hex_code)
       hex_code.match? HEX_RE
     end
+
+    def self.uppercase?(str)
+      !str.match?(/[[:lower:]]/)
+    end
   end
 end
