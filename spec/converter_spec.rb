@@ -67,4 +67,20 @@ RSpec.describe ColorContrastCalc::Converter do
       end
     end
   end
+
+  describe ColorContrastCalc::Converter::Invert do
+    describe 'calc_rgb' do
+      it 'expects to return yellow if 0 is passed to yellow' do
+        expect(Converter::Invert.calc_rgb(yellow, 0)).to eq(yellow)
+      end
+
+      it 'expects to return blue if 100 is passed to yellow' do
+        expect(Converter::Invert.calc_rgb(yellow, 100)).to eq([0, 0, 255])
+      end
+
+      it 'expects to return a gray color if 50 is passed to yellow' do
+        expect(Converter::Invert.calc_rgb(yellow, 50)).to eq(gray)
+      end
+    end
+  end
 end

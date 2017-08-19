@@ -39,5 +39,15 @@ module ColorContrastCalc
         Converter.rgb_map(rgb) {|c| c * ratio / 100 }
       end
     end
+
+    module Invert
+      # https://www.w3.org/TR/filter-effects-1/#invertEquivalent
+      # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+
+      def self.calc_rgb(rgb, ratio)
+        r = ratio.to_f
+        rgb.map {|c| ((100 * c - 2 * c * r + 255 * r) / 100).round }
+      end
+    end
   end
 end
