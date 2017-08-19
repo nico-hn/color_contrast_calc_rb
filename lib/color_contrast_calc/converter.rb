@@ -22,6 +22,9 @@ module ColorContrastCalc
     end
 
     module Contrast
+      # https://www.w3.org/TR/filter-effects/#funcdef-contrast
+      # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+
       def self.calc_rgb(rgb, ratio = 100)
         r = ratio.to_f
         Converter.rgb_map(rgb) {|c| (c * r + 255 * (50 - r / 2)) / 100 }
@@ -29,6 +32,9 @@ module ColorContrastCalc
     end
 
     module Brightness
+      # https://www.w3.org/TR/filter-effects/#funcdef-brightness
+      # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+
       def self.calc_rgb(rgb, ratio = 100)
         Converter.rgb_map(rgb) {|c| c * ratio / 100 }
       end
