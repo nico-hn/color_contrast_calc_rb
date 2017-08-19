@@ -105,5 +105,9 @@ module ColorContrastCalc
     end
 
     private_class_method :minmax_with_diff
+
+    def self.hex_to_hsl(hex_code)
+      rgb_to_hsl(hex_to_rgb(hex_code))
+    end
   end
 end

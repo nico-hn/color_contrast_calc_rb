@@ -219,4 +219,19 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.send(:rgb_to_hue, [0, 0, 255])).to be_within(0.01).of(240)
     end
   end
+
+  describe 'hex_to_hsl' do
+    it 'expects to return [0, 100, 50] when #ff0000 is passed' do
+      hsl = Utils.hex_to_hsl('#ff0000')
+      expected = [0, 100, 50]
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+    end
+
+    ['#ffffff', '#808080', '#d2691e', '#cd5c5c', '#adff2f'].each do |hex|
+      it "expects to return a value that can be converted to the original #{hex}" do
+        hsl = Utils.hex_to_hsl(hex)
+        expect(Utils.hsl_to_hex(hsl)).to eq(hex)
+      end
+    end
+  end
 end
