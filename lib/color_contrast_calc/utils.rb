@@ -38,10 +38,9 @@ module ColorContrastCalc
       l = hsl[2] / 100.0
       m2 = l <= 0.5 ? l * (s + 1) : l + s - l * s
       m1 = l * 2 - m2
-      r = hue_to_rgb(m1, m2, h + 1 / 3.0) * 255
-      g = hue_to_rgb(m1, m2, h) * 255
-      b = hue_to_rgb(m1, m2, h - 1 / 3.0) * 255
-      [r, g, b].map(&:round)
+      [h + 1 / 3.0, h, h - 1 / 3.0].map do |adjusted_h|
+        (hue_to_rgb(m1, m2, adjusted_h) * 255).round
+      end
     end
 
     def self.hue_to_rgb(m1, m2, h)
