@@ -50,5 +50,41 @@ module ColorContrastCalc
         rgb.map {|c| ((100 * c - 2 * c * r + 255 * r) / 100).round }
       end
     end
+
+    module HueRotate
+      # https://www.w3.org/TR/filter-effects/#funcdef-hue-rotate
+      # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+
+      CONST_PART = Matrix[[0.213, 0.715, 0.072],
+                          [0.213, 0.715, 0.072],
+                          [0.213, 0.715, 0.072]]
+
+      COS_PART = Matrix[[0.787, -0.715, -0.072],
+                        [-0.213, 0.285, -0.072],
+                        [-0.213, -0.715, 0.928]]
+
+      SIN_PART = Matrix[[-0.213, -0.715, 0.928],
+                        [0.143, 0.140, -0.283],
+                        [-0.787, 0.715, 0.072]]
+
+      def self.calc_rgb(rgb, deg)
+        Converter.rgb_map((calc_rotation(deg) * Vector[*rgb]).to_a)
+      end
+
+      def self.deg_to_rad(deg)
+        Math::PI * deg / 180
+      end
+
+      private_class_method :deg_to_rad
+
+      def self.calc_rotation(deg)
+        rad = deg_to_rad(deg)
+        cos_part = COS_PART * Math.cos(rad)
+        sin_part = SIN_PART * Math.sin(rad)
+        CONST_PART + cos_part + sin_part
+      end
+
+      private_class_method :calc_rotation
+    end
   end
 end

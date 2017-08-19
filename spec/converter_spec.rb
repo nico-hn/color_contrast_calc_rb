@@ -83,4 +83,36 @@ RSpec.describe ColorContrastCalc::Converter do
       end
     end
   end
+
+  describe ColorContrastCalc::Converter::HueRotate do
+    describe 'calc_rgb' do
+      it 'expects to return unchanged colors when 0 is passed' do
+        deg = 0
+        expect(Converter::HueRotate.calc_rgb(yellow, deg)).to eq(yellow)
+        expect(Converter::HueRotate.calc_rgb(blue, deg)).to eq(blue)
+        expect(Converter::HueRotate.calc_rgb(orange, deg)).to eq(orange)
+      end
+
+      it 'expects to return unchanged colors when 360 is passed' do
+        deg = 360
+        expect(Converter::HueRotate.calc_rgb(yellow, deg)).to eq(yellow)
+        expect(Converter::HueRotate.calc_rgb(blue, deg)).to eq(blue)
+        expect(Converter::HueRotate.calc_rgb(orange, deg)).to eq(orange)
+      end
+
+      it 'expects to return new colors when 180 is passed' do
+        deg = 180
+        expect(Converter::HueRotate.calc_rgb(yellow, deg)).to eq([218, 218, 255])
+        expect(Converter::HueRotate.calc_rgb(blue, deg)).to eq([37, 37, 0])
+        expect(Converter::HueRotate.calc_rgb(orange, deg)).to eq([90, 180, 255])
+      end
+
+      it 'expects to return new colors when 90 is passed' do
+        deg = 90
+        expect(Converter::HueRotate.calc_rgb(yellow, deg)).to eq([0, 255, 218])
+        expect(Converter::HueRotate.calc_rgb(blue, deg)).to eq([255, 0, 37])
+        expect(Converter::HueRotate.calc_rgb(orange, deg)).to eq([0, 232, 90])
+      end
+    end
+  end
 end
