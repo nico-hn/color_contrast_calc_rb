@@ -4,12 +4,12 @@ require 'color_contrast_calc/converter'
 Converter = ColorContrastCalc::Converter
 
 RSpec.describe ColorContrastCalc::Converter do
+  yellow = [255, 255, 0]
+  yellow2 = [254, 254, 0]
+  orange = [255, 165, 0]
+
   describe ColorContrastCalc::Converter::Contrast do
     describe 'calc_rgb' do
-      yellow = [255, 255, 0]
-      yellow2 = [254, 254, 0]
-      orange = [255, 165, 0]
-
       it 'expects to return the same rgb as the original if a given ratio is 100' do
         expect(Converter::Contrast.calc_rgb(yellow, 100)).to eq(yellow)
         expect(Converter::Contrast.calc_rgb(yellow2, 100)).to eq(yellow2)
