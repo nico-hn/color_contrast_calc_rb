@@ -56,6 +56,33 @@ module ColorContrastCalc
       rgb_to_hex(hsl_to_rgb(hsl))
     end
 
+    def self.rgb_to_hsl(rgb)
+      [
+        rgb_to_hue(rgb),
+        rgb_to_saturation(rgb) * 100,
+        rgb_to_lightness(rgb) * 100
+      ]
+    end
+
+    def self.rgb_to_lightness(rgb)
+      (rgb.max + rgb.min) / 510.0
+    end
+
+    private_class_method :rgb_to_lightness
+
+    def self.rgb_to_saturation(rgb)
+      l = rgb_to_lightness(rgb)
+      max = rgb.max
+      min = rgb.min
+      d = (max - min) * 1.0
+
+      return 0 if max == min
+
+      l <= 0.5 ? d / (max + min) : d / (510 - max - min)
+    end
+
+    private_class_method :rgb_to_saturation
+
     def self.rgb_to_hue(rgb)
       # References:
       # Agoston, Max K. (2005).
