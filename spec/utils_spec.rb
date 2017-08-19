@@ -341,6 +341,25 @@ RSpec.describe ColorContrastCalc::Utils do
     end
   end
 
+  describe 'same_hex_color?' do
+    upper_yellow = '#FFFF00'
+    lower_yellow = '#ffff00'
+    short_yellow = '#ff0'
+    red = '#ff0000'
+
+    it 'expects to return true if the only difference of two colors are their letter case' do
+      expect(Utils.same_hex_color?(upper_yellow, lower_yellow)).to be true
+    end
+
+    it 'expects to return true if one of given colors is a shorthand form of the other' do
+      expect(Utils.same_hex_color?(lower_yellow, short_yellow)).to be true
+    end
+
+    it 'expects to return false if given two colors are different' do
+      expect(Utils.same_hex_color?(lower_yellow, red)).to be false
+    end
+  end
+
   describe 'uppercase?' do
     it 'expects to return true when "U" is passed' do
       expect(Utils.uppercase?('U')).to be true

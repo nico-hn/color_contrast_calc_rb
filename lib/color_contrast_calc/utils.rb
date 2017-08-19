@@ -130,6 +130,10 @@ module ColorContrastCalc
       hex_code.match? HEX_RE
     end
 
+    def self.same_hex_color?(hex1, hex2)
+      normalize_hex(hex1) == normalize_hex(hex2)
+    end
+
     def self.uppercase?(str)
       !str.match?(/[[:lower:]]/)
     end
