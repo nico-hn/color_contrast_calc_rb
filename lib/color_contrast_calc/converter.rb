@@ -104,5 +104,30 @@ module ColorContrastCalc
 
       private_class_method :calc_saturation
     end
+
+    module Grayscale
+      # https://www.w3.org/TR/filter-effects/#funcdef-grayscale
+      # https://www.w3.org/TR/filter-effects/#grayscaleEquivalent
+      # https://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
+
+      CONST_PART = Matrix[[0.2126, 0.7152, 0.0722],
+                          [0.2126, 0.7152, 0.0722],
+                          [0.2126, 0.7152, 0.0722]]
+
+      RATIO_PART = Matrix[[0.7874, -0.7152, -0.0722],
+                          [-0.2126, 0.2848, -0.0722],
+                          [-0.2126, -0.7152, 0.9278]]
+
+      def self.calc_rgb(rgb, s)
+        Converter.rgb_map((calc_grayscale(s) * Vector[*rgb]).to_a)
+      end
+
+      def self.calc_grayscale(s)
+        r = 1 - [100, s].min.to_f / 100
+        CONST_PART + RATIO_PART * r
+      end
+
+      private_class_method :calc_grayscale
+    end
   end
 end

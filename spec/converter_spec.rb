@@ -142,4 +142,26 @@ RSpec.describe ColorContrastCalc::Converter do
       end
     end
   end
+
+  describe ColorContrastCalc::Converter::Grayscale do
+    describe 'calc_rgb' do
+      it 'expects to return unchanged colors when 0 is passed' do
+        r = 0
+        expect(Converter::Grayscale.calc_rgb(yellow, r)).to eq(yellow)
+        expect(Converter::Grayscale.calc_rgb(orange, r)).to eq(orange)
+      end
+
+      it 'expects to return gray colors when 100 is passed' do
+        r = 100
+        expect(Converter::Grayscale.calc_rgb(yellow, r)).to eq([237, 237, 237])
+        expect(Converter::Grayscale.calc_rgb(orange, r)).to eq([172, 172, 172])
+      end
+
+      it 'expects to return a graysh orange if 50 is passed' do
+        r = 50
+        expect(Converter::Grayscale.calc_rgb(yellow, r)).to eq([246, 246, 118])
+        expect(Converter::Grayscale.calc_rgb(orange, r)).to eq([214, 169, 86])
+      end
+    end
+  end
 end
