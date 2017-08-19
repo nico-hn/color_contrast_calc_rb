@@ -17,17 +17,17 @@ RSpec.describe ColorContrastCalc::Converter do
         expect(Converter::Contrast.calc_rgb(orange, 100)).to eq(orange)
       end
 
-      it 'expects to return a grey color if a given ratio is 0' do
+      it 'expects to return a gray color if a given ratio is 0' do
         expect(Converter::Contrast.calc_rgb(yellow, 0)).to eq(gray)
         expect(Converter::Contrast.calc_rgb(yellow2, 0)).to eq(gray)
         expect(Converter::Contrast.calc_rgb(orange, 0)).to eq(gray)
       end
 
-      it 'expects to return a lower contrast color if a given ratio is less than 100' do
+      it 'expects to return a lower contrast color if a given ratio < 100' do
         expect(Converter::Contrast.calc_rgb(orange, 60)).to eq([204, 150, 51])
       end
 
-      it 'expects to return a higher contrast color if a given ratio is greater than 100' do
+      it 'expects to return a higher contrast color if a given ratio > 100' do
         expect(Converter::Contrast.calc_rgb(orange, 120)).to eq([255, 173, 0])
       end
     end
