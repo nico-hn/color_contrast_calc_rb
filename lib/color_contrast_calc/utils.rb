@@ -109,5 +109,10 @@ module ColorContrastCalc
     def self.hex_to_hsl(hex_code)
       rgb_to_hsl(hex_to_rgb(hex_code))
     end
+
+    def self.valid_rgb?(rgb)
+      rgb.length == 3 &&
+        rgb.all? {|c| c.is_a?(Integer) && c >= 0 && c <= 255 }
+    end
   end
 end

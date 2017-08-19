@@ -234,4 +234,26 @@ RSpec.describe ColorContrastCalc::Utils do
       end
     end
   end
+
+  describe 'valid_rgb?' do
+    it 'expects to return true for [255, 165, 0]' do
+      expect(Utils.valid_rgb?([255, 165, 0])).to be true
+    end
+
+    it 'expects to return false for [256, 165, 0]' do
+      expect(Utils.valid_rgb?([256, 165, 0])).to be false
+    end
+
+    it 'expects to return false for [255, 165, -1]' do
+      expect(Utils.valid_rgb?([255, 165, -1])).to be false
+    end
+
+    it 'expects to return false for [255, 165]' do
+      expect(Utils.valid_rgb?([255, 165])).to be false
+    end
+
+    it 'expects to return false for [255, 165.5, 0]' do
+      expect(Utils.valid_rgb?([255, 165.5, 0])).to be false
+    end
+  end
 end
