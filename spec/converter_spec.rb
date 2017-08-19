@@ -7,6 +7,7 @@ RSpec.describe ColorContrastCalc::Converter do
   yellow = [255, 255, 0]
   yellow2 = [254, 254, 0]
   orange = [255, 165, 0]
+  gray = [128, 128, 128]
 
   describe ColorContrastCalc::Converter::Contrast do
     describe 'calc_rgb' do
@@ -17,7 +18,6 @@ RSpec.describe ColorContrastCalc::Converter do
       end
 
       it 'expects to return a grey color if a given ratio is 0' do
-        gray = [128, 128, 128]
         expect(Converter::Contrast.calc_rgb(yellow, 0)).to eq(gray)
         expect(Converter::Contrast.calc_rgb(yellow2, 0)).to eq(gray)
         expect(Converter::Contrast.calc_rgb(orange, 0)).to eq(gray)
