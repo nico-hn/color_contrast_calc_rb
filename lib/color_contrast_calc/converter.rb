@@ -36,7 +36,8 @@ module ColorContrastCalc
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
 
       def self.calc_rgb(rgb, ratio = 100)
-        Converter.rgb_map(rgb) {|c| c * ratio / 100 }
+        r = ratio.to_f
+        Converter.rgb_map(rgb) {|c| c * r / 100 }
       end
     end
 
