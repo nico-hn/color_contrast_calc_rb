@@ -32,4 +32,39 @@ RSpec.describe ColorContrastCalc::Converter do
       end
     end
   end
+
+  describe ColorContrastCalc::Converter::Brightness do
+    describe 'calc_rgb' do
+      it 'expects to return the same rgb as the original if a given ratio is 100' do
+        expect(Converter::Brightness.calc_rgb(yellow, 100)).to eq(yellow)
+        expect(Converter::Brightness.calc_rgb(yellow2, 100)).to eq(yellow2)
+        expect(Converter::Brightness.calc_rgb(orange, 100)).to eq(orange)
+      end
+
+      it 'expects to return the black color if a given ratio is 0' do
+        black = [0, 0, 0]
+        expect(Converter::Brightness.calc_rgb(yellow, 0)).to eq(black)
+        expect(Converter::Brightness.calc_rgb(yellow2, 0)).to eq(black)
+        expect(Converter::Brightness.calc_rgb(orange, 0)).to eq(black)
+      end
+
+      it 'expects to return a darker color if a given ratio is < 100' do
+        expect(Converter::Brightness.calc_rgb(orange, 60)).to eq([153, 99, 0])
+      end
+
+      it 'expects to return a lighter color if a given ratio is > 100' do
+        expect(Converter::Brightness.calc_rgb(orange, 120)).to eq([255, 198, 0])
+      end
+
+      it 'expects to return white if white is combined with a ratio > 100' do
+        white = [255, 255, 255]
+
+        expect(Converter::Brightness.calc_rgb(white, 120)).to eq(white)
+      end
+
+      it 'expects to return yellow if yellow is combined with a ratio > 100' do
+        expect(Converter::Brightness.calc_rgb(yellow, 120)).to eq(yellow)
+      end
+    end
+  end
 end

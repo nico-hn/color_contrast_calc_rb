@@ -27,5 +27,11 @@ module ColorContrastCalc
         Converter.rgb_map(rgb) {|c| (c * r + 255 * (50 - r / 2)) / 100 }
       end
     end
+
+    module Brightness
+      def self.calc_rgb(rgb, ratio = 100)
+        Converter.rgb_map(rgb) {|c| c * ratio / 100 }
+      end
+    end
   end
 end
