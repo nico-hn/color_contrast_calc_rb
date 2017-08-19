@@ -104,7 +104,7 @@ module ColorContrastCalc
       min = rgb.min
       max = rgb.max
       return 0 if min == max
-      yield min, max, (max - min) * 1.0
+      yield min, max, (max - min).to_f
     end
 
     private_class_method :minmax_with_diff
