@@ -2,6 +2,8 @@
 
 module ColorContrastCalc
   module Utils
+    HSL_UPPER_LIMIT = [360, 100, 100].freeze
+
     def self.hex_to_rgb(hex_code)
       hex_part = hex_code.start_with?('#') ? hex_code[1..-1] : hex_code
 
@@ -113,6 +115,14 @@ module ColorContrastCalc
     def self.valid_rgb?(rgb)
       rgb.length == 3 &&
         rgb.all? {|c| c.is_a?(Integer) && c >= 0 && c <= 255 }
+    end
+
+    def self.valid_hsl?(hsl)
+      return false unless hsl.length == 3
+      hsl.each_with_index do |c, i|
+        return false if !c.is_a?(Numeric) || c < 0 || c > HSL_UPPER_LIMIT[i]
+      end
+      true
     end
   end
 end

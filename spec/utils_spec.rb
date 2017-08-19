@@ -256,4 +256,46 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.valid_rgb?([255, 165.5, 0])).to be false
     end
   end
+
+  describe 'valid_rgb?' do
+    it 'expects to return true for [0, 0, 0]' do
+      expect(Utils.valid_hsl?([0, 0, 0])).to be true
+    end
+
+    it 'expects to return true for [60, 100, 60]' do
+      expect(Utils.valid_hsl?([60, 100, 60])).to be true
+    end
+
+    it 'expects to return true for [0, 0, 100]' do
+      expect(Utils.valid_hsl?([0, 0, 100])).to be true
+    end
+
+    it 'expects to return false for [-1, 100, 50]' do
+      expect(Utils.valid_hsl?([-1, 100, 50])).to be false
+    end
+
+    it 'expects to return false for [361, 100, 50]' do
+      expect(Utils.valid_hsl?([361, 100, 50])).to be false
+    end
+
+    it 'expects to return false for [60, -1, 50]' do
+      expect(Utils.valid_hsl?([60, -1, 50])).to be false
+    end
+
+    it 'expects to return false for [60, 101, 60]' do
+      expect(Utils.valid_hsl?([60, 101, 60])).to be false
+    end
+
+    it 'expects to return false for [60, 100, -1]' do
+      expect(Utils.valid_hsl?([60, 100, -1])).to be false
+    end
+
+    it 'expects to return false for [60, 100, 101]' do
+      expect(Utils.valid_hsl?([60, 100, 101])).to be false
+    end
+
+    it 'expects to return false for ["60", 100, 50]' do
+      expect(Utils.valid_hsl?(['60', 100, 50])).to be false
+    end
+  end
 end
