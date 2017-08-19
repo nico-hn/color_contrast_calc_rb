@@ -72,13 +72,9 @@ module ColorContrastCalc
 
     def self.rgb_to_saturation(rgb)
       l = rgb_to_lightness(rgb)
-      max = rgb.max
-      min = rgb.min
-      d = (max - min) * 1.0
-
-      return 0 if max == min
-
-      l <= 0.5 ? d / (max + min) : d / (510 - max - min)
+      minmax_with_diff(rgb) do |min, max, d|
+        l <= 0.5 ? d / (max + min) : d / (510 - max - min)
+      end
     end
 
     private_class_method :rgb_to_saturation
@@ -91,18 +87,23 @@ module ColorContrastCalc
       #
       # https://accessibility.kde.org/hsl-adjusted.php#hue
 
-      max = rgb.max
-      min = rgb.min
+      minmax_with_diff(rgb) do |_, _, d|
+        mi = rgb.each_with_index.max_by {|c| c[0] }[1] # max value index
+        h = mi * 120 + (rgb[(mi + 1) % 3] - rgb[(mi + 2) % 3]) * 60 / d
 
-      return 0 if max == min
-
-      d = (max - min) * 1.0
-      mi = rgb.each_with_index.max_by {|c| c[0] }[1] # max value index
-      h = mi * 120 + (rgb[(mi + 1) % 3] - rgb[(mi + 2) % 3]) * 60 / d
-
-      h < 0 ? h + 360 : h
+        h < 0 ? h + 360 : h
+      end
     end
 
     private_class_method :rgb_to_hue
+
+    def self.minmax_with_diff(rgb)
+      min = rgb.min
+      max = rgb.max
+      return 0 if min == max
+      yield min, max, (max - min) * 1.0
+    end
+
+    private_class_method :minmax_with_diff
   end
 end
