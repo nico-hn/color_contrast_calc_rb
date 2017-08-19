@@ -86,5 +86,23 @@ module ColorContrastCalc
 
       private_class_method :calc_rotation
     end
+
+    module Saturate
+      # https://www.w3.org/TR/filter-effects/#funcdef-saturate
+      # https://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
+
+      CONST_PART = HueRotate::CONST_PART
+      SATURATE_PART = HueRotate::COS_PART
+
+      def self.calc_rgb(rgb, s)
+        Converter.rgb_map((calc_saturation(s) * Vector[*rgb]).to_a)
+      end
+
+      def self.calc_saturation(s)
+        CONST_PART + SATURATE_PART * (s.to_f / 100)
+      end
+
+      private_class_method :calc_saturation
+    end
   end
 end
