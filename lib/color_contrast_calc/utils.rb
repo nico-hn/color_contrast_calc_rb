@@ -3,6 +3,7 @@
 module ColorContrastCalc
   module Utils
     HSL_UPPER_LIMIT = [360, 100, 100].freeze
+    HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i
 
     def self.hex_to_rgb(hex_code)
       hex_part = hex_code.start_with?('#') ? hex_code[1..-1] : hex_code
@@ -123,6 +124,10 @@ module ColorContrastCalc
         return false if !c.is_a?(Numeric) || c < 0 || c > HSL_UPPER_LIMIT[i]
       end
       true
+    end
+
+    def self.valid_hex?(hex_code)
+      hex_code.match? HEX_RE
     end
   end
 end

@@ -298,4 +298,46 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.valid_hsl?(['60', 100, 50])).to be false
     end
   end
+
+  describe 'valid_hex?' do
+    it 'expects to return true for #ffa500' do
+      expect(Utils.valid_hex?('#ffa500')).to be true
+    end
+
+    it 'expects to return true for #FFA500' do
+      expect(Utils.valid_hex?('#FFA500')).to be true
+    end
+
+    it 'expects to return true for ffa500' do
+      expect(Utils.valid_hex?('ffa500')).to be true
+    end
+
+    it 'expects to return true for #999999' do
+      expect(Utils.valid_hex?('#999999')).to be true
+    end
+
+    it 'expects to return true for #ff0' do
+      expect(Utils.valid_hex?('#ff0')).to be true
+    end
+
+    it 'expects to return true for ff0' do
+      expect(Utils.valid_hex?('ff0')).to be true
+    end
+
+    it 'expects to return false for #101a500' do
+      expect(Utils.valid_hex?('#101a500')).to be false
+    end
+
+    it 'expects to return false for #fga500' do
+      expect(Utils.valid_hex?('#fga500')).to be false
+    end
+
+    it 'expects to return false for #faf0' do
+      expect(Utils.valid_hex?('#faf0')).to be false
+    end
+
+    it 'expects to return false for #fga' do
+      expect(Utils.valid_hex?('#fga')).to be false
+    end
+  end
 end
