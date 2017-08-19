@@ -7,7 +7,9 @@ RSpec.describe ColorContrastCalc::Converter do
   yellow = [255, 255, 0]
   yellow2 = [254, 254, 0]
   orange = [255, 165, 0]
+  blue = [0, 0, 255]
   gray = [128, 128, 128]
+  white = [255, 255, 255]
 
   describe ColorContrastCalc::Converter::Contrast do
     describe 'calc_rgb' do
@@ -57,8 +59,6 @@ RSpec.describe ColorContrastCalc::Converter do
       end
 
       it 'expects to return white if white is combined with a ratio > 100' do
-        white = [255, 255, 255]
-
         expect(Converter::Brightness.calc_rgb(white, 120)).to eq(white)
       end
 
@@ -75,7 +75,7 @@ RSpec.describe ColorContrastCalc::Converter do
       end
 
       it 'expects to return blue if 100 is passed to yellow' do
-        expect(Converter::Invert.calc_rgb(yellow, 100)).to eq([0, 0, 255])
+        expect(Converter::Invert.calc_rgb(yellow, 100)).to eq(blue)
       end
 
       it 'expects to return a gray color if 50 is passed to yellow' do
