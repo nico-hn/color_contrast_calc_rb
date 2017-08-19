@@ -20,5 +20,12 @@ module ColorContrastCalc
 
       vals.map {|val| clamp_to_range(val.round, 0, 255) }
     end
+
+    module Contrast
+      def self.calc_rgb(rgb, ratio = 100)
+        r = ratio.to_f
+        Converter.rgb_map(rgb) {|c| (c * r + 255 * (50 - r / 2)) / 100 }
+      end
+    end
   end
 end
