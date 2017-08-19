@@ -140,57 +140,57 @@ RSpec.describe ColorContrastCalc::Utils do
 
   describe 'rgb_to_hsl' do
     it 'expects to return [0, 100, 50] when [255, 0, 0] is passed' do
-      rgb = Utils.rgb_to_hsl([255, 0, 0])
+      hsl = Utils.rgb_to_hsl([255, 0, 0])
       expected = [0, 100, 50]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
 
     it 'expects to return [60, 100, 50] when [255, 255, 0] is passed' do
-      rgb = Utils.rgb_to_hsl([255, 255, 0])
+      hsl = Utils.rgb_to_hsl([255, 255, 0])
       expected = [60, 100, 50]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
 
     it 'expects to return [120, 100, 50] when [0, 255, 0] is passed' do
-      rgb = Utils.rgb_to_hsl([0, 255, 0])
+      hsl = Utils.rgb_to_hsl([0, 255, 0])
       expected = [120, 100, 50]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
 
     it 'expects to return [120, 100, 25] when [0, 128, 0] is passed' do
-      rgb = Utils.rgb_to_hsl([0, 128, 0])
+      hsl = Utils.rgb_to_hsl([0, 128, 0])
       expected = [120, 100, 25]
-      rgb.each_with_index {|c, i| expect(c).to within(0.1).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.1).of(expected[i]) }
     end
 
     it 'expects to return [180, 100, 50] when [0, 255, 255] is passed' do
-      rgb = Utils.rgb_to_hsl([0, 255, 255])
+      hsl = Utils.rgb_to_hsl([0, 255, 255])
       expected = [180, 100, 50]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
 
     it 'expects to return [180, 100, 25] when [0, 128, 128] is passed' do
-      rgb = Utils.rgb_to_hsl([0, 128, 128])
+      hsl = Utils.rgb_to_hsl([0, 128, 128])
       expected = [180, 100, 25]
-      rgb.each_with_index {|c, i| expect(c).to within(0.1).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.1).of(expected[i]) }
     end
 
     it 'expects to return [240, 100, 50] when [0, 0, 255] is passed' do
-      rgb = Utils.rgb_to_hsl([0, 0, 255])
+      hsl = Utils.rgb_to_hsl([0, 0, 255])
       expected = [240, 100, 50]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
 
     it 'expects to return [0, 0, 0] when [0, 0, 0] is passed' do
-      rgb = Utils.rgb_to_hsl([0, 0, 0])
+      hsl = Utils.rgb_to_hsl([0, 0, 0])
       expected = [0, 0, 0]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
 
     it 'expects to return [0, 0, 100] when [255, 255, 255] is passed' do
-      rgb = Utils.rgb_to_hsl([255, 255, 255])
+      hsl = Utils.rgb_to_hsl([255, 255, 255])
       expected = [0, 0, 100]
-      rgb.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
+      hsl.each_with_index {|c, i| expect(c).to within(0.01).of(expected[i]) }
     end
   end
 
