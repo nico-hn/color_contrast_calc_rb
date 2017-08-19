@@ -55,5 +55,27 @@ module ColorContrastCalc
     def self.hsl_to_hex(hsl)
       rgb_to_hex(hsl_to_rgb(hsl))
     end
+
+    def self.rgb_to_hue(rgb)
+      # References:
+      # Agoston, Max K. (2005).
+      # "Computer Graphics and Geometric Modeling: Implementation and Algorithms".
+      # London: Springer
+      #
+      # https://accessibility.kde.org/hsl-adjusted.php#hue
+
+      max = rgb.max
+      min = rgb.min
+
+      return 0 if max == min
+
+      d = (max - min) * 1.0
+      mi = rgb.each_with_index.max_by {|c| c[0] }[1] # max value index
+      h = mi * 120 + (rgb[(mi + 1) % 3] - rgb[(mi + 2) % 3]) * 60 / d
+
+      h < 0 ? h + 360 : h
+    end
+
+    private_class_method :rgb_to_hue
   end
 end

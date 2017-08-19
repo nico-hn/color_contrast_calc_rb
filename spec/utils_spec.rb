@@ -137,4 +137,30 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.hsl_to_hex([0, 53, 58.2352])).to eq('#cd5c5c')
     end
   end
+
+  describe 'rgb_to_hue' do
+    it 'expects to return 0 when [255, 0, 0] is passed' do
+      expect(Utils.send(:rgb_to_hue, [255, 0, 0])).to be_within(0.01).of(0)
+    end
+
+    it 'expects to return 60 when [255, 255, 0] is passed' do
+      expect(Utils.send(:rgb_to_hue, [255, 255, 0])).to be_within(0.01).of(60)
+    end
+
+    it 'expects to return 120 when [0, 255, 0] is passed' do
+      expect(Utils.send(:rgb_to_hue, [0, 255, 0])).to be_within(0.01).of(120)
+    end
+
+    it 'expects to return 120 when [0, 128, 0] is passed' do
+      expect(Utils.send(:rgb_to_hue, [0, 128, 0])).to be_within(0.01).of(120)
+    end
+
+    it 'expects to return 180 when [0, 255, 255] is passed' do
+      expect(Utils.send(:rgb_to_hue, [0, 255, 255])).to be_within(0.01).of(180)
+    end
+
+    it 'expects to return 240 when [0, 0, 255] is passed' do
+      expect(Utils.send(:rgb_to_hue, [0, 0, 255])).to be_within(0.01).of(240)
+    end
+  end
 end
