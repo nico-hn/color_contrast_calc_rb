@@ -80,6 +80,37 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'new_brightness_color' do
+    yellow = Color.new([255, 255, 0])
+    orange = Color.new([255, 165, 0])
+    lime = Color.new([0, 255, 0])
+    blue = Color.new([0, 0, 255])
+    white = Color.new([255, 255, 255])
+    black = Color.new([0, 0, 0])
+
+    it 'expects to return a same color as the original when 100 is passed' do
+      expect(yellow.new_brightness_color(100).rgb).to eq(yellow.rgb)
+      expect(orange.new_brightness_color(100).rgb).to eq(orange.rgb)
+      expect(lime.new_brightness_color(100).rgb).to eq(lime.rgb)
+      expect(blue.new_brightness_color(100).rgb).to eq(blue.rgb)
+    end
+
+    it 'expects to return black color when 0 is passed' do
+      expect(yellow.new_brightness_color(0).rgb).to eq(black.rgb)
+      expect(orange.new_brightness_color(0).rgb).to eq(black.rgb)
+      expect(lime.new_brightness_color(0).rgb).to eq(black.rgb)
+      expect(blue.new_brightness_color(0).rgb).to eq(black.rgb)
+    end
+
+    it 'expects to return white when a ratio > 100 is passed to white' do
+      expect(white.new_brightness_color(120).rgb).to eq(white.rgb)
+    end
+
+    it 'expects to return yellow when a ratio > 100 is passed to yellow' do
+      expect(yellow.new_brightness_color(120).rgb).to eq(yellow.rgb)
+    end
+  end
+
   describe 'contrast_ratio_against' do
     color = Color.new([127, 127, 32])
     white = Color.new([255, 255, 255])
