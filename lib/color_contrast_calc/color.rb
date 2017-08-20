@@ -18,6 +18,10 @@ module ColorContrastCalc
       @hsl ||= Utils.rgb_to_hsl(@rgb)
     end
 
+    def new_contrast_color(ratio, name = nil)
+      generate_new_color(Converter::Contrast, ratio, name)
+    end
+
     def contrast_ratio_against(other_color)
       unless other_color.is_a? Color
         return Checker.contrast_ratio(rgb, other_color)
