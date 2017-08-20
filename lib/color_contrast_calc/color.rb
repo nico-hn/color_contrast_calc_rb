@@ -5,6 +5,8 @@ require 'color_contrast_calc/checker'
 
 module ColorContrastCalc
   class Color
+    RGB_LIMITS = [0, 255].freeze
+
     attr_reader :rgb, :hex, :name, :relative_luminance
 
     def initialize(rgb, name = nil)
@@ -68,6 +70,10 @@ module ColorContrastCalc
       when String
         hex == Utils.normalize_hex(other_color)
       end
+    end
+
+    def max_contrast?
+      rgb.all? {|c| RGB_LIMITS.include? c }
     end
 
     def generate_new_color(calc, ratio, name = nil)

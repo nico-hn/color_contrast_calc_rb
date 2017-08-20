@@ -348,4 +348,14 @@ RSpec.describe ColorContrastCalc::Color do
       expect(white.same_color?(yellow_rgb)).to be false
     end
   end
+
+  describe 'max_contrast?' do
+    it 'expects to return true for yellow' do
+      expect(Color.new([255, 255, 0]).max_contrast?).to be true
+    end
+
+    it 'expects to return false for orange' do
+      expect(Color.new([255, 165, 0]).max_contrast?).to be false
+    end
+  end
 end
