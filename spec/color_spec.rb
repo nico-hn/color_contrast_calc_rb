@@ -42,4 +42,27 @@ RSpec.describe ColorContrastCalc::Color do
       expect(temp_color.name).to eq(yellow_hex)
     end
   end
+
+  describe 'contrast_ratio_against' do
+    color = Color.new([127, 127, 32])
+    white = Color.new([255, 255, 255])
+    expected_ratio = 4.23
+
+    context 'When the .rgb of base color is [127, 127, 32]' do
+      it 'expects to return 4.23 when white.rgb is passed' do
+        ratio = color.contrast_ratio_against(white.rgb)
+        expect(ratio).to within(0.01).of(expected_ratio)
+      end
+
+      it 'expect to return 4.23 when white.hex is passed' do
+        ratio = color.contrast_ratio_against(white.hex)
+        expect(ratio).to within(0.01).of(expected_ratio)
+      end
+
+      it 'expects to return 4.23 when white is passed' do
+        ratio = color.contrast_ratio_against(white)
+        expect(ratio).to within(0.01).of(expected_ratio)
+      end
+    end
+  end
 end
