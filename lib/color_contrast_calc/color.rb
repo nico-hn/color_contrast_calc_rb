@@ -45,5 +45,12 @@ module ColorContrastCalc
         hex == Utils.normalize_hex(other_color)
       end
     end
+
+    def generate_new_color(calc, ratio, name = nil)
+      new_rgb = calc.calc_rgb(rgb, ratio)
+      self.class.new(new_rgb, name)
+    end
+
+    private :generate_new_color
   end
 end
