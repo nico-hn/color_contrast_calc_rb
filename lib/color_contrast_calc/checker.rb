@@ -4,6 +4,12 @@ require 'color_contrast_calc/utils'
 
 module ColorContrastCalc
   module Checker
+    module Level
+      A = 'A'
+      AA = 'AA'
+      AAA = 'AAA'
+    end
+
     def self.relative_luminance(rgb = [255, 255, 255])
       # https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 
@@ -28,5 +34,12 @@ module ColorContrastCalc
     end
 
     private_class_method :tristimulus_value
+
+    def self.ratio_to_level(ratio)
+      return Level::AAA if ratio >= 7
+      return Level::AA if ratio >= 4.5
+      return Level::A if ratio >= 3
+      '-'
+    end
   end
 end

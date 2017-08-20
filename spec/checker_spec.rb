@@ -31,4 +31,34 @@ RSpec.describe ColorContrastCalc::Checker do
       expect(Checker.contrast_ratio('#ffffff', [127, 127, 32])).to within(0.01).of(4.23)
     end
   end
+
+  describe 'ratio_to_level' do
+    it 'expects to return AAA when 8 is passed' do
+      expect(Checker.ratio_to_level(8)).to eq('AAA')
+    end
+
+    it 'expects to return AAA when 7 is passed' do
+      expect(Checker.ratio_to_level(7)).to eq('AAA')
+    end
+
+    it 'expects to return AA when 6 is passed' do
+      expect(Checker.ratio_to_level(6)).to eq('AA')
+    end
+
+    it 'expects to return AA when 4.5 is passed' do
+      expect(Checker.ratio_to_level(4.5)).to eq('AA')
+    end
+
+    it 'expects to return A when 4 is passed' do
+      expect(Checker.ratio_to_level(4)).to eq('A')
+    end
+
+    it 'expects to return A when 3 is passed' do
+      expect(Checker.ratio_to_level(3)).to eq('A')
+    end
+
+    it 'expects to return - when 2.9 is passed' do
+      expect(Checker.ratio_to_level(2.9)).to eq('-')
+    end
+  end
 end
