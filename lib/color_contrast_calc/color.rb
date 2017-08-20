@@ -26,6 +26,10 @@ module ColorContrastCalc
       generate_new_color(Converter::Brightness, ratio, name)
     end
 
+    def new_invert_color(ratio, name = nil)
+      generate_new_color(Converter::Invert, ratio, name)
+    end
+
     def contrast_ratio_against(other_color)
       unless other_color.is_a? Color
         return Checker.contrast_ratio(rgb, other_color)

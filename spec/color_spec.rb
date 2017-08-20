@@ -111,6 +111,46 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'new_invert_color' do
+    yellow = Color.new([255, 255, 0])
+    orange = Color.new([255, 165, 0])
+    blue = Color.new([0, 0, 255])
+    royalblue = Color.new([65, 105, 225])
+    gray = Color.new([128, 128, 128])
+
+    it 'expects to return a same color as the original when 0 is passed' do
+      expect(yellow.new_invert_color(0).rgb).to eq(yellow.rgb)
+      expect(orange.new_invert_color(0).rgb).to eq(orange.rgb)
+      expect(blue.new_invert_color(0).rgb).to eq(blue.rgb)
+      expect(royalblue.new_invert_color(0).rgb).to eq(royalblue.rgb)
+      expect(gray.new_invert_color(0).rgb).to eq(gray.rgb)
+    end
+
+    it 'expects to return blue if 100 is passed to yellow' do
+      expect(yellow.new_invert_color(100).rgb).to eq(blue.rgb)
+    end
+
+    it 'expects to return yellow if 100 is passed to blue' do
+      expect(blue.new_invert_color(100).rgb).to eq(yellow.rgb)
+    end
+
+    it 'expects to return [0, 90, 255] color if 100 is passed to orange' do
+      expect(orange.new_invert_color(100).rgb).to eq([0, 90, 255])
+    end
+
+    it 'expects to return [190, 150, 30] color if 100 is passed to royalblue' do
+      expect(royalblue.new_invert_color(100).rgb).to eq([190, 150, 30])
+    end
+
+    it 'expects to return a gray color if 50 is passed to yellow' do
+      expect(yellow.new_invert_color(50).rgb).to eq(gray.rgb)
+      expect(orange.new_invert_color(50).rgb).to eq(gray.rgb)
+      expect(blue.new_invert_color(50).rgb).to eq(gray.rgb)
+      expect(royalblue.new_invert_color(50).rgb).to eq(gray.rgb)
+      expect(gray.new_invert_color(50).rgb).to eq(gray.rgb)
+    end
+  end
+
   describe 'contrast_ratio_against' do
     color = Color.new([127, 127, 32])
     white = Color.new([255, 255, 255])
