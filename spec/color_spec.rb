@@ -151,6 +151,36 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'new_hue_rotate_color' do
+    yellow = Color.new([255, 255, 0])
+    orange = Color.new([255, 165, 0])
+    blue = Color.new([0, 0, 255])
+
+    it 'expects to return a same color as the original when 0 is passed' do
+      expect(yellow.new_hue_rotate_color(0).rgb).to eq(yellow.rgb)
+      expect(orange.new_hue_rotate_color(0).rgb).to eq(orange.rgb)
+      expect(blue.new_hue_rotate_color(0).rgb).to eq(blue.rgb)
+    end
+
+    it 'expects to return a same color as the original when 360 is passed' do
+      expect(yellow.new_hue_rotate_color(360).rgb).to eq(yellow.rgb)
+      expect(orange.new_hue_rotate_color(360).rgb).to eq(orange.rgb)
+      expect(blue.new_hue_rotate_color(360).rgb).to eq(blue.rgb)
+    end
+
+    it 'expects to return new colors when 180 is passed' do
+      expect(yellow.new_hue_rotate_color(180).rgb).to eq([218, 218, 255])
+      expect(orange.new_hue_rotate_color(180).rgb).to eq([90, 180, 255])
+      expect(blue.new_hue_rotate_color(180).rgb).to eq([37, 37, 0])
+    end
+
+    it 'expects to return new colors when 90 is passed' do
+      expect(yellow.new_hue_rotate_color(90).rgb).to eq([0, 255, 218])
+      expect(orange.new_hue_rotate_color(90).rgb).to eq([0, 232, 90])
+      expect(blue.new_hue_rotate_color(90).rgb).to eq([255, 0, 37])
+    end
+  end
+
   describe 'contrast_ratio_against' do
     color = Color.new([127, 127, 32])
     white = Color.new([255, 255, 255])
