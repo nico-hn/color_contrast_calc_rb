@@ -108,4 +108,38 @@ RSpec.describe ColorContrastCalc::Color do
       expect(white.sufficient_contrast?(blueviolet, 'AAA')).to be false
     end
   end
+
+  describe 'same_color?' do
+    yellow_rgb = [255, 255, 0]
+    white_rgb = [255, 255, 255]
+    yellow = Color.new(yellow_rgb, 'yellow')
+    yellow2 = Color.new(yellow_rgb, 'yellow2')
+    white = Color.new(white_rgb)
+    yellow_hex = '#ffff00'
+    yellow_short_hex = '#ff0'
+
+    it 'expects to return true if the hex codes of two colors are same' do
+      expect(yellow.hex).to eq(yellow2.hex)
+      expect(yellow.same_color?(yellow2)).to be true
+    end
+
+    it 'expects to return false if the hex codes of two colors are same' do
+      expect(yellow.hex).not_to eq(white.hex)
+      expect(yellow.same_color?(white)).to be false
+    end
+
+    it 'expects to accepts a hex code as its argument' do
+      expect(yellow.same_color?(yellow_hex)).to be true
+      expect(yellow.same_color?(yellow_short_hex)).to be true
+
+      expect(white.same_color?(yellow_hex)).to be false
+      expect(white.same_color?(yellow_short_hex)).to be false
+    end
+
+    it 'expects to accepts a rgb value as its argument' do
+      expect(yellow.same_color?(yellow_rgb)).to be true
+
+      expect(white.same_color?(yellow_rgb)).to be false
+    end
+  end
 end

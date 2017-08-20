@@ -30,5 +30,16 @@ module ColorContrastCalc
       ratio = Checker.level_to_ratio(level)
       contrast_ratio_against(other_color) >= ratio
     end
+
+    def same_color?(other_color)
+      case other_color
+      when Color
+        hex == other_color.hex
+      when Array
+        hex == Utils.rgb_to_hex(other_color)
+      when String
+        hex == Utils.normalize_hex(other_color)
+      end
+    end
   end
 end
