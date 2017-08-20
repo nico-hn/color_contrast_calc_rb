@@ -181,6 +181,33 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'new_saturate_color' do
+    red = Color.new([255, 0, 0])
+    yellow = Color.new([255, 255, 0])
+    orange = Color.new([255, 165, 0])
+    blue = Color.new([0, 0, 255])
+
+    it 'expects to return a same color as the original when 100 is passed' do
+      expect(orange.new_saturate_color(100).rgb).to eq(orange.rgb)
+      expect(yellow.new_saturate_color(100).rgb).to eq(yellow.rgb)
+      expect(blue.new_saturate_color(100).rgb).to eq(blue.rgb)
+    end
+
+    it 'expects to return a gray color when 0 is passed' do
+      expect(orange.new_saturate_color(0).rgb).to eq([172, 172, 172])
+      expect(yellow.new_saturate_color(0).rgb).to eq([237, 237, 237])
+      expect(blue.new_saturate_color(0).rgb).to eq([18, 18, 18])
+    end
+
+    it 'expects to return red if 2357 is passed to orange' do
+      expect(orange.new_saturate_color(2357).rgb).to eq(red.rgb)
+    end
+
+    it 'expects to return red if 3000 is passed to orange' do
+      expect(orange.new_saturate_color(3000).rgb).to eq(red.rgb)
+    end
+  end
+
   describe 'contrast_ratio_against' do
     color = Color.new([127, 127, 32])
     white = Color.new([255, 255, 255])

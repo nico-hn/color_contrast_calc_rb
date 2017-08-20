@@ -34,6 +34,10 @@ module ColorContrastCalc
       generate_new_color(Converter::HueRotate, degree, name)
     end
 
+    def new_saturate_color(ratio, name = nil)
+      generate_new_color(Converter::Saturate, ratio, name)
+    end
+
     def contrast_ratio_against(other_color)
       unless other_color.is_a? Color
         return Checker.contrast_ratio(rgb, other_color)
