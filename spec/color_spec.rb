@@ -66,6 +66,31 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'contrast_level' do
+    white = Color.new([255, 255, 255])
+    black = Color.new([0, 0, 0])
+    orange = Color.new([255, 165, 0])
+    royalblue = Color.new([65, 105, 225])
+    steelblue = Color.new([70, 130, 180])
+
+    it 'expects to return AAA when black is passed to white' do
+      expect(white.contrast_level(black)).to eq('AAA')
+    end
+
+    it 'expects to return AA when white is passed to royalblue' do
+      expect(royalblue.contrast_level(white)).to eq('AA')
+    end
+
+    it 'expects to return A when white is passed to steelblue' do
+      expect(steelblue.contrast_level(white)).to eq('A')
+    end
+
+    it 'expects to return "-" when white is passed to orange' do
+      expect(orange.contrast_level(white)).to eq('-')
+    end
+
+  end
+
   describe 'sufficient_contrast?' do
     black = Color.new([0, 0, 0])
     white = Color.new([255, 255, 255])
