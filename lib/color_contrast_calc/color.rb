@@ -25,5 +25,10 @@ module ColorContrastCalc
 
       Checker.contrast_ratio(rgb, other_color.rgb)
     end
+
+    def sufficient_contrast?(other_color, level = Checker::Level::AA)
+      ratio = Checker.level_to_ratio(level)
+      contrast_ratio_against(other_color) >= ratio
+    end
   end
 end

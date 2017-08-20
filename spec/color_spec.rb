@@ -65,4 +65,47 @@ RSpec.describe ColorContrastCalc::Color do
       end
     end
   end
+
+  describe 'sufficient_contrast?' do
+    black = Color.new([0, 0, 0])
+    white = Color.new([255, 255, 255])
+    orange = Color.new([255, 165, 0])
+    blueviolet = Color.new([138, 43, 226])
+
+    it 'expects to return true for black and white' do
+      expect(black.sufficient_contrast?(white)). to be true
+      expect(black.sufficient_contrast?(white, 'A')). to be true
+      expect(black.sufficient_contrast?(white, 'AA')). to be true
+      expect(black.sufficient_contrast?(white, 'AAA')). to be true
+    end
+
+    it 'expects to return false for orange and white' do
+      expect(orange.sufficient_contrast?(white)).to be false
+      expect(orange.sufficient_contrast?(white, 'A')).to be false
+      expect(orange.sufficient_contrast?(white, 'AA')).to be false
+      expect(orange.sufficient_contrast?(white, 'AAA')).to be false
+    end
+
+    it 'expects to return true for orange and blueviolet when level is A' do
+      expect(orange.sufficient_contrast?(blueviolet, 'A')).to be true
+    end
+
+    it 'expects to return false for orange and blueviolet when level is AA' do
+      expect(orange.sufficient_contrast?(blueviolet)).to be false
+      expect(orange.sufficient_contrast?(blueviolet, 'AA')).to be false
+    end
+
+    it 'expects to return false for orange and blueviolet when level is AAA' do
+      expect(orange.sufficient_contrast?(blueviolet, 'AAA')).to be false
+    end
+
+    it 'expects to return true for white and blueviolet when level is AA' do
+      expect(white.sufficient_contrast?(blueviolet)).to be true
+      expect(white.sufficient_contrast?(blueviolet, 'AA')).to be true
+    end
+
+    it 'expects to return false for white and blueviolet when level is AAA' do
+      expect(white.sufficient_contrast?(blueviolet, 'AAA')).to be false
+    end
+  end
 end
