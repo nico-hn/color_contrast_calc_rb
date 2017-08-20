@@ -10,6 +10,15 @@ module ColorContrastCalc
       AAA = 'AAA'
     end
 
+    LEVEL_TO_RATIO = {
+      Level::AAA => 7,
+      Level::AA => 4.5,
+      Level::A => 3,
+      3 => 7,
+      2 => 4.5,
+      1 => 3
+    }.freeze
+
     def self.relative_luminance(rgb = [255, 255, 255])
       # https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 
@@ -40,6 +49,10 @@ module ColorContrastCalc
       return Level::AA if ratio >= 4.5
       return Level::A if ratio >= 3
       '-'
+    end
+
+    def self.level_to_ratio(level)
+      LEVEL_TO_RATIO[level]
     end
   end
 end
