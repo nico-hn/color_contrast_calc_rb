@@ -208,6 +208,22 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'new_grayscale_color' do
+    orange = Color.new([255, 165, 0])
+
+    it 'expects to return a same color as the original when 0 is passed' do
+      expect(orange.new_grayscale_color(0).rgb).to eq(orange.rgb)
+    end
+
+    it 'expects to return a gray color when 100 is passed' do
+      expect(orange.new_grayscale_color(100).rgb).to eq([172, 172, 172])
+    end
+
+    it 'expects to return a graysh orange when 50 is passed' do
+      expect(orange.new_grayscale_color(50).rgb).to eq([214, 169, 86])
+    end
+  end
+
   describe 'contrast_ratio_against' do
     color = Color.new([127, 127, 32])
     white = Color.new([255, 255, 255])
