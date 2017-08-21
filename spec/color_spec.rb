@@ -375,4 +375,17 @@ RSpec.describe ColorContrastCalc::Color do
       expect(orange.higher_luminance_than?(yellow)).to be false
     end
   end
+
+  describe 'same_luminance_as?' do
+    yellow = Color.new([255, 255, 0])
+    orange = Color.new([255, 165, 0])
+
+    it 'expects to return true when yellow is passed to yellow' do
+      expect(yellow.same_luminance_as?(yellow)).to be true
+    end
+
+    it 'expects to return true when yellow is passed to orange' do
+      expect(orange.same_luminance_as?(yellow)).to be false
+    end
+  end
 end

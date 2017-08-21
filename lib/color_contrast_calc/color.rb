@@ -80,6 +80,10 @@ module ColorContrastCalc
       relative_luminance > other_color.relative_luminance
     end
 
+    def same_luminance_as?(other_color)
+      relative_luminance == other_color.relative_luminance
+    end
+
     def generate_new_color(calc, ratio, name = nil)
       new_rgb = calc.calc_rgb(rgb, ratio)
       self.class.new(new_rgb, name)
