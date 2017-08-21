@@ -76,6 +76,10 @@ module ColorContrastCalc
       rgb.all? {|c| RGB_LIMITS.include? c }
     end
 
+    def higher_luminance_than?(other_color)
+      relative_luminance > other_color.relative_luminance
+    end
+
     def generate_new_color(calc, ratio, name = nil)
       new_rgb = calc.calc_rgb(rgb, ratio)
       self.class.new(new_rgb, name)
