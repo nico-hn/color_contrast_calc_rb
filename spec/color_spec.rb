@@ -271,6 +271,26 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'to_s' do
+    yellow_hex = '#ffff00'
+    yellow_rgb = 'rgb(255,255,0)'
+    yellow_name = 'yellow'
+    yellow = Color.new([255, 255, 0], yellow_name)
+
+    it 'expects to return #ffff00 when base is 16' do
+      expect(yellow.to_s).to eq(yellow_hex)
+      expect(yellow.to_s(16)).to eq(yellow_hex)
+    end
+
+    it 'expects to return rgb(255,255,0) when base is 10' do
+      expect(yellow.to_s(10)).to eq(yellow_rgb)
+    end
+
+    it 'expects to return "yellow" when base is neither 16 nor 10' do
+      expect(yellow.to_s(:name)).to eq('yellow')
+    end
+  end
+
   describe 'sufficient_contrast?' do
     black = Color.new([0, 0, 0])
     white = Color.new([255, 255, 255])
