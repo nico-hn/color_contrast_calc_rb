@@ -269,7 +269,6 @@ RSpec.describe ColorContrastCalc::Color do
     it 'expects to return "-" when white is passed to orange' do
       expect(orange.contrast_level(white)).to eq('-')
     end
-
   end
 
   describe 'sufficient_contrast?' do
