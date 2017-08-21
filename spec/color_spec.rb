@@ -359,6 +359,19 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'min_contrast?' do
+    gray = Color.new([128, 128, 128])
+    orange = Color.new([255, 165, 0])
+
+    it 'expects to return true for gray' do
+      expect(gray.min_contrast?).to be true
+    end
+
+    it 'expects to return false for orange' do
+      expect(orange.min_contrast?).to be false
+    end
+  end
+
   describe 'higher_luminance_than?' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])

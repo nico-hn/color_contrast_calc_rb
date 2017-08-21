@@ -76,6 +76,11 @@ module ColorContrastCalc
       rgb.all? {|c| RGB_LIMITS.include? c }
     end
 
+    def min_contrast?
+      gray = [128, 128, 128]
+      rgb == gray
+    end
+
     def higher_luminance_than?(other_color)
       relative_luminance > other_color.relative_luminance
     end
