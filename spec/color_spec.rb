@@ -388,4 +388,18 @@ RSpec.describe ColorContrastCalc::Color do
       expect(orange.same_luminance_as?(yellow)).to be false
     end
   end
+
+  describe 'light_color?' do
+    it 'expects to return true when the color is [118, 118, 118]' do
+      color = Color.new([118, 118, 118])
+
+      expect(color.light_color?).to be true
+    end
+
+    it 'expects to return false when the color is [117, 117, 117]' do
+      color = Color.new([117, 117, 117])
+
+      expect(color.light_color?).to be false
+    end
+  end
 end

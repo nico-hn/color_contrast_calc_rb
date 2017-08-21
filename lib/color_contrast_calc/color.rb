@@ -84,6 +84,12 @@ module ColorContrastCalc
       relative_luminance == other_color.relative_luminance
     end
 
+    def light_color?
+      white = [255, 255, 255]
+      black = [0, 0, 0]
+      contrast_ratio_against(white) <= contrast_ratio_against(black)
+    end
+
     def generate_new_color(calc, ratio, name = nil)
       new_rgb = calc.calc_rgb(rgb, ratio)
       self.class.new(new_rgb, name)
