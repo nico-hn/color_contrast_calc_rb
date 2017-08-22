@@ -124,6 +124,10 @@ module ColorContrastCalc
       NAME_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
         h[color.name] = color
       end
+
+      HEX_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
+        h[color.hex] = color
+      end
     end
   end
 end

@@ -456,4 +456,11 @@ RSpec.describe ColorContrastCalc::Color::List do
       expect(Color::List::NAME_TO_COLOR[white].name).to eq(white)
     end
   end
+
+  describe ColorContrastCalc::Color::List::HEX_TO_COLOR do
+    it 'expects to return a corresponding instance for a passed hex code' do
+      expect(Color::List::HEX_TO_COLOR['#000000'].name).to eq('black')
+      expect(Color::List::HEX_TO_COLOR['#ffffff'].name).to eq('white')
+    end
+  end
 end
