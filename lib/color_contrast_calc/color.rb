@@ -136,6 +136,8 @@ module ColorContrastCalc
         end
       end
 
+      private_class_method :generate_web_safe_colors
+
       WEB_SAFE_COLORS = generate_web_safe_colors
     end
   end
