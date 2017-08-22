@@ -19,6 +19,10 @@ module ColorContrastCalc
       List::HEX_TO_COLOR[normalized_hex] || Color.new(normalized_hex)
     end
 
+    def self.new_from_hsl(hsl, name = nil)
+      Color.new(Utils.hsl_to_rgb(hsl), name)
+    end
+
     def initialize(rgb, name = nil)
       @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb
       @hex = Utils.rgb_to_hex(@rgb)
