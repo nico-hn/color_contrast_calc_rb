@@ -128,6 +128,22 @@ module ColorContrastCalc
       HEX_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
         h[color.hex] = color
       end
+
+      def self.generate_web_safe_colors
+        [].tap do |colors|
+          0.step(15, 3) do |r|
+            0.step(15, 3) do |g|
+              0.step(15, 3) do |b|
+                hex_code = Utils.rgb_to_hex([r, g, b].map {|c| c * 17 })
+                predefined = HEX_TO_COLOR[hex_code]
+                colors.push(predefined || Color.new(hex_code))
+              end
+            end
+          end
+        end
+      end
+
+      WEB_SAFE_COLORS = generate_web_safe_colors
     end
   end
 end

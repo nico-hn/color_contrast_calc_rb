@@ -463,4 +463,30 @@ RSpec.describe ColorContrastCalc::Color::List do
       expect(Color::List::HEX_TO_COLOR['#ffffff'].name).to eq('white')
     end
   end
+
+  describe ColorContrastCalc::Color::List::WEB_SAFE_COLORS do
+    it 'expects to contain 216 items' do
+      expect(Color::List::WEB_SAFE_COLORS.size).to be 216
+    end
+
+    it 'expects to be an array whose first item is black' do
+      first = Color::List::WEB_SAFE_COLORS[0]
+      expect(first).to be_instance_of(Color)
+      expect(first.name).to eq('black')
+      expect(first.hex).to eq('#000000')
+    end
+
+    it 'expects to be an array whose last item is black' do
+      last = Color::List::WEB_SAFE_COLORS[-1]
+      expect(last).to be_instance_of(Color)
+      expect(last.name).to eq('white')
+      expect(last.hex).to eq('#ffffff')
+    end
+
+    it 'expects to be an array whose 108th item is #66ffff' do
+      middle = Color::List::WEB_SAFE_COLORS[107]
+      expect(middle).to be_instance_of(Color)
+      expect(middle.hex).to eq('#66ffff')
+    end
+  end
 end
