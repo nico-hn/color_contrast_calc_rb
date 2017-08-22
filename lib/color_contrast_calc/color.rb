@@ -89,8 +89,7 @@ module ColorContrastCalc
     end
 
     def min_contrast?
-      gray = [128, 128, 128]
-      rgb == gray
+      rgb == GRAY.rgb
     end
 
     def higher_luminance_than?(other_color)
