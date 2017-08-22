@@ -130,16 +130,9 @@ module ColorContrastCalc
       end
 
       def self.generate_web_safe_colors
-        [].tap do |colors|
-          0.step(15, 3) do |r|
-            0.step(15, 3) do |g|
-              0.step(15, 3) do |b|
-                hex_code = Utils.rgb_to_hex([r, g, b].map {|c| c * 17 })
-                predefined = HEX_TO_COLOR[hex_code]
-                colors.push(predefined || Color.new(hex_code))
-              end
-            end
-          end
+        0.step(15, 3).to_a.repeated_permutation(3).sort.map do |rgb|
+          hex_code = Utils.rgb_to_hex(rgb.map {|c| c * 17 })
+          HEX_TO_COLOR[hex_code] || Color.new(hex_code)
         end
       end
 
