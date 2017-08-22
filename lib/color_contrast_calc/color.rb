@@ -22,7 +22,7 @@ module ColorContrastCalc
     def initialize(rgb, name = nil)
       @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb
       @hex = Utils.rgb_to_hex(@rgb)
-      @name = name ? name : @hex
+      @name = name || @hex
       @relative_luminance = Checker.relative_luminance(@rgb)
     end
 
