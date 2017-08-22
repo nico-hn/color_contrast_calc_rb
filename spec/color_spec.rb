@@ -434,6 +434,30 @@ RSpec.describe ColorContrastCalc::Color do
       expect(color.light_color?).to be false
     end
   end
+
+  describe 'WHITE' do
+    it 'expects to return an instance corresponding to white' do
+      expect(Color::WHITE).to be_instance_of(Color)
+      expect(Color::WHITE.name).to eq('white')
+      expect(Color::WHITE.hex).to eq('#ffffff')
+    end
+  end
+
+  describe 'GRAY' do
+    it 'expects to return an instance corresponding to gray' do
+      expect(Color::GRAY).to be_instance_of(Color)
+      expect(Color::GRAY.name).to eq('gray')
+      expect(Color::GRAY.hex).to eq('#808080')
+    end
+  end
+
+  describe 'BLACK' do
+    it 'expects to return an instance corresponding to black' do
+      expect(Color::BLACK).to be_instance_of(Color)
+      expect(Color::BLACK.name).to eq('black')
+      expect(Color::BLACK.hex).to eq('#000000')
+    end
+  end
 end
 
 RSpec.describe ColorContrastCalc::Color::List do

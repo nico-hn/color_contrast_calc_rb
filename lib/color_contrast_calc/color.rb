@@ -140,5 +140,9 @@ module ColorContrastCalc
 
       WEB_SAFE_COLORS = generate_web_safe_colors
     end
+
+    WHITE = List::NAME_TO_COLOR['white']
+    GRAY = List::NAME_TO_COLOR['gray']
+    BLACK = List::NAME_TO_COLOR['black']
   end
 end
