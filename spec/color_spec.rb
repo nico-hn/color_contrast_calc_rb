@@ -4,6 +4,17 @@ require 'color_contrast_calc/color'
 Color = ColorContrastCalc::Color
 
 RSpec.describe ColorContrastCalc::Color do
+  describe '.from_name' do
+    it 'expect to return a Color representing yellow if "yellow" is passed' do
+      expect(Color.from_name('yellow')).to be_instance_of(Color)
+      expect(Color.from_name('yellow').name).to eq('yellow')
+    end
+
+    it 'expect to return a falsy value if a passed name does not exist' do
+      expect(Color.from_name('kiiro')).to be_falsy
+    end
+  end
+
   describe 'new' do
     yellow_rgb = [255, 255, 0]
     yellow_hex = '#ffff00'

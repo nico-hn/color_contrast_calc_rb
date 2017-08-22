@@ -10,6 +10,10 @@ module ColorContrastCalc
 
     attr_reader :rgb, :hex, :name, :relative_luminance
 
+    def self.from_name(name)
+      List::NAME_TO_COLOR[name]
+    end
+
     def initialize(rgb, name = nil)
       @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb
       @hex = Utils.rgb_to_hex(@rgb)
