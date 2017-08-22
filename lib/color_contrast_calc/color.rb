@@ -101,9 +101,7 @@ module ColorContrastCalc
     end
 
     def light_color?
-      white = [255, 255, 255]
-      black = [0, 0, 0]
-      contrast_ratio_against(white) <= contrast_ratio_against(black)
+      contrast_ratio_against(WHITE.rgb) <= contrast_ratio_against(BLACK.rgb)
     end
 
     def generate_new_color(calc, ratio, name = nil)
