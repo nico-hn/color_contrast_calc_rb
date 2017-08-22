@@ -120,6 +120,10 @@ module ColorContrastCalc
       keywords = JSON.parse(File.read(keywords_file))
 
       NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }
+
+      NAME_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
+        h[color.name] = color
+      end
     end
   end
 end
