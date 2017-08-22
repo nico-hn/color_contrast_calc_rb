@@ -2,6 +2,7 @@
 
 require 'color_contrast_calc/utils'
 require 'color_contrast_calc/checker'
+require 'json'
 
 module ColorContrastCalc
   class Color
@@ -112,5 +113,13 @@ module ColorContrastCalc
     end
 
     private :generate_new_color
+
+    module List
+      # named colors: https://www.w3.org/TR/SVG/types.html#ColorKeywords
+      keywords_file = "#{__dir__}/data/color_keywords.json"
+      keywords = JSON.parse(File.read(keywords_file))
+
+      NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }
+    end
   end
 end

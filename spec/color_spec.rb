@@ -435,3 +435,16 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 end
+
+RSpec.describe ColorContrastCalc::Color::List do
+  describe ColorContrastCalc::Color::List::NAMED_COLORS do
+    it 'expects to contain predefined instances of Color' do
+      expect(Color::List::NAMED_COLORS[0]).to be_instance_of(Color)
+      expect(Color::List::NAMED_COLORS[0].name).to eq('aliceblue')
+      expect(Color::List::NAMED_COLORS[0].hex).to eq('#f0f8ff')
+      expect(Color::List::NAMED_COLORS[-1]).to be_instance_of(Color)
+      expect(Color::List::NAMED_COLORS[-1].name).to eq('yellowgreen')
+      expect(Color::List::NAMED_COLORS[-1].hex).to eq('#9acd32')
+    end
+  end
+end
