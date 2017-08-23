@@ -30,11 +30,8 @@ module ColorContrastCalc
     def self.contrast_ratio(color1, color2)
       # https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
 
-      l1, l2 = *([color1, color2]
-          .map {|c| relative_luminance(c) }
-          .sort {|c1, c2| c2 <=> c1 })
-
-      (l1 + 0.05) / (l2 + 0.05)
+      luminance_to_contrast_ratio(relative_luminance(color1),
+                                  relative_luminance(color2))
     end
 
     def self.luminance_to_contrast_ratio(luminance1, luminance2)
