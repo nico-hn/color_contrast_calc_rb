@@ -37,6 +37,11 @@ module ColorContrastCalc
       (l1 + 0.05) / (l2 + 0.05)
     end
 
+    def self.luminance_to_contrast_ratio(luminance1, luminance2)
+      l1, l2 = *([luminance1, luminance2].sort {|c1, c2| c2 <=> c1 })
+      (l1 + 0.05) / (l2 + 0.05)
+    end
+
     def self.tristimulus_value(primary_color, base = 255)
       s = primary_color.to_f / base
       s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055)**2.4

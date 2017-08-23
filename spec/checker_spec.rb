@@ -32,6 +32,34 @@ RSpec.describe ColorContrastCalc::Checker do
     end
   end
 
+  describe 'luminance_to_contrast_ratio' do
+    it 'expects to return max_contrast when white and black is passed' do
+      black_l = Checker.relative_luminance(black)
+      white_l = Checker.relative_luminance(white)
+      ratio = Checker.luminance_to_contrast_ratio(black_l, white_l)
+
+      expect(ratio).to eq(max_contrast)
+    end
+
+    it 'expects to return min_contrast when passed two colors are same' do
+      black_l = Checker.relative_luminance(black)
+      white_l = Checker.relative_luminance(white)
+      black_ratio = Checker.luminance_to_contrast_ratio(black_l, black_l)
+      white_ratio = Checker.luminance_to_contrast_ratio(white_l, white_l)
+
+      expect(black_ratio).to eq(min_contrast)
+      expect(white_ratio).to eq(min_contrast)
+    end
+
+    it 'expects to return 4.23 when white and [127, 127, 32] are passed' do
+      white_l = Checker.relative_luminance(white)
+      other_l = Checker.relative_luminance([127, 127, 32])
+      ratio = Checker.luminance_to_contrast_ratio(white_l, other_l)
+
+      expect(ratio).to within(0.01).of(4.23)
+    end
+  end
+
   describe 'ratio_to_level' do
     it 'expects to return AAA when 8 is passed' do
       expect(Checker.ratio_to_level(8)).to eq('AAA')
