@@ -11,7 +11,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
       ds = []
       ThresholdFinder.binary_search_width(100, 1) {|d| ds.push d }
 
-      expect(ds.all? {|d| ! d.integer? })
+      expect(ds.all? {|d| !d.integer? })
       expect(ds).to eq([50, 25, 12.5, 6.25, 3.125, 1.5625])
     end
   end
