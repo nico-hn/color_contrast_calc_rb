@@ -35,12 +35,16 @@ module ColorContrastCalc
     end
 
     def self.threshold_criteria(target_ratio, fixed_color, other_color)
-      if fixed_color.higher_luminance_than?(other_color) ||
-          fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
+      if should_scan_darker_side(fixed_color, other_color)
         return Criteria::ToDarkerSide.new(target_ratio)
       end
 
       Criteria::ToBrighterSide.new(target_ratio)
+    end
+
+    def self.should_scan_darker_side(fixed_color, other_color)
+      fixed_color.higher_luminance_than?(other_color) ||
+        fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
     end
 
     def self.binary_search_width(init_width, min)
