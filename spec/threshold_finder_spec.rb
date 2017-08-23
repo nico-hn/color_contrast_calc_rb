@@ -3,6 +3,7 @@ require 'color_contrast_calc/threshold_finder'
 
 ThresholdFinder = ColorContrastCalc::ThresholdFinder
 Color = ColorContrastCalc::Color
+Brightness = ColorContrastCalc::ThresholdFinder::Brightness
 
 RSpec.describe ColorContrastCalc::ThresholdFinder do
   describe '.binary_search_width' do
@@ -12,6 +13,25 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       expect(ds.all? {|d| ! d.integer? })
       expect(ds).to eq([50, 25, 12.5, 6.25, 3.125, 1.5625])
+    end
+  end
+
+  describe ColorContrastCalc::ThresholdFinder::Brightness do
+    describe '.calc_upper_ratio_limit' do
+      it 'expects to return 100 for black' do
+        color = Color.from_name('black')
+        expect(Brightness.calc_upper_ratio_limit(color)).to be 100
+      end
+
+      it 'expects to return 155 for orange' do
+        color = Color.from_name('orange')
+        expect(Brightness.calc_upper_ratio_limit(color)).to be 155
+      end
+
+      it 'expects to return 594 for orange' do
+        color = Color.from_name('blueviolet')
+        expect(Brightness.calc_upper_ratio_limit(color)).to be 594
+      end
     end
   end
 end

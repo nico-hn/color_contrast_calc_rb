@@ -15,5 +15,13 @@ module ColorContrastCalc
         d = init_width / 2**i
       end
     end
+
+    module Brightness
+      def self.calc_upper_ratio_limit(color)
+        return 100 if color.same_color?(Color::BLACK)
+        darkest = color.rgb.reject(&:zero?).min
+        ((255.0 / darkest) * 100).ceil
+      end
+    end
   end
 end
