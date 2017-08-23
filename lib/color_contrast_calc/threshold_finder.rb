@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'color_contrast_calc/color'
+
 module ColorContrastCalc
   module ThresholdFinder
     def self.binary_search_width(init_width, min)

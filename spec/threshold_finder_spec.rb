@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'color_contrast_calc/threshold_finder'
 
 ThresholdFinder = ColorContrastCalc::ThresholdFinder
+Color = ColorContrastCalc::Color
 
 RSpec.describe ColorContrastCalc::ThresholdFinder do
   describe '.binary_search_width' do
