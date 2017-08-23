@@ -63,7 +63,8 @@ module ColorContrastCalc
         return Checker.contrast_ratio(rgb, other_color)
       end
 
-      Checker.contrast_ratio(rgb, other_color.rgb)
+      Checker.luminance_to_contrast_ratio(relative_luminance,
+                                          other_color.relative_luminance)
     end
 
     def contrast_level(other_color)
