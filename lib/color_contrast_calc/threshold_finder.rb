@@ -4,6 +4,45 @@ require 'color_contrast_calc/color'
 
 module ColorContrastCalc
   module ThresholdFinder
+    module Criteria
+      class ToDarkerSide
+        def initialize(target_ratio)
+          @target_ratio = target_ratio
+        end
+
+        def round(r)
+          (r * 10).floor / 10.0
+        end
+
+        def increment_condition(contrast_ratio)
+          contrast_ratio > @target_ratio
+        end
+      end
+
+      class ToBrighterSide
+        def initialize(target_ratio)
+          @target_ratio = target_ratio
+        end
+
+        def round(r)
+          (r * 10).ceil / 10.0
+        end
+
+        def increment_condition(contrast_ratio)
+          @target_ratio > contrast_ratio
+        end
+      end
+    end
+
+    def self.threshold_criteria(target_ratio, fixed_color, other_color)
+      if fixed_color.higher_luminance_than?(other_color) ||
+          fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
+        return Criteria::ToDarkerSide.new(target_ratio)
+      end
+
+      Criteria::ToBrighterSide.new(target_ratio)
+    end
+
     def self.binary_search_width(init_width, min)
       i = 1
       init_width = init_width.to_f
