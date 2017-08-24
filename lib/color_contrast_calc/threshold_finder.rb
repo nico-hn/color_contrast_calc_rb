@@ -36,14 +36,14 @@ module ColorContrastCalc
     end
 
     def self.threshold_criteria(level, fixed_color, other_color)
-      if should_scan_darker_side(fixed_color, other_color)
+      if should_scan_darker_side?(fixed_color, other_color)
         return Criteria::ToDarkerSide.new(level)
       end
 
       Criteria::ToBrighterSide.new(level)
     end
 
-    def self.should_scan_darker_side(fixed_color, other_color)
+    def self.should_scan_darker_side?(fixed_color, other_color)
       fixed_color.higher_luminance_than?(other_color) ||
         fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
     end
@@ -144,8 +144,8 @@ module ColorContrastCalc
         criteria = ThresholdFinder.threshold_criteria(level,
                                                       fixed_color, other_color)
         init_l = other_color.hsl[2]
-        scan_darker_side = ThresholdFinder.should_scan_darker_side(fixed_color,
-                                                                   other_color)
+        scan_darker_side = ThresholdFinder.should_scan_darker_side?(fixed_color,
+                                                                    other_color)
         max, min = scan_darker_side ? [init_l, 0] : [100, init_l]
 
         boundary_color = lightness_boundary_color(fixed_color, max, min, level)
