@@ -240,13 +240,13 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return a lighter green when both colors are darkgreen' do
-          contrast_ratio_against_white = darkgreen.contrast_ratio_against(white)
-          contrast_ratio_against_black = darkgreen.contrast_ratio_against(black)
+          contrast_against_white = darkgreen.contrast_ratio_against(white)
+          contrast_against_black = darkgreen.contrast_ratio_against(black)
           new_color = Lightness.find(darkgreen, darkgreen, 'A')
           new_contrast_ratio = new_color.contrast_ratio_against(darkgreen)
 
           expect(darkgreen.light_color?).to be false
-          expect(contrast_ratio_against_white).to be > contrast_ratio_against_black
+          expect(contrast_against_white).to be > contrast_against_black
           expect(new_color.hex).to eq('#00c000')
           expect(new_color.higher_luminance_than?(darkgreen)).to be true
           expect(new_contrast_ratio).to be > 3.0
@@ -283,13 +283,13 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return a darker green when both colors are springgreen' do
-          contrast_ratio_against_white = springgreen.contrast_ratio_against(white)
-          contrast_ratio_against_black = springgreen.contrast_ratio_against(black)
+          contrast_against_white = springgreen.contrast_ratio_against(white)
+          contrast_against_black = springgreen.contrast_ratio_against(black)
           new_color = Lightness.find(springgreen, springgreen, 'AA')
           new_contrast_ratio = new_color.contrast_ratio_against(springgreen)
 
           expect(springgreen.light_color?).to be true
-          expect(contrast_ratio_against_white).to be < contrast_ratio_against_black
+          expect(contrast_against_white).to be < contrast_against_black
           expect(new_color.hex).to eq('#007239')
           expect(new_color.higher_luminance_than?(springgreen)).to be false
           expect(new_contrast_ratio).to be > 4.5
