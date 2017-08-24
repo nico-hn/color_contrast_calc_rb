@@ -206,13 +206,13 @@ module ColorContrastCalc
                                          l, sufficient_l)
         h, s, = other_color.hsl
         level = criteria.level
-        nearest_color = Color.new_from_hsl([h, s, l])
+        nearest = Color.new_from_hsl([h, s, l])
 
-        if sufficient_l && !nearest_color.sufficient_contrast?(fixed_color, level)
+        if sufficient_l && !nearest.sufficient_contrast?(fixed_color, level)
           return Color.new_from_hsl([h, s, sufficient_l])
         end
 
-        nearest_color
+        nearest
       end
     end
   end
