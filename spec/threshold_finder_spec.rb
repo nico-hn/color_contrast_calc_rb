@@ -8,7 +8,7 @@ Brightness = ColorContrastCalc::ThresholdFinder::Brightness
 
 RSpec.describe ColorContrastCalc::ThresholdFinder do
   describe '.threshold_criteria' do
-    target = 4.5
+    target = 'AA'
     orange = Color.from_hex('orange')
     yellow = Color.from_name('yellow')
     darkgreen = Color.from_name('darkgreen')

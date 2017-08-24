@@ -6,10 +6,11 @@ module ColorContrastCalc
   module ThresholdFinder
     module Criteria
       class SearchDirection
-        attr_reader :target_ratio
+        attr_reader :level, :target_ratio
 
-        def initialize(target_ratio)
-          @target_ratio = target_ratio
+        def initialize(level)
+          @level = level
+          @target_ratio = Checker.level_to_ratio(level)
         end
       end
 
@@ -34,12 +35,12 @@ module ColorContrastCalc
       end
     end
 
-    def self.threshold_criteria(target_ratio, fixed_color, other_color)
+    def self.threshold_criteria(level, fixed_color, other_color)
       if should_scan_darker_side(fixed_color, other_color)
-        return Criteria::ToDarkerSide.new(target_ratio)
+        return Criteria::ToDarkerSide.new(level)
       end
 
-      Criteria::ToBrighterSide.new(target_ratio)
+      Criteria::ToBrighterSide.new(level)
     end
 
     def self.should_scan_darker_side(fixed_color, other_color)
@@ -61,8 +62,7 @@ module ColorContrastCalc
 
     module Brightness
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        target_ratio = Checker.level_to_ratio(level)
-        criteria = ThresholdFinder.threshold_criteria(target_ratio,
+        criteria = ThresholdFinder.threshold_criteria(level,
                                                       fixed_color, other_color)
         w = calc_upper_ratio_limit(other_color) / 2.0
 
