@@ -147,8 +147,8 @@ module ColorContrastCalc
         scan_darker_side = ThresholdFinder.should_scan_darker_side(fixed_color,
                                                                    other_color)
         max, min = scan_darker_side ? [init_l, 0] : [100, init_l]
-        boundary_color = lightness_boundary_color(fixed_color, max, min, level)
 
+        boundary_color = lightness_boundary_color(fixed_color, max, min, level)
         return boundary_color if boundary_color
 
         l, sufficient_l = calc_lightness_ratio(fixed_color, other_color, max, min, criteria)
