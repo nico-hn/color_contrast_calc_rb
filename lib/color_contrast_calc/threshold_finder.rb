@@ -138,5 +138,53 @@ module ColorContrastCalc
         ((255.0 / darkest) * 100).ceil
       end
     end
+
+    module Lightness
+      def self.find(fixed_color, other_color, level = Checker::Level::AA)
+        target_ratio = Checker.level_to_ratio(level)
+        criteria = ThresholdFinder.threshold_criteria(level,
+                                                      fixed_color, other_color)
+        h, s, init_l = Utils.rgb_to_hsl(other_color.rgb)
+        scan_darker_side = ThresholdFinder.should_scan_darker_side(fixed_color,
+                                                                   other_color)
+        max, min = scan_darker_side ? [init_l, 0] : [100, init_l]
+        boundary_color = lightness_boundary_color(fixed_color, max, min, level)
+
+        return boundary_color if boundary_color
+
+        l = (max + min) / 2.0
+        sufficient_l = nil
+
+        ThresholdFinder.binary_search_width(max - min, 0.01) do |d|
+          new_rgb = Utils.hsl_to_rgb([h, s, l])
+          contrast_ratio = fixed_color.contrast_ratio_against(new_rgb)
+
+          sufficient_l = l if contrast_ratio >= target_ratio
+          break if contrast_ratio == target_ratio
+
+          l += criteria.increment_condition(contrast_ratio) ? d : -d
+        end
+
+        nearest_color = Color.new_from_hsl([h, s, l])
+
+        if sufficient_l && !nearest_color.sufficient_contrast?(fixed_color, level)
+          return Color.new_from_hsl([h, s, sufficient_l])
+        end
+
+        nearest_color
+      end
+
+      def self.lightness_boundary_color(color, max, min, level)
+        if min.zero? && !color.sufficient_contrast?(Color::BLACK, level)
+          return Color::BLACK
+        end
+
+        if max == 100 && !color.sufficient_contrast?(Color::WHITE, level)
+          return Color::WHITE
+        end
+      end
+
+      private_class_method :lightness_boundary_color
+    end
   end
 end

@@ -5,6 +5,7 @@ ThresholdFinder = ColorContrastCalc::ThresholdFinder
 ThresholdCriteria = ThresholdFinder::Criteria
 Color = ColorContrastCalc::Color
 Brightness = ColorContrastCalc::ThresholdFinder::Brightness
+Lightness = ColorContrastCalc::ThresholdFinder::Lightness
 
 RSpec.describe ColorContrastCalc::ThresholdFinder do
   describe '.threshold_criteria' do
@@ -206,6 +207,136 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
       it 'expects to return 594 for orange' do
         color = Color.from_name('blueviolet')
         expect(Brightness.calc_upper_ratio_limit(color)).to be 594
+      end
+    end
+  end
+
+  describe ColorContrastCalc::ThresholdFinder::Lightness do
+      white = Color::WHITE
+      black = Color::BLACK
+      brown = Color.from_name('brown')
+      orange = Color.from_name('orange')
+      mintcream = Color.from_name('mintcream')
+      yellow = Color.from_name('yellow')
+      springgreen = Color.from_name('springgreen')
+      green = Color.from_name('green')
+      darkgreen = Color.from_name('darkgreen')
+      blue = Color.from_name('blue')
+      azure = Color.from_name('azure')
+      blueviolet = Color.from_name('blueviolet')
+      fuchsia = Color.from_name('fuchsia')
+
+    describe '.find' do
+      context 'when the required level is A' do
+        it 'expects to return a darker color when azure is passed to fuchsia' do
+          new_color = Lightness.find(fuchsia, azure, 'A')
+          new_contrast_ratio = new_color.contrast_ratio_against(fuchsia)
+
+          expect(azure.higher_luminance_than?(fuchsia)).to be true
+          expect(azure.higher_luminance_than?(new_color)).to be true
+          expect(new_color.hex).to eq('#e9ffff')
+          expect(new_contrast_ratio).to be > 3.0
+          expect(new_contrast_ratio).to within(0.1).of(3.0)
+        end
+
+        it 'expects to return a lighter green when both colors are darkgreen' do
+          contrast_ratio_against_white = darkgreen.contrast_ratio_against(white)
+          contrast_ratio_against_black = darkgreen.contrast_ratio_against(black)
+          new_color = Lightness.find(darkgreen, darkgreen, 'A')
+          new_contrast_ratio = new_color.contrast_ratio_against(darkgreen)
+
+          expect(darkgreen.light_color?).to be false
+          expect(contrast_ratio_against_white).to be > contrast_ratio_against_black
+          expect(new_color.hex).to eq('#00c000')
+          expect(new_color.higher_luminance_than?(darkgreen)).to be true
+          expect(new_contrast_ratio).to be > 3.0
+          expect(new_contrast_ratio).to within(0.1).of(3.0)
+        end
+      end
+
+      context 'when the required level is AA' do
+        it 'expects to return a darker orange when orange is passed to white' do
+          new_color = Lightness.find(white, orange, 'AA')
+          new_contrast_ratio = new_color.contrast_ratio_against(white)
+
+          expect(new_color.hex).to eq('#a56a00')
+          expect(new_contrast_ratio).to be > 4.5
+          expect(new_contrast_ratio).to within(0.1).of(4.5)
+        end
+
+        it 'expects to return a darker green when green is passed to white' do
+          new_color = Lightness.find(white, green, 'AA')
+          new_contrast_ratio = new_color.contrast_ratio_against(white)
+
+          expect(new_color.hex).to eq('#008a00')
+          expect(new_contrast_ratio).to be > 4.5
+          expect(new_contrast_ratio).to within(0.1).of(4.5)
+        end
+
+        it 'expects to return a lighter orange when orange is passed to blueviolet' do
+          new_color = Lightness.find(blueviolet, orange, 'AA')
+          new_contrast_ratio = new_color.contrast_ratio_against(blueviolet)
+
+          expect(new_color.hex).to eq('#ffdc9a')
+          expect(new_contrast_ratio).to be > 4.5
+          expect(new_contrast_ratio).to within(0.1).of(4.5)
+        end
+
+        it 'expects to return a darker green when both colors are springgreen' do
+          contrast_ratio_against_white = springgreen.contrast_ratio_against(white)
+          contrast_ratio_against_black = springgreen.contrast_ratio_against(black)
+          new_color = Lightness.find(springgreen, springgreen, 'AA')
+          new_contrast_ratio = new_color.contrast_ratio_against(springgreen)
+
+          expect(springgreen.light_color?).to be true
+          expect(contrast_ratio_against_white).to be < contrast_ratio_against_black
+          expect(new_color.hex).to eq('#007239')
+          expect(new_color.higher_luminance_than?(springgreen)).to be false
+          expect(new_contrast_ratio).to be > 4.5
+          expect(new_contrast_ratio).to within(0.1).of(4.5)
+        end
+
+        it 'expects to return white when yellow is passed to orange' do
+          new_color = Lightness.find(orange, yellow)
+
+          expect(new_color.same_color?(white)).to be true
+          expect(new_color.contrast_ratio_against(yellow)).to be < 4.5
+        end
+
+        it 'expects to return white when mintcream is passed to yellow' do
+          new_color = Lightness.find(yellow, mintcream)
+
+          expect(new_color.same_color?(white)).to be true
+          expect(new_color.contrast_ratio_against(yellow)).to be < 4.5
+        end
+      end
+
+      context 'when the required level is AAA' do
+        it 'expects to return a darker orange when orange is passed to white' do
+          new_color = Lightness.find(white, orange, 'AAA')
+          new_contrast_ratio = new_color.contrast_ratio_against(white)
+
+          expect(new_color.hex).to eq('#7b5000')
+          expect(new_contrast_ratio).to be > 7.0
+          expect(new_contrast_ratio).to within(0.1).of(7.0)
+        end
+
+        it 'expects to return a darker green when green is passed to white' do
+          new_color = Lightness.find(white, green, 'AAA')
+          new_contrast_ratio = new_color.contrast_ratio_against(white)
+
+          expect(new_color.hex).to eq('#006800')
+          expect(new_contrast_ratio).to be > 7.0
+          expect(new_contrast_ratio).to within(0.1).of(7.0)
+        end
+
+        it 'expects to return black when blue is passed to green' do
+          new_color = Lightness.find(green, blue, 'AAA')
+          new_contrast_ratio = new_color.contrast_ratio_against(green)
+
+          expect(new_color.same_color?(black)).to be true
+          expect(new_contrast_ratio).to be < 7.0
+        end
       end
     end
   end
