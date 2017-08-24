@@ -72,7 +72,7 @@ module ColorContrastCalc
         r, sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
                                                 other_color.rgb, criteria, w)
 
-        generate_satisfying_color(fixed_color, other_color, level, criteria,
+        generate_satisfying_color(fixed_color, other_color, criteria,
                                   r, sufficient_r)
       end
 
@@ -106,8 +106,9 @@ module ColorContrastCalc
 
       private_class_method :calc_brightness_ratio
 
-      def self.generate_satisfying_color(fixed_color, other_color, level, criteria,
+      def self.generate_satisfying_color(fixed_color, other_color, criteria,
                                          r, sufficient_r)
+        level = criteria.level
         nearest = other_color.new_brightness_color(criteria.round(r))
 
         if sufficient_r && !nearest.sufficient_contrast?(fixed_color, level)
