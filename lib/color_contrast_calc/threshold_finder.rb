@@ -5,11 +5,13 @@ require 'color_contrast_calc/color'
 module ColorContrastCalc
   module ThresholdFinder
     module Criteria
-      class ToDarkerSide
+      class SearchDirection
         def initialize(target_ratio)
           @target_ratio = target_ratio
         end
+      end
 
+      class ToDarkerSide < SearchDirection
         def round(r)
           (r * 10).floor / 10.0
         end
@@ -19,11 +21,7 @@ module ColorContrastCalc
         end
       end
 
-      class ToBrighterSide
-        def initialize(target_ratio)
-          @target_ratio = target_ratio
-        end
-
+      class ToBrighterSide < SearchDirection
         def round(r)
           (r * 10).ceil / 10.0
         end
