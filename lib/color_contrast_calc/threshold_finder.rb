@@ -151,18 +151,7 @@ module ColorContrastCalc
 
         return boundary_color if boundary_color
 
-        l = (max + min) / 2.0
-        sufficient_l = nil
-
-        ThresholdFinder.binary_search_width(max - min, 0.01) do |d|
-          new_rgb = Utils.hsl_to_rgb([h, s, l])
-          contrast_ratio = fixed_color.contrast_ratio_against(new_rgb)
-
-          sufficient_l = l if contrast_ratio >= criteria.target_ratio
-          break if contrast_ratio == criteria.target_ratio
-
-          l += criteria.increment_condition(contrast_ratio) ? d : -d
-        end
+        l, sufficient_l = calc_lightness_ratio(fixed_color, max, min, h, s, criteria)
 
         nearest_color = Color.new_from_hsl([h, s, l])
 
@@ -184,6 +173,25 @@ module ColorContrastCalc
       end
 
       private_class_method :lightness_boundary_color
+
+      def self.calc_lightness_ratio(fixed_color, max, min, h, s, criteria)
+        l = (max + min) / 2.0
+        sufficient_l = nil
+
+        ThresholdFinder.binary_search_width(max - min, 0.01) do |d|
+          new_rgb = Utils.hsl_to_rgb([h, s, l])
+          contrast_ratio = fixed_color.contrast_ratio_against(new_rgb)
+
+          sufficient_l = l if contrast_ratio >= criteria.target_ratio
+          break if contrast_ratio == criteria.target_ratio
+
+          l += criteria.increment_condition(contrast_ratio) ? d : -d
+        end
+
+        [l, sufficient_l]
+      end
+
+      private_class_method :calc_lightness_ratio
     end
   end
 end
