@@ -212,18 +212,18 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
   end
 
   describe ColorContrastCalc::ThresholdFinder::Lightness do
-      white = Color::WHITE
-      black = Color::BLACK
-      orange = Color.from_name('orange')
-      mintcream = Color.from_name('mintcream')
-      yellow = Color.from_name('yellow')
-      springgreen = Color.from_name('springgreen')
-      green = Color.from_name('green')
-      darkgreen = Color.from_name('darkgreen')
-      blue = Color.from_name('blue')
-      azure = Color.from_name('azure')
-      blueviolet = Color.from_name('blueviolet')
-      fuchsia = Color.from_name('fuchsia')
+    white = Color::WHITE
+    black = Color::BLACK
+    orange = Color.from_name('orange')
+    mintcream = Color.from_name('mintcream')
+    yellow = Color.from_name('yellow')
+    springgreen = Color.from_name('springgreen')
+    green = Color.from_name('green')
+    darkgreen = Color.from_name('darkgreen')
+    blue = Color.from_name('blue')
+    azure = Color.from_name('azure')
+    blueviolet = Color.from_name('blueviolet')
+    fuchsia = Color.from_name('fuchsia')
 
     describe '.find' do
       context 'when the required level is A' do
