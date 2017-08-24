@@ -144,9 +144,7 @@ module ColorContrastCalc
         criteria = ThresholdFinder.threshold_criteria(level,
                                                       fixed_color, other_color)
         init_l = other_color.hsl[2]
-        scan_darker_side = ThresholdFinder.should_scan_darker_side?(fixed_color,
-                                                                    other_color)
-        max, min = scan_darker_side ? [init_l, 0] : [100, init_l]
+        max, min = determine_minmax(fixed_color, other_color, init_l)
 
         boundary_color = lightness_boundary_color(fixed_color, max, min, level)
         return boundary_color if boundary_color
@@ -156,6 +154,14 @@ module ColorContrastCalc
         generate_satisfying_color(fixed_color, other_color, criteria,
                                   l, sufficient_l)
       end
+
+      def self.determine_minmax(fixed_color, other_color, init_l)
+        scan_darker_side = ThresholdFinder.should_scan_darker_side?(fixed_color,
+                                                                    other_color)
+        scan_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
+      end
+
+      private_class_method :determine_minmax
 
       def self.lightness_boundary_color(color, max, min, level)
         if min.zero? && !color.sufficient_contrast?(Color::BLACK, level)
