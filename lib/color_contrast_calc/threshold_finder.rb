@@ -141,7 +141,6 @@ module ColorContrastCalc
 
     module Lightness
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        target_ratio = Checker.level_to_ratio(level)
         criteria = ThresholdFinder.threshold_criteria(level,
                                                       fixed_color, other_color)
         h, s, init_l = Utils.rgb_to_hsl(other_color.rgb)
@@ -159,8 +158,8 @@ module ColorContrastCalc
           new_rgb = Utils.hsl_to_rgb([h, s, l])
           contrast_ratio = fixed_color.contrast_ratio_against(new_rgb)
 
-          sufficient_l = l if contrast_ratio >= target_ratio
-          break if contrast_ratio == target_ratio
+          sufficient_l = l if contrast_ratio >= criteria.target_ratio
+          break if contrast_ratio == criteria.target_ratio
 
           l += criteria.increment_condition(contrast_ratio) ? d : -d
         end
