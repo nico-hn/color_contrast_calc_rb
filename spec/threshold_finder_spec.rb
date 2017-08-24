@@ -143,7 +143,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
       end
 
       it 'expects to return black for AAA if blue is passed to green' do
-        new_color = Brightness.find(green ,blue)
+        new_color = Brightness.find(green, blue)
         expect(new_color.same_color?(black)).to be true
       end
 
