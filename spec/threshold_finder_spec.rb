@@ -214,7 +214,6 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
   describe ColorContrastCalc::ThresholdFinder::Lightness do
       white = Color::WHITE
       black = Color::BLACK
-      brown = Color.from_name('brown')
       orange = Color.from_name('orange')
       mintcream = Color.from_name('mintcream')
       yellow = Color.from_name('yellow')
