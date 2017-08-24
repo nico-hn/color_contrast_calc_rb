@@ -176,7 +176,8 @@ module ColorContrastCalc
 
       private_class_method :lightness_boundary_color
 
-      def self.calc_lightness_ratio(fixed_color, other_color, criteria, max, min)
+      def self.calc_lightness_ratio(fixed_color, other_color,
+                                    criteria, max, min)
         h, s, = other_color.hsl
         l = (max + min) / 2.0
         sufficient_l = nil
