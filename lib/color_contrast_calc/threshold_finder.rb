@@ -74,8 +74,7 @@ module ColorContrastCalc
 
         nearest_color = other_color.new_brightness_color(criteria.round(r))
 
-        if sufficient_r &&
-            nearest_color.contrast_ratio_against(fixed_color) < target_ratio
+        if sufficient_r && !nearest_color.sufficient_contrast?(fixed_color, level)
           return other_color.new_brightness_color(criteria.round(sufficient_r))
         end
 
