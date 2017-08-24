@@ -63,12 +63,9 @@ module ColorContrastCalc
         criteria = ThresholdFinder.threshold_criteria(target_ratio,
                                                       fixed_color, other_color)
         w = calc_upper_ratio_limit(other_color) / 2.0
-        upper_color = other_color.new_brightness_color(w * 2)
 
-        if other_color.higher_luminance_than?(fixed_color) &&
-            !upper_color.sufficient_contrast?(fixed_color, level)
-          return upper_color
-        end
+        upper_color = upper_limit_color(fixed_color, other_color, w * 2, level)
+        return upper_color if upper_color
 
         r, last_sufficient_r = calc_brightness_ratio(fixed_color, other_color,
                                                      target_ratio, criteria, w)
@@ -81,6 +78,15 @@ module ColorContrastCalc
         end
 
         nearest_color
+      end
+
+      def self.upper_limit_color(fixed_color, other_color, max_ratio, level)
+        limit_color = other_color.new_brightness_color(max_ratio)
+
+        if other_color.higher_luminance_than?(fixed_color) &&
+            !limit_color.sufficient_contrast?(fixed_color, level)
+          limit_color
+        end
       end
 
       def self.calc_brightness_ratio(fixed_color, other_color, target_ratio,
