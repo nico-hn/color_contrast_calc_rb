@@ -67,15 +67,15 @@ module ColorContrastCalc
         upper_color = upper_limit_color(fixed_color, other_color, w * 2, level)
         return upper_color if upper_color
 
-        r, last_sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
-                                                     other_color.rgb,
-                                                     target_ratio, criteria, w)
+        r, sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
+                                                other_color.rgb,
+                                                target_ratio, criteria, w)
 
         nearest_color = other_color.new_brightness_color(criteria.round(r))
 
-        if last_sufficient_r &&
+        if sufficient_r &&
             nearest_color.contrast_ratio_against(fixed_color) < target_ratio
-          return other_color.new_brightness_color(criteria.round(last_sufficient_r))
+          return other_color.new_brightness_color(criteria.round(sufficient_r))
         end
 
         nearest_color
@@ -93,18 +93,18 @@ module ColorContrastCalc
       def self.calc_brightness_ratio(fixed_luminance, other_rgb, target_ratio,
                                      criteria, w)
         r = w
-        last_sufficient_r = nil
+        sufficient_r = nil
 
         ThresholdFinder.binary_search_width(w, 0.01) do |d|
           contrast_ratio = calc_contrast_ratio(fixed_luminance, other_rgb, r)
 
-          last_sufficient_r = r if contrast_ratio >= target_ratio
+          sufficient_r = r if contrast_ratio >= target_ratio
           break if contrast_ratio == target_ratio
 
           r += criteria.increment_condition(contrast_ratio) ? d : -d
         end
 
-        [r, last_sufficient_r]
+        [r, sufficient_r]
       end
 
       private_class_method :calc_brightness_ratio
