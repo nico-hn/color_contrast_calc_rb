@@ -85,16 +85,13 @@ module ColorContrastCalc
 
       def self.calc_brightness_ratio(fixed_color, other_color, target_ratio,
                                      criteria, w)
-        fixed_luminace = fixed_color.relative_luminance
+        fixed_luminance = fixed_color.relative_luminance
         other_rgb = other_color.rgb
         r = w
         last_sufficient_r = nil
 
         ThresholdFinder.binary_search_width(w, 0.01) do |d|
-          new_rgb = Converter::Brightness.calc_rgb(other_rgb, r)
-          new_luminace = Checker.relative_luminance(new_rgb)
-          contrast_ratio = Checker.luminance_to_contrast_ratio(fixed_luminace,
-                                                               new_luminace)
+          contrast_ratio = calc_contrast_ratio(fixed_luminance, other_rgb, r)
 
           last_sufficient_r = r if contrast_ratio >= target_ratio
           break if contrast_ratio == target_ratio
@@ -106,6 +103,14 @@ module ColorContrastCalc
       end
 
       private_class_method :calc_brightness_ratio
+
+      def self.calc_contrast_ratio(fixed_luminance, other_rgb, r)
+        new_rgb = Converter::Brightness.calc_rgb(other_rgb, r)
+        new_luminance = Checker.relative_luminance(new_rgb)
+        Checker.luminance_to_contrast_ratio(fixed_luminance, new_luminance)
+      end
+
+      private_class_method :calc_contrast_ratio
 
       def self.calc_upper_ratio_limit(color)
         return 100 if color.same_color?(Color::BLACK)
