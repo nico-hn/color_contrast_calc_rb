@@ -79,13 +79,19 @@ module ColorContrastCalc
       def self.upper_limit_color(fixed_color, other_color, max_ratio, level)
         limit_color = other_color.new_brightness_color(max_ratio)
 
-        if other_color.higher_luminance_than?(fixed_color) &&
-            !limit_color.sufficient_contrast?(fixed_color, level)
+        if exceed_upper_limit?(fixed_color, other_color, limit_color, level)
           limit_color
         end
       end
 
       private_class_method :upper_limit_color
+
+      def self.exceed_upper_limit?(fixed_color, other_color, limit_color, level)
+        other_color.higher_luminance_than?(fixed_color) &&
+          !limit_color.sufficient_contrast?(fixed_color, level)
+      end
+
+      private_class_method :exceed_upper_limit?
 
       def self.calc_brightness_ratio(fixed_luminance, other_rgb, criteria, w)
         target_ratio = criteria.target_ratio
