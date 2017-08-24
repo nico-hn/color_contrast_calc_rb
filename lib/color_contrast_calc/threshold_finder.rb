@@ -91,6 +91,8 @@ module ColorContrastCalc
         end
       end
 
+      private_class_method :upper_limit_color
+
       def self.calc_brightness_ratio(fixed_luminance, other_rgb, criteria, w)
         target_ratio = criteria.target_ratio
         r = w
