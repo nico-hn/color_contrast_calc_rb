@@ -6,6 +6,8 @@ module ColorContrastCalc
   module ThresholdFinder
     module Criteria
       class SearchDirection
+        attr_reader :target_ratio
+
         def initialize(target_ratio)
           @target_ratio = target_ratio
         end
@@ -68,8 +70,7 @@ module ColorContrastCalc
         return upper_color if upper_color
 
         r, sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
-                                                other_color.rgb,
-                                                target_ratio, criteria, w)
+                                                other_color.rgb, criteria, w)
 
         nearest_color = other_color.new_brightness_color(criteria.round(r))
 
@@ -90,8 +91,8 @@ module ColorContrastCalc
         end
       end
 
-      def self.calc_brightness_ratio(fixed_luminance, other_rgb, target_ratio,
-                                     criteria, w)
+      def self.calc_brightness_ratio(fixed_luminance, other_rgb, criteria, w)
+        target_ratio = criteria.target_ratio
         r = w
         sufficient_r = nil
 
