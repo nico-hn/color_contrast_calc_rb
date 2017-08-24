@@ -67,7 +67,8 @@ module ColorContrastCalc
         upper_color = upper_limit_color(fixed_color, other_color, w * 2, level)
         return upper_color if upper_color
 
-        r, last_sufficient_r = calc_brightness_ratio(fixed_color, other_color,
+        r, last_sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
+                                                     other_color.rgb,
                                                      target_ratio, criteria, w)
 
         nearest_color = other_color.new_brightness_color(criteria.round(r))
@@ -89,10 +90,8 @@ module ColorContrastCalc
         end
       end
 
-      def self.calc_brightness_ratio(fixed_color, other_color, target_ratio,
+      def self.calc_brightness_ratio(fixed_luminance, other_rgb, target_ratio,
                                      criteria, w)
-        fixed_luminance = fixed_color.relative_luminance
-        other_rgb = other_color.rgb
         r = w
         last_sufficient_r = nil
 
