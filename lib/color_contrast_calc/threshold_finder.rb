@@ -143,7 +143,7 @@ module ColorContrastCalc
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
         criteria = ThresholdFinder.threshold_criteria(level,
                                                       fixed_color, other_color)
-        h, s, init_l = Utils.rgb_to_hsl(other_color.rgb)
+        init_l = other_color.hsl[2]
         scan_darker_side = ThresholdFinder.should_scan_darker_side(fixed_color,
                                                                    other_color)
         max, min = scan_darker_side ? [init_l, 0] : [100, init_l]
