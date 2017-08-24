@@ -151,7 +151,7 @@ module ColorContrastCalc
 
         return boundary_color if boundary_color
 
-        l, sufficient_l = calc_lightness_ratio(fixed_color, max, min, h, s, criteria)
+        l, sufficient_l = calc_lightness_ratio(fixed_color, other_color, max, min, criteria)
 
         generate_satisfying_color(fixed_color, other_color, criteria,
                                   l, sufficient_l)
@@ -169,7 +169,8 @@ module ColorContrastCalc
 
       private_class_method :lightness_boundary_color
 
-      def self.calc_lightness_ratio(fixed_color, max, min, h, s, criteria)
+      def self.calc_lightness_ratio(fixed_color, other_color, max, min, criteria)
+        h, s, = other_color.hsl
         l = (max + min) / 2.0
         sufficient_l = nil
 
