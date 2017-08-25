@@ -7,9 +7,9 @@ module ColorContrastCalc
       HSL = 'hsl'.chars
     end
 
-    def self.color_component_pos(components, default_components)
-      components.downcase.chars.map do |c|
-        default_components.index(c)
+    def self.color_component_pos(color_order, ordered_components)
+      color_order.downcase.chars.map do |component|
+        ordered_components.index(component)
       end
     end
   end
