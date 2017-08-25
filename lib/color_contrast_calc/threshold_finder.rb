@@ -124,6 +124,8 @@ module ColorContrastCalc
         nearest
       end
 
+      private_class_method :generate_satisfying_color
+
       def self.calc_contrast_ratio(fixed_luminance, other_rgb, r)
         new_rgb = Converter::Brightness.calc_rgb(other_rgb, r)
         new_luminance = Checker.relative_luminance(new_rgb)
@@ -214,6 +216,8 @@ module ColorContrastCalc
 
         nearest
       end
+
+      private_class_method :generate_satisfying_color
     end
   end
 end
