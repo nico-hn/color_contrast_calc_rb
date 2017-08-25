@@ -2,6 +2,7 @@
 
 require 'color_contrast_calc/utils'
 require 'color_contrast_calc/checker'
+require 'color_contrast_calc/threshold_finder'
 require 'json'
 
 module ColorContrastCalc
@@ -56,6 +57,11 @@ module ColorContrastCalc
 
     def new_grayscale_color(ratio, name = nil)
       generate_new_color(Converter::Grayscale, ratio, name)
+    end
+
+    def find_brightness_threshold(other_color, level = Checker::Level::AA)
+      other_color = Color.new(other_color) unless other_color.is_a? Color
+      ThresholdFinder::Brightness.find(self, other_color, level)
     end
 
     def contrast_ratio_against(other_color)
