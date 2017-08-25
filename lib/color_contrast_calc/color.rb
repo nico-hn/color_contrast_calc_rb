@@ -64,6 +64,11 @@ module ColorContrastCalc
       ThresholdFinder::Brightness.find(self, other_color, level)
     end
 
+    def find_lightness_threshold(other_color, level = Checker::Level::AA)
+      other_color = Color.new(other_color) unless other_color.is_a? Color
+      ThresholdFinder::Lightness.find(self, other_color, level)
+    end
+
     def contrast_ratio_against(other_color)
       unless other_color.is_a? Color
         return Checker.contrast_ratio(rgb, other_color)

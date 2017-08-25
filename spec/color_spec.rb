@@ -105,6 +105,57 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe '.find_lightness_threshold' do
+    yellow = Color.new([255, 255, 0])
+    orange = Color.new([255, 165, 0])
+
+    context 'when the required level is A' do
+      level = 'A'
+      target_ratio = 3.0
+
+      it 'expects to return a darker orange when orange is passed to yellow' do
+        new_color = yellow.find_lightness_threshold(orange, level)
+        new_contrast_ratio = yellow.contrast_ratio_against(new_color)
+
+        expect(orange.higher_luminance_than?(new_color)).to be true
+        expect(new_contrast_ratio).to be > target_ratio
+        expect(new_contrast_ratio).to within(0.1).of(target_ratio)
+      end
+
+      it 'expects to return a darker orange when both colors are orange' do
+        new_color = orange.find_lightness_threshold(orange, level)
+        new_contrast_ratio = orange.contrast_ratio_against(new_color)
+
+        expect(orange.higher_luminance_than?(new_color)).to be true
+        expect(new_contrast_ratio).to be > target_ratio
+        expect(new_contrast_ratio).to within(0.1).of(target_ratio)
+      end
+    end
+
+    context 'when the required level is AA' do
+      level = 'AA'
+      target_ratio = 4.5
+
+      it 'expects to return a darker orange when orange is passed to yellow' do
+        new_color = yellow.find_lightness_threshold(orange, level)
+        new_contrast_ratio = yellow.contrast_ratio_against(new_color)
+
+        expect(orange.higher_luminance_than?(new_color)).to be true
+        expect(new_contrast_ratio).to be > target_ratio
+        expect(new_contrast_ratio).to within(0.1).of(target_ratio)
+      end
+
+      it 'expects to return a darker orange when both colors are orange' do
+        new_color = orange.find_lightness_threshold(orange, level)
+        new_contrast_ratio = orange.contrast_ratio_against(new_color)
+
+        expect(orange.higher_luminance_than?(new_color)).to be true
+        expect(new_contrast_ratio).to be > target_ratio
+        expect(new_contrast_ratio).to within(0.1).of(target_ratio)
+      end
+    end
+  end
+
   describe '.new_from_hsl' do
     it 'expects to return a Color of #ffff00 when [60, 100, 50] is passed' do
       expect(Color.new_from_hsl([60, 100, 50]).hex).to eq('#ffff00')
