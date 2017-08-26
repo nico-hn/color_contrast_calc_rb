@@ -2,3 +2,5 @@ Style/SpaceInsideBlockBraces:
   SpaceBeforeBlockParameters: false
 Metrics/BlockLength:
   Exclude: ["spec/**/*", "test/**/*"]
+Documentation:
+  Enabled: false
