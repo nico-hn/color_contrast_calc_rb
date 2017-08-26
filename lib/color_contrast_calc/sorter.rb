@@ -12,6 +12,12 @@ module ColorContrastCalc
       DESCEND = proc {|x, y| y <=> x }
     end
 
+    module KeyTypes
+      COLOR = :color
+      COMPONENTS = :components
+      HEX = :hex
+    end
+
     HEX_TO_COMPONENTS = {
       rgb: Utils.method(:hex_to_rgb),
       hsl: Utils.method(:hex_to_hsl)
