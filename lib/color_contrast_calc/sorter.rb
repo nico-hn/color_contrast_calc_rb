@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'color_contrast_calc/color'
 
 module ColorContrastCalc
   module Sorter
