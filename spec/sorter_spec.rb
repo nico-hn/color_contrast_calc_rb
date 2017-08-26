@@ -31,4 +31,67 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
     end
   end
+
+  describe '.compare_color_components' do
+    color1 = [0, 165, 70]
+    color2 = [165, 70, 0]
+    color3 = [0, 70, 165]
+
+    context 'when color_order is rgb' do
+      order = Sorter.parse_color_order('rgb')
+
+      it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(Sorter.compare_color_components(color1, color2, order)).to be -1
+      end
+
+      it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
+        expect(Sorter.compare_color_components(color1, color3, order)).to be 1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(Sorter.compare_color_components(color1, color1, order)).to be 0
+      end
+    end
+
+    context 'when color_order is Rgb' do
+      order = Sorter.parse_color_order('Rgb')
+
+      it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(Sorter.compare_color_components(color1, color2, order)).to be 1
+      end
+
+      it 'expects to return 1 when [165, 70, 0] and [0, 165, 70] are passed' do
+        expect(Sorter.compare_color_components(color2, color1, order)).to be -1
+      end
+
+      it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
+        expect(Sorter.compare_color_components(color1, color3, order)).to be 1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(Sorter.compare_color_components(color1, color1, order)).to be 0
+      end
+    end
+
+    context 'when color_order is gBr' do
+      order = Sorter.parse_color_order('gBr')
+
+      it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(Sorter.compare_color_components(color1, color2, order)).to be 1
+      end
+
+      it 'expects to return 1 when [165, 70, 0] and [0, 70, 165] are passed' do
+        expect(Sorter.compare_color_components(color2, color3, order)).to be 1
+      end
+
+      it 'expects to return 1 when [0, 70, 165] and [165, 70, 0] are passed' do
+        expect(Sorter.compare_color_components(color3, color2, order)).to be -1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(Sorter.compare_color_components(color1, color1, order)).to be 0
+      end
+    end
+  end
+
 end
