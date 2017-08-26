@@ -59,14 +59,28 @@ module ColorContrastCalc
 
     def self.compile_hex_compare_function(color_order)
       order = parse_color_order(color_order)
-      to_component = HEX_TO_COMPONENTS[:rgb]
-      to_component = HEX_TO_COMPONENTS[:hsl] if hsl_code?(color_order)
+      converter = HEX_TO_COMPONENTS[:rgb]
+      converter = HEX_TO_COMPONENTS[:hsl] if hsl_code?(color_order)
+      cache = {}
+
       proc do |hex1, hex2|
-        color1 = to_component[hex1]
-        color2 = to_component[hex2]
+        color1 = hex_to_components(hex1, converter, cache)
+        color2 = hex_to_components(hex2, converter, cache)
 
         compare_color_components(color1, color2, order)
       end
     end
+
+    def self.hex_to_components(hex, converter, cache)
+      cached_components = cache[hex]
+      return cached_components if cached_components
+
+      components = converter[hex]
+      cache[hex] = components
+
+      components
+    end
+
+    private_class_method :hex_to_components
   end
 end
