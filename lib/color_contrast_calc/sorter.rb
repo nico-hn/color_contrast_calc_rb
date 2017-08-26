@@ -61,7 +61,7 @@ module ColorContrastCalc
       funcs = order[:funcs]
       order[:pos].each do |i|
         result = funcs[i][color1[i], color2[i]]
-        return result unless result == 0
+        return result unless result.zero?
       end
 
       0
