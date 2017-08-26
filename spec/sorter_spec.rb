@@ -3,6 +3,7 @@ require 'color_contrast_calc/color'
 require 'color_contrast_calc/sorter'
 
 Color = ColorContrastCalc::Color
+Utils = ColorContrastCalc::Utils
 Sorter = ColorContrastCalc::Sorter
 
 RSpec.describe ColorContrastCalc::Sorter do
@@ -156,4 +157,88 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
+  describe '.compile_hex_compare_function' do
+    rgb_hex1 = Utils.rgb_to_hex([0, 165, 70])
+    rgb_hex2 = Utils.rgb_to_hex([165, 70, 0])
+    rgb_hex3 = Utils.rgb_to_hex([0, 70, 165])
+    hsl_hex1 = Utils.hsl_to_hex([20, 80, 50])
+    hsl_hex2 = Utils.hsl_to_hex([80, 50, 20])
+    hsl_hex3 = Utils.hsl_to_hex([20, 50, 80])
+
+    context 'when color_order is rgb' do
+      compare = Sorter.compile_hex_compare_function('rgb')
+
+      it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex2)).to be -1
+      end
+
+      it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex3)).to be 1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex1)).to be 0
+      end
+    end
+
+    context 'when color_order is Rgb' do
+      compare = Sorter.compile_hex_compare_function('Rgb')
+
+      it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex2)).to be 1
+      end
+
+      it 'expects to return 1 when [165, 70, 0] and [0, 165, 70] are passed' do
+        expect(compare.call(rgb_hex2, rgb_hex1)).to be -1
+      end
+
+      it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex3)).to be 1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex1)).to be 0
+      end
+    end
+
+    context 'when color_order is gBr' do
+      compare = Sorter.compile_hex_compare_function('gBr')
+
+      it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex2)).to be 1
+      end
+
+      it 'expects to return 1 when [165, 70, 0] and [0, 70, 165] are passed' do
+        expect(compare.call(rgb_hex2, rgb_hex3)).to be 1
+      end
+
+      it 'expects to return 1 when [0, 70, 165] and [165, 70, 0] are passed' do
+        expect(compare.call(rgb_hex3, rgb_hex2)).to be -1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(compare.call(rgb_hex1, rgb_hex1)).to be 0
+      end
+    end
+
+    context 'when color_order is sLh' do
+      compare = Sorter.compile_hex_compare_function('sLh')
+
+      it 'expects to return 1 when [20, 80, 50] and [80, 50, 20] are passed' do
+        expect(compare.call(hsl_hex1, hsl_hex2)).to be 1
+      end
+
+      it 'expects to return 1 when [80, 50, 20] and [20, 50, 80] are passed' do
+        expect(compare.call(hsl_hex2, hsl_hex3)).to be 1
+      end
+
+      it 'expects to return 1 when [20, 50, 80] and [80, 50, 20] are passed' do
+        expect(compare.call(hsl_hex3, hsl_hex2)).to be -1
+      end
+
+      it 'expects to return 0 when [20, 80, 50] and [20, 80, 50] are passed' do
+        expect(compare.call(hsl_hex1, hsl_hex1)).to be 0
+      end
+    end
+  end
 end
