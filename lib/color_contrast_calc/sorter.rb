@@ -20,7 +20,7 @@ module ColorContrastCalc
 
     def self.parse_color_order(color_order)
       ordered_components = ColorComponent::RGB
-      ordered_components = ColorComponent::HSL if /[hsl]{3}/i.match?(color_order)
+      ordered_components = ColorComponent::HSL if hsl_code?(color_order)
       pos = color_component_pos(color_order, ordered_components)
       funcs = []
       pos.each_with_index do |ci, i|
@@ -28,6 +28,10 @@ module ColorContrastCalc
         funcs[ci] = Utils.uppercase?(c) ? CompFunc::DESCEND : CompFunc::ASCEND
       end
       { pos: pos, funcs: funcs }
+    end
+
+    def self.hsl_code?(color_order)
+      /[hsl]{3}/i.match?(color_order)
     end
 
     def self.compare_color_components(color1, color2, order)
