@@ -94,7 +94,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       order = Sorter.parse_color_order('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
-        expect(Sorter.compare_color_components(color1, color2, order)).to be -1
+        expect(Sorter.compare_color_components(color1, color2, order)).to be(-1)
       end
 
       it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
@@ -114,7 +114,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [165, 70, 0] and [0, 165, 70] are passed' do
-        expect(Sorter.compare_color_components(color2, color1, order)).to be -1
+        expect(Sorter.compare_color_components(color2, color1, order)).to be(-1)
       end
 
       it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
@@ -138,7 +138,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [0, 70, 165] and [165, 70, 0] are passed' do
-        expect(Sorter.compare_color_components(color3, color2, order)).to be -1
+        expect(Sorter.compare_color_components(color3, color2, order)).to be(-1)
       end
 
       it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
@@ -156,7 +156,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       compare = Sorter.compile_components_compare_function('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
-        expect(compare.call(color1, color2)).to be -1
+        expect(compare.call(color1, color2)).to be(-1)
       end
 
       it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
@@ -176,7 +176,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [165, 70, 0] and [0, 165, 70] are passed' do
-        expect(compare.call(color2, color1)).to be -1
+        expect(compare.call(color2, color1)).to be(-1)
       end
 
       it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
@@ -200,7 +200,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [0, 70, 165] and [165, 70, 0] are passed' do
-        expect(compare.call(color3, color2)).to be -1
+        expect(compare.call(color3, color2)).to be(-1)
       end
 
       it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
@@ -221,7 +221,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       compare = Sorter.compile_hex_compare_function('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
-        expect(compare.call(rgb_hex1, rgb_hex2)).to be -1
+        expect(compare.call(rgb_hex1, rgb_hex2)).to be(-1)
       end
 
       it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
@@ -241,7 +241,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [165, 70, 0] and [0, 165, 70] are passed' do
-        expect(compare.call(rgb_hex2, rgb_hex1)).to be -1
+        expect(compare.call(rgb_hex2, rgb_hex1)).to be(-1)
       end
 
       it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
@@ -265,7 +265,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [0, 70, 165] and [165, 70, 0] are passed' do
-        expect(compare.call(rgb_hex3, rgb_hex2)).to be -1
+        expect(compare.call(rgb_hex3, rgb_hex2)).to be(-1)
       end
 
       it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
@@ -285,7 +285,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       it 'expects to return 1 when [20, 50, 80] and [80, 50, 20] are passed' do
-        expect(compare.call(hsl_hex3, hsl_hex2)).to be -1
+        expect(compare.call(hsl_hex3, hsl_hex2)).to be(-1)
       end
 
       it 'expects to return 0 when [20, 80, 50] and [20, 80, 50] are passed' do
