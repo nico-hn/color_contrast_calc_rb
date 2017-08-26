@@ -23,6 +23,18 @@ module ColorContrastCalc
       hsl: Utils.method(:hex_to_hsl)
     }
 
+    def self.guess_key_type(color, key_mapper = nil)
+      key = key_mapper ? key_mapper[color] : color
+      case key
+      when Color
+        KeyTypes::COLOR
+      when Array
+        KeyTypes::COMPONENTS
+      when String
+        KeyTypes::HEX
+      end
+    end
+
     def self.color_component_pos(color_order, ordered_components)
       color_order.downcase.chars.map do |component|
         ordered_components.index(component)
