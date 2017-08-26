@@ -43,5 +43,13 @@ module ColorContrastCalc
 
       0
     end
+
+    def self.compile_components_compare_function(color_order)
+      order = parse_color_order(color_order)
+
+      proc do |color1, color2|
+        compare_color_components(color1, color2, order)
+      end
+    end
   end
 end

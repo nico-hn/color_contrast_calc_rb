@@ -94,4 +94,66 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
+  describe '.compile_components_compare_function' do
+    color1 = [0, 165, 70]
+    color2 = [165, 70, 0]
+    color3 = [0, 70, 165]
+
+    context 'when color_order is rgb' do
+      compare = Sorter.compile_components_compare_function('rgb')
+
+      it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(compare.call(color1, color2)).to be -1
+      end
+
+      it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
+        expect(compare.call(color1, color3)).to be 1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(compare.call(color1, color1)).to be 0
+      end
+    end
+
+    context 'when color_order is Rgb' do
+      compare = Sorter.compile_components_compare_function('Rgb')
+
+      it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(compare.call(color1, color2)).to be 1
+      end
+
+      it 'expects to return 1 when [165, 70, 0] and [0, 165, 70] are passed' do
+        expect(compare.call(color2, color1)).to be -1
+      end
+
+      it 'expects to return 1 when [0, 165, 70] and [0, 70, 165] are passed' do
+        expect(compare.call(color1, color3)).to be 1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(compare.call(color1, color1)).to be 0
+      end
+    end
+
+    context 'when color_order is gBr' do
+      compare = Sorter.compile_components_compare_function('gBr')
+
+      it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
+        expect(compare.call(color1, color2)).to be 1
+      end
+
+      it 'expects to return 1 when [165, 70, 0] and [0, 70, 165] are passed' do
+        expect(compare.call(color2, color3)).to be 1
+      end
+
+      it 'expects to return 1 when [0, 70, 165] and [165, 70, 0] are passed' do
+        expect(compare.call(color3, color2)).to be -1
+      end
+
+      it 'expects to return 0 when [0, 165, 70] and [0, 165, 70] are passed' do
+        expect(compare.call(color1, color1)).to be 0
+      end
+    end
+  end
+
 end
