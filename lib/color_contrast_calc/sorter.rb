@@ -37,6 +37,14 @@ module ColorContrastCalc
       end
     end
 
+    def self.compose_function(compare_function, key_mapper = nil)
+      return compare_function unless key_mapper
+
+      proc do |color1, color2|
+        compare_function[key_mapper[color1], key_mapper[color2]]
+      end
+    end
+
     def self.color_component_pos(color_order, ordered_components)
       color_order.downcase.chars.map do |component|
         ordered_components.index(component)

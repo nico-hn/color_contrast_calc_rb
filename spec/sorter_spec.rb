@@ -59,6 +59,108 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
+  describe '.compose_function' do
+    hsl_colors = [
+      [20, 80, 50],
+      [80, 50, 20],
+      [20, 50, 80]
+    ]
+    hex_colors = hsl_colors.map {|hsl| Utils.hsl_to_hex(hsl) }
+    key_mapper = proc {|item| item[0] }
+
+    context 'when colors are represented in hsl' do
+      compare = Sorter.compile_components_compare_function('sLh')
+
+      context 'without key_mapper' do
+        color1, color2, color3 = hsl_colors
+        composed_function = Sorter.compose_function(compare)
+
+        it 'expects to return 1 if [20, 80, 50] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color1, color2)).to be 1
+        end
+
+        it 'expects to return 1 if [80, 50, 20] and [20, 50, 80] are passed' do
+          expect(composed_function.call(color2, color3)).to be 1
+        end
+
+        it 'expects to return 1 if [20, 50, 80] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color3, color2)).to be(-1)
+        end
+
+        it 'expects to return 0 if [20, 80, 50] and [20, 80, 50] are passed' do
+          expect(composed_function.call(color1, color1)).to be 0
+        end
+      end
+
+      context 'with key_mapper' do
+        color1, color2, color3 = hsl_colors.map {|hsl| [hsl] }
+        composed_function = Sorter.compose_function(compare, key_mapper)
+
+        it 'expects to return 1 if [20, 80, 50] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color1, color2)).to be 1
+        end
+
+        it 'expects to return 1 if [80, 50, 20] and [20, 50, 80] are passed' do
+          expect(composed_function.call(color2, color3)).to be 1
+        end
+
+        it 'expects to return 1 if [20, 50, 80] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color3, color2)).to be(-1)
+        end
+
+        it 'expects to return 0 if [20, 80, 50] and [20, 80, 50] are passed' do
+          expect(composed_function.call(color1, color1)).to be 0
+        end
+      end
+    end
+
+    context 'when colors are represented in hex' do
+      compare = Sorter.compile_hex_compare_function('sLh')
+
+      context 'without key_mapper' do
+        color1, color2, color3 = hex_colors
+        composed_function = Sorter.compose_function(compare)
+
+        it 'expects to return 1 if [20, 80, 50] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color1, color2)).to be 1
+        end
+
+        it 'expects to return 1 if [80, 50, 20] and [20, 50, 80] are passed' do
+          expect(composed_function.call(color2, color3)).to be 1
+        end
+
+        it 'expects to return 1 if [20, 50, 80] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color3, color2)).to be(-1)
+        end
+
+        it 'expects to return 0 if [20, 80, 50] and [20, 80, 50] are passed' do
+          expect(composed_function.call(color1, color1)).to be 0
+        end
+      end
+
+      context 'with key_mapper' do
+        color1, color2, color3 = hex_colors.map {|hex| [hex] }
+        composed_function = Sorter.compose_function(compare, key_mapper)
+
+        it 'expects to return 1 if [20, 80, 50] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color1, color2)).to be 1
+        end
+
+        it 'expects to return 1 if [80, 50, 20] and [20, 50, 80] are passed' do
+          expect(composed_function.call(color2, color3)).to be 1
+        end
+
+        it 'expects to return 1 if [20, 50, 80] and [80, 50, 20] are passed' do
+          expect(composed_function.call(color3, color2)).to be(-1)
+        end
+
+        it 'expects to return 0 if [20, 80, 50] and [20, 80, 50] are passed' do
+          expect(composed_function.call(color1, color1)).to be 0
+        end
+      end
+    end
+  end
+
   describe '.color_component_pos' do
     context 'when components of hsl are given' do
       it 'expects to return [0, 1, 2] when hsl is passed' do
