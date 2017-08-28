@@ -53,7 +53,7 @@ module ColorContrastCalc
 
     def self.parse_color_order(color_order)
       ordered_components = ColorComponent::RGB
-      ordered_components = ColorComponent::HSL if hsl_code?(color_order)
+      ordered_components = ColorComponent::HSL if hsl_order?(color_order)
       pos = color_component_pos(color_order, ordered_components)
       funcs = []
       pos.each_with_index do |ci, i|
@@ -63,7 +63,7 @@ module ColorContrastCalc
       { pos: pos, funcs: funcs }
     end
 
-    def self.hsl_code?(color_order)
+    def self.hsl_order?(color_order)
       /[hsl]{3}/i.match?(color_order)
     end
 
@@ -88,7 +88,7 @@ module ColorContrastCalc
     def self.compile_hex_compare_function(color_order)
       order = parse_color_order(color_order)
       converter = HEX_TO_COMPONENTS[:rgb]
-      converter = HEX_TO_COMPONENTS[:hsl] if hsl_code?(color_order)
+      converter = HEX_TO_COMPONENTS[:hsl] if hsl_order?(color_order)
       cache = {}
 
       proc do |hex1, hex2|
@@ -114,7 +114,7 @@ module ColorContrastCalc
     def self.compile_color_compare_function(color_order)
       order = parse_color_order(color_order)
 
-      if hsl_code?(color_order)
+      if hsl_order?(color_order)
         proc do |color1, color2|
           compare_color_components(color1.hsl, color2.hsl, order)
         end
