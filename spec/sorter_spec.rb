@@ -457,4 +457,30 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
     end
   end
+
+  describe '.compile_color_hsl_compare_function' do
+    color1 = Color.new_from_hsl([20, 80, 50])
+    color2 = Color.new_from_hsl([80, 50, 20])
+    color3 = Color.new_from_hsl([20, 50, 80])
+
+    context 'when color_order is sLh' do
+      compare = Sorter.compile_color_hsl_compare_function('sLh')
+
+      it 'expects to return 1 when [20, 80, 50] and [80, 50, 20] are passed' do
+        expect(compare.call(color1, color2)).to be 1
+      end
+
+      it 'expects to return 1 when [80, 50, 20] and [20, 50, 80] are passed' do
+        expect(compare.call(color2, color3)).to be 1
+      end
+
+      it 'expects to return 1 when [20, 50, 80] and [80, 50, 20] are passed' do
+        expect(compare.call(color3, color2)).to be(-1)
+      end
+
+      it 'expects to return 0 when [20, 80, 50] and [20, 80, 50] are passed' do
+        expect(compare.call(color1, color1)).to be 0
+      end
+    end
+  end
 end

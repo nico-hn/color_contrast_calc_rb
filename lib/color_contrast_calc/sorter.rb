@@ -118,5 +118,13 @@ module ColorContrastCalc
         compare_color_components(color1.rgb, color2.rgb, order)
       end
     end
+
+    def self.compile_color_hsl_compare_function(color_order)
+      order = parse_color_order(color_order)
+
+      proc do |color1, color2|
+        compare_color_components(color1.hsl, color2.hsl, order)
+      end
+    end
   end
 end
