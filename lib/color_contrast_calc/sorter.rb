@@ -110,5 +110,13 @@ module ColorContrastCalc
     end
 
     private_class_method :hex_to_components
+
+    def self.compile_color_rgb_compare_function(color_order)
+      order = parse_color_order(color_order)
+
+      proc do |color1, color2|
+        compare_color_components(color1.rgb, color2.rgb, order)
+      end
+    end
   end
 end
