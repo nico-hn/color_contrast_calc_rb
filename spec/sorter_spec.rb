@@ -396,7 +396,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '.compile_color_rgb_compare_function' do
+  describe '.compile_color_compare_function -- rgb' do
     color1 = Color.new([0, 165, 70])
     color2 = Color.new([165, 70, 0])
     color3 = Color.new([0, 70, 165])
@@ -458,7 +458,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '.compile_color_hsl_compare_function' do
+  describe '.compile_color_compare_function -- hsl' do
     color1 = Color.new_from_hsl([20, 80, 50])
     color2 = Color.new_from_hsl([80, 50, 20])
     color3 = Color.new_from_hsl([20, 50, 80])

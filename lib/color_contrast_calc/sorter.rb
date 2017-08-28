@@ -112,26 +112,16 @@ module ColorContrastCalc
     private_class_method :hex_to_components
 
     def self.compile_color_compare_function(color_order)
+      order = parse_color_order(color_order)
+
       if hsl_code?(color_order)
-        return compile_color_hsl_compare_function(color_order)
-      end
-
-      compile_color_rgb_compare_function(color_order)
-    end
-
-    def self.compile_color_rgb_compare_function(color_order)
-      order = parse_color_order(color_order)
-
-      proc do |color1, color2|
-        compare_color_components(color1.rgb, color2.rgb, order)
-      end
-    end
-
-    def self.compile_color_hsl_compare_function(color_order)
-      order = parse_color_order(color_order)
-
-      proc do |color1, color2|
-        compare_color_components(color1.hsl, color2.hsl, order)
+        proc do |color1, color2|
+          compare_color_components(color1.hsl, color2.hsl, order)
+        end
+      else
+        proc do |color1, color2|
+          compare_color_components(color1.rgb, color2.rgb, order)
+        end
       end
     end
   end
