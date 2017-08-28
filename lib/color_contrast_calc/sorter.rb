@@ -111,6 +111,14 @@ module ColorContrastCalc
 
     private_class_method :hex_to_components
 
+    def self.compile_color_compare_function(color_order)
+      if hsl_code?(color_order)
+        return compile_color_hsl_compare_function(color_order)
+      end
+
+      compile_color_rgb_compare_function(color_order)
+    end
+
     def self.compile_color_rgb_compare_function(color_order)
       order = parse_color_order(color_order)
 
