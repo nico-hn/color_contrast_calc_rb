@@ -25,6 +25,26 @@ module ColorContrastCalc
       hsl: Utils.method(:hex_to_hsl)
     }
 
+    def self.sort(colors, color_order = 'HSL', key_mapper = nil)
+      key_type = guess_key_type(colors[0], key_mapper)
+      compare = compile_compare_function(color_order, key_type, key_mapper)
+
+      colors.sort(&compare)
+    end
+
+    def self.compile_compare_function(color_order, key_type, key_mapper)
+      case key_type
+      when KeyTypes::COLOR
+        compare = compile_color_compare_function(color_order)
+      when KeyTypes::COMPONENTS
+        compare = compile_components_compare_function(color_order)
+      when KeyTypes::HEX
+        compare = compile_hex_compare_function(color_order)
+      end
+
+      compose_function(compare, key_mapper)
+    end
+
     def self.guess_key_type(color, key_mapper = nil)
       key = key_mapper ? key_mapper[color] : color
       case key
