@@ -9,6 +9,7 @@ Sorter = ColorContrastCalc::Sorter
 RSpec.describe ColorContrastCalc::Sorter do
   describe '.sort' do
     color_names = %w(black gray orange yellow springgreen blue)
+    color_names2 = %w(white red yellow lime blue)
 
     shared_examples 'rgb_order' do |colors, key_mapper|
       black, gray, orange, yellow, springgreen, blue = colors
@@ -150,37 +151,69 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
     end
 
+    shared_examples 'hsl_order' do |colors, key_mapper|
+      white, red, yellow, lime, blue = colors
+
+      context 'when colo_order is hLS' do
+        order = 'hLS'
+
+        it 'expects to return [white, red, yellow, lime, blue] when [blue, yellow, white, red, lime] is passed' do
+          before = [blue, yellow, white, red, lime]
+          after = [white, red, yellow, lime, blue]
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
+        end
+      end
+    end
+
     describe 'when colors are Color objects' do
       colors = color_names.map {|color| Color.from_name(color) }
       include_examples 'rgb_order', colors, nil
+
+      colors2 = color_names2.map {|color| Color.from_name(color) }
+      include_examples 'hsl_order', colors2, nil
     end
 
     describe 'when colors are rgb arrays' do
       colors = color_names.map {|color| Color.from_name(color).rgb }
       include_examples 'rgb_order', colors, nil
+
+      colors2 = color_names2.map {|color| Color.from_name(color).hsl }
+      include_examples 'hsl_order', colors2, nil
     end
 
     describe 'when colors are hex codes' do
       colors = color_names.map {|color| Color.from_name(color).hex }
       include_examples 'rgb_order', colors, nil
+
+      colors2 = color_names2.map {|color| Color.from_name(color).hex }
+      include_examples 'hsl_order', colors2, nil
     end
 
     describe 'when each color is a Color object placed in an array' do
       colors = color_names.map {|color| [Color.from_name(color)] }
       key_mapper = proc {|item| item[0] }
       include_examples 'rgb_order', colors, key_mapper
+
+      colors2 = color_names2.map {|color| [Color.from_name(color)] }
+      include_examples 'hsl_order', colors2, key_mapper
     end
 
     describe 'when each color is a rgb value placed in an array' do
       colors = color_names.map {|color| [Color.from_name(color).rgb] }
       key_mapper = proc {|item| item[0] }
       include_examples 'rgb_order', colors, key_mapper
+
+      colors2 = color_names2.map {|color| [Color.from_name(color).hsl] }
+      include_examples 'hsl_order', colors2, key_mapper
     end
 
     describe 'when each color is a hex code placed in an array' do
       colors = color_names.map {|color| [Color.from_name(color).hex] }
       key_mapper = proc {|item| item[0] }
       include_examples 'rgb_order', colors, key_mapper
+
+      colors2 = color_names2.map {|color| [Color.from_name(color).hex] }
+      include_examples 'hsl_order', colors2, key_mapper
     end
   end
 
