@@ -10,7 +10,7 @@ RSpec.describe ColorContrastCalc::Sorter do
   describe '.sort' do
     color_names = %w(black gray orange yellow springgreen blue)
 
-    shared_examples 'rgb_order' do |colors|
+    shared_examples 'rgb_order' do |colors, key_mapper|
       black, gray, orange, yellow, springgreen, blue = colors
 
       context 'when color_order is rgb' do
@@ -19,31 +19,31 @@ RSpec.describe ColorContrastCalc::Sorter do
         it 'expects to return [black, orange, yellow] when [black, yellow, orange] is passed' do
           before = [black, yellow, orange]
           after = [black, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, springgreen, orange, yellow] when [black, yellow, orange, springgreen] is passed' do
           before = [black, yellow, orange, springgreen]
           after = [black, springgreen, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, yellow] when [yellow, black, orange] is passed' do
           before = [yellow, black, orange]
           after = [black, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, gray, orange, yellow] when [yellow, black, orange, gray] is passed' do
           before = [yellow, black, orange, gray]
           after = [black, gray, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, blue, orange, yellow] when [yellow, black, orange, blue] is passed' do
           before = [yellow, black, orange, blue]
           after = [black, blue, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
       end
 
@@ -53,31 +53,31 @@ RSpec.describe ColorContrastCalc::Sorter do
         it 'expects to return [black, orange, yellow] when [black, yellow, orange] is passed' do
           before = [black, yellow, orange]
           after = [black, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, springgreen, yellow] when [black, yellow, orange, springgreen] is passed' do
           before = [black, yellow, orange, springgreen]
           after = [black, orange, springgreen, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, yellow] when [yellow, black, orange] is passed' do
           before = [yellow, black, orange]
           after = [black, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, gray, orange, yellow] when [yellow, black, orange, gray] is passed' do
           before = [yellow, black, orange, gray]
           after = [black, gray, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, blue, orange, yellow] when [yellow, black, orange, blue] is passed' do
           before = [yellow, black, orange, blue]
           after = [black, blue, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
       end
 
@@ -87,31 +87,31 @@ RSpec.describe ColorContrastCalc::Sorter do
         it 'expects to return [black, orange, yellow] when [black, yellow, orange] is passed' do
           before = [black, yellow, orange]
           after = [black, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, yellow, springgreen] when [black, yellow, orange, springgreen] is passed' do
           before = [black, yellow, orange, springgreen]
           after = [black, orange, yellow, springgreen]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, yellow] when [yellow, black, orange] is passed' do
           before = [yellow, black, orange]
           after = [black, orange, yellow]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, yellow, gray] when [yellow, black, orange, gray] is passed' do
           before = [yellow, black, orange, gray]
           after = [black, orange, yellow, gray]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [black, orange, yellow, blue] when [yellow, black, orange, blue] is passed' do
           before = [yellow, black, orange, blue]
           after = [black, orange, yellow, blue]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
       end
 
@@ -121,51 +121,67 @@ RSpec.describe ColorContrastCalc::Sorter do
         it 'expects to return [orange, yellow, black] when [black, yellow, orange] is passed' do
           before = [black, yellow, orange]
           after = [orange, yellow, black]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [orange, yellow, black, springgreen] when [black, yellow, orange, springgreen] is passed' do
           before = [black, yellow, orange, springgreen]
           after = [orange, yellow, black, springgreen]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [orange, yellow, black] when [yellow, black, orange] is passed' do
           before = [yellow, black, orange]
           after = [orange, yellow, black]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [orange, yellow, gray, black] when [yellow, black, orange, gray] is passed' do
           before = [yellow, black, orange, gray]
           after = [orange, yellow, gray, black]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
 
         it 'expects to return [orange, yellow, black, blue] when [yellow, black, orange, blue] is passed' do
           before = [yellow, black, orange, blue]
           after = [orange, yellow, black, blue]
-          expect(Sorter.sort(before, order)).to eq(after)
+          expect(Sorter.sort(before, order, key_mapper)).to eq(after)
         end
       end
     end
 
     describe 'when colors are Color objects' do
       colors = color_names.map {|color| Color.from_name(color) }
-      include_examples 'rgb_order', colors
+      include_examples 'rgb_order', colors, nil
     end
 
     describe 'when colors are rgb arrays' do
       colors = color_names.map {|color| Color.from_name(color).rgb }
-      include_examples 'rgb_order', colors
+      include_examples 'rgb_order', colors, nil
     end
 
     describe 'when colors are hex codes' do
       colors = color_names.map {|color| Color.from_name(color).hex }
-      include_examples 'rgb_order', colors
+      include_examples 'rgb_order', colors, nil
     end
 
+    describe 'when each color is a Color object placed in an array' do
+      colors = color_names.map {|color| [Color.from_name(color)] }
+      key_mapper = proc {|item| item[0] }
+      include_examples 'rgb_order', colors, key_mapper
+    end
 
+    describe 'when each color is a rgb value placed in an array' do
+      colors = color_names.map {|color| [Color.from_name(color).rgb] }
+      key_mapper = proc {|item| item[0] }
+      include_examples 'rgb_order', colors, key_mapper
+    end
+
+    describe 'when each color is a hex code placed in an array' do
+      colors = color_names.map {|color| [Color.from_name(color).hex] }
+      key_mapper = proc {|item| item[0] }
+      include_examples 'rgb_order', colors, key_mapper
+    end
   end
 
   describe '.guess_key_type' do
