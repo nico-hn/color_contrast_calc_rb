@@ -21,7 +21,10 @@ module ColorContrastCalc
     end
 
     def self.new_from_hsl(hsl, name = nil)
-      Color.new(Utils.hsl_to_rgb(hsl), name)
+      rgb = Utils.hsl_to_rgb(hsl)
+      Color.new(rgb, name).tap do |color|
+        color.instance_variable_set(:@hsl, hsl.map(&:to_f))
+      end
     end
 
     def initialize(rgb, name = nil)
