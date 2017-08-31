@@ -43,7 +43,7 @@ module ColorContrastCalc
       generate_new_color(Converter::Brightness, ratio, name)
     end
 
-    def new_invert_color(ratio, name = nil)
+    def new_invert_color(ratio = 100, name = nil)
       generate_new_color(Converter::Invert, ratio, name)
     end
 

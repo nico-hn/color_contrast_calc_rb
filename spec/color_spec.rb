@@ -288,6 +288,10 @@ RSpec.describe ColorContrastCalc::Color do
       expect(gray.new_invert_color(0).rgb).to eq(gray.rgb)
     end
 
+    it 'expects to return blue if nothing is passed to yellow' do
+      expect(yellow.new_invert_color.rgb).to eq(blue.rgb)
+    end
+
     it 'expects to return blue if 100 is passed to yellow' do
       expect(yellow.new_invert_color(100).rgb).to eq(blue.rgb)
     end
