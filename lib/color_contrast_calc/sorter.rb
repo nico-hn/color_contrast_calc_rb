@@ -28,7 +28,7 @@ module ColorContrastCalc
     HEX_TO_COMPONENTS = {
       rgb: Utils.method(:hex_to_rgb),
       hsl: Utils.method(:hex_to_hsl)
-    }
+    }.freeze
 
     def self.sort(colors, color_order = 'HSL', key_mapper = nil)
       key_type = guess_key_type(colors[0], key_mapper)
