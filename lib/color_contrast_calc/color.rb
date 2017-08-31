@@ -55,7 +55,7 @@ module ColorContrastCalc
       generate_new_color(Converter::Saturate, ratio, name)
     end
 
-    def new_grayscale_color(ratio, name = nil)
+    def new_grayscale_color(ratio = 100, name = nil)
       generate_new_color(Converter::Grayscale, ratio, name)
     end
 
