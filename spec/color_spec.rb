@@ -164,12 +164,6 @@ RSpec.describe ColorContrastCalc::Color do
     it 'expects to return a Color of #ff8000 when [30, 100, 50] is passed' do
       expect(Color.new_from_hsl([30, 100, 50]).hex).to eq('#ff8000')
     end
-
-    it 'expects to preserve the value of hsl given as its argument' do
-      hsl = [80, 50, 0]
-
-      expect(Color.new_from_hsl(hsl).hsl).to eq(hsl)
-    end
   end
 
   describe 'new' do
