@@ -1,3 +1,5 @@
+AllCops:
+  TargetRubyVersion: 2.2
 Style/SpaceInsideBlockBraces:
   SpaceBeforeBlockParameters: false
 Metrics/BlockLength:
