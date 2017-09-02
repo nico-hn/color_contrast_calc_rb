@@ -141,7 +141,7 @@ module ColorContrastCalc
       keywords_file = "#{__dir__}/data/color_keywords.json"
       keywords = JSON.parse(File.read(keywords_file))
 
-      NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }
+      NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }.freeze
 
       NAME_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
         h[color.name] = color
@@ -160,7 +160,7 @@ module ColorContrastCalc
 
       private_class_method :generate_web_safe_colors
 
-      WEB_SAFE_COLORS = generate_web_safe_colors
+      WEB_SAFE_COLORS = generate_web_safe_colors.freeze
     end
 
     WHITE = List::NAME_TO_COLOR['white']
