@@ -631,6 +631,72 @@ RSpec.describe ColorContrastCalc::Color do
 end
 
 RSpec.describe ColorContrastCalc::Color::List do
+  describe '.hsl_colors' do
+    black = Color.from_name('black')
+    white = Color.from_name('white')
+    gray = Color.from_name('gray')
+    red = Color.from_name('red')
+    yellow = Color.from_name('yellow')
+
+    context 'When invoked with default arguments' do
+      hsl_list = Color::List.hsl_colors
+
+      it 'expects to have 361 items' do
+        expect(hsl_list.size).to be 361
+      end
+
+      it 'expects to have red as its first and last items' do
+        expect(hsl_list.first.same_color?(red)).to be true
+        expect(hsl_list.last.same_color?(red)).to be true
+      end
+
+      it 'expects to have yellow as its 60th item' do
+        expect(hsl_list[60].same_color?(yellow)).to be true
+      end
+    end
+
+    context 'When invoked with h_interval = 15' do
+      hsl_list = Color::List.hsl_colors(h_interval: 15)
+
+      it 'expects to have 361 items' do
+        expect(hsl_list.size).to be 25
+      end
+
+      it 'expects to have red as its first and last items' do
+        expect(hsl_list.first.same_color?(red)).to be true
+        expect(hsl_list.last.same_color?(red)).to be true
+      end
+
+      it 'expects to have yellow as its 5th item' do
+        expect(hsl_list[4].same_color?(yellow)).to be true
+      end
+    end
+
+    context 'When invoked with l = 0' do
+      hsl_list = Color::List.hsl_colors(l: 0)
+
+      it 'expects to have black as its items' do
+        expect(hsl_list.all?{|c| c.same_color?(black) }).to be true
+      end
+    end
+
+    context 'When invoked with l = 100' do
+      hsl_list = Color::List.hsl_colors(l: 100)
+
+      it 'expects to have white as its items' do
+        expect(hsl_list.all?{|c| c.same_color?(white) }).to be true
+      end
+    end
+
+    context 'When invoked with s = 0' do
+      hsl_list = Color::List.hsl_colors(s: 0)
+
+      it 'expects to have gray as its items' do
+        expect(hsl_list.all?{|c| c.same_color?(gray) }).to be true
+      end
+    end
+  end
+
   describe ColorContrastCalc::Color::List::NAMED_COLORS do
     it 'expects to contain predefined instances of Color' do
       expect(Color::List::NAMED_COLORS[0]).to be_instance_of(Color)

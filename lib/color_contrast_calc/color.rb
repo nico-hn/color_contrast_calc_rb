@@ -161,6 +161,12 @@ module ColorContrastCalc
       private_class_method :generate_web_safe_colors
 
       WEB_SAFE_COLORS = generate_web_safe_colors.freeze
+
+      def self.hsl_colors(s: 100, l: 50, h_interval: 1)
+        [].tap do |colors|
+          0.step(360, h_interval) {|h| colors << Color.new_from_hsl([h, s, l]) }
+        end.freeze
+      end
     end
 
     WHITE = List::NAME_TO_COLOR['white']
