@@ -257,7 +257,7 @@ RSpec.describe ColorContrastCalc::Utils do
     end
   end
 
-  describe 'valid_rgb?' do
+  describe 'valid_hsl?' do
     it 'expects to return true for [0, 0, 0]' do
       expect(Utils.valid_hsl?([0, 0, 0])).to be true
     end
