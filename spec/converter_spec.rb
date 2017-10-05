@@ -66,6 +66,10 @@ RSpec.describe ColorContrastCalc::Converter do
       it 'expects to return yellow if yellow is combined with a ratio > 100' do
         expect(Converter::Brightness.calc_rgb(yellow, 120)).to eq(yellow)
       end
+
+      it 'expects to return [103, 66, 0] if orange is combined with a ratio 40.3' do
+        expect(Converter::Brightness.calc_rgb(orange, 40.3)).to eq([103, 66, 0])
+      end
     end
   end
 
