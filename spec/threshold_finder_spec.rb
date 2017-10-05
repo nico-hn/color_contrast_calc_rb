@@ -204,7 +204,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         expect(Brightness.calc_upper_ratio_limit(color)).to be 155
       end
 
-      it 'expects to return 594 for orange' do
+      it 'expects to return 594 for blueviolet' do
         color = Color.from_name('blueviolet')
         expect(Brightness.calc_upper_ratio_limit(color)).to be 594
       end
