@@ -143,13 +143,9 @@ module ColorContrastCalc
 
       NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }.freeze
 
-      NAME_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
-        h[color.name] = color
-      end
+      NAME_TO_COLOR = NAMED_COLORS.map {|color| [color.name, color] }.to_h
 
-      HEX_TO_COLOR = NAMED_COLORS.each_with_object({}) do |color, h|
-        h[color.hex] = color
-      end
+      HEX_TO_COLOR = NAMED_COLORS.map {|color| [color.hex, color] }.to_h
 
       def self.generate_web_safe_colors
         0.step(15, 3).to_a.repeated_permutation(3).sort.map do |rgb|
