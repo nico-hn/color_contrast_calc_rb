@@ -574,7 +574,7 @@ RSpec.describe ColorContrastCalc::Color do
     end
 
     it 'expects to false when orange is passed to orange' do
-      expect(orange.higher_luminance_than?(yellow)).to be false
+      expect(orange.higher_luminance_than?(orange)).to be false
     end
   end
 
