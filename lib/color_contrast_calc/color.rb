@@ -21,7 +21,7 @@ module ColorContrastCalc
     end
 
     def self.new_from_hsl(hsl, name = nil)
-      Color.new(Utils.hsl_to_rgb(hsl), name)
+      new(Utils.hsl_to_rgb(hsl), name)
     end
 
     def initialize(rgb, name = nil)
