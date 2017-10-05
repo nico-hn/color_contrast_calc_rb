@@ -658,7 +658,7 @@ RSpec.describe ColorContrastCalc::Color::List do
     context 'When invoked with h_interval = 15' do
       hsl_list = Color::List.hsl_colors(h_interval: 15)
 
-      it 'expects to have 361 items' do
+      it 'expects to have 25 items' do
         expect(hsl_list.size).to be 25
       end
 
