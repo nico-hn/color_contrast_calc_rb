@@ -159,9 +159,7 @@ module ColorContrastCalc
       WEB_SAFE_COLORS = generate_web_safe_colors.freeze
 
       def self.hsl_colors(s: 100, l: 50, h_interval: 1)
-        [].tap do |colors|
-          0.step(360, h_interval) {|h| colors << Color.new_from_hsl([h, s, l]) }
-        end.freeze
+        0.step(360, h_interval).map {|h| Color.new_from_hsl([h, s, l]) }.freeze
       end
     end
 
