@@ -165,8 +165,6 @@ module ColorContrastCalc
       end
     end
 
-    WHITE = List::NAME_TO_COLOR['white']
-    GRAY = List::NAME_TO_COLOR['gray']
-    BLACK = List::NAME_TO_COLOR['black']
+    WHITE, GRAY, BLACK = %w[white gray black].map {|n| List::NAME_TO_COLOR[n] }
   end
 end
