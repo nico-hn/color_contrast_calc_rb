@@ -59,15 +59,11 @@ module ColorContrastCalc
     end
 
     def self.rgb_to_hsl(rgb)
-      [
-        rgb_to_hue(rgb),
-        rgb_to_saturation(rgb) * 100,
-        rgb_to_lightness(rgb) * 100
-      ]
+      [rgb_to_hue(rgb), rgb_to_saturation(rgb), rgb_to_lightness(rgb)]
     end
 
     def self.rgb_to_lightness(rgb)
-      (rgb.max + rgb.min) / 510.0
+      (rgb.max + rgb.min) * 100 / 510.0
     end
 
     private_class_method :rgb_to_lightness
@@ -75,7 +71,7 @@ module ColorContrastCalc
     def self.rgb_to_saturation(rgb)
       l = rgb_to_lightness(rgb)
       minmax_with_diff(rgb) do |min, max, d|
-        l <= 0.5 ? d / (max + min) : d / (510 - max - min)
+        (l <= 50 ? d / (max + min) : d / (510 - max - min)) * 100
       end
     end
 
