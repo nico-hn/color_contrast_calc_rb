@@ -55,10 +55,6 @@ module ColorContrastCalc
       compose_function(compare, key_mapper)
     end
 
-    def self.guess_key_type(color, key_mapper = nil)
-      KeyTypes.guess(color, key_mapper)
-    end
-
     def self.compose_function(compare_function, key_mapper = nil)
       return compare_function unless key_mapper
 
