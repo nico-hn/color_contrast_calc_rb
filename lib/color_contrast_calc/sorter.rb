@@ -23,6 +23,11 @@ module ColorContrastCalc
         Array => COMPONENTS,
         String => HEX
       }.freeze
+
+      def self.guess(color, key_mapper = nil)
+        key = key_mapper ? key_mapper[color] : color
+        CLASS_TO_TYPE[key.class]
+      end
     end
 
     HEX_TO_COMPONENTS = {
@@ -51,8 +56,7 @@ module ColorContrastCalc
     end
 
     def self.guess_key_type(color, key_mapper = nil)
-      key = key_mapper ? key_mapper[color] : color
-      KeyTypes::CLASS_TO_TYPE[key.class]
+      KeyTypes.guess(color, key_mapper)
     end
 
     def self.compose_function(compare_function, key_mapper = nil)
