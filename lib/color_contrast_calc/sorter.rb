@@ -36,7 +36,7 @@ module ColorContrastCalc
     }.freeze
 
     def self.sort(colors, color_order = 'HSL', key_mapper = nil)
-      key_type = guess_key_type(colors[0], key_mapper)
+      key_type = KeyTypes.guess(colors[0], key_mapper)
       compare = compile_compare_function(color_order, key_type, key_mapper)
 
       colors.sort(&compare)
