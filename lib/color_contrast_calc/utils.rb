@@ -130,7 +130,7 @@ module ColorContrastCalc
     end
 
     def self.uppercase?(str)
-      !str.match?(/[[:lower:]]/)
+      !/[[:lower:]]/.match?(str)
     end
   end
 end
