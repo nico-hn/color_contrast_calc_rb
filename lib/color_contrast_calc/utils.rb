@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'color_contrast_calc/shim'
+
 module ColorContrastCalc
   module Utils
     HSL_UPPER_LIMIT = [360, 100, 100].freeze
