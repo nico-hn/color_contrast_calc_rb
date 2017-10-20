@@ -122,7 +122,7 @@ module ColorContrastCalc
     end
 
     def self.valid_hex?(hex_code)
-      hex_code.match? HEX_RE
+      HEX_RE.match?(hex_code)
     end
 
     def self.same_hex_color?(hex1, hex2)
