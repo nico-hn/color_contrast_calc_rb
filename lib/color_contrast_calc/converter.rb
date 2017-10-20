@@ -36,6 +36,7 @@ module ColorContrastCalc
     end
 
     module Invert
+      # https://www.w3.org/TR/filter-effects/#funcdef-invert
       # https://www.w3.org/TR/filter-effects-1/#invertEquivalent
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
 
