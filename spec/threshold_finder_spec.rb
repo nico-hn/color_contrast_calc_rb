@@ -19,14 +19,14 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         criteria = ThresholdFinder.threshold_criteria(target, yellow, orange)
         expect(criteria).to be_instance_of(ThresholdCriteria::ToDarkerSide)
         expect(criteria.increment_condition(4.25)).to be false
-        expect(criteria.round(4.25)).to be 4.2
+        expect(criteria.round(4.25)).to eq(4.2)
       end
 
       it 'expects to return a ToBrighterSide when orange and yellow are passed' do
         criteria = ThresholdFinder.threshold_criteria(target, orange, yellow)
         expect(criteria).to be_instance_of(ThresholdCriteria::ToBrighterSide)
         expect(criteria.increment_condition(4.25)).to be true
-        expect(criteria.round(4.25)).to be 4.3
+        expect(criteria.round(4.25)).to eq(4.3)
       end
     end
 
@@ -35,14 +35,14 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         criteria = ThresholdFinder.threshold_criteria(target, yellow, yellow)
         expect(criteria).to be_instance_of(ThresholdCriteria::ToDarkerSide)
         expect(criteria.increment_condition(4.25)).to be false
-        expect(criteria.round(4.25)).to be 4.2
+        expect(criteria.round(4.25)).to eq(4.2)
       end
 
       it 'expects to return a ToBrighterSide when darkgreen are passed' do
         criteria = ThresholdFinder.threshold_criteria(target, darkgreen, darkgreen)
         expect(criteria).to be_instance_of(ThresholdCriteria::ToBrighterSide)
         expect(criteria.increment_condition(4.25)).to be true
-        expect(criteria.round(4.25)).to be 4.3
+        expect(criteria.round(4.25)).to eq(4.3)
       end
     end
   end
