@@ -215,6 +215,19 @@ RSpec.describe ColorContrastCalc::Sorter do
       colors2 = color_names2.map {|color| [Color.from_name(color).hex] }
       include_examples 'hsl_order', colors2, key_mapper
     end
+
+    describe 'when color_order is not given explicitly' do
+      color_names = %w[red yellow lime cyan fuchsia blue]
+      colors = color_names.map {|c| Color.from_name(c) }
+      red, yellow, lime, cyan, fuchsia, blue = colors
+      default_order = [red, yellow, lime, cyan, blue, fuchsia]
+      rgb_order = [yellow, fuchsia, red, cyan, lime, blue]
+
+      it 'expects to return colors in the order of a color circle by default' do
+        expect(Sorter.sort(colors)).to eq(default_order)
+        expect(Sorter.sort(colors, "RGB")).to eq(rgb_order)
+      end
+    end
   end
 
   describe '.compose_function' do

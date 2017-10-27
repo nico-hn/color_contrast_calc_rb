@@ -35,7 +35,7 @@ module ColorContrastCalc
       hsl: Utils.method(:hex_to_hsl)
     }.freeze
 
-    def self.sort(colors, color_order = 'HSL', key_mapper = nil)
+    def self.sort(colors, color_order = 'hSL', key_mapper = nil)
       key_type = KeyTypes.guess(colors[0], key_mapper)
       compare = compile_compare_function(color_order, key_type, key_mapper)
 
