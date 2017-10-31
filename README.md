@@ -1,8 +1,14 @@
 # ColorContrastCalc
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/color_contrast_calc`. To experiment with that code, run `bin/console` for an interactive prompt.
+ColorContrastCalc is a utility that helps you choose colors with
+sufficient contrast, WCAG 2.0 in mind.
 
-TODO: Delete this and the text above, and describe your gem
+With this library, you can do following things:
+
+* Check the contrast ratio between two colors
+* Find (if exists) a color that has suffcient contrast to a given color
+* Create a new color from a given color by adjusting properies of the latter
+* Sort colors
 
 ## Installation
 
