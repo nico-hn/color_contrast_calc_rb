@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['HASHIMOTO, Naoki']
   spec.email         = ['hashimoto.naoki@gmail.com']
 
-  spec.summary       = 'Utility that supports you in choosing colors with sufficient contrast, WCAG 2.0 in mind'
+  spec.summary       = 'Utility that helps you choose colors with sufficient contrast, WCAG 2.0 in mind'
   # spec.description   = %q(TODO: Write a longer description or delete this line.)
   spec.homepage      = 'https://github.com/nico-hn/color_contrast_calc_rb/'
   spec.license       = 'MIT'
