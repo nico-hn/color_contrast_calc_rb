@@ -141,6 +141,54 @@ are available for `ColorContrastCalc::Color`:
 * `new_invert_color`
 * `new_saturate_color`
 
+### Example 4: Sort colors
+
+You can sort colors using a function
+`ColorContrastCalc::Sorter.sort`.
+
+For example, save the following code as `sort_colors.rb`:
+
+```ruby
+require 'color_contrast_calc'
+
+color_names = ['red', 'yellow', 'lime', 'cyan', 'fuchsia', 'blue']
+colors = color_names.map {|c| ColorContrastCalc.color_from(c) }
+
+# sort by hSL order.  An uppercase for a component of color means
+# that component should be sorted in descending order.
+
+hsl_ordered = ColorContrastCalc::Sorter.sort(colors, 'hSL')
+puts("Colors sorted in the order of hSL: #{hsl_ordered.map(&:name)}")
+
+# sort by RGB order.
+
+rgb_ordered = ColorContrastCalc::Sorter.sort(colors, 'RGB')
+puts("Colors sorted in the order of RGB: #{rgb_ordered.map(&:name)}")
+
+# You can also change the precedence of components.
+
+grb_ordered = ColorContrastCalc::Sorter.sort(colors, 'GRB')
+puts("Colors sorted in the order of GRB: #{grb_ordered.map(&:name)}")
+
+# And you can directly sort hex color codes.
+
+## Hex color codes that correspond to the color_names given above.
+hex_codes = ['#ff0000', '#ff0', '#00ff00', '#0ff', '#f0f', '#0000FF']
+
+hsl_ordered = ColorContrastCalc::Sorter.sort(hex_codes, 'hSL')
+puts("Colors sorted in the order of hSL: #{hsl_ordered}")
+```
+
+Then execute the script:
+
+```bash
+$ ruby sort_colors.rb
+Colors sorted in the order of hSL: ["red", "yellow", "lime", "cyan", "blue", "fuchsia"]
+Colors sorted in the order of RGB: ["yellow", "fuchsia", "red", "cyan", "lime", "blue"]
+Colors sorted in the order of GRB: ["yellow", "cyan", "lime", "fuchsia", "red", "blue"]
+Colors sorted in the order of hSL: ["#ff0000", "#ff0", "#00ff00", "#0ff", "#0000FF", "#f0f"]
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
