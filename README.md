@@ -189,6 +189,61 @@ Colors sorted in the order of GRB: ["yellow", "cyan", "lime", "fuchsia", "red", 
 Colors sorted in the order of hSL: ["#ff0000", "#ff0", "#00ff00", "#0ff", "#0000FF", "#f0f"]
 ```
 
+### Example 5: Lists of predefined colors
+
+Two lists of colors are provided, one is for
+[named colors](https://www.w3.org/TR/SVG/types.html#ColorKeywords)
+and the other for the web safe colors.
+
+And there is a function `ColorContrastCalc::Color::List.hsl_colors` that
+generates a list of HSL colors.
+
+For example, save the following code as `color_lists.rb`:
+
+```ruby
+require 'color_contrast_calc'
+
+# Named colors
+named_colors = ColorContrastCalc::Color::List::NAMED_COLORS
+
+puts("The number of named colors: #{named_colors.size}")
+puts("The first of named colors: #{named_colors[0].name}")
+puts("The last of named colors: #{named_colors[-1].name}")
+
+# Web safe colors
+web_safe_colors = ColorContrastCalc::Color::List::WEB_SAFE_COLORS
+
+puts("The number of web safe colors: #{web_safe_colors.size}")
+puts("The first of web safe colors: #{web_safe_colors[0].name}")
+puts("The last of web safe colors: #{web_safe_colors[-1].name}")
+
+# HSL colors
+hsl_colors = ColorContrastCalc::Color::List.hsl_colors
+
+puts("The number of HSL colors: #{hsl_colors.size}")
+puts("The first of HSL colors: #{hsl_colors[0].name}")
+puts("The 60th of HSL colors: #{hsl_colors[60].name}")
+puts("The 120th of HSL colors: #{hsl_colors[120].name}")
+puts("The last of HSL colors: #{hsl_colors[-1].name}")
+```
+
+Then execute the script:
+
+```bash
+$ ruby color_lists.rb
+The number of named colors: 147
+The first of named colors: aliceblue
+The last of named colors: yellowgreen
+The number of web safe colors: 216
+The first of web safe colors: black
+The last of web safe colors: white
+The number of HSL colors: 361
+The first of HSL colors: #ff0000
+The 60th of HSL colors: #ffff00
+The 120th of HSL colors: #00ff00
+The last of HSL colors: #ff0000
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
