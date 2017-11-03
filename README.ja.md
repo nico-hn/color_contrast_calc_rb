@@ -12,7 +12,7 @@
 
 ## インストール
 
-(Not published yet on [RubyGems.org](https://rubygems.org/))
+([RubyGems.org](https://rubygems.org/)上にはまだ未公開です)
 
 Gemfileに次の行を追加し:
 
