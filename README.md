@@ -1,6 +1,6 @@
 # ColorContrastCalc
 
-ColorContrastCalc is a utility that helps you choose colors with
+`ColorContrastCalc` is a utility that helps you choose colors with
 sufficient contrast, WCAG 2.0 in mind.
 
 With this library, you can do following things:
