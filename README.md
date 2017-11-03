@@ -30,7 +30,31 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Example 1: Calculate the contrast ratio between two colors
+
+If you want to calculate the contrast ratio between yellow and black,
+save the following code as yellow_black_contrast.rb:
+
+```ruby
+require 'color_contrast_calc'
+
+yellow = ColorContrastCalc.color_from('yellow')
+black = ColorContrastCalc.color_from('black')
+
+contrast_ratio = yellow.contrast_ratio_against(black)
+
+report = 'The contrast ratio between %s and %s is %2.4f'
+puts(format(report, yellow.name, black.name, contrast_ratio))
+puts(format(report, yellow.hex, black.hex, contrast_ratio))
+```
+
+Then execute the script:
+
+```bash
+$ ruby yellow_black_contrast.rb
+The contrast ratio between yellow and black is 19.5560
+The contrast ratio between #ffff00 and #000000 is 19.5560
+```
 
 ## Development
 
