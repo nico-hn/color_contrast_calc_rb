@@ -33,7 +33,7 @@ Or install it yourself as:
 ### Example 1: Calculate the contrast ratio between two colors
 
 If you want to calculate the contrast ratio between yellow and black,
-save the following code as yellow_black_contrast.rb:
+save the following code as `yellow_black_contrast.rb`:
 
 ```ruby
 require 'color_contrast_calc'
