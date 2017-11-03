@@ -115,7 +115,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/hashimoto.naoki/color_contrast_calc.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nico-hn/color_contrast_calc_rb.
 
 ## License
 
