@@ -143,8 +143,7 @@ are available for `ColorContrastCalc::Color`:
 
 ### Example 4: Sort colors
 
-You can sort colors using a function
-`ColorContrastCalc::Sorter.sort`.
+You can sort colors using a method `ColorContrastCalc::Sorter.sort`.
 
 For example, save the following code as `sort_colors.rb`:
 
@@ -195,7 +194,7 @@ Two lists of colors are provided, one is for
 [named colors](https://www.w3.org/TR/SVG/types.html#ColorKeywords)
 and the other for the web safe colors.
 
-And there is a function `ColorContrastCalc::Color::List.hsl_colors` that
+And there is a method `ColorContrastCalc::Color::List.hsl_colors` that
 generates a list of HSL colors.
 
 For example, save the following code as `color_lists.rb`:
