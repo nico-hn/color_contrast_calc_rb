@@ -145,6 +145,9 @@ are available for `ColorContrastCalc::Color`:
 
 You can sort colors using a method `ColorContrastCalc::Sorter.sort`.
 
+And by passing the second argument to this method, you can also specify
+the sort order.
+
 For example, save the following code as `sort_colors.rb`:
 
 ```ruby
