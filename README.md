@@ -107,6 +107,40 @@ The contrast ratio between #ffff00 and #c78000 is 3.0012
 The contrast ratio between #ffff00 and #9d6600 is 4.5121
 ```
 
+### Example 3: Grayscale of given colors
+
+For getting grayscale, `ColorContrastCalc::Color` has an instance method
+`new_grayscale_color`.
+For example, save the following code as `grayscale.rb`:
+
+```ruby
+require 'color_contrast_calc'
+
+yellow = ColorContrastCalc.color_from('yellow')
+orange = ColorContrastCalc.color_from('orange')
+
+report = 'The grayscale of %s is %s.'
+puts(format(report, yellow.hex, yellow.new_grayscale_color))
+puts(format(report, orange.hex, orange.new_grayscale_color))
+```
+
+Then execute the script:
+
+```bash
+$ ruby grayscale.rb
+The grayscale of #ffff00 is #ededed.
+The grayscale of #ffa500 is #acacac.
+```
+
+And other than `new_grayscale_color`, following instance methods
+are available for `ColorContrastCalc::Color`:
+
+* `new_brightness_color`
+* `new_contrast_color`
+* `new_hue_rotate_color`
+* `new_invert_color`
+* `new_saturate_color`
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
