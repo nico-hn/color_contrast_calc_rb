@@ -56,6 +56,57 @@ The contrast ratio between yellow and black is 19.5560
 The contrast ratio between #ffff00 and #000000 is 19.5560
 ```
 
+### Example 2: Find colors that have enough contrast ratio with a given color
+
+If you want to find a combination of colors with sufficient contrast
+by changing the brightness/lightness of one of those colors, save the
+following code as `yellow_orange_contrast.rb`:
+
+```ruby
+require 'color_contrast_calc'
+
+yellow = ColorContrastCalc.color_from('yellow')
+orange = ColorContrastCalc.color_from('orange')
+
+report = 'The contrast ratio between %s and %s is %2.4f'
+
+# Find brightness adjusted colors.
+
+a_orange = yellow.find_brightness_threshold(orange, 'A')
+a_contrast_ratio = yellow.contrast_ratio_against(a_orange)
+
+aa_orange = yellow.find_brightness_threshold(orange, 'AA')
+aa_contrast_ratio = yellow.contrast_ratio_against(aa_orange)
+
+puts('# Brightness adjusted colors')
+puts(format(report, yellow.hex, a_orange.hex, a_contrast_ratio))
+puts(format(report, yellow.hex, aa_orange.hex, aa_contrast_ratio))
+
+# Find lightness adjusted colors.
+
+a_orange = yellow.find_lightness_threshold(orange, 'A')
+a_contrast_ratio = yellow.contrast_ratio_against(a_orange)
+
+aa_orange = yellow.find_lightness_threshold(orange, 'AA')
+aa_contrast_ratio = yellow.contrast_ratio_against(aa_orange)
+
+puts('# Lightness adjusted colors')
+puts(format(report, yellow.hex, a_orange.hex, a_contrast_ratio))
+puts(format(report, yellow.hex, aa_orange.hex, aa_contrast_ratio))
+```
+
+Then execute the script:
+
+```bash
+$ ruby yellow_orange_contrast.rb
+# Brightness adjusted colors
+The contrast ratio between #ffff00 and #c68000 is 3.0138
+The contrast ratio between #ffff00 and #9d6600 is 4.5121
+# Lightness adjusted colors
+The contrast ratio between #ffff00 and #c78000 is 3.0012
+The contrast ratio between #ffff00 and #9d6600 is 4.5121
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
