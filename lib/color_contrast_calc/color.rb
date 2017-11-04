@@ -134,6 +134,15 @@ module ColorContrastCalc
       generate_new_color(Converter::HueRotate, degree, name)
     end
 
+    ##
+    # Return a saturated color as an instance of Color.
+    #
+    # @param ratio [Float] Proprtion of the conversion in percentage
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New saturated color
+
     def new_saturate_color(ratio, name = nil)
       generate_new_color(Converter::Saturate, ratio, name)
     end
