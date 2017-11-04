@@ -108,6 +108,15 @@ module ColorContrastCalc
       generate_new_color(Converter::Brightness, ratio, name)
     end
 
+    ##
+    # Return an inverted color as an instance of Color.
+    #
+    # @param ratio [Float] Proportion of the conversion in percentage
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New inverted color
+
     def new_invert_color(ratio = 100, name = nil)
       generate_new_color(Converter::Invert, ratio, name)
     end
