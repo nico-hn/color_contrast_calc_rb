@@ -15,6 +15,16 @@ module ColorContrastCalc
   class Color
     RGB_LIMITS = [0, 255].freeze
 
+    ##
+    # @!attribute [r] rgb
+    #   @return [Array<Integer>] RGB value of the color
+    # @!attribute [r] hex
+    #   @return [String] Hex color code of the color
+    # @!attribute [r] name
+    #   @return [String] Name of the color
+    # @!attribute [r] relative_luminance
+    #   @return [Float] Relative luminance of the color
+
     attr_reader :rgb, :hex, :name, :relative_luminance
 
     ##
