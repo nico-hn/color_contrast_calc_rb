@@ -200,6 +200,14 @@ module ColorContrastCalc
       rgb.all? {|c| RGB_LIMITS.include? c }
     end
 
+    ##
+    # Check if the color reachs already the min contrast.
+    #
+    # The min contrast in this context means that of colors modified
+    # by the operation defined at
+    # * {https://www.w3.org/TR/filter-effects/#funcdef-contrast}
+    # @return [Boolean] true if self is the same color as "#808080"
+
     def min_contrast?
       rgb == GRAY.rgb
     end
