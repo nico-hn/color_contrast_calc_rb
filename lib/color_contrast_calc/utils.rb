@@ -3,6 +3,12 @@
 require 'color_contrast_calc/shim'
 
 module ColorContrastCalc
+  ##
+  # Utility functions that provide basic operations on colors.
+  #
+  # This module provides basic operations on colors given as RGB values
+  # (including their hex code presentations) or HSL values.
+
   module Utils
     HSL_UPPER_LIMIT = [360, 100, 100].freeze
     HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i
