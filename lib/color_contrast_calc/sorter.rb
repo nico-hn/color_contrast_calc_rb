@@ -41,6 +41,23 @@ module ColorContrastCalc
       hsl: Utils.method(:hex_to_hsl)
     }.freeze
 
+    ##
+    # Sort colors in the order specified by +color_order+.
+    #
+    # Sort colors given as a list or tuple of Color instances or hex
+    # color codes.
+    #
+    # You can specify sorting order by giving a +color_order+ tring, such
+    # as "HSL" or "RGB". A component of +color_order+ on the left side
+    # has a higher sorting precedence, and an uppercase letter means
+    # descending order.
+    # @param colors [Array<Color>, Array<String>] Array of Color instances
+    #   or items from which color hex codes can be retrieved.
+    # @param color_order [String] String such as "HSL", "RGB" or "lsH"
+    # @param key_mapper [Proc, nil] Proc object used to retrive key values
+    #   from items to be sorted
+    # @return [Array<Color>, Array<String>] Array of of sorted colors
+
     def self.sort(colors, color_order = 'hSL', key_mapper = nil)
       key_type = KeyTypes.guess(colors[0], key_mapper)
       compare = compile_compare_function(color_order, key_type, key_mapper)
