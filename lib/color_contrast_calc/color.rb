@@ -29,6 +29,12 @@ module ColorContrastCalc
       List::NAME_TO_COLOR[name]
     end
 
+    ##
+    # Return an instance of Color for a hex color code.
+    #
+    # @param hex [String] Hex color code such as "#ffff00"
+    # @return [Color] Instance of Color
+
     def self.from_hex(hex)
       normalized_hex = Utils.normalize_hex(hex)
       List::HEX_TO_COLOR[normalized_hex] || Color.new(normalized_hex)
