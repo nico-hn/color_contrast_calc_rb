@@ -3,6 +3,12 @@
 require 'color_contrast_calc/color'
 
 module ColorContrastCalc
+  ##
+  # Provide two methods sort() and compile_compare_function()
+  #
+  # The other methods defined in this module should not be considered
+  # as stable interfaces.
+
   module Sorter
     module ColorComponent
       RGB = 'rgb'.chars
