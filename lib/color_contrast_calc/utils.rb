@@ -30,6 +30,15 @@ module ColorContrastCalc
       end
     end
 
+    ##
+    # Normalize a hex color code to a 6 digits, lowercased one.
+    #
+    # @param code [String] Hex color code such as "#ffff00", "#ff0" or "FFFF00"
+    # @param prefix [true, false] If set to False, "#" at the head of result is
+    #   removed
+    # @return [String] 6-digit hexadecimal string in lowercase, with/without
+    #   leading "#" depending on the value of +prefix+
+
     def self.normalize_hex(code, prefix = true)
       if code.length < 6
         hex_part = code.start_with?('#') ? code[1..-1] : code
