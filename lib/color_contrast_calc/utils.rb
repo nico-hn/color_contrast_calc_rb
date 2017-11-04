@@ -182,6 +182,12 @@ module ColorContrastCalc
         rgb.all? {|c| c.is_a?(Integer) && c >= 0 && c <= 255 }
     end
 
+    ##
+    # Check if a given array is a valid representation of HSL color.
+    #
+    # @param hsl [Array<Float>] HSL value represented as an array of numbers
+    # @return [true, false] true if a valid HSL value is passed
+
     def self.valid_hsl?(hsl)
       return false unless hsl.length == 3
       hsl.each_with_index do |c, i|
