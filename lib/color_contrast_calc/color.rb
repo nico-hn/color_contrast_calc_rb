@@ -68,6 +68,16 @@ module ColorContrastCalc
       @relative_luminance = Checker.relative_luminance(@rgb)
     end
 
+    ##
+    # Return HSL value of the color.
+    #
+    # The value is calculated from the RGB value, so if you create
+    # the instance by Color.new_from_hsl method, the value used to
+    # create the color does not necessarily correspond to the value
+    # of this property.
+    #
+    # @return [Array<Float>] HSL value represented as an array of numbers
+
     def hsl
       @hsl ||= Utils.rgb_to_hsl(@rgb)
     end
