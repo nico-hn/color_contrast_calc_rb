@@ -78,6 +78,8 @@ module ColorContrastCalc
       end
     end
 
+    # @private
+
     def self.hue_to_rgb(m1, m2, h)
       h += 1 if h < 0
       h -= 1 if h > 1
@@ -97,11 +99,15 @@ module ColorContrastCalc
       [rgb_to_hue(rgb), rgb_to_saturation(rgb), rgb_to_lightness(rgb)]
     end
 
+    # @private
+
     def self.rgb_to_lightness(rgb)
       (rgb.max + rgb.min) * 100 / 510.0
     end
 
     private_class_method :rgb_to_lightness
+
+    # @private
 
     def self.rgb_to_saturation(rgb)
       l = rgb_to_lightness(rgb)
@@ -111,6 +117,8 @@ module ColorContrastCalc
     end
 
     private_class_method :rgb_to_saturation
+
+    # @private
 
     def self.rgb_to_hue(rgb)
       # References:
@@ -129,6 +137,8 @@ module ColorContrastCalc
     end
 
     private_class_method :rgb_to_hue
+
+    # @private
 
     def self.minmax_with_diff(rgb)
       min = rgb.min
