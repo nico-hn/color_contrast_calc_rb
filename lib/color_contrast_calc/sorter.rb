@@ -65,7 +65,7 @@ module ColorContrastCalc
       colors.sort(&compare)
     end
 
-    def self.compile_compare_function(color_order, key_type, key_mapper)
+    def self.compile_compare_function(color_order, key_type, key_mapper = nil)
       case key_type
       when KeyTypes::COLOR
         compare = compile_color_compare_function(color_order)
