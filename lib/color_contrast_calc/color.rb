@@ -147,6 +147,15 @@ module ColorContrastCalc
       generate_new_color(Converter::Saturate, ratio, name)
     end
 
+    ##
+    # Return a grayscale of the original color.
+    #
+    # @param ratio [Float] Conversion ratio in percentage
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New grayscale color
+
     def new_grayscale_color(ratio = 100, name = nil)
       generate_new_color(Converter::Grayscale, ratio, name)
     end
