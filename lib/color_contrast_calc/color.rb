@@ -121,6 +121,15 @@ module ColorContrastCalc
       generate_new_color(Converter::Invert, ratio, name)
     end
 
+    ##
+    # Return a hue rotation applied color as an instance of Color.
+    #
+    # @param degree [Float] Degrees of rotation (0 to 360)
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New hue rotation applied color
+
     def new_hue_rotate_color(degree, name = nil)
       generate_new_color(Converter::HueRotate, degree, name)
     end
