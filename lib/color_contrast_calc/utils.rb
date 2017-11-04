@@ -13,6 +13,12 @@ module ColorContrastCalc
     HSL_UPPER_LIMIT = [360, 100, 100].freeze
     HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i
 
+    ##
+    # Convert a hex color code string to a RGB value.
+    #
+    # @param hex_code [String] Hex color code such as "#ffff00"
+    # @return [Array<Integer>] RGB value represented as an array of integers
+
     def self.hex_to_rgb(hex_code)
       hex_part = hex_code.start_with?('#') ? hex_code[1..-1] : hex_code
 
