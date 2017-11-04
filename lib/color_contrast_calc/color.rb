@@ -116,6 +116,13 @@ module ColorContrastCalc
       ThresholdFinder::Lightness.find(self, other_color, level)
     end
 
+    ##
+    # Calculate the contrast ratio against another color.
+    #
+    # @param other_color [Color, Array<Integer>, String] Another instance
+    #   of Color, RGB value or hex color code
+    # @return [Float] Contrast ratio
+
     def contrast_ratio_against(other_color)
       unless other_color.is_a? Color
         return Checker.contrast_ratio(rgb, other_color)
