@@ -206,6 +206,15 @@ module ColorContrastCalc
       HEX_RE.match?(hex_code)
     end
 
+    ##
+    # Check if given two hex color codes represent a same color.
+    #
+    # @param hex1 [String] RGB value in hex color code such as "#ffff00",
+    #   "#ffff00", "#FFFF00" or "#ff0"
+    # @param hex2 [String] RGB value in hex color code such as "#ffff00",
+    #   "#ffff00", "#FFFF00" or "#ff0"
+    # @return [true, false] true if given two colors are same
+
     def self.same_hex_color?(hex1, hex2)
       normalize_hex(hex1) == normalize_hex(hex2)
     end
