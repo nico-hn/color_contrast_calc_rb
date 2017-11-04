@@ -60,6 +60,12 @@ module ColorContrastCalc
       format('#%02x%02x%02x', *rgb)
     end
 
+    ##
+    # Convert HSL value to RGB value.
+    #
+    # @param hsl [Array<Float>] HSL value represented as an array of numbers
+    # @return [Array<Integer>] RGB value represented as an array of integers
+
     def self.hsl_to_rgb(hsl)
       # https://www.w3.org/TR/css3-color/#hsl-color
       h = hsl[0] / 360.0
