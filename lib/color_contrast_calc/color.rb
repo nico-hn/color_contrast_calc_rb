@@ -359,6 +359,18 @@ module ColorContrastCalc
 
       WEB_SAFE_COLORS = generate_web_safe_colors.freeze
 
+      ##
+      # Return a list of colors which share the same saturation and
+      # lightness.
+      #
+      # By default, so-called pure colors are returned.
+      # @param s 100 [Float] Ratio of saturation in percentage
+      # @param l 50 [Float] Ratio of lightness in percentage
+      # @param h_interval 1 [Integer] Interval of hues in degrees.
+      #   By default, the method returns 360 hues beginning from red.
+      # @return [Array<Color>] Array of colors which share the same
+      #   saturation and lightness
+
       def self.hsl_colors(s: 100, l: 50, h_interval: 1)
         0.step(360, h_interval).map {|h| Color.new_from_hsl([h, s, l]) }.freeze
       end
