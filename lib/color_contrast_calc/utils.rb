@@ -91,6 +91,12 @@ module ColorContrastCalc
 
     private_class_method :hue_to_rgb
 
+    ##
+    # Convert HSL value to hex color code.
+    #
+    # @param hsl [Array<Float>] HSL value represented as an array of numbers
+    # @return [String] Hex color code such as "#ffff00"
+
     def self.hsl_to_hex(hsl)
       rgb_to_hex(hsl_to_rgb(hsl))
     end
