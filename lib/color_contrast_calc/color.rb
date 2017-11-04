@@ -212,6 +212,13 @@ module ColorContrastCalc
       rgb == GRAY.rgb
     end
 
+    ##
+    # Check if the color has higher luminance than another color.
+    #
+    # @param other_color [Color] Another color
+    # @return [Boolean] true if the relative luminance of self is higher
+    #   than that of other_color
+
     def higher_luminance_than?(other_color)
       relative_luminance > other_color.relative_luminance
     end
