@@ -51,6 +51,16 @@ module ColorContrastCalc
       new(Utils.hsl_to_rgb(hsl), name)
     end
 
+    ##
+    # Create a new instance of Color.
+    #
+    # @param rgb [Array<Integer>, String] RGB value represented as an array
+    #   of integers or hex color code such as [255, 255, 0] or "#ffff00".
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color code is
+    #   assigned instead.
+    # @return [Color] New instance of Color
+
     def initialize(rgb, name = nil)
       @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb
       @hex = Utils.rgb_to_hex(@rgb)
