@@ -95,6 +95,15 @@ module ColorContrastCalc
       generate_new_color(Converter::Contrast, ratio, name)
     end
 
+    ##
+    # Return a new instance of Color with adjusted brightness.
+    #
+    # @param ratio [Float] Adjustment ratio in percentage
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New color with adjusted brightness
+
     def new_brightness_color(ratio, name = nil)
       generate_new_color(Converter::Brightness, ratio, name)
     end
