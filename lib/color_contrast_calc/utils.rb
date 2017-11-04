@@ -161,6 +161,12 @@ module ColorContrastCalc
 
     private_class_method :minmax_with_diff
 
+    ##
+    # Convert hex color code to HSL value.
+    #
+    # @param hex_code [String] Hex color code such as "#ffff00"
+    # @return [Array<Float>] HSL value represented as an array of numbers
+
     def self.hex_to_hsl(hex_code)
       rgb_to_hsl(hex_to_rgb(hex_code))
     end
