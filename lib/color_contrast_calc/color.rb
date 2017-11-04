@@ -155,6 +155,15 @@ module ColorContrastCalc
       end
     end
 
+    ##
+    # Check if the contrast ratio with another color meets a
+    # WCAG 2.0 criterion.
+    #
+    # @param other_color [Color, Array<Integer>, String] Another instance
+    #   of Color, RGB value or hex color code
+    # @param level [String] "A", "AA" or "AAA"
+    # @return [Boolean] true if the contrast ratio meets the specified level
+
     def sufficient_contrast?(other_color, level = Checker::Level::AA)
       ratio = Checker.level_to_ratio(level)
       contrast_ratio_against(other_color) >= ratio
