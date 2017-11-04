@@ -6,6 +6,12 @@ require 'color_contrast_calc/threshold_finder'
 require 'json'
 
 module ColorContrastCalc
+  ##
+  # Represent specific colors.
+  #
+  # This class also provides lists of predefined colors represented as
+  # instances of Color class.
+
   class Color
     RGB_LIMITS = [0, 255].freeze
 
