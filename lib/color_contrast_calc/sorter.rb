@@ -65,6 +65,15 @@ module ColorContrastCalc
       colors.sort(&compare)
     end
 
+    ##
+    # Return a Proc object to be passed to Array#sort().
+    #
+    # @param color_order [String] String such as "HSL", "RGB" or "lsH"
+    # @param key_type [Symbol] +:color+, +:components+ or +:hex+
+    # @param key_mapper [Proc, nil] Proc object to be used to retrive
+    #   key values from items to be sorted.
+    # @return [Proc] Proc object to be passed to Array#sort()
+
     def self.compile_compare_function(color_order, key_type, key_mapper = nil)
       case key_type
       when KeyTypes::COLOR
