@@ -234,6 +234,12 @@ module ColorContrastCalc
       relative_luminance == other_color.relative_luminance
     end
 
+    ##
+    # Check if the contrast ratio against black is higher than against white.
+    #
+    # @return [Boolean] true if the contrast ratio against white is qual to
+    #   or less than the ratio against black
+
     def light_color?
       contrast_ratio_against(WHITE.rgb) <= contrast_ratio_against(BLACK.rgb)
     end
