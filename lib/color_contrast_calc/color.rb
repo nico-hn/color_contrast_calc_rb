@@ -17,6 +17,14 @@ module ColorContrastCalc
 
     attr_reader :rgb, :hex, :name, :relative_luminance
 
+    ##
+    # Return an instance of Color for a predefined color name.
+    #
+    # Color names are defined at
+    # * {https://www.w3.org/TR/SVG/types.html#ColorKeywords}
+    # @param name [String] Name of color
+    # @return [Color] Instance of Color
+
     def self.from_name(name)
       List::NAME_TO_COLOR[name]
     end
