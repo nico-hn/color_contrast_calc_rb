@@ -82,6 +82,15 @@ module ColorContrastCalc
       @hsl ||= Utils.rgb_to_hsl(@rgb)
     end
 
+    ##
+    # Return a new instance of Color with adjusted contrast.
+    #
+    # @param ratio [Float] Adjustment ratio in percentage
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New color with adjusted contrast
+
     def new_contrast_color(ratio, name = nil)
       generate_new_color(Converter::Contrast, ratio, name)
     end
