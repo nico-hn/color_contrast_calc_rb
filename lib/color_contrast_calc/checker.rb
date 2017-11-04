@@ -64,6 +64,13 @@ module ColorContrastCalc
                                   relative_luminance(color2))
     end
 
+    ##
+    # Calculate contrast ratio from a pair of relative luminance.
+    #
+    # @param luminance1 [Float] Relative luminance
+    # @param luminance2 [Float] Relative luminance
+    # @return [Float] Contrast ratio
+
     def self.luminance_to_contrast_ratio(luminance1, luminance2)
       l1, l2 = *([luminance1, luminance2].sort {|c1, c2| c2 <=> c1 })
       (l1 + 0.05) / (l2 + 0.05)
