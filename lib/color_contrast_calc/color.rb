@@ -169,6 +169,13 @@ module ColorContrastCalc
       contrast_ratio_against(other_color) >= ratio
     end
 
+    ##
+    # Check it two colors have the same RGB value.
+    #
+    # @param other_color [Color, Array<Integer>, String] Another instance
+    #   of Color, RGB value or hex color code
+    # @return [Boolean] true if other_color has the same RGB value
+
     def same_color?(other_color)
       case other_color
       when Color
