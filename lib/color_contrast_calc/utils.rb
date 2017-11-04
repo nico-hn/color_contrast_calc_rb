@@ -101,6 +101,12 @@ module ColorContrastCalc
       rgb_to_hex(hsl_to_rgb(hsl))
     end
 
+    ##
+    # Convert RGB value to HSL value.
+    #
+    # @param rgb [Array<Integer>] RGB value represented as an array of integers
+    # @return [Array<Float>] HSL value represented as an array of numbers
+
     def self.rgb_to_hsl(rgb)
       [rgb_to_hue(rgb), rgb_to_saturation(rgb), rgb_to_lightness(rgb)]
     end
