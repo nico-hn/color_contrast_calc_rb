@@ -223,6 +223,13 @@ module ColorContrastCalc
       relative_luminance > other_color.relative_luminance
     end
 
+    ##
+    # Check if two colors has the same relative luminance.
+    #
+    # @param other_color [Color] Another color
+    # @return [Boolean] true if the relative luminance of self
+    #   and other_color are same.
+
     def same_luminance_as?(other_color)
       relative_luminance == other_color.relative_luminance
     end
