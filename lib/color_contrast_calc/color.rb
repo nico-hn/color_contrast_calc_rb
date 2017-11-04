@@ -222,6 +222,14 @@ module ColorContrastCalc
       Checker.ratio_to_level(contrast_ratio_against(other_color))
     end
 
+    ##
+    # Return a string representation of the color.
+    #
+    # @param base [Ingeger, nil] 16, 10 or nil. when +base+ = 16,
+    #   a hex color code such as "#ffff00" is returned, and when
+    #   +base+ = 10, a code in RGB notation such as "rgb(255, 255, 0)"
+    # @return [String] String representation of the color
+
     def to_s(base = 16)
       case base
       when 16
