@@ -219,6 +219,13 @@ module ColorContrastCalc
       normalize_hex(hex1) == normalize_hex(hex2)
     end
 
+    ##
+    # Check if a given string is consists of uppercase letters.
+    #
+    # @param str [String] string to be checked
+    # @return [true, false] true if letters in the passed string are all
+    #   in uppercase.
+
     def self.uppercase?(str)
       !/[[:lower:]]/.match?(str)
     end
