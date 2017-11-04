@@ -171,6 +171,12 @@ module ColorContrastCalc
       rgb_to_hsl(hex_to_rgb(hex_code))
     end
 
+    ##
+    # Check if a given array is a valid representation of RGB color.
+    #
+    # @param rgb [Array<Integer>] RGB value represented as an array of integers
+    # @return [true, false] true if a valid RGB value is passed
+
     def self.valid_rgb?(rgb)
       rgb.length == 3 &&
         rgb.all? {|c| c.is_a?(Integer) && c >= 0 && c <= 255 }
