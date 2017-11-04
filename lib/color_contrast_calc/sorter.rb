@@ -87,6 +87,8 @@ module ColorContrastCalc
       compose_function(compare, key_mapper)
     end
 
+    # @private
+
     def self.compose_function(compare_function, key_mapper = nil)
       return compare_function unless key_mapper
 
@@ -95,11 +97,15 @@ module ColorContrastCalc
       end
     end
 
+    # @private
+
     def self.color_component_pos(color_order, ordered_components)
       color_order.downcase.chars.map do |component|
         ordered_components.index(component)
       end
     end
+
+    # @private
 
     def self.parse_color_order(color_order)
       ordered_components = ColorComponent::RGB
@@ -113,9 +119,13 @@ module ColorContrastCalc
       { pos: pos, funcs: funcs }
     end
 
+    # @private
+
     def self.hsl_order?(color_order)
       /[hsl]{3}/i.match?(color_order)
     end
+
+    # @private
 
     def self.compare_color_components(color1, color2, order)
       funcs = order[:funcs]
@@ -127,6 +137,8 @@ module ColorContrastCalc
       0
     end
 
+    # @private
+
     def self.compile_components_compare_function(color_order)
       order = parse_color_order(color_order)
 
@@ -134,6 +146,8 @@ module ColorContrastCalc
         compare_color_components(color1, color2, order)
       end
     end
+
+    # @private
 
     def self.compile_hex_compare_function(color_order)
       order = parse_color_order(color_order)
@@ -149,6 +163,8 @@ module ColorContrastCalc
       end
     end
 
+    # @private
+
     def self.hex_to_components(hex, converter, cache)
       cached_components = cache[hex]
       return cached_components if cached_components
@@ -160,6 +176,8 @@ module ColorContrastCalc
     end
 
     private_class_method :hex_to_components
+
+    # @private
 
     def self.compile_color_compare_function(color_order)
       order = parse_color_order(color_order)
