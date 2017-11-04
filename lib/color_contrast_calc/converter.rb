@@ -33,8 +33,15 @@ module ColorContrastCalc
     end
 
     module Brightness
+      ##
+      # Return brightness adjusted RGB value of passed color.
+      #
+      # THe calculation is based on the definition found at
       # https://www.w3.org/TR/filter-effects/#funcdef-brightness
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+      # @param rgb [Array<Integer>] The Original RGB value before the adjustment
+      # @param ratio [Float] Adjustment ratio in percentage
+      # @return [Array<Integer>] Brightness adjusted RGB value
 
       def self.calc_rgb(rgb, ratio = 100)
         r = ratio.to_f
