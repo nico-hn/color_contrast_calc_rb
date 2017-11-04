@@ -132,6 +132,14 @@ module ColorContrastCalc
                                           other_color.relative_luminance)
     end
 
+    ##
+    # Return the level of contrast ratio defined by WCAG 2.0.
+    #
+    # @param other_color [Color, Array<Integer>, String] Another instance
+    #   of Color, RGB value or hex color code
+    # @return [String] "A", "AA" or "AAA" if the contrast ratio meets the
+    #   criteria of WCAG 2.0, otherwise "-"
+
     def contrast_level(other_color)
       Checker.ratio_to_level(contrast_ratio_against(other_color))
     end
