@@ -11,6 +11,19 @@ require 'color_contrast_calc/sorter'
 module ColorContrastCalc
   class InvalidColorRepresentationError < StandardError; end
 
+  ##
+  # Return an instance of Color.
+  #
+  # As +color_value+, you can pass a predefined color name, or an
+  # RGB value represented as an array of integers or a hex code such
+  # as (255, 255, 0) or "#ffff00". +name+ is assigned to the returned
+  # instance if it does not have a name already assigned.
+  # @param color_value [String, Array<Integer>] Name of a predefined
+  #   color or RGB value
+  # @param name [String] Unless the instance has predefined name, the
+  #   name passed to the method is set to self.name
+  # @return [Color] Instance of Color
+
   def self.color_from(color_value, name = nil)
     error_message = 'A color should be given as an array or string.'
 
