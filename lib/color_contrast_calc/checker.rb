@@ -102,6 +102,13 @@ module ColorContrastCalc
       '-'
     end
 
+    ##
+    # Return a contrast ratio required to meet a given WCAG 2.0 level.
+    #
+    # N.B. The size of text is not taken into consideration.
+    # @param level [String] "A", "AA" or "AAA"
+    # @return [Float] Contrast ratio
+
     def self.level_to_ratio(level)
       LEVEL_TO_RATIO[level]
     end
