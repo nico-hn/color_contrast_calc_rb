@@ -50,6 +50,12 @@ module ColorContrastCalc
       prefix ? "##{lowered}" : lowered[1..-1]
     end
 
+    ##
+    # Convert a RGB value to a hex color code.
+    #
+    # @param rgb [Array<Integer>] RGB value represented as an array of integers
+    # @return [String] Hex color code such as "#ffff00"
+
     def self.rgb_to_hex(rgb)
       format('#%02x%02x%02x', *rgb)
     end
