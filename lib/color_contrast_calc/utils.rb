@@ -196,6 +196,12 @@ module ColorContrastCalc
       true
     end
 
+    ##
+    # Check if a given string is a valid representation of RGB color.
+    #
+    # @param hex_code [String] RGB value in hex color code such as "#ffff00"
+    # @return [true, false] true if a vaild hex color code is passed
+
     def self.valid_hex?(hex_code)
       HEX_RE.match?(hex_code)
     end
