@@ -26,6 +26,16 @@ module ColorContrastCalc
       1 => 3
     }.freeze
 
+    ##
+    # Calculate the relative luminance of a RGB color.
+    #
+    # The definition of relative luminance is given at
+    # {https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef}
+    # @param rgb [String, Array<Integer>] RGB color given as a string or
+    #   an array of integers. Yellow, for example, can be given as "#ffff00"
+    #   or [255, 255, 0].
+    # @return [Float] Relative luminance of the passed color.
+
     def self.relative_luminance(rgb = [255, 255, 255])
       # https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
 
