@@ -111,11 +111,18 @@ module ColorContrastCalc
     end
 
     module Saturate
-      # https://www.w3.org/TR/filter-effects/#funcdef-saturate
-      # https://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
-
       CONST_PART = HueRotate::CONST_PART
       SATURATE_PART = HueRotate::COS_PART
+
+      ##
+      # Return a saturated RGB value of passed color.
+      #
+      # The calculation is based on the definition found at
+      # https://www.w3.org/TR/filter-effects/#funcdef-saturate
+      # https://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
+      # @param rgb [Array<Integer>] The Original RGB value before the saturation
+      # @param s [Float] Proprtion of the conversion in percentage
+      # @return [Array<Integer>] Saturated RGB value
 
       def self.calc_rgb(rgb, s)
         Converter.rgb_map((calc_saturation(s) * Vector[*rgb]).to_a)
