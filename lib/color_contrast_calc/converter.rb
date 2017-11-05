@@ -68,9 +68,6 @@ module ColorContrastCalc
     end
 
     module HueRotate
-      # https://www.w3.org/TR/filter-effects/#funcdef-hue-rotate
-      # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
-
       CONST_PART = Matrix[[0.213, 0.715, 0.072],
                           [0.213, 0.715, 0.072],
                           [0.213, 0.715, 0.072]]
@@ -82,6 +79,16 @@ module ColorContrastCalc
       SIN_PART = Matrix[[-0.213, -0.715, 0.928],
                         [0.143, 0.140, -0.283],
                         [-0.787, 0.715, 0.072]]
+
+      ##
+      # Return a hue rotation applied RGB value of passed color.
+      #
+      # THe calculation is based on the definition found at
+      # https://www.w3.org/TR/filter-effects/#funcdef-hue-rotate
+      # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+      # @param rgb [Array<Integer>] The Original RGB value before the rotation
+      # @param deg [Float] Degrees of rotation (0 to 360)
+      # @return [Array<Integer>] Hue rotation applied RGB value
 
       def self.calc_rgb(rgb, deg)
         Converter.rgb_map((calc_rotation(deg) * Vector[*rgb]).to_a)
