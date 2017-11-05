@@ -136,10 +136,6 @@ module ColorContrastCalc
     end
 
     module Grayscale
-      # https://www.w3.org/TR/filter-effects/#funcdef-grayscale
-      # https://www.w3.org/TR/filter-effects/#grayscaleEquivalent
-      # https://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
-
       CONST_PART = Matrix[[0.2126, 0.7152, 0.0722],
                           [0.2126, 0.7152, 0.0722],
                           [0.2126, 0.7152, 0.0722]]
@@ -147,6 +143,17 @@ module ColorContrastCalc
       RATIO_PART = Matrix[[0.7874, -0.7152, -0.0722],
                           [-0.2126, 0.2848, -0.0722],
                           [-0.2126, -0.7152, 0.9278]]
+
+      ##
+      # Convert passed a passed color to grayscale.
+      #
+      # The calculation is based on the definition found at
+      # https://www.w3.org/TR/filter-effects/#funcdef-grayscale
+      # https://www.w3.org/TR/filter-effects/#grayscaleEquivalent
+      # https://www.w3.org/TR/SVG/filters.html#feColorMatrixElement
+      # @param rgb [Array<Integer>] The Original RGB value before the conversion
+      # @param s [Float] Conversion ratio in percentage
+      # @return [Array<Integer>] RGB value of grayscale color
 
       def self.calc_rgb(rgb, s)
         Converter.rgb_map((calc_grayscale(s) * Vector[*rgb]).to_a)
