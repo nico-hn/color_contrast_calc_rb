@@ -10,6 +10,9 @@ module ColorContrastCalc
   # as stable interfaces.
 
   module Sorter
+    # @private The visitiblity ot this module is not changed just
+    #   because it is used in unit tests.
+
     module ColorComponent
       RGB = 'rgb'.chars
       HSL = 'hsl'.chars
