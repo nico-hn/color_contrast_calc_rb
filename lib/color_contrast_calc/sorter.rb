@@ -20,6 +20,8 @@ module ColorContrastCalc
       DESCEND = proc {|x, y| y <=> x }
     end
 
+    private_constant :CompFunc
+
     module KeyTypes
       COLOR = :color
       COMPONENTS = :components
