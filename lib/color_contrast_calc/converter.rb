@@ -50,9 +50,16 @@ module ColorContrastCalc
     end
 
     module Invert
+      ##
+      # Return an inverted RGB value of passed color.
+      #
+      # The calculation is based on the definition found at
       # https://www.w3.org/TR/filter-effects/#funcdef-invert
       # https://www.w3.org/TR/filter-effects-1/#invertEquivalent
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
+      # @param rgb [Array<Integer>] The Original RGB value before the inversion
+      # @param ratio [Float] Proportion of the conversion in percentage
+      # @return [Array<Integer>] Inverted RGB value
 
       def self.calc_rgb(rgb, ratio)
         r = ratio.to_f
