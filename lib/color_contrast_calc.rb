@@ -9,6 +9,9 @@ require 'color_contrast_calc/color'
 require 'color_contrast_calc/sorter'
 
 module ColorContrastCalc
+  ##
+  # Error raised if creating a Color instance with invalid value.
+
   class InvalidColorRepresentationError < StandardError; end
 
   ##
