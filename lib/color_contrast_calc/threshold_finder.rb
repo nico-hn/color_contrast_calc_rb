@@ -4,6 +4,8 @@ require 'color_contrast_calc/color'
 
 module ColorContrastCalc
   module ThresholdFinder
+    # @private
+
     module Criteria
       class SearchDirection
         attr_reader :level, :target_ratio
@@ -15,9 +17,13 @@ module ColorContrastCalc
       end
 
       class ToDarkerSide < SearchDirection
+        # @private
+
         def round(r)
           (r * 10).floor / 10.0
         end
+
+        # @private
 
         def increment_condition(contrast_ratio)
           contrast_ratio > @target_ratio
@@ -25,15 +31,21 @@ module ColorContrastCalc
       end
 
       class ToBrighterSide < SearchDirection
+        # @private
+
         def round(r)
           (r * 10).ceil / 10.0
         end
+
+        # @private
 
         def increment_condition(contrast_ratio)
           @target_ratio > contrast_ratio
         end
       end
     end
+
+    # @private
 
     def self.threshold_criteria(level, fixed_color, other_color)
       if should_scan_darker_side?(fixed_color, other_color)
@@ -43,10 +55,14 @@ module ColorContrastCalc
       Criteria::ToBrighterSide.new(level)
     end
 
+    # @private
+
     def self.should_scan_darker_side?(fixed_color, other_color)
       fixed_color.higher_luminance_than?(other_color) ||
         fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
     end
+
+    # @private
 
     def self.binary_search_width(init_width, min)
       i = 1
@@ -133,6 +149,8 @@ module ColorContrastCalc
       end
 
       private_class_method :calc_contrast_ratio
+
+      # @private
 
       def self.calc_upper_ratio_limit(color)
         return 100 if color.same_color?(Color::BLACK)
