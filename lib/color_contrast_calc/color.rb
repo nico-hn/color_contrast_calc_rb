@@ -352,6 +352,13 @@ module ColorContrastCalc
       keywords_file = "#{__dir__}/data/color_keywords.json"
       keywords = JSON.parse(File.read(keywords_file))
 
+      ##
+      # Predefined list of named colors.
+      #
+      # You can find the color names at
+      # https://www.w3.org/TR/SVG/types.html#ColorKeywords
+      # @return [Array<color>] Named colors
+
       NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }.freeze
 
       NAME_TO_COLOR = NAMED_COLORS.map {|color| [color.name, color] }.to_h
@@ -366,6 +373,11 @@ module ColorContrastCalc
       end
 
       private_class_method :generate_web_safe_colors
+
+      ##
+      # Predefined list of web safe colors.
+      #
+      # @return [Array<Color>] Web safe colors
 
       WEB_SAFE_COLORS = generate_web_safe_colors.freeze
 
