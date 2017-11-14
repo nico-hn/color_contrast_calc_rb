@@ -68,14 +68,17 @@ module ColorContrastCalc
     end
 
     module HueRotate
+      # @private
       CONST_PART = Matrix[[0.213, 0.715, 0.072],
                           [0.213, 0.715, 0.072],
                           [0.213, 0.715, 0.072]]
 
+      # @private
       COS_PART = Matrix[[0.787, -0.715, -0.072],
                         [-0.213, 0.285, -0.072],
                         [-0.213, -0.715, 0.928]]
 
+      # @private
       SIN_PART = Matrix[[-0.213, -0.715, 0.928],
                         [0.143, 0.140, -0.283],
                         [-0.787, 0.715, 0.072]]
@@ -111,7 +114,9 @@ module ColorContrastCalc
     end
 
     module Saturate
+      # @private
       CONST_PART = HueRotate::CONST_PART
+      # @private
       SATURATE_PART = HueRotate::COS_PART
 
       ##
@@ -136,10 +141,12 @@ module ColorContrastCalc
     end
 
     module Grayscale
+      # @private
       CONST_PART = Matrix[[0.2126, 0.7152, 0.0722],
                           [0.2126, 0.7152, 0.0722],
                           [0.2126, 0.7152, 0.0722]]
 
+      # @private
       RATIO_PART = Matrix[[0.7874, -0.7152, -0.0722],
                           [-0.2126, 0.2848, -0.0722],
                           [-0.2126, -0.7152, 0.9278]]

@@ -19,7 +19,9 @@ module ColorContrastCalc
     end
 
     module CompFunc
+      # @private
       ASCEND = proc {|x, y| x <=> y }
+      # @private
       DESCEND = proc {|x, y| y <=> x }
     end
 
@@ -29,6 +31,7 @@ module ColorContrastCalc
       COLOR = :color
       COMPONENTS = :components
       HEX = :hex
+      # @private
       CLASS_TO_TYPE = {
         Color => COLOR,
         Array => COMPONENTS,
@@ -41,6 +44,7 @@ module ColorContrastCalc
       end
     end
 
+    # @private shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
     HEX_TO_COMPONENTS = {
       rgb: Utils.method(:hex_to_rgb),
       hsl: Utils.method(:hex_to_hsl)
