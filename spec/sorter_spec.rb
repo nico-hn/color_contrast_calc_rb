@@ -664,7 +664,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       colors = [color, rgb, hsl, hex]
 
       context 'when a Color is passed' do
-        it 'expects to return KeyTypes::COLOR when a Color id directly passed' do
+        it 'expects to return KeyTypes::COLOR when a Color is directly passed' do
           expect(Sorter::KeyTypes.guess(color)).to eq(Sorter::KeyTypes::COLOR)
         end
 
