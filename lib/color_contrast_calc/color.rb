@@ -13,6 +13,7 @@ module ColorContrastCalc
   # instances of Color class.
 
   class Color
+    # @private
     RGB_LIMITS = [0, 255].freeze
 
     ##
