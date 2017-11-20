@@ -27,9 +27,21 @@ module ColorContrastCalc
 
     private_constant :CompFunc
 
+    ##
+    # Constants used as a second argeument of Sorter.compile_compare_function()
+    #
+    # The constants COLOR, COMPONENTS and HEX are expected to be used as a
+    # second argument of Sorter.compile_compare_function()
+
     module KeyTypes
+      # The function returned by Sorter.compile_compare_function() expects
+      # instances of Color as key values when this constants is specified.
       COLOR = :color
+      # The function returned by Sorter.compile_compare_function() expects
+      # RGB or HSL values as key values when this constants is specified.
       COMPONENTS = :components
+      # The function returned by Sorter.compile_compare_function() expects
+      # hex color codes as key values when this constants is specified.
       HEX = :hex
       # @private
       CLASS_TO_TYPE = {
@@ -37,6 +49,14 @@ module ColorContrastCalc
         Array => COMPONENTS,
         String => HEX
       }.freeze
+
+      ##
+      # Returns COLOR, COMPONENTS or HEX when a possible key value is passed.
+      #
+      # @param color [Color, Array<Numeric>, String] Possible key value
+      # @param key_mapper [Proc] Function which retrieves a key value from
+      #   +color+, that means <tt>key_mapper[color]</tt> returns a key value
+      # @return [:color, :components, :hex] Symbol that represents a key type
 
       def self.guess(color, key_mapper = nil)
         key = key_mapper ? key_mapper[color] : color
