@@ -3,6 +3,10 @@
 require 'color_contrast_calc/color'
 
 module ColorContrastCalc
+  ##
+  # Collection of modules that implement the main logic of
+  # instance methods of Color, +Color#find_*_threshold()+.
+
   module ThresholdFinder
     # @private
 
@@ -75,6 +79,10 @@ module ColorContrastCalc
         d = init_width / 2**i
       end
     end
+
+    ##
+    # Module that implements the main logic of the instance method
+    # +Color#find_brightness_threshold()+.
 
     module Brightness
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
@@ -158,6 +166,10 @@ module ColorContrastCalc
         ((255.0 / darkest) * 100).ceil
       end
     end
+
+    ##
+    # Module that implements the main logic of the instance method
+    # +Color#find_lightness_threshold()+.
 
     module Lightness
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
