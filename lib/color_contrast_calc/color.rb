@@ -37,7 +37,7 @@ module ColorContrastCalc
     # @return [Color] Instance of Color
 
     def self.from_name(name)
-      List::NAME_TO_COLOR[name]
+      List::NAME_TO_COLOR[name.downcase]
     end
 
     ##
