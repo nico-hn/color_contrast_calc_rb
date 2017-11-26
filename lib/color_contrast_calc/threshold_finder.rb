@@ -85,6 +85,18 @@ module ColorContrastCalc
     # +Color#find_brightness_threshold()+.
 
     module Brightness
+      ##
+      # Try to find a color who has a satisfying contrast ratio.
+      #
+      # The color returned by this method will be created by changing the
+      # brightness of +other_color+. Even when a color that satisfies the
+      # specified level is not found, the method returns a new color anyway.
+      # @param fixed_color [Color] The color which remains unchanged
+      # @param other_color [Color] Color before the adjustment of brightness
+      # @param level [String] "A", "AA" or "AAA"
+      # @return [Color] New color whose brightness is adjusted from that of
+      #   +other_color+
+
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
         criteria = ThresholdFinder.threshold_criteria(level,
                                                       fixed_color, other_color)
