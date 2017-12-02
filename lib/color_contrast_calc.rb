@@ -57,12 +57,11 @@ module ColorContrastCalc
     named_color = Color::List::NAME_TO_COLOR[color_value]
     return named_color if named_color
 
-    if Utils.valid_hex?(color_value)
-      hex_code = Utils.normalize_hex(color_value)
-    else
+    unless Utils.valid_hex?(color_value)
       raise InvalidColorRepresentationError, error_message
     end
 
+    hex_code = Utils.normalize_hex(color_value)
     Color::List::HEX_TO_COLOR[hex_code] || Color.new(hex_code, name)
   end
 
