@@ -56,5 +56,11 @@ RSpec.describe ColorContrastCalc do
         ColorContrastCalc.color_from(invalid_rgb)
       }.to raise_error(error)
     end
+
+    it 'is expected to raise an error when a number is passed' do
+      expect {
+       ColorContrastCalc.color_from(0)
+      }.to raise_error(error)
+    end
   end
 end
