@@ -13,6 +13,10 @@ RSpec.describe ColorContrastCalc do
     invalid_name = 'imaginaryblue'
     invalid_hex = '#ff00'
     invalid_rgb = [255, 256, 0]
+    unnamed_hex = '#767676'
+    unnamed_rgb = [118, 118, 118]
+    unnamed_gray = "unnamed_gray"
+
     error = ColorContrastCalc::InvalidColorRepresentationError
 
     it 'is expected to return an instance of Color when "yellow" is passed' do
@@ -61,6 +65,18 @@ RSpec.describe ColorContrastCalc do
       expect {
        ColorContrastCalc.color_from(0)
       }.to raise_error(error)
+    end
+
+    it 'is expected to return a Color with a name given by user when "#767676" is passed' do
+      unnamed = ColorContrastCalc.color_from(unnamed_hex, unnamed_gray)
+      expect(unnamed.rgb).to eq(unnamed_rgb)
+      expect(unnamed.name).to eq(unnamed_gray)
+    end
+
+    it 'is expected to return a Color with a name given by user when [118, 118, 118] is passed' do
+      unnamed = ColorContrastCalc.color_from(unnamed_hex, unnamed_gray)
+      expect(unnamed.hex).to eq(unnamed_hex)
+      expect(unnamed.name).to eq(unnamed_gray)
     end
   end
 end
