@@ -19,7 +19,7 @@ module ColorContrastCalc
   #
   # As +color_value+, you can pass a predefined color name, or an
   # RGB value represented as an array of integers or a hex code such
-  # as (255, 255, 0) or "#ffff00". +name+ is assigned to the returned
+  # as [255, 255, 0] or "#ffff00". +name+ is assigned to the returned
   # instance if it does not have a name already assigned.
   # @param color_value [String, Array<Integer>] Name of a predefined
   #   color or RGB value
