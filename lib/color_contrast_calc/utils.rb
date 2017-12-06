@@ -10,6 +10,8 @@ module ColorContrastCalc
   # (including their hex code presentations) or HSL values.
 
   module Utils
+    using Shim unless //.respond_to? :match?
+
     HSL_UPPER_LIMIT = [360, 100, 100].freeze
     HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i
 

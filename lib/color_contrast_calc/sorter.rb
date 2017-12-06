@@ -10,6 +10,8 @@ module ColorContrastCalc
   # as stable interfaces.
 
   module Sorter
+    using Shim unless //.respond_to? :match?
+
     # @private The visitiblity ot this module is not changed just
     #   because it is used in unit tests.
 

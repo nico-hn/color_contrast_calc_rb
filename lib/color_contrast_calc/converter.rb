@@ -4,6 +4,8 @@ require 'matrix'
 
 module ColorContrastCalc
   module Converter
+    using Shim unless 0.respond_to? :clamp
+
     def self.rgb_map(vals)
       if block_given?
         return vals.map do |val|
