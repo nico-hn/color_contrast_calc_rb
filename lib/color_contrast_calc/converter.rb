@@ -10,6 +10,14 @@ module ColorContrastCalc
   module Converter
     using Shim unless 0.respond_to? :clamp
 
+    ##
+    # Values given as an array are passed to a given block, and new values
+    # returned from the block are rounded and clamped between 0 and 255,
+    # so that the resulting values can be treated as an RGB value.
+    #
+    # @param vals [Array<Numeric>] An array of three numbers
+    # @return [Array<Integer>] Value that can possibly be an RGB value
+
     def self.rgb_map(vals)
       if block_given?
         return vals.map do |val|
