@@ -3,6 +3,10 @@
 require 'matrix'
 
 module ColorContrastCalc
+  ##
+  # Collection of modules that implement the main logic of instance
+  # methods of Color, +Color#new_*_color()+.
+
   module Converter
     using Shim unless 0.respond_to? :clamp
 
