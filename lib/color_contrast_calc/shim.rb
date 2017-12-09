@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module ColorContrastCalc
+  ##
+  # Provide methods that are not availabe in older versions of Ruby.
+
   module Shim
     refine Regexp do
       ##
