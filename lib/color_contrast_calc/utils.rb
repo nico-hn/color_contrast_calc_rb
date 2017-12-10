@@ -18,6 +18,8 @@ module ColorContrastCalc
 
     HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i
 
+    private_constant :HEX_RE
+
     ##
     # Convert a hex color code string to a RGB value.
     #
