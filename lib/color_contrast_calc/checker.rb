@@ -11,9 +11,17 @@ module ColorContrastCalc
   # as a tuple of integers) or a hex color code such "#ffff00".
 
   module Checker
+    ##
+    # Collection of constants that correspond to the three levels of success
+    # criteria defined in WCAG 2.0. You will find more information at
+    # https://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-conf-req1-head
+
     module Level
+      # The minimum level of Conformance
       A = 'A'
+      # Organizations in the public sector generally adopt this level.
       AA = 'AA'
+      # This level seems to be hard to satisfy.
       AAA = 'AAA'
     end
 
