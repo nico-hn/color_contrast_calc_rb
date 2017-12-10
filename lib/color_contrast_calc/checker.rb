@@ -34,6 +34,8 @@ module ColorContrastCalc
       1 => 3
     }.freeze
 
+    private_constant :LEVEL_TO_RATIO
+
     ##
     # Calculate the relative luminance of a RGB color.
     #
