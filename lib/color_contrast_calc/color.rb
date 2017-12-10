@@ -358,7 +358,7 @@ module ColorContrastCalc
       #
       # You can find the color names at
       # https://www.w3.org/TR/SVG/types.html#ColorKeywords
-      # @return [Array<color>] Named colors
+      # @return [Array<Color>] Named colors
 
       NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }.freeze
 
