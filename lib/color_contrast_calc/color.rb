@@ -362,8 +362,10 @@ module ColorContrastCalc
 
       NAMED_COLORS = keywords.map {|name, hex| Color.new(hex, name) }.freeze
 
+      # @private
       NAME_TO_COLOR = NAMED_COLORS.map {|color| [color.name, color] }.to_h
 
+      # @private
       HEX_TO_COLOR = NAMED_COLORS.map {|color| [color.hex, color] }.to_h
 
       def self.generate_web_safe_colors
