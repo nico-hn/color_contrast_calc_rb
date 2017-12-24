@@ -97,4 +97,21 @@ RSpec.describe ColorContrastCalc do
       expect(named_colors.frozen?).to be false
     end
   end
+  describe '.web_safe_colors' do
+    it 'is expected to return an array of predefined Color instances' do
+      colors = ColorContrastCalc.web_safe_colors
+      expect(colors[0]).to be_instance_of(ColorContrastCalc::Color)
+      expect(colors[0].hex).to eq('#000000')
+      expect(colors[-1]).to be_instance_of(ColorContrastCalc::Color)
+      expect(colors[-1].hex).to eq('#ffffff')
+      expect(colors.frozen?).to be true
+    end
+
+    it 'is expected to return an unfrozen array when false is passed' do
+      colors = ColorContrastCalc.web_safe_colors(frozen: false)
+      expect(colors[0]).to be_instance_of(ColorContrastCalc::Color)
+      expect(colors[-1]).to be_instance_of(ColorContrastCalc::Color)
+      expect(colors.frozen?).to be false
+    end
+  end
 end

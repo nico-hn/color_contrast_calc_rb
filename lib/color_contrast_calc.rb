@@ -51,6 +51,17 @@ module ColorContrastCalc
     frozen ? named_colors : named_colors.dup
   end
 
+  ##
+  # Return an array of web safe colors.
+  #
+  # @param frozen [true|false] Set to false if you want an unfrozen array.
+  # @return [Array<Color>] Web safe colors
+
+  def self.web_safe_colors(frozen: true)
+    colors = Color::List::WEB_SAFE_COLORS
+    frozen ? colors : colors.dup
+  end
+
   def self.color_from_rgb(color_value, name = nil)
     error_message = 'An RGB value should be given in form of [r, g, b].'
 
