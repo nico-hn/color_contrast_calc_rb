@@ -348,6 +348,9 @@ module ColorContrastCalc
 
     private :generate_new_color
 
+    ##
+    # Provide predefined lists of Color instances.
+
     module List
       # named colors: https://www.w3.org/TR/SVG/types.html#ColorKeywords
       keywords_file = "#{__dir__}/data/color_keywords.json"
