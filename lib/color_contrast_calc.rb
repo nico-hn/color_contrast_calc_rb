@@ -62,6 +62,21 @@ module ColorContrastCalc
     frozen ? colors : colors.dup
   end
 
+  ##
+  # Return a list of colors which share the same saturation and lightness.
+  #
+  # By default, so-called pure colors are returned.
+  # @param s 100 [Float] Ratio of saturation in percentage
+  # @param l 50 [Float] Ratio of lightness in percentage
+  # @param h_interval 1 [Integer] Interval of hues in degrees.
+  #   By default, the method returns 360 hues beginning from red.
+  # @return [Array<Color>] Array of colors which share the same
+  #   saturation and lightness
+
+  def self.hsl_colors(s: 100, l: 50, h_interval: 1)
+    Color::List.hsl_colors(s: s, l: l, h_interval: h_interval)
+  end
+
   def self.color_from_rgb(color_value, name = nil)
     error_message = 'An RGB value should be given in form of [r, g, b].'
 

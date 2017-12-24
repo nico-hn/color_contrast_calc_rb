@@ -114,4 +114,32 @@ RSpec.describe ColorContrastCalc do
       expect(colors.frozen?).to be false
     end
   end
+
+  describe '.hsl_colors' do
+    it 'is expected to return 361 colors by default' do
+      colors = ColorContrastCalc.hsl_colors
+      expect(colors.length).to be 361
+    end
+
+    it 'is expected to return 25 colors when h_interval is 15' do
+      colors = ColorContrastCalc.hsl_colors(h_interval: 15)
+      expect(colors.length).to be 25
+    end
+
+    it 'is expected to have red as its first color' do
+      red = ColorContrastCalc::Color.from_name('red')
+      colors = ColorContrastCalc.hsl_colors
+      expect(colors[0].same_color?(red)).to be true
+    end
+
+    it 'is expected to return darker colors when l is 90' do
+      colors = ColorContrastCalc.hsl_colors(l: 90)
+      expect(colors[0].hex).to eq('#ffcccc')
+    end
+
+    it 'is expected to return gray when s is 0' do
+      colors = ColorContrastCalc.hsl_colors(s: 0)
+      expect(colors[0].hex).to eq('#808080')
+    end
+  end
 end
