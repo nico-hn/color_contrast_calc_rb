@@ -79,4 +79,22 @@ RSpec.describe ColorContrastCalc do
       expect(unnamed.name).to eq(unnamed_gray)
     end
   end
+
+  describe '.named_colors' do
+    it 'is expected to return an array of predefined Color instances' do
+      named_colors = ColorContrastCalc.named_colors
+      expect(named_colors[0]).to be_instance_of(ColorContrastCalc::Color)
+      expect(named_colors[0].name).to eq('aliceblue')
+      expect(named_colors[-1]).to be_instance_of(ColorContrastCalc::Color)
+      expect(named_colors[-1].name).to eq('yellowgreen')
+      expect(named_colors.frozen?).to be true
+    end
+
+    it 'is expected to return an unfrozen array when false is passed' do
+      named_colors = ColorContrastCalc.named_colors(frozen: false)
+      expect(named_colors[0]).to be_instance_of(ColorContrastCalc::Color)
+      expect(named_colors[-1]).to be_instance_of(ColorContrastCalc::Color)
+      expect(named_colors.frozen?).to be false
+    end
+  end
 end

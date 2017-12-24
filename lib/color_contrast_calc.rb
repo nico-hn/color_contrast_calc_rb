@@ -38,6 +38,19 @@ module ColorContrastCalc
     color_from_str(color_value, name)
   end
 
+  ##
+  # Return an array of named colors.
+  #
+  # You can find the color names at
+  # https://www.w3.org/TR/SVG/types.html#ColorKeywords
+  # @param frozen [true|false] Set to false if you want an unfrozen array.
+  # @return [Array<Color>] Named colors
+
+  def self.named_colors(frozen: true)
+    named_colors = Color::List::NAMED_COLORS
+    frozen ? named_colors : named_colors.dup
+  end
+
   def self.color_from_rgb(color_value, name = nil)
     error_message = 'An RGB value should be given in form of [r, g, b].'
 
