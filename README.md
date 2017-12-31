@@ -12,8 +12,6 @@ With this library, you can do following things:
 
 ## Installation
 
-(Not published yet on [RubyGems.org](https://rubygems.org/))
-
 Add this line to your application's Gemfile:
 
 ```ruby

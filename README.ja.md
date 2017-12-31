@@ -12,8 +12,6 @@
 
 ## インストール
 
-([RubyGems.org](https://rubygems.org/)上にはまだ未公開です)
-
 Gemfileに次の行を追加し:
 
 ```ruby
