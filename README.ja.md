@@ -30,6 +30,43 @@ Or install it yourself as:
 
 ## 使い方
 
+### 色の表現
+
+ユーティリティ内で色を表わすクラスとしてColorContrastCalc::Color`
+が用意されています。
+このクラスはユーティリティ内のほとんどの操作で利用されます。
+
+例えば赤色を表す`Color`のインスタンスを生成したい場合、
+`ColorContrastCalc.color_from`というメソッドが利用できます。
+
+次のコードを`color_instance.rb`として保存し:
+
+```ruby
+require 'color_contrast_calc'
+
+# Create an instance of Color from a hex code
+# (You can pass 'red' or [255, 0, 0] instead of '#ff0000')
+red = ColorContrastCalc.color_from('#ff0000')
+puts red.class
+puts red.name
+puts red.hex
+puts red.rgb.to_s
+puts red.hsl.to_s
+
+```
+
+以下のように実行します:
+
+```bash
+$ ruby color_instance.rb
+ColorContrastCalc::Color
+red
+#ff0000
+[255, 0, 0]
+[0.0, 100.0, 50.0]
+
+```
+
 ### 例1: 2つの色のコントラスト比を計算する
 
 例えば黄色と黒のコントラスト比を計算したい場合、

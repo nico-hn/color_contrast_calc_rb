@@ -30,6 +30,42 @@ Or install it yourself as:
 
 ## Usage
 
+### Representing a color
+
+To represent a color, class `ColorContrastCalc::Color` is provided.
+And most of the operations in this utility use this class.
+
+As an illustration, if you want to create an instance of `Color` for red,
+you may use a method `ColorContrastCalc.color_from`
+
+Save the following code as `color_instance.rb`:
+
+```ruby
+require 'color_contrast_calc'
+
+# Create an instance of Color from a hex code
+# (You can pass 'red' or [255, 0, 0] instead of '#ff0000')
+red = ColorContrastCalc.color_from('#ff0000')
+puts red.class
+puts red.name
+puts red.hex
+puts red.rgb.to_s
+puts red.hsl.to_s
+
+```
+
+Then execute the script:
+
+```bash
+$ ruby color_instance.rb
+ColorContrastCalc::Color
+red
+#ff0000
+[255, 0, 0]
+[0.0, 100.0, 50.0]
+
+```
+
 ### Example 1: Calculate the contrast ratio between two colors
 
 If you want to calculate the contrast ratio between yellow and black,
