@@ -28,6 +28,8 @@ Or install it yourself as:
 
 ## 使い方
 
+詳細なドキュメントはhttp://www.rubydoc.info/gems/color_contrast_calc にあります。
+
 ### 色の表現
 
 ユーティリティ内で色を表わすクラスとしてColorContrastCalc::Color`

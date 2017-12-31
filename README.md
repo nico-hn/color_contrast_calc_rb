@@ -28,6 +28,8 @@ Or install it yourself as:
 
 ## Usage
 
+The full documentation is available at http://www.rubydoc.info/gems/color_contrast_calc
+
 ### Representing a color
 
 To represent a color, class `ColorContrastCalc::Color` is provided.
