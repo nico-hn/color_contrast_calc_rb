@@ -20,7 +20,7 @@ gem 'color_contrast_calc'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
