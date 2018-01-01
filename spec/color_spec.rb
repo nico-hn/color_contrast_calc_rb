@@ -5,17 +5,17 @@ Color = ColorContrastCalc::Color
 
 RSpec.describe ColorContrastCalc::Color do
   describe '.from_name' do
-    it 'expect to return a Color representing yellow if "yellow" is passed' do
+    it 'expects to return a Color representing yellow if "yellow" is passed' do
       expect(Color.from_name('yellow')).to be_instance_of(Color)
       expect(Color.from_name('yellow').name).to eq('yellow')
     end
 
-    it 'expect to return a Color representing yellow if "Yellow" is passed' do
+    it 'expects to return a Color representing yellow if "Yellow" is passed' do
       expect(Color.from_name('Yellow')).to be_instance_of(Color)
       expect(Color.from_name('Yellow').name).to eq('yellow')
     end
 
-    it 'expect to return a falsy value if a passed name does not exist' do
+    it 'expects to return a falsy value if a passed name does not exist' do
       expect(Color.from_name('kiiro')).to be_falsy
     end
   end
