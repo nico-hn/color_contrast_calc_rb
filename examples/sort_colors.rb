@@ -5,13 +5,13 @@ require 'color_contrast_calc'
 color_names = ['red', 'yellow', 'lime', 'cyan', 'fuchsia', 'blue']
 colors = color_names.map {|c| ColorContrastCalc.color_from(c) }
 
-# sort by hSL order.  An uppercase for a component of color means
+# Sort by hSL order.  An uppercase for a component of color means
 # that component should be sorted in descending order.
 
 hsl_ordered = ColorContrastCalc::Sorter.sort(colors, 'hSL')
 puts("Colors sorted in the order of hSL: #{hsl_ordered.map(&:name)}")
 
-# sort by RGB order.
+# Sort by RGB order.
 
 rgb_ordered = ColorContrastCalc::Sorter.sort(colors, 'RGB')
 puts("Colors sorted in the order of RGB: #{rgb_ordered.map(&:name)}")
