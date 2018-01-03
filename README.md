@@ -28,6 +28,8 @@ Or install it yourself as:
 
 ## Usage
 
+Here are some examples that will give you a brief overview of the library.
+
 The full documentation is available at http://www.rubydoc.info/gems/color_contrast_calc
 
 ### Representing a color

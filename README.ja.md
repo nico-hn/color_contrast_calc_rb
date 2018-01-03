@@ -28,7 +28,9 @@ Or install it yourself as:
 
 ## 使い方
 
-詳細なドキュメントはhttp://www.rubydoc.info/gems/color_contrast_calc にあります。
+ここでは大まかな概要が分かるような例を挙げています。
+
+詳細なドキュメントはhttp://www.rubydoc.info/gems/color_contrast_calc を見て下さい。
 
 ### 色の表現
 
