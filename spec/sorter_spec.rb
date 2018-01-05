@@ -228,6 +228,22 @@ RSpec.describe ColorContrastCalc::Sorter do
         expect(Sorter.sort(colors, "RGB")).to eq(rgb_order)
       end
     end
+
+    describe 'when a key_mapper is passed as a block' do
+      color_names = %w[red yellow lime cyan fuchsia blue]
+      colors = color_names.map {|c| [Color.from_name(c)] }
+      red, yellow, lime, cyan, fuchsia, blue = colors
+      default_order = [red, yellow, lime, cyan, blue, fuchsia]
+      rgb_order = [yellow, fuchsia, red, cyan, lime, blue]
+      key_mapper = proc {|item| item[0] }
+
+      it 'expects to work the same way as passing a proc object' do
+        expect(Sorter.sort(colors, 'hSL', key_mapper)).to eq(default_order)
+        expect(Sorter.sort(colors, 'RGB', key_mapper)).to eq(rgb_order)
+        expect(Sorter.sort(colors) {|item| item[0] }).to eq(default_order)
+        expect(Sorter.sort(colors, 'RGB') {|item| item[0] }).to eq(rgb_order)
+      end
+    end
   end
 
   describe '.compose_function' do

@@ -87,9 +87,13 @@ module ColorContrastCalc
     # @param color_order [String] String such as "HSL", "RGB" or "lsH"
     # @param key_mapper [Proc, nil] Proc object used to retrive key values
     #   from items to be sorted
+    # @param key_mapper_block [Proc] Block that is used instead of key_mapper
+    #   when the latter is not given
     # @return [Array<Color>, Array<String>] Array of of sorted colors
 
-    def self.sort(colors, color_order = 'hSL', key_mapper = nil)
+    def self.sort(colors, color_order = 'hSL',
+                  key_mapper = nil, &key_mapper_block)
+      key_mapper = key_mapper_block if !key_mapper && key_mapper_block
       key_type = KeyTypes.guess(colors[0], key_mapper)
       compare = compile_compare_function(color_order, key_type, key_mapper)
 
