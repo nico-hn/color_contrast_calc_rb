@@ -94,6 +94,32 @@ The contrast ratio between yellow and black is 19.5560
 The contrast ratio between #ffff00 and #000000 is 19.5560
 ```
 
+Or it is also possible to calculate the contrast ratio of two colors from
+their hex color codes or RGB values.
+
+Save the following code as `yellow_black_hex_contrast.rb`:
+
+```ruby
+require 'color_contrast_calc'
+
+yellow, black = %w[#ff0 #000000]
+# or
+# yellow, black = [[255, 255, 0], [0, 0, 0]]
+
+ratio = ColorContrastCalc::Checker.contrast_ratio(yellow, black)
+level = ColorContrastCalc::Checker.ratio_to_level(ratio)
+
+puts "Contrast ratio between yellow and black: #{ratio}"
+puts "Contrast level: #{level}"
+```
+
+Then execute the script:
+
+```bash
+Contrast ratio between yellow and black: 19.555999999999997
+Contrast level: AAA
+```
+
 ### Example 2: Find colors that have enough contrast ratio with a given color
 
 If you want to find a combination of colors with sufficient contrast
