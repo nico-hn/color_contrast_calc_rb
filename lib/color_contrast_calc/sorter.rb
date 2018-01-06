@@ -107,9 +107,14 @@ module ColorContrastCalc
     # @param key_type [Symbol] +:color+, +:components+ or +:hex+
     # @param key_mapper [Proc, nil] Proc object to be used to retrive
     #   key values from items to be sorted.
+    # @param key_mapper_block [Proc] Block that is used instead of
+    #   key_mapper when the latter is not given
     # @return [Proc] Proc object to be passed to Array#sort()
 
-    def self.compile_compare_function(color_order, key_type, key_mapper = nil)
+    def self.compile_compare_function(color_order, key_type,
+                                      key_mapper = nil, &key_mapper_block)
+      key_mapper = key_mapper_block if !key_mapper && key_mapper_block
+
       case key_type
       when KeyTypes::COLOR
         compare = compile_color_compare_function(color_order)

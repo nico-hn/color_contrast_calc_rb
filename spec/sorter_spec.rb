@@ -249,6 +249,48 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
+  describe '.compile_compare_function' do
+    orders = [
+      %w[red yellow lime cyan fuchsia blue],
+      %w[red yellow lime cyan blue fuchsia],
+      %w[yellow fuchsia red cyan lime blue]
+    ]
+    unsorted, default, rgb = orders.map do |order|
+      order.map {|c| [Color.from_name(c)] }
+    end
+
+    describe 'when a key_mapper is passed as a Proc object' do
+      key_mapper = proc {|item| item[0] }
+      hsl_func = Sorter.compile_compare_function('hSL',
+                                                  Sorter::KeyTypes::COLOR,
+                                                  key_mapper)
+      rgb_func = Sorter.compile_compare_function('RGB',
+                                                  Sorter::KeyTypes::COLOR,
+                                                  key_mapper)
+
+      it 'expects to return colors in the order of a color circle by default' do
+        expect(unsorted.sort(&hsl_func)).to eq(default)
+        expect(unsorted.sort(&rgb_func)).to eq(rgb)
+      end
+    end
+
+    describe 'when a key_mapper is passed as a block' do
+      hsl_func = Sorter.compile_compare_function('hSL',
+                                                  Sorter::KeyTypes::COLOR) do |item|
+        item[0]
+      end
+      rgb_func = Sorter.compile_compare_function('RGB',
+                                                  Sorter::KeyTypes::COLOR) do |item|
+        item[0]
+      end
+
+      it 'expects to work the same way as passing a proc object' do
+        expect(unsorted.sort(&hsl_func)).to eq(default)
+        expect(unsorted.sort(&rgb_func)).to eq(rgb)
+      end
+    end
+  end
+
   describe '.compose_function' do
     hsl_colors = [
       [20, 80, 50],
