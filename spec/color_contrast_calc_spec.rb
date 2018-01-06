@@ -80,6 +80,32 @@ RSpec.describe ColorContrastCalc do
     end
   end
 
+  describe '.sort' do
+    color_orders = [
+      %w[red yellow lime cyan fuchsia blue],
+      %w[red yellow lime cyan blue fuchsia],
+      %w[yellow fuchsia red cyan lime blue]
+    ]
+
+    it 'expects to return colors in the order of a color circle by default' do
+      colors, default_order, rgb_order = color_orders.map do |order|
+        order.map {|c| ColorContrastCalc.color_from(c) }
+      end
+
+      expect(ColorContrastCalc.sort(colors)).to eq(default_order)
+      expect(ColorContrastCalc.sort(colors, "RGB")).to eq(rgb_order)
+    end
+
+    it 'expects to work with block the same way as passing a proc object' do
+      colors, default_order, rgb_order = color_orders.map do |order|
+        order.map {|c| [ColorContrastCalc.color_from(c)] }
+      end
+
+      expect(ColorContrastCalc.sort(colors, &:first)).to eq(default_order)
+      expect(ColorContrastCalc.sort(colors, "RGB") {|i| i[0] }).to eq(rgb_order)
+    end
+  end
+
   describe '.named_colors' do
     it 'is expected to return an array of predefined Color instances' do
       named_colors = ColorContrastCalc.named_colors
