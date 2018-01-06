@@ -41,8 +41,8 @@ module ColorContrastCalc
   ##
   # Sort colors in the order specified by +color_order+.
   #
-  # Sort colors given as a list or tuple of Color instances or hex
-  # color codes. (alias of Sorter.sort())
+  # Sort colors given as an array of Color instances or hex color codes.
+  # (alias of Sorter.sort())
   #
   # You can specify sorting order by giving a +color_order+ tring, such
   # as "HSL" or "RGB". A component of +color_order+ on the left side
