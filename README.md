@@ -207,7 +207,8 @@ are available for `ColorContrastCalc::Color`:
 
 ### Example 4: Sort colors
 
-You can sort colors using a method `ColorContrastCalc::Sorter.sort`.
+You can sort colors using a method `ColorContrastCalc::Sorter.sort` or
+its alias `ColorContrastCalc.sort`.
 
 And by passing the second argument to this method, you can also specify
 the sort order.

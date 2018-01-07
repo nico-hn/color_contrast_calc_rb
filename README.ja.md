@@ -208,7 +208,8 @@ The grayscale of #ffa500 is #acacac.
 
 ### 例4: 色をソートする
 
-`ColorContrastCalc::Sorter.sort`を使って色のソートができます。
+`ColorContrastCalc::Sorter.sort`もしくはその別名`ColorContrastCalc.sort`
+を使って色のソートができます。
 
 またこのメソッドの2番目の引数でソート順を指定することもできます。
 
