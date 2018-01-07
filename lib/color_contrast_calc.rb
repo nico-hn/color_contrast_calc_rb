@@ -44,7 +44,7 @@ module ColorContrastCalc
   # Sort colors given as an array of Color instances or hex color codes.
   # (alias of Sorter.sort())
   #
-  # You can specify sorting order by giving a +color_order+ tring, such
+  # You can specify sorting order by giving a +color_order+ string, such
   # as "HSL" or "RGB". A component of +color_order+ on the left side
   # has a higher sorting precedence, and an uppercase letter means
   # descending order.
@@ -55,7 +55,7 @@ module ColorContrastCalc
   #   from items to be sorted
   # @param key_mapper_block [Proc] Block that is used instead of key_mapper
   #   when the latter is not given
-  # @return [Array<Color>, Array<String>] Array of of sorted colors
+  # @return [Array<Color>, Array<String>] Array of sorted colors
 
   def self.sort(colors, color_order = 'hSL',
                 key_mapper = nil, &key_mapper_block)
