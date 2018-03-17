@@ -205,7 +205,7 @@ module ColorContrastCalc
         boundary_color = lightness_boundary_color(fixed_color, max, min, level)
         return boundary_color if boundary_color
 
-        l, sufficient_l = calc_lightness_ratio(fixed_color, other_color.hsl,
+        l, sufficient_l = calc_lightness_ratio(fixed_color.rgb, other_color.hsl,
                                                criteria, max, min)
 
         generate_satisfying_color(fixed_color, other_color.hsl, criteria,
@@ -232,13 +232,13 @@ module ColorContrastCalc
 
       private_class_method :lightness_boundary_color
 
-      def self.calc_lightness_ratio(fixed_color, other_hsl, criteria, max, min)
+      def self.calc_lightness_ratio(fixed_rgb, other_hsl, criteria, max, min)
         h, s, = other_hsl
         l = (max + min) / 2.0
         sufficient_l = nil
 
         ThresholdFinder.binary_search_width(max - min, 0.01) do |d|
-          contrast_ratio = calc_contrast_ratio(fixed_color, [h, s, l])
+          contrast_ratio = calc_contrast_ratio(fixed_rgb, [h, s, l])
 
           sufficient_l = l if contrast_ratio >= criteria.target_ratio
           break if contrast_ratio == criteria.target_ratio
@@ -251,8 +251,8 @@ module ColorContrastCalc
 
       private_class_method :calc_lightness_ratio
 
-      def self.calc_contrast_ratio(fixed_color, hsl)
-        Checker.contrast_ratio(fixed_color.rgb, Utils.hsl_to_rgb(hsl))
+      def self.calc_contrast_ratio(fixed_rgb, hsl)
+        Checker.contrast_ratio(fixed_rgb, Utils.hsl_to_rgb(hsl))
       end
 
       private_class_method :calc_contrast_ratio
