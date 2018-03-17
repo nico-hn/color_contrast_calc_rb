@@ -252,7 +252,7 @@ module ColorContrastCalc
       private_class_method :calc_lightness_ratio
 
       def self.calc_contrast_ratio(fixed_color, hsl)
-        fixed_color.contrast_ratio_against(Utils.hsl_to_rgb(hsl))
+        Checker.contrast_ratio(fixed_color.rgb, Utils.hsl_to_rgb(hsl))
       end
 
       private_class_method :calc_contrast_ratio
