@@ -11,6 +11,16 @@ module ColorContrastCalc
     # @private
 
     module Criteria
+      # @private
+
+      def self.threshold_criteria(level, fixed_color, other_color)
+        if ThresholdFinder.should_scan_darker_side?(fixed_color, other_color)
+          return ToDarkerSide.new(level)
+        end
+
+        ToBrighterSide.new(level)
+      end
+
       class SearchDirection
         attr_reader :level, :target_ratio
 
@@ -47,16 +57,6 @@ module ColorContrastCalc
           @target_ratio > contrast_ratio
         end
       end
-    end
-
-    # @private
-
-    def self.threshold_criteria(level, fixed_color, other_color)
-      if should_scan_darker_side?(fixed_color, other_color)
-        return Criteria::ToDarkerSide.new(level)
-      end
-
-      Criteria::ToBrighterSide.new(level)
     end
 
     # @private
@@ -98,8 +98,7 @@ module ColorContrastCalc
       #   +other_color+
 
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        criteria = ThresholdFinder.threshold_criteria(level,
-                                                      fixed_color, other_color)
+        criteria = Criteria.threshold_criteria(level, fixed_color, other_color)
         w = calc_upper_ratio_limit(other_color) / 2.0
 
         upper_color = upper_limit_color(fixed_color, other_color, w * 2, level)
@@ -197,8 +196,7 @@ module ColorContrastCalc
       #   +other_color+
 
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        criteria = ThresholdFinder.threshold_criteria(level,
-                                                      fixed_color, other_color)
+        criteria = Criteria.threshold_criteria(level, fixed_color, other_color)
         init_l = other_color.hsl[2]
         max, min = determine_minmax(fixed_color, other_color, init_l)
 
