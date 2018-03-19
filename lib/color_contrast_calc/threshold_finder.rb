@@ -197,18 +197,19 @@ module ColorContrastCalc
       # @return [Color] New color whose lightness is adjusted from that of
       #   +other_color+
 
-      def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        criteria = Criteria.threshold_criteria(level, fixed_color.rgb, other_color.rgb)
-        init_l = other_color.hsl[2]
-        max, min = determine_minmax(fixed_color.rgb, other_color.rgb, init_l)
+      def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
+        other_hsl = Utils.rgb_to_hsl(other_rgb)
+        criteria = Criteria.threshold_criteria(level, fixed_rgb, other_rgb)
+        init_l = other_hsl[2]
+        max, min = determine_minmax(fixed_rgb, other_rgb, init_l)
 
-        boundary_color = lightness_boundary_color(fixed_color.rgb, max, min, level)
+        boundary_color = lightness_boundary_color(fixed_rgb, max, min, level)
         return boundary_color if boundary_color
 
-        l, sufficient_l = calc_lightness_ratio(fixed_color.rgb, other_color.hsl,
+        l, sufficient_l = calc_lightness_ratio(fixed_rgb, other_hsl,
                                                criteria, max, min)
 
-        generate_satisfying_color(fixed_color.rgb, other_color.hsl, criteria,
+        generate_satisfying_color(fixed_rgb, other_hsl, criteria,
                                   l, sufficient_l)
       end
 
