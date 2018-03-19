@@ -221,11 +221,14 @@ module ColorContrastCalc
       private_class_method :determine_minmax
 
       def self.lightness_boundary_color(color, max, min, level)
-        if min.zero? && !color.sufficient_contrast?(Color::BLACK, level)
+        black_rgb = [0, 0, 0]
+        white_rgb = [255, 255, 255]
+
+        if min.zero? && !sufficient_contrast?(black_rgb, color.rgb, level)
           return Color::BLACK
         end
 
-        if max == 100 && !color.sufficient_contrast?(Color::WHITE, level)
+        if max == 100 && !sufficient_contrast?(white_rgb, color.rgb, level)
           return Color::WHITE
         end
       end
@@ -269,13 +272,13 @@ module ColorContrastCalc
                                          l, sufficient_l)
         h, s, = other_hsl
         level = criteria.level
-        nearest = Color.new_from_hsl([h, s, l])
+        nearest = Utils.hsl_to_rgb([h, s, l])
 
-        if sufficient_l && !nearest.sufficient_contrast?(fixed_color, level)
+        if sufficient_l && !sufficient_contrast?(fixed_color.rgb, nearest, level)
           return Color.new_from_hsl([h, s, sufficient_l])
         end
 
-        nearest
+        Color.new(nearest)
       end
 
       private_class_method :generate_satisfying_color
