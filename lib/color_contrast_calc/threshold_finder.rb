@@ -221,15 +221,12 @@ module ColorContrastCalc
       private_class_method :determine_minmax
 
       def self.lightness_boundary_color(rgb, max, min, level)
-        black_rgb = [0, 0, 0]
-        white_rgb = [255, 255, 255]
-
-        if min.zero? && !sufficient_contrast?(black_rgb, rgb, level)
-          return Color::BLACK
+        if min.zero? && !sufficient_contrast?(Rgb::BLACK, rgb, level)
+          return Color.new(Rgb::BLACK)
         end
 
-        if max == 100 && !sufficient_contrast?(white_rgb, rgb, level)
-          return Color::WHITE
+        if max == 100 && !sufficient_contrast?(Rgb::WHITE, rgb, level)
+          return Color.new(Rgb::WHITE)
         end
       end
 

@@ -237,4 +237,13 @@ module ColorContrastCalc
       !/[[:lower:]]/.match?(str)
     end
   end
+
+  ##
+  # RGB values of some colors.
+
+  module Rgb
+    BLACK = [0, 0, 0].freeze
+    GRAY = [128, 128, 128].freeze
+    WHITE = [255, 255, 255].freeze
+  end
 end
