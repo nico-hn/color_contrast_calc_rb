@@ -115,4 +115,14 @@ RSpec.describe ColorContrastCalc::Checker do
       expect(Checker.level_to_ratio(1)).to eq(3)
     end
   end
+
+  describe 'light_color?' do
+    it 'expects to return true when the color is [118, 118, 118]' do
+      expect(Checker.light_color?([118, 118, 118])).to be true
+    end
+
+    it 'expects to return false when the color is [117, 117, 117]' do
+      expect(Checker.light_color?([117, 117, 117])).to be false
+    end
+  end
 end

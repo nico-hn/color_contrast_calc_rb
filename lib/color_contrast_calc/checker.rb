@@ -132,5 +132,22 @@ module ColorContrastCalc
     def self.level_to_ratio(level)
       LEVEL_TO_RATIO[level]
     end
+
+    ##
+    # Check if the contrast ratio of a given color against black is higher
+    # than against white.
+    #
+    # @param color [String, Array<Integer>] RGB color given as a string or
+    #   an array of integers. Yellow, for example, can be given as "#ffff00"
+    #   or [255, 255, 0].
+    # @return [Boolean] true if the contrast ratio against white is qual to
+    #   or less than the ratio against black
+
+    def self.light_color?(color)
+      l = relative_luminance(color)
+      ratio_with_white = luminance_to_contrast_ratio(Luminance::WHITE, l)
+      ratio_with_black = luminance_to_contrast_ratio(Luminance::BLACK, l)
+      ratio_with_white <= ratio_with_black
+    end
   end
 end
