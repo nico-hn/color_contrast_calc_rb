@@ -272,7 +272,7 @@ module ColorContrastCalc
         nearest = Utils.hsl_to_rgb([h, s, l])
 
         if sufficient_l && !sufficient_contrast?(fixed_rgb, nearest, level)
-          return Color.new_from_hsl([h, s, sufficient_l])
+          return Color.new(Utils.hsl_to_rgb([h, s, sufficient_l]))
         end
 
         Color.new(nearest)
