@@ -14,7 +14,7 @@ module ColorContrastCalc
       # @private
 
       def self.threshold_criteria(level, fixed_color, other_color)
-        if should_scan_darker_side?(fixed_color, other_color)
+        if should_scan_darker_side?(fixed_color.rgb, other_color.rgb)
           return ToDarkerSide.new(level)
         end
 
@@ -23,10 +23,9 @@ module ColorContrastCalc
 
       # @private
 
-      def self.should_scan_darker_side?(fixed_color, other_color)
-        fixed_rgb = fixed_color.rgb
+      def self.should_scan_darker_side?(fixed_rgb, other_rgb)
         fixed_luminance = Checker.relative_luminance(fixed_rgb)
-        other_luminance = Checker.relative_luminance(other_color.rgb)
+        other_luminance = Checker.relative_luminance(other_rgb)
         fixed_luminance > other_luminance ||
           fixed_luminance == other_luminance && Checker.light_color?(fixed_rgb)
       end
@@ -214,8 +213,8 @@ module ColorContrastCalc
       end
 
       def self.determine_minmax(fixed_color, other_color, init_l)
-        scan_darker_side = Criteria.should_scan_darker_side?(fixed_color,
-                                                             other_color)
+        scan_darker_side = Criteria.should_scan_darker_side?(fixed_color.rgb,
+                                                             other_color.rgb)
         scan_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
       end
 
