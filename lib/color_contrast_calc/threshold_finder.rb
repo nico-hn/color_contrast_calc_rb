@@ -14,7 +14,7 @@ module ColorContrastCalc
       # @private
 
       def self.threshold_criteria(level, fixed_color, other_color)
-        if ThresholdFinder.should_scan_darker_side?(fixed_color, other_color)
+        if should_scan_darker_side?(fixed_color, other_color)
           return ToDarkerSide.new(level)
         end
 
@@ -64,12 +64,6 @@ module ColorContrastCalc
           @target_ratio > contrast_ratio
         end
       end
-    end
-
-    # @private
-
-    def self.should_scan_darker_side?(fixed_color, other_color)
-      Criteria.should_scan_darker_side?(fixed_color, other_color)
     end
 
     # @private
@@ -217,8 +211,8 @@ module ColorContrastCalc
       end
 
       def self.determine_minmax(fixed_color, other_color, init_l)
-        scan_darker_side = ThresholdFinder.should_scan_darker_side?(fixed_color,
-                                                                    other_color)
+        scan_darker_side = Criteria.should_scan_darker_side?(fixed_color,
+                                                             other_color)
         scan_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
       end
 
