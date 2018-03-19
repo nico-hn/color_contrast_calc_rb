@@ -21,6 +21,13 @@ module ColorContrastCalc
         ToBrighterSide.new(level)
       end
 
+      # @private
+
+      def self.should_scan_darker_side?(fixed_color, other_color)
+        fixed_color.higher_luminance_than?(other_color) ||
+          fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
+      end
+
       class SearchDirection
         attr_reader :level, :target_ratio
 
@@ -62,8 +69,7 @@ module ColorContrastCalc
     # @private
 
     def self.should_scan_darker_side?(fixed_color, other_color)
-      fixed_color.higher_luminance_than?(other_color) ||
-        fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
+      Criteria.should_scan_darker_side?(fixed_color, other_color)
     end
 
     # @private
