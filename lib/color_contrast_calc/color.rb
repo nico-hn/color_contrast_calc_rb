@@ -338,7 +338,7 @@ module ColorContrastCalc
     #   or less than the ratio against black
 
     def light_color?
-      contrast_ratio_against(WHITE.rgb) <= contrast_ratio_against(BLACK.rgb)
+      Checker.light_color?(rgb)
     end
 
     def generate_new_color(calc, ratio, name = nil)
