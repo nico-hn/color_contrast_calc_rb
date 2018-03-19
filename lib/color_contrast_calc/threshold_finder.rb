@@ -232,6 +232,14 @@ module ColorContrastCalc
 
       private_class_method :lightness_boundary_color
 
+      def self.sufficient_contrast?(fixed_rgb, other_rgb, level)
+        target_ratio = Checker.level_to_ratio(level)
+        ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
+        ratio >= target_ratio
+      end
+
+      private_class_method :sufficient_contrast?
+
       def self.calc_lightness_ratio(fixed_rgb, other_hsl, criteria, max, min)
         h, s, = other_hsl
         l = (max + min) / 2.0
