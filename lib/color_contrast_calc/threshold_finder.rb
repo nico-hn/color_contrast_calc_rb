@@ -189,13 +189,13 @@ module ColorContrastCalc
       # Try to find a color who has a satisfying contrast ratio.
       #
       # The color returned by this method will be created by changing the
-      # lightness of +other_color+. Even when a color that satisfies the
+      # lightness of +other_rgb+. Even when a color that satisfies the
       # specified level is not found, the method returns a new color anyway.
-      # @param fixed_color [Color] The color which remains unchanged
-      # @param other_color [Color] Color before the adjustment of lightness
+      # @param fixed_rgb [Array<Integer>] RGB value which remains unchanged
+      # @param other_rgb [Array<Integer>] RGB value before the adjustment of lightness
       # @param level [String] "A", "AA" or "AAA"
       # @return [Color] New color whose lightness is adjusted from that of
-      #   +other_color+
+      #   +other_rgb+
 
       def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
         other_hsl = Utils.rgb_to_hsl(other_rgb)
