@@ -208,7 +208,7 @@ module ColorContrastCalc
         l, sufficient_l = calc_lightness_ratio(fixed_color.rgb, other_color.hsl,
                                                criteria, max, min)
 
-        generate_satisfying_color(fixed_color, other_color.hsl, criteria,
+        generate_satisfying_color(fixed_color.rgb, other_color.hsl, criteria,
                                   l, sufficient_l)
       end
 
@@ -268,13 +268,13 @@ module ColorContrastCalc
 
       private_class_method :calc_contrast_ratio
 
-      def self.generate_satisfying_color(fixed_color, other_hsl, criteria,
+      def self.generate_satisfying_color(fixed_rgb, other_hsl, criteria,
                                          l, sufficient_l)
         h, s, = other_hsl
         level = criteria.level
         nearest = Utils.hsl_to_rgb([h, s, l])
 
-        if sufficient_l && !sufficient_contrast?(fixed_color.rgb, nearest, level)
+        if sufficient_l && !sufficient_contrast?(fixed_rgb, nearest, level)
           return Color.new_from_hsl([h, s, sufficient_l])
         end
 
