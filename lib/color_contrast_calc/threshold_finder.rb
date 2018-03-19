@@ -200,8 +200,7 @@ module ColorContrastCalc
       def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
         other_hsl = Utils.rgb_to_hsl(other_rgb)
         criteria = Criteria.threshold_criteria(level, fixed_rgb, other_rgb)
-        init_l = other_hsl[2]
-        max, min = determine_minmax(fixed_rgb, other_rgb, init_l)
+        max, min = determine_minmax(fixed_rgb, other_rgb, other_hsl[2])
 
         boundary_color = lightness_boundary_color(fixed_rgb, max, min, level)
         return boundary_color if boundary_color
