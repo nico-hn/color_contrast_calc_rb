@@ -24,8 +24,11 @@ module ColorContrastCalc
       # @private
 
       def self.should_scan_darker_side?(fixed_color, other_color)
-        fixed_color.higher_luminance_than?(other_color) ||
-          fixed_color.same_luminance_as?(other_color) && fixed_color.light_color?
+        fixed_rgb = fixed_color.rgb
+        fixed_luminance = Checker.relative_luminance(fixed_rgb)
+        other_luminance = Checker.relative_luminance(other_color.rgb)
+        fixed_luminance > other_luminance ||
+          fixed_luminance == other_luminance && Checker.light_color?(fixed_rgb)
       end
 
       class SearchDirection
