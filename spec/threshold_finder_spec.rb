@@ -21,9 +21,9 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
   describe ColorContrastCalc::ThresholdFinder::Criteria do
     describe '.threshold_criteria' do
       target = 'AA'
-      orange = Color.from_hex('orange')
-      yellow = Color.from_name('yellow')
-      darkgreen = Color.from_name('darkgreen')
+      orange = Color.from_hex('orange').rgb
+      yellow = Color.from_name('yellow').rgb
+      darkgreen = Color.from_name('darkgreen').rgb
 
       context 'when two colors are different' do
         it 'expects to return a ToDarkerSide when yellow and orange are passed' do

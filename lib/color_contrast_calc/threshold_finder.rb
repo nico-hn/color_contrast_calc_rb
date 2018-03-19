@@ -13,8 +13,8 @@ module ColorContrastCalc
     module Criteria
       # @private
 
-      def self.threshold_criteria(level, fixed_color, other_color)
-        if should_scan_darker_side?(fixed_color.rgb, other_color.rgb)
+      def self.threshold_criteria(level, fixed_rgb, other_rgb)
+        if should_scan_darker_side?(fixed_rgb, other_rgb)
           return ToDarkerSide.new(level)
         end
 
@@ -100,7 +100,7 @@ module ColorContrastCalc
       #   +other_color+
 
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        criteria = Criteria.threshold_criteria(level, fixed_color, other_color)
+        criteria = Criteria.threshold_criteria(level, fixed_color.rgb, other_color.rgb)
         w = calc_upper_ratio_limit(other_color) / 2.0
 
         upper_color = upper_limit_color(fixed_color, other_color, w * 2, level)
@@ -198,7 +198,7 @@ module ColorContrastCalc
       #   +other_color+
 
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        criteria = Criteria.threshold_criteria(level, fixed_color, other_color)
+        criteria = Criteria.threshold_criteria(level, fixed_color.rgb, other_color.rgb)
         init_l = other_color.hsl[2]
         max, min = determine_minmax(fixed_color.rgb, other_color.rgb, init_l)
 
