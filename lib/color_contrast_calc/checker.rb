@@ -25,6 +25,16 @@ module ColorContrastCalc
       AAA = 'AAA'
     end
 
+    ##
+    # The relative luminance of some colors
+
+    module Luminance
+      # The relative luminance of white
+      WHITE = 1.0
+      # The relative luminance of black
+      BLACK = 0.0
+    end
+
     LEVEL_TO_RATIO = {
       Level::AAA => 7,
       Level::AA => 4.5,
