@@ -200,7 +200,7 @@ module ColorContrastCalc
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
         criteria = Criteria.threshold_criteria(level, fixed_color, other_color)
         init_l = other_color.hsl[2]
-        max, min = determine_minmax(fixed_color, other_color, init_l)
+        max, min = determine_minmax(fixed_color.rgb, other_color.rgb, init_l)
 
         boundary_color = lightness_boundary_color(fixed_color, max, min, level)
         return boundary_color if boundary_color
@@ -212,9 +212,9 @@ module ColorContrastCalc
                                   l, sufficient_l)
       end
 
-      def self.determine_minmax(fixed_color, other_color, init_l)
-        scan_darker_side = Criteria.should_scan_darker_side?(fixed_color.rgb,
-                                                             other_color.rgb)
+      def self.determine_minmax(fixed_rgb, other_rgb, init_l)
+        scan_darker_side = Criteria.should_scan_darker_side?(fixed_rgb,
+                                                             other_rgb)
         scan_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
       end
 
