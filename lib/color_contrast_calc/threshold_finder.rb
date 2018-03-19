@@ -202,7 +202,7 @@ module ColorContrastCalc
         init_l = other_color.hsl[2]
         max, min = determine_minmax(fixed_color.rgb, other_color.rgb, init_l)
 
-        boundary_color = lightness_boundary_color(fixed_color, max, min, level)
+        boundary_color = lightness_boundary_color(fixed_color.rgb, max, min, level)
         return boundary_color if boundary_color
 
         l, sufficient_l = calc_lightness_ratio(fixed_color.rgb, other_color.hsl,
@@ -220,15 +220,15 @@ module ColorContrastCalc
 
       private_class_method :determine_minmax
 
-      def self.lightness_boundary_color(color, max, min, level)
+      def self.lightness_boundary_color(rgb, max, min, level)
         black_rgb = [0, 0, 0]
         white_rgb = [255, 255, 255]
 
-        if min.zero? && !sufficient_contrast?(black_rgb, color.rgb, level)
+        if min.zero? && !sufficient_contrast?(black_rgb, rgb, level)
           return Color::BLACK
         end
 
-        if max == 100 && !sufficient_contrast?(white_rgb, color.rgb, level)
+        if max == 100 && !sufficient_contrast?(white_rgb, rgb, level)
           return Color::WHITE
         end
       end
