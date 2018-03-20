@@ -127,6 +127,7 @@ module ColorContrastCalc
     # @return [Float] Contrast ratio
 
     def self.level_to_ratio(level)
+      return level if level.is_a?(Numeric) && level >= 1.0 && level <= 21.0
       LEVEL_TO_RATIO[level]
     end
 

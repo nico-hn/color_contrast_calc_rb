@@ -102,6 +102,18 @@ RSpec.describe ColorContrastCalc::Checker do
     it 'expects to return 3 when A is passed' do
       expect(Checker.level_to_ratio('A')).to eq(3)
     end
+
+    it 'expects to return 14.5 when 14.5 is passed' do
+      expect(Checker.level_to_ratio(14.5)).to eq(14.5)
+    end
+
+    it 'expects to return nil when 21.5 is passed' do
+      expect(Checker.level_to_ratio(21.5)).to be nil
+    end
+
+    it 'expects to return nil when 0.5 is passed' do
+      expect(Checker.level_to_ratio(0.5)).to be nil
+    end
   end
 
   describe 'light_color?' do
