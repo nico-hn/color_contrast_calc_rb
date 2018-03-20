@@ -193,7 +193,7 @@ module ColorContrastCalc
       # @private
 
       def self.calc_upper_ratio_limit(rgb)
-        return 100 if rgb == (Rgb::BLACK)
+        return 100 if rgb == Rgb::BLACK
         darkest = rgb.reject(&:zero?).min
         ((255.0 / darkest) * 100).ceil
       end
