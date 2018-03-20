@@ -259,7 +259,7 @@ module ColorContrastCalc
         sufficient_l = nil
 
         FinderUtils.binary_search_width(max - min, 0.01) do |d|
-          contrast_ratio = calc_contrast_ratio(fixed_rgb, [h, s, l])
+          contrast_ratio = calc_contrast_ratio(criteria, [h, s, l])
 
           sufficient_l = l if contrast_ratio >= criteria.target_ratio
           break if contrast_ratio == criteria.target_ratio
@@ -272,8 +272,8 @@ module ColorContrastCalc
 
       private_class_method :calc_lightness_ratio
 
-      def self.calc_contrast_ratio(fixed_rgb, hsl)
-        Checker.contrast_ratio(fixed_rgb, Utils.hsl_to_rgb(hsl))
+      def self.calc_contrast_ratio(criteria, hsl)
+        criteria.contrast_ratio(Utils.hsl_to_rgb(hsl))
       end
 
       private_class_method :calc_contrast_ratio
