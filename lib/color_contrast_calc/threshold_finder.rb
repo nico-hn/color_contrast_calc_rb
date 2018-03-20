@@ -39,6 +39,13 @@ module ColorContrastCalc
           @target_ratio = Checker.level_to_ratio(level)
           @fixed_luminance = Checker.relative_luminance(fixed_rgb)
         end
+
+        def sufficient_contrast?(rgb)
+          other_luminance = Checker.relative_luminance(rgb)
+          ratio = Checker.luminance_to_contrast_ratio(@fixed_luminance,
+                                                      other_luminance)
+          ratio >= @target_ratio
+        end
       end
 
       class ToDarkerSide < SearchDirection
