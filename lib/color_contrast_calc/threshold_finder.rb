@@ -16,10 +16,10 @@ module ColorContrastCalc
 
       def self.threshold_criteria(level, fixed_rgb, other_rgb)
         if should_scan_darker_side?(fixed_rgb, other_rgb)
-          return ToDarkerSide.new(level)
+          return ToDarkerSide.new(level, fixed_rgb)
         end
 
-        ToBrighterSide.new(level)
+        ToBrighterSide.new(level, fixed_rgb)
       end
 
       # @private
@@ -32,11 +32,12 @@ module ColorContrastCalc
       end
 
       class SearchDirection
-        attr_reader :level, :target_ratio
+        attr_reader :level, :target_ratio, :fixed_luminance
 
-        def initialize(level)
+        def initialize(level, fixed_rgb)
           @level = level
           @target_ratio = Checker.level_to_ratio(level)
+          @fixed_luminance = Checker.relative_luminance(fixed_rgb)
         end
       end
 
