@@ -101,7 +101,7 @@ module ColorContrastCalc
 
       def self.find(fixed_color, other_color, level = Checker::Level::AA)
         criteria = Criteria.threshold_criteria(level, fixed_color.rgb, other_color.rgb)
-        w = calc_upper_ratio_limit(other_color) / 2.0
+        w = calc_upper_ratio_limit(other_color.rgb) / 2.0
 
         upper_color = upper_limit_color(fixed_color, other_color, w * 2, level)
         return upper_color if upper_color
@@ -173,9 +173,9 @@ module ColorContrastCalc
 
       # @private
 
-      def self.calc_upper_ratio_limit(color)
-        return 100 if color.same_color?(Color::BLACK)
-        darkest = color.rgb.reject(&:zero?).min
+      def self.calc_upper_ratio_limit(rgb)
+        return 100 if rgb == (Rgb::BLACK)
+        darkest = rgb.reject(&:zero?).min
         ((255.0 / darkest) * 100).ceil
       end
     end

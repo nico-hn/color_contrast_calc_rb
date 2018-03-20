@@ -157,7 +157,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         it 'expects the upper ratio limit of mintcream to be 105' do
           new_color = mintcream.new_brightness_color(105)
 
-          expect(Brightness.calc_upper_ratio_limit(mintcream)).to be 105
+          expect(Brightness.calc_upper_ratio_limit(mintcream.rgb)).to be 105
           expect(new_color.same_color?(white)).to be true
         end
 
@@ -198,22 +198,22 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
     describe '.calc_upper_ratio_limit' do
       it 'expects to return 100 for black' do
         color = Color.from_name('black')
-        expect(Brightness.calc_upper_ratio_limit(color)).to be 100
+        expect(Brightness.calc_upper_ratio_limit(color.rgb)).to be 100
       end
 
       it 'expects to return 155 for orange' do
         color = Color.from_name('orange')
-        expect(Brightness.calc_upper_ratio_limit(color)).to be 155
+        expect(Brightness.calc_upper_ratio_limit(color.rgb)).to be 155
       end
 
       it 'expects to return 594 for blueviolet' do
         color = Color.from_name('blueviolet')
-        expect(Brightness.calc_upper_ratio_limit(color)).to be 594
+        expect(Brightness.calc_upper_ratio_limit(color.rgb)).to be 594
       end
 
       it 'expects to return 142 for a dark green' do
         color = Color.new([0, 180, 0])
-        expect(Brightness.calc_upper_ratio_limit(color)).to be 142
+        expect(Brightness.calc_upper_ratio_limit(color.rgb)).to be 142
       end
     end
   end
