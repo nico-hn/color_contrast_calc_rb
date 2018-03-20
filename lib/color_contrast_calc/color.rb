@@ -185,7 +185,7 @@ module ColorContrastCalc
 
     def find_brightness_threshold(other_color, level = Checker::Level::AA)
       other_color = Color.new(other_color) unless other_color.is_a? Color
-      ThresholdFinder::Brightness.find(rgb, other_color.rgb, level)
+      Color.new(ThresholdFinder::Brightness.find(rgb, other_color.rgb, level))
     end
 
     ##

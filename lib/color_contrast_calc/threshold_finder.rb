@@ -106,21 +106,21 @@ module ColorContrastCalc
       # Try to find a color who has a satisfying contrast ratio.
       #
       # The color returned by this method will be created by changing the
-      # brightness of +other_color+. Even when a color that satisfies the
+      # brightness of +other_rgb+. Even when a color that satisfies the
       # specified level is not found, the method returns a new color anyway.
       # @param fixed_rgb [Array<Integer>] RGB value  which remains unchanged
       # @param other_rgb [Array<Integer>] RGB value before the adjustment of
       #   brightness
       # @param level [String] "A", "AA" or "AAA"
-      # @return [Color] New color whose brightness is adjusted from that of
-      #   +other_color+
+      # @return [Array<Integer>] RGB value of a new color whose brightness is
+      #   adjusted from that of +other_rgb+
 
       def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
         criteria = Criteria.threshold_criteria(level, fixed_rgb, other_rgb)
         w = calc_upper_ratio_limit(other_rgb) / 2.0
 
         upper_rgb = upper_limit_rgb(fixed_rgb, other_rgb, w * 2, level)
-        return Color.new(upper_rgb) if upper_rgb
+        return upper_rgb if upper_rgb
 
         fixed_luminance = Checker.relative_luminance(fixed_rgb)
         r, sufficient_r = calc_brightness_ratio(fixed_luminance,
@@ -174,10 +174,11 @@ module ColorContrastCalc
         nearest = Converter::Brightness.calc_rgb(other_rgb, criteria.round(r))
 
         if sufficient_r && !sufficient_contrast?(fixed_rgb, nearest, level)
-          return Color.new(Converter::Brightness.calc_rgb(other_rgb, criteria.round(sufficient_r)))
+          return Converter::Brightness.calc_rgb(other_rgb,
+                                                criteria.round(sufficient_r))
         end
 
-        Color.new(nearest)
+        nearest
       end
 
       private_class_method :generate_satisfying_color

@@ -77,7 +77,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when then fixed color is orange' do
         it 'expects to return a darker orange when orange is passed' do
-          new_color = Brightness.find(orange.rgb, orange.rgb)
+          new_rgb = Brightness.find(orange.rgb, orange.rgb)
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = orange.contrast_ratio_against(new_color)
 
           expect(orange.contrast_ratio_against(orange)).to be < 4.5
@@ -87,7 +88,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return a darker color when blueviolet is passed' do
-          new_color = Brightness.find(orange.rgb, blueviolet.rgb)
+          new_rgb = Brightness.find(orange.rgb, blueviolet.rgb)
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = orange.contrast_ratio_against(new_color)
 
           expect(new_contrast_ratio).to be > 4.5
@@ -98,7 +100,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when the color to be adjusted is orange' do
         it 'expect to return a brigher orange with blue as fixed color' do
-          new_color = Brightness.find(blue.rgb, orange.rgb)
+          new_rgb = Brightness.find(blue.rgb, orange.rgb)
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = blue.contrast_ratio_against(new_color)
 
           expect(new_contrast_ratio).to be > 4.5
@@ -107,7 +110,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expect to return a brigher orange with blueviolet as fixed color' do
-          new_color = Brightness.find(blueviolet.rgb, orange.rgb)
+          new_rgb = Brightness.find(blueviolet.rgb, orange.rgb)
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = blueviolet.contrast_ratio_against(new_color)
 
           expect(new_contrast_ratio).to be > 4.5
@@ -117,7 +121,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
       end
 
       it 'expects to return a brighter color when brown is passed to brown' do
-        new_color = Brightness.find(brown.rgb, brown.rgb)
+        new_rgb = Brightness.find(brown.rgb, brown.rgb)
+        new_color = Color.new(new_rgb)
         new_contrast_ratio = brown.contrast_ratio_against(new_color)
 
         expect(brown.hex).to eq('#a52a2a')
@@ -128,7 +133,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when darkgreen is passed to white' do
         it 'expect return a darker green - AA' do
-          new_color = Brightness.find(white.rgb, darkgreen.rgb)
+          new_rgb = Brightness.find(white.rgb, darkgreen.rgb)
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = white.contrast_ratio_against(new_color)
 
           expect(new_contrast_ratio).to be > 4.5
@@ -136,7 +142,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expect return a darker green - AAA' do
-          new_color = Brightness.find(white.rgb, darkgreen.rgb, 'AAA')
+          new_rgb = Brightness.find(white.rgb, darkgreen.rgb, 'AAA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = white.contrast_ratio_against(new_color)
 
           expect(new_contrast_ratio).to be > 7.0
@@ -145,7 +152,9 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
       end
 
       it 'expects to return black for AAA if blue is passed to green' do
-        new_color = Brightness.find(green.rgb, blue.rgb)
+        new_rgb = Brightness.find(green.rgb, blue.rgb)
+        new_color = Color.new(new_rgb)
+
         expect(new_color.same_color?(black)).to be true
       end
 
@@ -162,33 +171,38 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return white when the contrast ratio of A is given' do
-          new_color = Brightness.find(yellow.rgb, mintcream.rgb, 'A')
+          new_rgb = Brightness.find(yellow.rgb, mintcream.rgb, 'A')
+          new_color = Color.new(new_rgb)
 
           expect(new_color.same_color?(white)).to be true
         end
 
         it 'expects to return white when the contrast ratio of AA is given' do
-          new_color = Brightness.find(yellow.rgb, mintcream.rgb, 'AA')
+          new_rgb = Brightness.find(yellow.rgb, mintcream.rgb, 'AA')
+          new_color = Color.new(new_rgb)
 
           expect(new_color.same_color?(white)).to be true
         end
 
         it 'expects to return white when the contrast ratio of AAA is given' do
-          new_color = Brightness.find(yellow.rgb, mintcream.rgb, 'AA')
+          new_rgb = Brightness.find(yellow.rgb, mintcream.rgb, 'AA')
+          new_color = Color.new(new_rgb)
 
           expect(new_color.same_color?(white)).to be true
         end
       end
 
       it 'expects to return darker green when springgreen is passed to green' do
-        new_color = Brightness.find(green.rgb, springgreen.rgb, 'A')
+        new_rgb = Brightness.find(green.rgb, springgreen.rgb, 'A')
+        new_color = Color.new(new_rgb)
 
         expect(springgreen.higher_luminance_than?(new_color)).to be true
         expect(green.contrast_ratio_against(new_color)).to within(0.5).of(3.0)
       end
 
       it 'expects to return a darker color when azure is passed to fuchsia' do
-        new_color = Brightness.find(fuchsia.rgb, azure.rgb, 'A')
+        new_rgb = Brightness.find(fuchsia.rgb, azure.rgb, 'A')
+        new_color = Color.new(new_rgb)
 
         expect(azure.higher_luminance_than?(new_color)).to be true
         expect(fuchsia.contrast_ratio_against(new_color)).to within(0.5).of(3.0)
