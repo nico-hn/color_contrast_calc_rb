@@ -68,6 +68,18 @@ module ColorContrastCalc
       end
     end
 
+    module FinderUtils
+      # @private
+
+      def sufficient_contrast?(fixed_rgb, other_rgb, level)
+        target_ratio = Checker.level_to_ratio(level)
+        ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
+        ratio >= target_ratio
+      end
+
+      private :sufficient_contrast?
+    end
+
     # @private
 
     def self.binary_search_width(init_width, min)
@@ -185,6 +197,8 @@ module ColorContrastCalc
     # +Color#find_lightness_threshold()+.
 
     module Lightness
+      extend FinderUtils
+
       ##
       # Try to find a color who has a satisfying contrast ratio.
       #
@@ -232,14 +246,6 @@ module ColorContrastCalc
       end
 
       private_class_method :lightness_boundary_color
-
-      def self.sufficient_contrast?(fixed_rgb, other_rgb, level)
-        target_ratio = Checker.level_to_ratio(level)
-        ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
-        ratio >= target_ratio
-      end
-
-      private_class_method :sufficient_contrast?
 
       def self.calc_lightness_ratio(fixed_rgb, other_hsl, criteria, max, min)
         h, s, = other_hsl
