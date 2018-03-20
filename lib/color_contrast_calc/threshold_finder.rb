@@ -118,7 +118,7 @@ module ColorContrastCalc
         criteria = Criteria.threshold_criteria(level, fixed_color.rgb, other_color.rgb)
         w = calc_upper_ratio_limit(other_color.rgb) / 2.0
 
-        upper_rgb = upper_limit_color(fixed_color.rgb, other_color.rgb, w * 2, level)
+        upper_rgb = upper_limit_rgb(fixed_color.rgb, other_color.rgb, w * 2, level)
         return Color.new(upper_rgb) if upper_rgb
 
         r, sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
@@ -128,7 +128,7 @@ module ColorContrastCalc
                                   r, sufficient_r)
       end
 
-      def self.upper_limit_color(fixed_rgb, other_rgb, max_ratio, level)
+      def self.upper_limit_rgb(fixed_rgb, other_rgb, max_ratio, level)
         limit_rgb = Converter::Brightness.calc_rgb(other_rgb, max_ratio)
 
         if exceed_upper_limit?(fixed_rgb, other_rgb, limit_rgb, level)
@@ -136,7 +136,7 @@ module ColorContrastCalc
         end
       end
 
-      private_class_method :upper_limit_color
+      private_class_method :upper_limit_rgb
 
       def self.exceed_upper_limit?(fixed_rgb, other_rgb, limit_rgb, level)
         fixed_luminance = Checker.relative_luminance(fixed_rgb)
