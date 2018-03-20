@@ -123,8 +123,7 @@ module ColorContrastCalc
         upper_rgb = upper_limit_rgb(fixed_rgb, other_rgb, w * 2, level)
         return upper_rgb if upper_rgb
 
-        fixed_luminance = Checker.relative_luminance(fixed_rgb)
-        r, sufficient_r = calc_brightness_ratio(fixed_luminance,
+        r, sufficient_r = calc_brightness_ratio(criteria.fixed_luminance,
                                                 other_rgb, criteria, w)
 
         generate_satisfying_color(fixed_rgb, other_rgb, criteria,
