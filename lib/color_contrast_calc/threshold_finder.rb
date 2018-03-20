@@ -41,10 +41,12 @@ module ColorContrastCalc
         end
 
         def sufficient_contrast?(rgb)
-          other_luminance = Checker.relative_luminance(rgb)
-          ratio = Checker.luminance_to_contrast_ratio(@fixed_luminance,
-                                                      other_luminance)
-          ratio >= @target_ratio
+          contrast_ratio(rgb) >= @target_ratio
+        end
+
+        def contrast_ratio(rgb)
+          luminance = Checker.relative_luminance(rgb)
+          Checker.luminance_to_contrast_ratio(@fixed_luminance, luminance)
         end
       end
 
