@@ -138,10 +138,7 @@ module ColorContrastCalc
 
       def self.upper_limit_rgb(criteria, other_rgb, max_ratio)
         limit_rgb = Converter::Brightness.calc_rgb(other_rgb, max_ratio)
-
-        if exceed_upper_limit?(criteria, other_rgb, limit_rgb)
-          limit_rgb
-        end
+        limit_rgb if exceed_upper_limit?(criteria, other_rgb, limit_rgb)
       end
 
       private_class_method :upper_limit_rgb
