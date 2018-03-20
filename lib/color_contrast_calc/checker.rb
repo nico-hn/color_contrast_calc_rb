@@ -38,10 +38,7 @@ module ColorContrastCalc
     LEVEL_TO_RATIO = {
       Level::AAA => 7,
       Level::AA => 4.5,
-      Level::A => 3,
-      3 => 7,
-      2 => 4.5,
-      1 => 3
+      Level::A => 3
     }.freeze
 
     private_constant :LEVEL_TO_RATIO
