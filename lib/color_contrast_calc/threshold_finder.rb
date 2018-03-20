@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'color_contrast_calc/converter'
-require 'color_contrast_calc/color'
+require 'color_contrast_calc/checker'
 
 module ColorContrastCalc
   ##
