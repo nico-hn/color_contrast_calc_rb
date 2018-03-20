@@ -235,7 +235,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
     describe '.find' do
       context 'when the required level is A' do
         it 'expects to return a darker color when azure is passed to fuchsia' do
-          new_color = Lightness.find(fuchsia.rgb, azure.rgb, 'A')
+          new_rgb = Lightness.find(fuchsia.rgb, azure.rgb, 'A')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(fuchsia)
 
           expect(azure.higher_luminance_than?(fuchsia)).to be true
@@ -248,7 +249,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         it 'expects to return a lighter green when both colors are darkgreen' do
           contrast_against_white = darkgreen.contrast_ratio_against(white)
           contrast_against_black = darkgreen.contrast_ratio_against(black)
-          new_color = Lightness.find(darkgreen.rgb, darkgreen.rgb, 'A')
+          new_rgb = Lightness.find(darkgreen.rgb, darkgreen.rgb, 'A')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(darkgreen)
 
           expect(darkgreen.light_color?).to be false
@@ -262,7 +264,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when the required level is AA' do
         it 'expects to return a darker orange when orange is passed to white' do
-          new_color = Lightness.find(white.rgb, orange.rgb, 'AA')
+          new_rgb = Lightness.find(white.rgb, orange.rgb, 'AA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(white)
 
           expect(new_color.hex).to eq('#a56a00')
@@ -271,7 +274,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return a darker green when green is passed to white' do
-          new_color = Lightness.find(white.rgb, green.rgb, 'AA')
+          new_rgb = Lightness.find(white.rgb, green.rgb, 'AA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(white)
 
           expect(new_color.hex).to eq('#008a00')
@@ -280,7 +284,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return a lighter orange when orange is passed to blueviolet' do
-          new_color = Lightness.find(blueviolet.rgb, orange.rgb, 'AA')
+          new_rgb = Lightness.find(blueviolet.rgb, orange.rgb, 'AA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(blueviolet)
 
           expect(new_color.hex).to eq('#ffdc9a')
@@ -291,7 +296,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         it 'expects to return a darker green when both colors are springgreen' do
           contrast_against_white = springgreen.contrast_ratio_against(white)
           contrast_against_black = springgreen.contrast_ratio_against(black)
-          new_color = Lightness.find(springgreen.rgb, springgreen.rgb, 'AA')
+          new_rgb = Lightness.find(springgreen.rgb, springgreen.rgb, 'AA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(springgreen)
 
           expect(springgreen.light_color?).to be true
@@ -303,14 +309,16 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return white when yellow is passed to orange' do
-          new_color = Lightness.find(orange.rgb, yellow.rgb)
+          new_rgb = Lightness.find(orange.rgb, yellow.rgb)
+          new_color = Color.new(new_rgb)
 
           expect(new_color.same_color?(white)).to be true
           expect(new_color.contrast_ratio_against(yellow)).to be < 4.5
         end
 
         it 'expects to return white when mintcream is passed to yellow' do
-          new_color = Lightness.find(yellow.rgb, mintcream.rgb)
+          new_rgb = Lightness.find(yellow.rgb, mintcream.rgb)
+          new_color = Color.new(new_rgb)
 
           expect(new_color.same_color?(white)).to be true
           expect(new_color.contrast_ratio_against(yellow)).to be < 4.5
@@ -319,7 +327,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when the required level is AAA' do
         it 'expects to return a darker orange when orange is passed to white' do
-          new_color = Lightness.find(white.rgb, orange.rgb, 'AAA')
+          new_rgb = Lightness.find(white.rgb, orange.rgb, 'AAA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(white)
 
           expect(new_color.hex).to eq('#7b5000')
@@ -328,7 +337,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return a darker green when green is passed to white' do
-          new_color = Lightness.find(white.rgb, green.rgb, 'AAA')
+          new_rgb = Lightness.find(white.rgb, green.rgb, 'AAA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(white)
 
           expect(new_color.hex).to eq('#006800')
@@ -337,7 +347,8 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects to return black when blue is passed to green' do
-          new_color = Lightness.find(green.rgb, blue.rgb, 'AAA')
+          new_rgb = Lightness.find(green.rgb, blue.rgb, 'AAA')
+          new_color = Color.new(new_rgb)
           new_contrast_ratio = new_color.contrast_ratio_against(green)
 
           expect(new_color.same_color?(black)).to be true

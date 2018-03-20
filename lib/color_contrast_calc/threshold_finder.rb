@@ -192,10 +192,11 @@ module ColorContrastCalc
       # lightness of +other_rgb+. Even when a color that satisfies the
       # specified level is not found, the method returns a new color anyway.
       # @param fixed_rgb [Array<Integer>] RGB value which remains unchanged
-      # @param other_rgb [Array<Integer>] RGB value before the adjustment of lightness
+      # @param other_rgb [Array<Integer>] RGB value before the adjustment of
+      #   lightness
       # @param level [String] "A", "AA" or "AAA"
-      # @return [Color] New color whose lightness is adjusted from that of
-      #   +other_rgb+
+      # @return [Array<Integer>] RGB value of a new color whose lightness is
+      #   adjusted from that of +other_rgb+
 
       def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
         other_hsl = Utils.rgb_to_hsl(other_rgb)
@@ -222,11 +223,11 @@ module ColorContrastCalc
 
       def self.lightness_boundary_color(rgb, max, min, level)
         if min.zero? && !sufficient_contrast?(Rgb::BLACK, rgb, level)
-          return Color.new(Rgb::BLACK)
+          return Rgb::BLACK
         end
 
         if max == 100 && !sufficient_contrast?(Rgb::WHITE, rgb, level)
-          return Color.new(Rgb::WHITE)
+          return Rgb::WHITE
         end
       end
 
@@ -272,10 +273,10 @@ module ColorContrastCalc
         nearest = Utils.hsl_to_rgb([h, s, l])
 
         if sufficient_l && !sufficient_contrast?(fixed_rgb, nearest, level)
-          return Color.new(Utils.hsl_to_rgb([h, s, sufficient_l]))
+          return Utils.hsl_to_rgb([h, s, sufficient_l])
         end
 
-        Color.new(nearest)
+        nearest
       end
 
       private_class_method :generate_satisfying_color
