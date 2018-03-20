@@ -158,7 +158,7 @@ module ColorContrastCalc
         sufficient_r = nil
 
         FinderUtils.binary_search_width(w, 0.01) do |d|
-          contrast_ratio = calc_contrast_ratio(criteria.fixed_luminance, other_rgb, r)
+          contrast_ratio = calc_contrast_ratio(criteria, other_rgb, r)
 
           sufficient_r = r if contrast_ratio >= target_ratio
           break if contrast_ratio == target_ratio
@@ -184,10 +184,8 @@ module ColorContrastCalc
 
       private_class_method :generate_satisfying_color
 
-      def self.calc_contrast_ratio(fixed_luminance, other_rgb, r)
-        new_rgb = Converter::Brightness.calc_rgb(other_rgb, r)
-        new_luminance = Checker.relative_luminance(new_rgb)
-        Checker.luminance_to_contrast_ratio(fixed_luminance, new_luminance)
+      def self.calc_contrast_ratio(criteria, other_rgb, r)
+        criteria.contrast_ratio(Converter::Brightness.calc_rgb(other_rgb, r))
       end
 
       private_class_method :calc_contrast_ratio
