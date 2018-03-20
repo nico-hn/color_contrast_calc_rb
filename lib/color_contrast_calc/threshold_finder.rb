@@ -132,8 +132,7 @@ module ColorContrastCalc
         upper_rgb = upper_limit_rgb(criteria, other_rgb, w * 2)
         return upper_rgb if upper_rgb
 
-        r, sufficient_r = calc_brightness_ratio(criteria.fixed_luminance,
-                                                other_rgb, criteria, w)
+        r, sufficient_r = calc_brightness_ratio(other_rgb, criteria, w)
 
         generate_satisfying_color(other_rgb, criteria, r, sufficient_r)
       end
@@ -153,13 +152,13 @@ module ColorContrastCalc
 
       private_class_method :exceed_upper_limit?
 
-      def self.calc_brightness_ratio(fixed_luminance, other_rgb, criteria, w)
+      def self.calc_brightness_ratio(other_rgb, criteria, w)
         target_ratio = criteria.target_ratio
         r = w
         sufficient_r = nil
 
         FinderUtils.binary_search_width(w, 0.01) do |d|
-          contrast_ratio = calc_contrast_ratio(fixed_luminance, other_rgb, r)
+          contrast_ratio = calc_contrast_ratio(criteria.fixed_luminance, other_rgb, r)
 
           sufficient_r = r if contrast_ratio >= target_ratio
           break if contrast_ratio == target_ratio
