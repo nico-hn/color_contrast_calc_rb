@@ -369,6 +369,37 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
           expect(new_contrast_ratio).to be < 7.0
         end
       end
+
+      context 'when the required level is specified by a ratio' do
+        it 'expects to return a darker orange when orange is passed to white' do
+          new_rgb = Lightness.find(white.rgb, orange.rgb, 6.5)
+          new_color = Color.new(new_rgb)
+          new_contrast_ratio = new_color.contrast_ratio_against(white)
+
+          expect(new_color.hex).to eq('#825400')
+          expect(new_contrast_ratio).to be > 6.5
+          expect(new_contrast_ratio).to within(0.1).of(6.5)
+        end
+
+        it 'expects to return a darker green when green is passed to white' do
+          new_rgb = Lightness.find(white.rgb, green.rgb, 6.5)
+          new_color = Color.new(new_rgb)
+          new_contrast_ratio = new_color.contrast_ratio_against(white)
+
+          expect(new_color.hex).to eq('#006e00')
+          expect(new_contrast_ratio).to be > 6.5
+          expect(new_contrast_ratio).to within(0.1).of(6.5)
+        end
+
+        it 'expects to return black when blue is passed to green' do
+          new_rgb = Lightness.find(green.rgb, blue.rgb, 6.5)
+          new_color = Color.new(new_rgb)
+          new_contrast_ratio = new_color.contrast_ratio_against(green)
+
+          expect(new_color.same_color?(black)).to be true
+          expect(new_contrast_ratio).to be < 6.5
+        end
+      end
     end
   end
 end
