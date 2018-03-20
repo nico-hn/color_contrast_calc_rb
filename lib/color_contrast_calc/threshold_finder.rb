@@ -99,6 +99,8 @@ module ColorContrastCalc
     # +Color#find_brightness_threshold()+.
 
     module Brightness
+      extend FinderUtils
+
       ##
       # Try to find a color who has a satisfying contrast ratio.
       #
@@ -128,16 +130,18 @@ module ColorContrastCalc
       def self.upper_limit_color(fixed_color, other_color, max_ratio, level)
         limit_color = other_color.new_brightness_color(max_ratio)
 
-        if exceed_upper_limit?(fixed_color, other_color, limit_color, level)
+        if exceed_upper_limit?(fixed_color.rgb, other_color.rgb, limit_color.rgb, level)
           limit_color
         end
       end
 
       private_class_method :upper_limit_color
 
-      def self.exceed_upper_limit?(fixed_color, other_color, limit_color, level)
-        other_color.higher_luminance_than?(fixed_color) &&
-          !limit_color.sufficient_contrast?(fixed_color, level)
+      def self.exceed_upper_limit?(fixed_rgb, other_rgb, limit_rgb, level)
+        fixed_luminance = Checker.relative_luminance(fixed_rgb)
+        other_luminance = Checker.relative_luminance(other_rgb)
+        other_luminance > fixed_luminance &&
+          !sufficient_contrast?(fixed_rgb, limit_rgb, level)
       end
 
       private_class_method :exceed_upper_limit?
