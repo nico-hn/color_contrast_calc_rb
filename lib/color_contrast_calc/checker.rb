@@ -26,7 +26,7 @@ module ColorContrastCalc
     end
 
     ##
-    # The relative luminance of some colors
+    # The relative luminance of some colors.
 
     module Luminance
       # The relative luminance of white
