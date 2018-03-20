@@ -1,6 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.2
-Style/SpaceInsideBlockBraces:
+Layout/SpaceInsideBlockBraces:
   SpaceBeforeBlockParameters: false
 Metrics/BlockLength:
   Exclude: ["spec/**/*", "test/**/*"]
