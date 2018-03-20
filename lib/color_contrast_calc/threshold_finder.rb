@@ -71,6 +71,20 @@ module ColorContrastCalc
     module FinderUtils
       # @private
 
+      def self.binary_search_width(init_width, min)
+        i = 1
+        init_width = init_width.to_f
+        d = init_width / 2**i
+
+        while d > min
+          yield d
+          i += 1
+          d = init_width / 2**i
+        end
+      end
+
+      # @private
+
       def sufficient_contrast?(fixed_rgb, other_rgb, level)
         target_ratio = Checker.level_to_ratio(level)
         ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
@@ -78,20 +92,6 @@ module ColorContrastCalc
       end
 
       private :sufficient_contrast?
-    end
-
-    # @private
-
-    def self.binary_search_width(init_width, min)
-      i = 1
-      init_width = init_width.to_f
-      d = init_width / 2**i
-
-      while d > min
-        yield d
-        i += 1
-        d = init_width / 2**i
-      end
     end
 
     ##
@@ -147,7 +147,7 @@ module ColorContrastCalc
         r = w
         sufficient_r = nil
 
-        ThresholdFinder.binary_search_width(w, 0.01) do |d|
+        FinderUtils.binary_search_width(w, 0.01) do |d|
           contrast_ratio = calc_contrast_ratio(fixed_luminance, other_rgb, r)
 
           sufficient_r = r if contrast_ratio >= target_ratio
@@ -252,7 +252,7 @@ module ColorContrastCalc
         l = (max + min) / 2.0
         sufficient_l = nil
 
-        ThresholdFinder.binary_search_width(max - min, 0.01) do |d|
+        FinderUtils.binary_search_width(max - min, 0.01) do |d|
           contrast_ratio = calc_contrast_ratio(fixed_rgb, [h, s, l])
 
           sufficient_l = l if contrast_ratio >= criteria.target_ratio
