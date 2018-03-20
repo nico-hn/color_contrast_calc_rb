@@ -108,23 +108,25 @@ module ColorContrastCalc
       # The color returned by this method will be created by changing the
       # brightness of +other_color+. Even when a color that satisfies the
       # specified level is not found, the method returns a new color anyway.
-      # @param fixed_color [Color] The color which remains unchanged
-      # @param other_color [Color] Color before the adjustment of brightness
+      # @param fixed_rgb [Array<Integer>] RGB value  which remains unchanged
+      # @param other_rgb [Array<Integer>] RGB value before the adjustment of
+      #   brightness
       # @param level [String] "A", "AA" or "AAA"
       # @return [Color] New color whose brightness is adjusted from that of
       #   +other_color+
 
-      def self.find(fixed_color, other_color, level = Checker::Level::AA)
-        criteria = Criteria.threshold_criteria(level, fixed_color.rgb, other_color.rgb)
-        w = calc_upper_ratio_limit(other_color.rgb) / 2.0
+      def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
+        criteria = Criteria.threshold_criteria(level, fixed_rgb, other_rgb)
+        w = calc_upper_ratio_limit(other_rgb) / 2.0
 
-        upper_rgb = upper_limit_rgb(fixed_color.rgb, other_color.rgb, w * 2, level)
+        upper_rgb = upper_limit_rgb(fixed_rgb, other_rgb, w * 2, level)
         return Color.new(upper_rgb) if upper_rgb
 
-        r, sufficient_r = calc_brightness_ratio(fixed_color.relative_luminance,
-                                                other_color.rgb, criteria, w)
+        fixed_luminance = Checker.relative_luminance(fixed_rgb)
+        r, sufficient_r = calc_brightness_ratio(fixed_luminance,
+                                                other_rgb, criteria, w)
 
-        generate_satisfying_color(fixed_color.rgb, other_color.rgb, criteria,
+        generate_satisfying_color(fixed_rgb, other_rgb, criteria,
                                   r, sufficient_r)
       end
 
