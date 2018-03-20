@@ -169,13 +169,13 @@ module ColorContrastCalc
       def self.generate_satisfying_color(fixed_color, other_color, criteria,
                                          r, sufficient_r)
         level = criteria.level
-        nearest = other_color.new_brightness_color(criteria.round(r))
+        nearest = Converter::Brightness.calc_rgb(other_color.rgb, criteria.round(r))
 
-        if sufficient_r && !nearest.sufficient_contrast?(fixed_color, level)
-          return other_color.new_brightness_color(criteria.round(sufficient_r))
+        if sufficient_r && !sufficient_contrast?(fixed_color.rgb, nearest, level)
+          return Color.new(Converter::Brightness.calc_rgb(other_color.rgb, criteria.round(sufficient_r)))
         end
 
-        nearest
+        Color.new(nearest)
       end
 
       private_class_method :generate_satisfying_color
