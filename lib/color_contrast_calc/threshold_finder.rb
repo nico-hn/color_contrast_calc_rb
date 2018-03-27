@@ -96,9 +96,10 @@ module ColorContrastCalc
 
       # @private
 
-      def sufficient_contrast?(fixed_rgb, other_rgb, level)
+      def sufficient_contrast?(fixed_luminance, rgb, level)
         target_ratio = Checker.level_to_ratio(level)
-        ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
+        luminance = Checker.relative_luminance(rgb)
+        ratio = Checker.luminance_to_contrast_ratio(fixed_luminance, luminance)
         ratio >= target_ratio
       end
 
@@ -241,11 +242,13 @@ module ColorContrastCalc
       private_class_method :determine_minmax
 
       def self.lightness_boundary_color(rgb, max, min, level)
-        if min.zero? && !sufficient_contrast?(Rgb::BLACK, rgb, level)
+        if min.zero? && !sufficient_contrast?(Checker::Luminance::BLACK,
+                                              rgb, level)
           return Rgb::BLACK
         end
 
-        if max == 100 && !sufficient_contrast?(Rgb::WHITE, rgb, level)
+        if max == 100 && !sufficient_contrast?(Checker::Luminance::WHITE,
+                                               rgb, level)
           return Rgb::WHITE
         end
       end
