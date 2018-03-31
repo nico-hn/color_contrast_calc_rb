@@ -178,7 +178,7 @@ module ColorContrastCalc
         sufficient_r = nil
 
         FinderUtils.binary_search_width(init_width, 0.01) do |d|
-          contrast_ratio = calc_contrast_ratio(criteria, other_rgb, r)
+          contrast_ratio = criteria.contrast_ratio(rgb_with_ratio(other_rgb, r))
 
           sufficient_r = r if contrast_ratio >= target_ratio
           break if contrast_ratio == target_ratio
@@ -190,12 +190,6 @@ module ColorContrastCalc
       end
 
       private_class_method :find_ratio
-
-      def self.calc_contrast_ratio(criteria, other_rgb, r)
-        criteria.contrast_ratio(rgb_with_ratio(other_rgb, r))
-      end
-
-      private_class_method :calc_contrast_ratio
 
       # @private
 
