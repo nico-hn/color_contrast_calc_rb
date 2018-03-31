@@ -267,24 +267,6 @@ module ColorContrastCalc
       end
 
       private_class_method :lightness_boundary_rgb
-
-      def self.find_ratio(other_hsl, criteria, init_ratio, init_width)
-        l = init_ratio
-        sufficient_l = nil
-
-        FinderUtils.binary_search_width(init_width, 0.01) do |d|
-          contrast_ratio = criteria.contrast_ratio(rgb_with_ratio(other_hsl, l))
-
-          sufficient_l = l if contrast_ratio >= criteria.target_ratio
-          break if contrast_ratio == criteria.target_ratio
-
-          l += criteria.increment_condition(contrast_ratio) ? d : -d
-        end
-
-        [l, sufficient_l]
-      end
-
-      private_class_method :find_ratio
     end
   end
 end
