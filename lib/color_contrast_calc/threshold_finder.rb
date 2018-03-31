@@ -103,6 +103,18 @@ module ColorContrastCalc
       end
 
       private :sufficient_contrast?
+
+      def rgb_with_better_ratio(color, criteria, r, sufficient_r)
+        nearest = rgb_with_ratio(color, r)
+
+        if sufficient_r && !criteria.sufficient_contrast?(nearest)
+          return rgb_with_ratio(color, sufficient_r)
+        end
+
+        nearest
+      end
+
+      private :rgb_with_better_ratio
     end
 
     ##
@@ -178,18 +190,6 @@ module ColorContrastCalc
       end
 
       private_class_method :find_ratio
-
-      def self.rgb_with_better_ratio(other_rgb, criteria, r, sufficient_r)
-        nearest = rgb_with_ratio(other_rgb, r)
-
-        if sufficient_r && !criteria.sufficient_contrast?(nearest)
-          return rgb_with_ratio(other_rgb, sufficient_r)
-        end
-
-        nearest
-      end
-
-      private_class_method :rgb_with_better_ratio
 
       def self.calc_contrast_ratio(criteria, other_rgb, r)
         criteria.contrast_ratio(rgb_with_ratio(other_rgb, r))
