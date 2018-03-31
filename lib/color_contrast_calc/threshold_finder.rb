@@ -238,9 +238,8 @@ module ColorContrastCalc
       end
 
       def self.determine_minmax(fixed_rgb, other_rgb, init_l)
-        scan_darker_side = Criteria.should_scan_darker_side?(fixed_rgb,
-                                                             other_rgb)
-        scan_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
+        on_darker_side = Criteria.should_scan_darker_side?(fixed_rgb, other_rgb)
+        on_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
       end
 
       private_class_method :determine_minmax
