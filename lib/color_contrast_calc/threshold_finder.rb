@@ -132,7 +132,9 @@ module ColorContrastCalc
         upper_rgb = upper_limit_rgb(criteria, other_rgb, w * 2)
         return upper_rgb if upper_rgb
 
-        r, sufficient_r = find_ratio(other_rgb, criteria, w)
+        r, sufficient_r = find_ratio(other_rgb, criteria, w).map do |ratio|
+          criteria.round(ratio) if ratio
+        end
 
         rgb_with_better_ratio(other_rgb, criteria, r, sufficient_r)
       end
@@ -178,10 +180,10 @@ module ColorContrastCalc
       private_class_method :find_ratio
 
       def self.rgb_with_better_ratio(other_rgb, criteria, r, sufficient_r)
-        nearest = rgb_with_ratio(other_rgb, criteria.round(r))
+        nearest = rgb_with_ratio(other_rgb, r)
 
         if sufficient_r && !criteria.sufficient_contrast?(nearest)
-          return rgb_with_ratio(other_rgb, criteria.round(sufficient_r))
+          return rgb_with_ratio(other_rgb, sufficient_r)
         end
 
         nearest
