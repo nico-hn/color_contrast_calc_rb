@@ -115,6 +115,27 @@ module ColorContrastCalc
       end
 
       private :rgb_with_better_ratio
+
+      # @private
+
+      def find_ratio(other_color, criteria, init_ratio, init_width)
+        target_ratio = criteria.target_ratio
+        r = init_ratio
+        sufficient_r = nil
+
+        FinderUtils.binary_search_width(init_width, 0.01) do |d|
+          new_ratio = criteria.contrast_ratio(rgb_with_ratio(other_color, r))
+
+          sufficient_r = r if new_ratio >= target_ratio
+          break if new_ratio == target_ratio
+
+          r += criteria.increment_condition(new_ratio) ? d : -d
+        end
+
+        [r, sufficient_r]
+      end
+
+      private :find_ratio
     end
 
     ##
@@ -171,25 +192,6 @@ module ColorContrastCalc
       end
 
       private_class_method :exceed_upper_limit?
-
-      def self.find_ratio(other_rgb, criteria, init_ratio, init_width)
-        target_ratio = criteria.target_ratio
-        r = init_ratio
-        sufficient_r = nil
-
-        FinderUtils.binary_search_width(init_width, 0.01) do |d|
-          contrast_ratio = criteria.contrast_ratio(rgb_with_ratio(other_rgb, r))
-
-          sufficient_r = r if contrast_ratio >= target_ratio
-          break if contrast_ratio == target_ratio
-
-          r += criteria.increment_condition(contrast_ratio) ? d : -d
-        end
-
-        [r, sufficient_r]
-      end
-
-      private_class_method :find_ratio
 
       # @private
 
