@@ -288,18 +288,6 @@ module ColorContrastCalc
       end
 
       private_class_method :find_ratio
-
-      def self.rgb_with_better_ratio(other_hsl, criteria, l, sufficient_l)
-        nearest = rgb_with_ratio(other_hsl, l)
-
-        if sufficient_l && !criteria.sufficient_contrast?(nearest)
-          return rgb_with_ratio(other_hsl, sufficient_l)
-        end
-
-        nearest
-      end
-
-      private_class_method :rgb_with_better_ratio
     end
   end
 end
