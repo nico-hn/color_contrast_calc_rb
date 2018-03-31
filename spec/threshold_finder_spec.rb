@@ -19,7 +19,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
   end
 
   describe ColorContrastCalc::ThresholdFinder::Criteria do
-    describe '.threshold_criteria' do
+    describe '.define' do
       target = 'AA'
       orange = Color.from_hex('orange').rgb
       yellow = Color.from_name('yellow').rgb
@@ -27,14 +27,14 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when two colors are different' do
         it 'expects to return a ToDarkerSide when yellow and orange are passed' do
-          criteria = ThresholdCriteria.threshold_criteria(target, yellow, orange)
+          criteria = ThresholdCriteria.define(target, yellow, orange)
           expect(criteria).to be_instance_of(ThresholdCriteria::ToDarkerSide)
           expect(criteria.increment_condition(4.25)).to be false
           expect(criteria.round(4.25)).to eq(4.2)
         end
 
         it 'expects to return a ToBrighterSide when orange and yellow are passed' do
-          criteria = ThresholdCriteria.threshold_criteria(target, orange, yellow)
+          criteria = ThresholdCriteria.define(target, orange, yellow)
           expect(criteria).to be_instance_of(ThresholdCriteria::ToBrighterSide)
           expect(criteria.increment_condition(4.25)).to be true
           expect(criteria.round(4.25)).to eq(4.3)
@@ -43,14 +43,14 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
       context 'when two colors are same' do
         it 'expects to return a ToDarkerSide when yellow is passed' do
-          criteria = ThresholdCriteria.threshold_criteria(target, yellow, yellow)
+          criteria = ThresholdCriteria.define(target, yellow, yellow)
           expect(criteria).to be_instance_of(ThresholdCriteria::ToDarkerSide)
           expect(criteria.increment_condition(4.25)).to be false
           expect(criteria.round(4.25)).to eq(4.2)
         end
 
         it 'expects to return a ToBrighterSide when darkgreen are passed' do
-          criteria = ThresholdCriteria.threshold_criteria(target, darkgreen, darkgreen)
+          criteria = ThresholdCriteria.define(target, darkgreen, darkgreen)
           expect(criteria).to be_instance_of(ThresholdCriteria::ToBrighterSide)
           expect(criteria.increment_condition(4.25)).to be true
           expect(criteria.round(4.25)).to eq(4.3)
