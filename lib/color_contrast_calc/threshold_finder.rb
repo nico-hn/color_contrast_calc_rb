@@ -137,8 +137,14 @@ module ColorContrastCalc
         rgb_with_better_ratio(other_rgb, criteria, r, sufficient_r)
       end
 
+      def self.rgb_with_ratio(rgb, ratio)
+        Converter::Brightness.calc_rgb(rgb, ratio)
+      end
+
+      private_class_method :rgb_with_ratio
+
       def self.upper_limit_rgb(criteria, other_rgb, max_ratio)
-        limit_rgb = Converter::Brightness.calc_rgb(other_rgb, max_ratio)
+        limit_rgb = rgb_with_ratio(other_rgb, max_ratio)
         limit_rgb if exceed_upper_limit?(criteria, other_rgb, limit_rgb)
       end
 
@@ -172,11 +178,10 @@ module ColorContrastCalc
       private_class_method :calc_brightness_ratio
 
       def self.rgb_with_better_ratio(other_rgb, criteria, r, sufficient_r)
-        nearest = Converter::Brightness.calc_rgb(other_rgb, criteria.round(r))
+        nearest = rgb_with_ratio(other_rgb, criteria.round(r))
 
         if sufficient_r && !criteria.sufficient_contrast?(nearest)
-          return Converter::Brightness.calc_rgb(other_rgb,
-                                                criteria.round(sufficient_r))
+          return rgb_with_ratio(other_rgb, criteria.round(sufficient_r))
         end
 
         nearest
@@ -185,7 +190,7 @@ module ColorContrastCalc
       private_class_method :rgb_with_better_ratio
 
       def self.calc_contrast_ratio(criteria, other_rgb, r)
-        criteria.contrast_ratio(Converter::Brightness.calc_rgb(other_rgb, r))
+        criteria.contrast_ratio(rgb_with_ratio(other_rgb, r))
       end
 
       private_class_method :calc_contrast_ratio
