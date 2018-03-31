@@ -237,6 +237,17 @@ module ColorContrastCalc
         rgb_with_better_ratio(other_hsl, criteria, l, sufficient_l)
       end
 
+      def self.rgb_with_ratio(hsl, ratio)
+        if hsl[2] != ratio
+          hsl = hsl.dup
+          hsl[2] = ratio
+        end
+
+        Utils.hsl_to_rgb(hsl)
+      end
+
+      private_class_method :rgb_with_ratio
+
       def self.determine_minmax(fixed_rgb, other_rgb, init_l)
         on_darker_side = Criteria.should_scan_darker_side?(fixed_rgb, other_rgb)
         on_darker_side ? [init_l, 0] : [100, init_l] # [max, min]
@@ -259,12 +270,11 @@ module ColorContrastCalc
       private_class_method :lightness_boundary_rgb
 
       def self.calc_lightness_ratio(other_hsl, criteria, max, min)
-        h, s, = other_hsl
         l = (max + min) / 2.0
         sufficient_l = nil
 
         FinderUtils.binary_search_width(max - min, 0.01) do |d|
-          contrast_ratio = criteria.contrast_ratio(Utils.hsl_to_rgb([h, s, l]))
+          contrast_ratio = criteria.contrast_ratio(rgb_with_ratio(other_hsl, l))
 
           sufficient_l = l if contrast_ratio >= criteria.target_ratio
           break if contrast_ratio == criteria.target_ratio
@@ -278,11 +288,10 @@ module ColorContrastCalc
       private_class_method :calc_lightness_ratio
 
       def self.rgb_with_better_ratio(other_hsl, criteria, l, sufficient_l)
-        h, s, = other_hsl
-        nearest = Utils.hsl_to_rgb([h, s, l])
+        nearest = rgb_with_ratio(other_hsl, l)
 
         if sufficient_l && !criteria.sufficient_contrast?(nearest)
-          return Utils.hsl_to_rgb([h, s, sufficient_l])
+          return rgb_with_ratio(other_hsl, sufficient_l)
         end
 
         nearest
