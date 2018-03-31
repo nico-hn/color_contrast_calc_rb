@@ -144,7 +144,7 @@ module ColorContrastCalc
         upper_rgb = upper_limit_rgb(criteria, other_rgb, w * 2)
         return upper_rgb if upper_rgb
 
-        r, sufficient_r = find_ratio(other_rgb, criteria, w).map do |ratio|
+        r, sufficient_r = find_ratio(other_rgb, criteria, w, w).map do |ratio|
           criteria.round(ratio) if ratio
         end
 
@@ -172,12 +172,12 @@ module ColorContrastCalc
 
       private_class_method :exceed_upper_limit?
 
-      def self.find_ratio(other_rgb, criteria, w)
+      def self.find_ratio(other_rgb, criteria, init_ratio, init_width)
         target_ratio = criteria.target_ratio
-        r = w
+        r = init_ratio
         sufficient_r = nil
 
-        FinderUtils.binary_search_width(w, 0.01) do |d|
+        FinderUtils.binary_search_width(init_width, 0.01) do |d|
           contrast_ratio = calc_contrast_ratio(criteria, other_rgb, r)
 
           sufficient_r = r if contrast_ratio >= target_ratio
@@ -234,7 +234,8 @@ module ColorContrastCalc
         boundary_rgb = lightness_boundary_rgb(fixed_rgb, max, min, criteria)
         return boundary_rgb if boundary_rgb
 
-        l, sufficient_l = find_ratio(other_hsl, criteria, max, min)
+        l, sufficient_l = find_ratio(other_hsl, criteria,
+                                     (max + min) / 2.0, max - min)
 
         rgb_with_better_ratio(other_hsl, criteria, l, sufficient_l)
       end
@@ -271,11 +272,11 @@ module ColorContrastCalc
 
       private_class_method :lightness_boundary_rgb
 
-      def self.find_ratio(other_hsl, criteria, max, min)
-        l = (max + min) / 2.0
+      def self.find_ratio(other_hsl, criteria, init_ratio, init_width)
+        l = init_ratio
         sufficient_l = nil
 
-        FinderUtils.binary_search_width(max - min, 0.01) do |d|
+        FinderUtils.binary_search_width(init_width, 0.01) do |d|
           contrast_ratio = criteria.contrast_ratio(rgb_with_ratio(other_hsl, l))
 
           sufficient_l = l if contrast_ratio >= criteria.target_ratio
