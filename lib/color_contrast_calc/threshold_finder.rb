@@ -35,7 +35,6 @@ module ColorContrastCalc
         attr_reader :level, :target_ratio, :fixed_luminance
 
         def initialize(level, fixed_rgb)
-          @level = level
           @target_ratio = Checker.level_to_ratio(level)
           @fixed_luminance = Checker.relative_luminance(fixed_rgb)
         end
