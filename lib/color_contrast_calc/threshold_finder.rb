@@ -104,14 +104,14 @@ module ColorContrastCalc
 
       private :sufficient_contrast?
 
-      def rgb_with_better_ratio(color, criteria, r, sufficient_r)
-        nearest = rgb_with_ratio(color, r)
+      def rgb_with_better_ratio(color, criteria, last_r, passing_r)
+        closest = rgb_with_ratio(color, last_r)
 
-        if sufficient_r && !criteria.sufficient_contrast?(nearest)
-          return rgb_with_ratio(color, sufficient_r)
+        if passing_r && !criteria.sufficient_contrast?(closest)
+          return rgb_with_ratio(color, passing_r)
         end
 
-        nearest
+        closest
       end
 
       private :rgb_with_better_ratio
@@ -121,18 +121,18 @@ module ColorContrastCalc
       def find_ratio(other_color, criteria, init_ratio, init_width)
         target_ratio = criteria.target_ratio
         r = init_ratio
-        sufficient_r = nil
+        passing_r = nil
 
         FinderUtils.binary_search_width(init_width, 0.01) do |d|
           new_ratio = criteria.contrast_ratio(rgb_with_ratio(other_color, r))
 
-          sufficient_r = r if new_ratio >= target_ratio
+          passing_r = r if new_ratio >= target_ratio
           break if new_ratio == target_ratio
 
           r += criteria.increment_condition(new_ratio) ? d : -d
         end
 
-        [r, sufficient_r]
+        [r, passing_r]
       end
 
       private :find_ratio
