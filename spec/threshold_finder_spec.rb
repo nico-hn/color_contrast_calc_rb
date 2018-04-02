@@ -327,7 +327,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
           new_color = Color.new(new_rgb)
 
           expect(new_color.same_color?(white)).to be true
-          expect(new_color.contrast_ratio_against(yellow)).to be < 4.5
+          expect(new_color.contrast_ratio_against(orange)).to be < 4.5
         end
 
         it 'expects to return white when mintcream is passed to yellow' do
