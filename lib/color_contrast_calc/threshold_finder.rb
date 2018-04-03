@@ -95,9 +95,9 @@ module ColorContrastCalc
 
       # @private
 
-      def sufficient_contrast?(fixed_luminance, rgb, criteria)
+      def sufficient_contrast?(ref_luminance, rgb, criteria)
         luminance = Checker.relative_luminance(rgb)
-        ratio = Checker.luminance_to_contrast_ratio(fixed_luminance, luminance)
+        ratio = Checker.luminance_to_contrast_ratio(ref_luminance, luminance)
         ratio >= criteria.target_ratio
       end
 
