@@ -32,7 +32,7 @@ module ColorContrastCalc
       end
 
       class SearchDirection
-        attr_reader :level, :target_ratio, :fixed_luminance
+        attr_reader :target_ratio, :fixed_luminance
 
         def initialize(level, fixed_rgb)
           @target_ratio = Checker.level_to_ratio(level)
