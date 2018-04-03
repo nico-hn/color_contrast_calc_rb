@@ -52,8 +52,8 @@ module ColorContrastCalc
       class ToDarkerSide < SearchDirection
         # @private
 
-        def round(r)
-          (r * 10).floor / 10.0
+        def round(ratio)
+          (ratio * 10).floor / 10.0
         end
 
         # @private
@@ -66,8 +66,8 @@ module ColorContrastCalc
       class ToBrighterSide < SearchDirection
         # @private
 
-        def round(r)
-          (r * 10).ceil / 10.0
+        def round(ratio)
+          (ratio * 10).ceil / 10.0
         end
 
         # @private
