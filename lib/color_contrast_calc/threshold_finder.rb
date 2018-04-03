@@ -164,11 +164,11 @@ module ColorContrastCalc
         upper_rgb = upper_limit_rgb(criteria, other_rgb, w * 2)
         return upper_rgb if upper_rgb
 
-        r, sufficient_r = find_ratio(other_rgb, criteria, w, w).map do |ratio|
+        last_r, passing_r = find_ratio(other_rgb, criteria, w, w).map do |ratio|
           criteria.round(ratio) if ratio
         end
 
-        rgb_with_better_ratio(other_rgb, criteria, r, sufficient_r)
+        rgb_with_better_ratio(other_rgb, criteria, last_r, passing_r)
       end
 
       def self.rgb_with_ratio(rgb, ratio)
@@ -229,10 +229,10 @@ module ColorContrastCalc
         boundary_rgb = lightness_boundary_rgb(fixed_rgb, max, min, criteria)
         return boundary_rgb if boundary_rgb
 
-        l, sufficient_l = find_ratio(other_hsl, criteria,
-                                     (max + min) / 2.0, max - min)
+        last_l, passing_l = find_ratio(other_hsl, criteria,
+                                       (max + min) / 2.0, max - min)
 
-        rgb_with_better_ratio(other_hsl, criteria, l, sufficient_l)
+        rgb_with_better_ratio(other_hsl, criteria, last_l, passing_l)
       end
 
       def self.rgb_with_ratio(hsl, ratio)
