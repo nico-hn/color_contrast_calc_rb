@@ -32,15 +32,15 @@ module ColorContrastCalc
       end
 
       class SearchDirection
-        attr_reader :target_ratio, :fixed_luminance
+        attr_reader :target_contrast, :fixed_luminance
 
         def initialize(level, fixed_rgb)
-          @target_ratio = Checker.level_to_ratio(level)
+          @target_contrast = Checker.level_to_ratio(level)
           @fixed_luminance = Checker.relative_luminance(fixed_rgb)
         end
 
         def sufficient_contrast?(rgb)
-          contrast_ratio(rgb) >= @target_ratio
+          contrast_ratio(rgb) >= @target_contrast
         end
 
         def contrast_ratio(rgb)
@@ -59,7 +59,7 @@ module ColorContrastCalc
         # @private
 
         def increment_condition(contrast_ratio)
-          contrast_ratio > @target_ratio
+          contrast_ratio > @target_contrast
         end
       end
 
@@ -73,7 +73,7 @@ module ColorContrastCalc
         # @private
 
         def increment_condition(contrast_ratio)
-          @target_ratio > contrast_ratio
+          @target_contrast > contrast_ratio
         end
       end
     end
@@ -98,7 +98,7 @@ module ColorContrastCalc
       def sufficient_contrast?(ref_luminance, rgb, criteria)
         luminance = Checker.relative_luminance(rgb)
         ratio = Checker.luminance_to_contrast_ratio(ref_luminance, luminance)
-        ratio >= criteria.target_ratio
+        ratio >= criteria.target_contrast
       end
 
       private :sufficient_contrast?
@@ -118,17 +118,17 @@ module ColorContrastCalc
       # @private
 
       def find_ratio(other_color, criteria, init_ratio, init_width)
-        target_ratio = criteria.target_ratio
+        target_contrast = criteria.target_contrast
         r = init_ratio
         passing_r = nil
 
         FinderUtils.binary_search_width(init_width, 0.01) do |d|
-          new_ratio = criteria.contrast_ratio(rgb_with_ratio(other_color, r))
+          contrast = criteria.contrast_ratio(rgb_with_ratio(other_color, r))
 
-          passing_r = r if new_ratio >= target_ratio
-          break if new_ratio == target_ratio
+          passing_r = r if contrast >= target_contrast
+          break if contrast == target_contrast
 
-          r += criteria.increment_condition(new_ratio) ? d : -d
+          r += criteria.increment_condition(contrast) ? d : -d
         end
 
         [r, passing_r]
