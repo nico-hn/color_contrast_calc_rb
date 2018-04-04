@@ -20,6 +20,14 @@ RSpec.describe ColorContrastCalc::ColorGroup do
       expect(group.rgb).to eq([[255, 0, 0], [0, 255, 0], [0, 0, 255]])
     end
   end
+
+  describe '#hex' do
+    it 'expects to return hex color codes' do
+      colors = %w[red lime blue].map {|name| Color.from_name(name) }
+      group = ColorGroup.new(colors)
+      expect(group.hex).to eq(%w[#ff0000 #00ff00 #0000ff])
+    end
+  end
 end
 
 

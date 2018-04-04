@@ -13,5 +13,9 @@ module ColorContrastCalc
     def rgb
       @colors.map(&:rgb)
     end
+
+    def hex
+      @colors.map(&:hex)
+    end
   end
 end
