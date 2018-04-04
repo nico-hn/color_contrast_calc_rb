@@ -11,6 +11,10 @@ module ColorContrastCalc
       new(colors, main)
     end
 
+    def self.triad(main_color)
+      analogous(main_color, 120)
+    end
+
     def self.hue_rotated_colors(main_hsl, rotation_rates, degree)
       main_hue = main_hsl[0]
       rotation_rates.map do |i|

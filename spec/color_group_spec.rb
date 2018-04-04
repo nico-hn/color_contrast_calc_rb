@@ -86,6 +86,16 @@ RSpec.describe ColorContrastCalc::ColorGroup do
       end
     end
   end
+
+  describe '.triad' do
+    it 'expects to return blue, red and lime when red is passed' do
+      colors = %w[blue red lime].map {|name| Color.from_name(name) }
+      group = ColorGroup.triad(colors[1].hex)
+      group.colors.zip(colors).each do |group_color, color|
+        expect(group_color.same_color?(color)).to be_truthy
+      end
+    end
+  end
 end
 
 
