@@ -4,9 +4,14 @@ require 'color_contrast_calc/color'
 
 module ColorContrastCalc
   class ColorGroup
+    module Rotation
+      ANALOGOUS = [-1, 0, 1].freeze
+      SQUARE = [0, 1, 2, 3].freeze
+    end
+
     def self.analogous(main_color, degree = 15)
       main = ColorContrastCalc.color_from(main_color)
-      group_by_hue_rotations(main, [-1, 0, 1], degree)
+      group_by_hue_rotations(main, Rotation::ANALOGOUS, degree)
     end
 
     def self.triad(main_color)
@@ -15,7 +20,7 @@ module ColorContrastCalc
 
     def self.square(main_color)
       main = ColorContrastCalc.color_from(main_color)
-      group_by_hue_rotations(main, [0, 1, 2, 3], 90)
+      group_by_hue_rotations(main, Rotation::SQUARE, 90)
     end
 
     def self.group_by_hue_rotations(main_color, rotation_rates, degree)
