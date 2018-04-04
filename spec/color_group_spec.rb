@@ -14,6 +14,15 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     end
   end
 
+  describe '#main_color' do
+    it 'expects to return lime when lime is passed when creating an instance as its second argument' do
+      colors = %w[red lime blue].map {|name| Color.from_name(name) }
+      lime = colors[1]
+      group = ColorGroup.new(colors, lime)
+      expect(group.main_color).to eq(lime)
+    end
+  end
+
   describe '#rgb' do
     it 'expects to return RGB values' do
       colors = %w[red lime blue].map {|name| Color.from_name(name) }

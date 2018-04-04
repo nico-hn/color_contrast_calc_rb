@@ -8,7 +8,7 @@ module ColorContrastCalc
       main = ColorContrastCalc.color_from(main_color)
       main_hsl = main.hsl
       colors = hue_rotated_colors(main_hsl, [-1, 0, 1], degree)
-      new(colors)
+      new(colors, main)
     end
 
     def self.hue_rotated_colors(main_hsl, rotation_rates, degree)
@@ -22,10 +22,11 @@ module ColorContrastCalc
 
     private_class_method :hue_rotated_colors
 
-    attr_reader :colors
+    attr_reader :colors, :main_color
 
-    def initialize(colors)
+    def initialize(colors, main_color = nil)
       @colors = colors
+      @main_color = main_color
     end
 
     def rgb
