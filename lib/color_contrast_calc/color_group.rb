@@ -13,6 +13,11 @@ module ColorContrastCalc
       analogous(main_color, 120)
     end
 
+    def self.square(main_color)
+      main = ColorContrastCalc.color_from(main_color)
+      group_by_hue_rotations(main, [0, 1, 2, 3], 90)
+    end
+
     def self.group_by_hue_rotations(main_color, rotation_rates, degree)
       main_hsl = main_color.hsl
       colors = hue_rotated_colors(main_hsl, rotation_rates, degree)

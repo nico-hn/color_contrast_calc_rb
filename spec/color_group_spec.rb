@@ -96,6 +96,20 @@ RSpec.describe ColorContrastCalc::ColorGroup do
       end
     end
   end
+
+  describe '.triad' do
+    it 'expects to return 4 colors when red is passed' do
+      expected_hues = [0, 90, 180, 270]
+      main_hsl = [0, 100, 50]
+      main = Utils.hsl_to_rgb(main_hsl)
+      group = ColorGroup.square(main)
+      group.hsl.each_with_index do |hsl, i|
+        expect(hsl[0]).to within(0.2).of(expected_hues[i])
+        expect(hsl[1]).to within(0.1).of(main_hsl[1])
+        expect(hsl[2]).to within(0.1).of(main_hsl[2])
+      end
+    end
+  end
 end
 
 
