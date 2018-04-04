@@ -17,5 +17,9 @@ module ColorContrastCalc
     def hex
       @colors.map(&:hex)
     end
+
+    def hsl
+      @colors.map(&:hsl)
+    end
   end
 end
