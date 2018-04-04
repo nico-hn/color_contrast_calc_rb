@@ -9,5 +9,9 @@ module ColorContrastCalc
     def initialize(colors)
       @colors = colors
     end
+
+    def rgb
+      @colors.map(&:rgb)
+    end
   end
 end
