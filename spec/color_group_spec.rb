@@ -49,6 +49,36 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     end
   end
 
+  describe '#harmonize' do
+    light_red = Color.new_from_hsl([0, 100, 70])
+    lime = Color.new_from_hsl([120, 100, 50])
+    dark_blue = Color.new_from_hsl([240, 100, 30])
+    group = ColorGroup.new([light_red, lime, dark_blue])
+    hues = [0, 120, 240]
+
+    it 'expects to return a group of light colors when light_red is passed' do
+      harmonized = group.harmonize(light_red)
+      harmonized.hsl.each do |hsl|
+        expect(hsl[2]).to within(0.1).of(70)
+      end
+
+      harmonized.hsl.map(&:first).each_with_index do |hue, i|
+        expect(hue).to within(0.1).of(hues[i])
+      end
+    end
+
+    it 'expects to return a group of dark colors when dark_blue is passed' do
+      harmonized = group.harmonize(dark_blue)
+      harmonized.hsl.each do |hsl|
+        expect(hsl[2]).to within(0.1).of(30)
+      end
+
+      harmonized.hsl.map(&:first).each_with_index do |hue, i|
+        expect(hue).to within(0.1).of(hues[i])
+      end
+    end
+  end
+
   describe '.analogous' do
     it 'expects to return red and its 2 neighboring colors when red is passed' do
       expected_hues = [345, 0, 15]
