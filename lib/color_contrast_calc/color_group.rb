@@ -18,7 +18,7 @@ module ColorContrastCalc
       analogous(main_color, 120)
     end
 
-    def self.square(main_color)
+    def self.tetrad(main_color)
       main = ColorContrastCalc.color_from(main_color)
       group_by_hue_rotations(main, Rotation::SQUARE, 90)
     end
