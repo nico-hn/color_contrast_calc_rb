@@ -71,12 +71,24 @@ module ColorContrastCalc
       self.class.new(harminized_colors)
     end
 
-    def find_contrast(ref_color, level = Checker::Level::AA, harmonize: false)
+    def find_contrast(ref_color, level: Checker::Level::AA, harmonize: false)
       found_colors = @colors.map do |color|
         ref_color.find_lightness_threshold(color, level)
       end
 
-      self.class.new(found_colors)
+      new_group = self.class.new(found_colors)
+
+      return new_group unless harmonize
+
+      ref_l = ref_color.hsl[2]
+      light_count = found_colors.count {|color| color.hsl[2] > ref_l }
+      if found_colors.count - light_count > light_count
+        darkest = found_colors.min_by {|color| color.hsl[2] }
+        return new_group.harmonize(darkest)
+      else
+        lightest = found_colors.max_by {|color| color.hsl[2] }
+        return new_group.harmonize(lightest)
+      end
     end
   end
 end

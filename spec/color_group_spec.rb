@@ -95,6 +95,23 @@ RSpec.describe ColorContrastCalc::ColorGroup do
         expect(hsl[0]).to within(0.1).of(hues[i])
       end
     end
+
+    it 'expects to returns colors whose lightness are similar' do
+      new_group = group.find_contrast(white, harmonize: true)
+      new_group.colors.each do |color|
+        expect(white.sufficient_contrast?(color)).to be true
+      end
+
+      new_group.hsl.each_with_index do |hsl, i|
+        expect(hsl[0]).to within(0.1).of(hues[i])
+      end
+
+      colors = new_group.colors
+      expected_l = colors.first.hsl[2]
+      colors.each do |color|
+        expect(color.hsl[2]).to within(0.1).of(expected_l)
+      end
+    end
   end
 
   describe '.analogous' do
