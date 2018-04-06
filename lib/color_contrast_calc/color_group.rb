@@ -61,11 +61,12 @@ module ColorContrastCalc
       @colors.map(&:hsl)
     end
 
-    def harmonize(ref_color = nil, property: :lightness)
-      l = ref_color.hsl[2]
+    def harmonize(ref_color = nil, h: false, s: false, l: true)
+      should_harmonize = [h, s, l]
+      ref_hsl = ref_color.hsl
       harmonized_colors = @colors.map do |color|
         hsl = color.hsl.dup
-        hsl[2] = l
+        0.upto(2) {|i| hsl[i] = ref_hsl[i] if should_harmonize[i] }
         Color.new_from_hsl(hsl)
       end
       self.class.new(harmonized_colors)
