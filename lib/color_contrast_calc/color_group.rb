@@ -63,12 +63,12 @@ module ColorContrastCalc
 
     def harmonize(ref_color = nil, property: :lightness)
       l = ref_color.hsl[2]
-      harminized_colors = @colors.map do |color|
+      harmonized_colors = @colors.map do |color|
         hsl = color.hsl.dup
         hsl[2] = l
         Color.new_from_hsl(hsl)
       end
-      self.class.new(harminized_colors)
+      self.class.new(harmonized_colors)
     end
 
     def find_contrast(ref_color, level: Checker::Level::AA, harmonize: false)
@@ -80,14 +80,19 @@ module ColorContrastCalc
 
       return new_group unless harmonize
 
-      if darker_dominant?(ref_color, found_colors)
-        darkest = found_colors.min_by {|color| color.hsl[2] }
-        return new_group.harmonize(darkest)
-      else
-        lightest = found_colors.max_by {|color| color.hsl[2] }
-        return new_group.harmonize(lightest)
-      end
+      satisfying = most_satisfying_lightness_color(ref_color, found_colors)
+      new_group.harmonize(satisfying)
     end
+
+    def most_satisfying_lightness_color(ref_color, colors)
+      if darker_dominant?(ref_color, colors)
+        return colors.min_by {|color| color.hsl[2] }
+      end
+
+      colors.max_by {|color| color.hsl[2] }
+    end
+
+    private :most_satisfying_lightness_color
 
     def darker_dominant?(ref_color, colors)
       ref_l = ref_color.hsl[2]
