@@ -22,10 +22,9 @@ module ColorContrastCalc
     end
 
     def self.group_by_hue_rotations(main_color, rotation_rates, degree)
-      main_color = ColorContrastCalc.color_from(main_color)
-      main_hsl = main_color.hsl
-      colors = hue_rotated_colors(main_hsl, rotation_rates, degree)
-      new(colors, main_color)
+      main = ColorContrastCalc.color_from(main_color)
+      colors = hue_rotated_colors(main.hsl, rotation_rates, degree)
+      new(colors, main)
     end
 
     private_class_method :group_by_hue_rotations
