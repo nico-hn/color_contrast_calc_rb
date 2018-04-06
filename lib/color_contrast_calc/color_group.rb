@@ -70,5 +70,13 @@ module ColorContrastCalc
       end
       self.class.new(harminized_colors)
     end
+
+    def find_contrast(ref_color, level = Checker::Level::AA, harmonize: false)
+      found_colors = @colors.map do |color|
+        ref_color.find_lightness_threshold(color, level)
+      end
+
+      self.class.new(found_colors)
+    end
   end
 end

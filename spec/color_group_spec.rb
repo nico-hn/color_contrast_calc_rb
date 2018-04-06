@@ -79,6 +79,24 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     end
   end
 
+  describe '#find_contrast' do
+    white = Color::WHITE
+    colors = %w[red green blue].map {|name| Color.from_name(name) }
+    group = ColorGroup.new(colors)
+    hues = [0, 120, 240]
+
+    it 'expects to returns colors whose relative luminances are similar against a given level' do
+      new_group = group.find_contrast(white)
+      new_group.colors.each do |color|
+        expect(color.contrast_ratio_against(white)).to within(0.1).of(4.5)
+      end
+
+      new_group.hsl.each_with_index do |hsl, i|
+        expect(hsl[0]).to within(0.1).of(hues[i])
+      end
+    end
+  end
+
   describe '.analogous' do
     it 'expects to return red and its 2 neighboring colors when red is passed' do
       expected_hues = [345, 0, 15]
