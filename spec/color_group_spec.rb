@@ -101,6 +101,17 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     end
   end
 
+  describe '.complementary_split' do
+    it 'expects to return 4 colors when red is passed' do
+      expected_hues = [0, 165, 180, 195]
+      group = ColorGroup.complementary_split(Color.from_name('red'))
+      hues = group.hsl.map(&:first)
+      hues.each_with_index do |hue, i|
+        expect(hue).to within(0.1).of(expected_hues[i])
+      end
+    end
+  end
+
   describe '#colors' do
     it 'expects to return an array of colors passed for creating an instance ' do
       colors = %w[red lime blue].map {|name| Color.from_name(name) }

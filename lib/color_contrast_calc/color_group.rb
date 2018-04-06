@@ -21,6 +21,12 @@ module ColorContrastCalc
       group_by_hue_rotations(main_color, Rotation::SQUARE, 90)
     end
 
+    def self.complementary_split(main_color, degree = 15)
+      opposite_pos = 180 / degree
+      rotation = [0, opposite_pos - 1, opposite_pos, opposite_pos + 1]
+      group_by_hue_rotations(main_color, rotation, degree)
+    end
+
     def self.group_by_hue_rotations(main_color, rotation_rates, degree)
       main = as_color_object(main_color)
       colors = hue_rotated_colors(main.hsl, rotation_rates, degree)
