@@ -80,9 +80,7 @@ module ColorContrastCalc
 
       return new_group unless harmonize
 
-      ref_l = ref_color.hsl[2]
-      light_count = found_colors.count {|color| color.hsl[2] > ref_l }
-      if found_colors.count - light_count > light_count
+      if darker_dominant?(ref_color, found_colors)
         darkest = found_colors.min_by {|color| color.hsl[2] }
         return new_group.harmonize(darkest)
       else
@@ -90,5 +88,13 @@ module ColorContrastCalc
         return new_group.harmonize(lightest)
       end
     end
+
+    def darker_dominant?(ref_color, colors)
+      ref_l = ref_color.hsl[2]
+      light_count = colors.count {|color| color.hsl[2] > ref_l }
+      colors.count - light_count > light_count
+    end
+
+    private :darker_dominant?
   end
 end
