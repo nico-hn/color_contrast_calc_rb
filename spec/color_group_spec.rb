@@ -120,7 +120,7 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     hues = [0, 120, 240]
 
     it 'expects to return a group of light colors when light_red is passed' do
-      harmonized = group.harmonize(light_red)
+      harmonized = group.harmonize(light_red.hsl)
       harmonized.hsl.each do |hsl|
         expect(hsl[2]).to within(0.1).of(70)
       end
@@ -131,7 +131,7 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     end
 
     it 'expects to return a group of dark colors when dark_blue is passed' do
-      harmonized = group.harmonize(dark_blue)
+      harmonized = group.harmonize(dark_blue.hsl)
       harmonized.hsl.each do |hsl|
         expect(hsl[2]).to within(0.1).of(30)
       end
@@ -142,7 +142,7 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     end
 
     it 'expects to return a group of grayish colors when dark_blue is passed' do
-      harmonized = group.harmonize(dark_blue, s: true)
+      harmonized = group.harmonize(dark_blue.hsl, s: true)
       harmonized.hsl.each do |hsl|
         expect(hsl[2]).to within(0.1).of(30)
       end

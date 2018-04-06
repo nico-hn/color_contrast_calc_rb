@@ -61,9 +61,8 @@ module ColorContrastCalc
       @colors.map(&:hsl)
     end
 
-    def harmonize(ref_color = nil, h: false, s: false, l: true)
+    def harmonize(ref_hsl = nil, h: false, s: false, l: true)
       should_harmonize = [h, s, l]
-      ref_hsl = ref_color.hsl
       harmonized_colors = @colors.map do |color|
         hsl = color.hsl.dup
         0.upto(2) {|i| hsl[i] = ref_hsl[i] if should_harmonize[i] }
@@ -82,7 +81,7 @@ module ColorContrastCalc
       return new_group unless harmonize
 
       satisfying = most_satisfying_lightness_color(ref_color, found_colors)
-      new_group.harmonize(satisfying)
+      new_group.harmonize(satisfying.hsl)
     end
 
     def most_satisfying_lightness_color(ref_color, colors)
