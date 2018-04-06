@@ -43,12 +43,32 @@ RSpec.describe ColorContrastCalc::ColorGroup do
         expect(hsl[2]).to within(0.1).of(main_hsl[2])
       end
     end
+
+    it 'expects to accept a Color object as its arguement' do
+      expected_hues = [315, 345, 15]
+      main_hsl = [345, 100, 50]
+      main = Color.new_from_hsl(main_hsl)
+      group = ColorGroup.analogous(main, 30)
+      group.hsl.each_with_index do |hsl, i|
+        expect(hsl[0]).to within(0.2).of(expected_hues[i])
+        expect(hsl[1]).to within(0.1).of(main_hsl[1])
+        expect(hsl[2]).to within(0.1).of(main_hsl[2])
+      end
+    end
   end
 
   describe '.triad' do
     it 'expects to return blue, red and lime when red is passed' do
       colors = %w[blue red lime].map {|name| Color.from_name(name) }
       group = ColorGroup.triad(colors[1].hex)
+      group.colors.zip(colors).each do |group_color, color|
+        expect(group_color.same_color?(color)).to be_truthy
+      end
+    end
+
+    it 'expects to accept a Color object as its arguement' do
+      colors = %w[blue red lime].map {|name| Color.from_name(name) }
+      group = ColorGroup.triad(colors[1])
       group.colors.zip(colors).each do |group_color, color|
         expect(group_color.same_color?(color)).to be_truthy
       end
@@ -60,6 +80,18 @@ RSpec.describe ColorContrastCalc::ColorGroup do
       expected_hues = [0, 90, 180, 270]
       main_hsl = [0, 100, 50]
       main = Utils.hsl_to_rgb(main_hsl)
+      group = ColorGroup.tetrad(main)
+      group.hsl.each_with_index do |hsl, i|
+        expect(hsl[0]).to within(0.2).of(expected_hues[i])
+        expect(hsl[1]).to within(0.1).of(main_hsl[1])
+        expect(hsl[2]).to within(0.1).of(main_hsl[2])
+      end
+    end
+
+    it 'expects to accept a Color object as its arguement' do
+      expected_hues = [0, 90, 180, 270]
+      main_hsl = [0, 100, 50]
+      main = Color.new_from_hsl(main_hsl)
       group = ColorGroup.tetrad(main)
       group.hsl.each_with_index do |hsl, i|
         expect(hsl[0]).to within(0.2).of(expected_hues[i])
