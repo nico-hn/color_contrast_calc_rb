@@ -6,6 +6,25 @@ Color = ColorContrastCalc::Color
 ColorGroup = ColorContrastCalc::ColorGroup
 
 RSpec.describe ColorContrastCalc::ColorGroup do
+  describe '.new' do
+    it 'expects to accept an array of Color instances' do
+      colors = %w[red lime blue].map {|name| Color.from_name(name) }
+      group = ColorGroup.new(colors)
+      expect(group.hex).to eq(%w[#ff0000 #00ff00 #0000ff])
+    end
+
+    it 'expects to accept an array of hex color codes' do
+      colors = %w[#ff0000 #00ff00 #0000ff]
+      group = ColorGroup.new(colors)
+      expect(group.hex).to eq(%w[#ff0000 #00ff00 #0000ff])
+    end
+
+    it 'expects to accept an array of RGB values' do
+      colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255]]
+      group = ColorGroup.new(colors)
+      expect(group.hex).to eq(%w[#ff0000 #00ff00 #0000ff])
+    end
+  end
 
   describe '.analogous' do
     it 'expects to return red and its 2 neighboring colors when red is passed' do

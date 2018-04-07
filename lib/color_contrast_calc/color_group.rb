@@ -39,8 +39,6 @@ module ColorContrastCalc
       color.is_a?(Color) ? color : ColorContrastCalc.color_from(color)
     end
 
-    private_class_method :as_color_object
-
     def self.hue_rotated_colors(main_hsl, rotation_rates, degree)
       main_hue = main_hsl[0]
       rotation_rates.map do |i|
@@ -55,7 +53,7 @@ module ColorContrastCalc
     attr_reader :colors, :main_color
 
     def initialize(colors, main_color = nil)
-      @colors = colors
+      @colors = colors.map {|color| self.class.as_color_object(color) }
       @main_color = main_color
     end
 
