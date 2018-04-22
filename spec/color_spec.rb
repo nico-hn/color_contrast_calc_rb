@@ -210,7 +210,7 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
-  describe 'new_contrast_color' do
+  describe 'with_contrast' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
     lime = Color.new([0, 255, 0])
@@ -220,34 +220,34 @@ RSpec.describe ColorContrastCalc::Color do
     neutral_gray = Color.new([118, 118, 118])
 
     it 'expects to return a same color as the original when 100 is passed' do
-      expect(yellow.new_contrast_color(100).rgb).to eq(yellow.rgb)
-      expect(orange.new_contrast_color(100).rgb).to eq(orange.rgb)
-      expect(lime.new_contrast_color(100).rgb).to eq(lime.rgb)
-      expect(blue.new_contrast_color(100).rgb).to eq(blue.rgb)
+      expect(yellow.with_contrast(100).rgb).to eq(yellow.rgb)
+      expect(orange.with_contrast(100).rgb).to eq(orange.rgb)
+      expect(lime.with_contrast(100).rgb).to eq(lime.rgb)
+      expect(blue.with_contrast(100).rgb).to eq(blue.rgb)
     end
 
     it 'expects to return a gray color when 0 is passed' do
       gray_rgb = [128, 128, 128]
 
-      expect(yellow.new_contrast_color(0).rgb).to eq(gray_rgb)
-      expect(orange.new_contrast_color(0).rgb).to eq(gray_rgb)
-      expect(lime.new_contrast_color(0).rgb).to eq(gray_rgb)
-      expect(blue.new_contrast_color(0).rgb).to eq(gray_rgb)
-      expect(white.new_contrast_color(0).rgb).to eq(gray_rgb)
-      expect(black.new_contrast_color(0).rgb).to eq(gray_rgb)
-      expect(neutral_gray.new_contrast_color(0).rgb).to eq(gray_rgb)
+      expect(yellow.with_contrast(0).rgb).to eq(gray_rgb)
+      expect(orange.with_contrast(0).rgb).to eq(gray_rgb)
+      expect(lime.with_contrast(0).rgb).to eq(gray_rgb)
+      expect(blue.with_contrast(0).rgb).to eq(gray_rgb)
+      expect(white.with_contrast(0).rgb).to eq(gray_rgb)
+      expect(black.with_contrast(0).rgb).to eq(gray_rgb)
+      expect(neutral_gray.with_contrast(0).rgb).to eq(gray_rgb)
     end
 
     it 'expects to return a lower contrast color if a given ratio < 100' do
-      expect(orange.new_contrast_color(60).rgb).to eq([204, 150, 51])
+      expect(orange.with_contrast(60).rgb).to eq([204, 150, 51])
     end
 
     it 'expects to return a higher contrast color if a given ratio > 100' do
-      expect(orange.new_contrast_color(120).rgb).to eq([255, 173, 0])
+      expect(orange.with_contrast(120).rgb).to eq([255, 173, 0])
     end
   end
 
-  describe 'new_brightness_color' do
+  describe 'with_brightness' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
     lime = Color.new([0, 255, 0])
@@ -256,29 +256,29 @@ RSpec.describe ColorContrastCalc::Color do
     black = Color.new([0, 0, 0])
 
     it 'expects to return a same color as the original when 100 is passed' do
-      expect(yellow.new_brightness_color(100).rgb).to eq(yellow.rgb)
-      expect(orange.new_brightness_color(100).rgb).to eq(orange.rgb)
-      expect(lime.new_brightness_color(100).rgb).to eq(lime.rgb)
-      expect(blue.new_brightness_color(100).rgb).to eq(blue.rgb)
+      expect(yellow.with_brightness(100).rgb).to eq(yellow.rgb)
+      expect(orange.with_brightness(100).rgb).to eq(orange.rgb)
+      expect(lime.with_brightness(100).rgb).to eq(lime.rgb)
+      expect(blue.with_brightness(100).rgb).to eq(blue.rgb)
     end
 
     it 'expects to return black color when 0 is passed' do
-      expect(yellow.new_brightness_color(0).rgb).to eq(black.rgb)
-      expect(orange.new_brightness_color(0).rgb).to eq(black.rgb)
-      expect(lime.new_brightness_color(0).rgb).to eq(black.rgb)
-      expect(blue.new_brightness_color(0).rgb).to eq(black.rgb)
+      expect(yellow.with_brightness(0).rgb).to eq(black.rgb)
+      expect(orange.with_brightness(0).rgb).to eq(black.rgb)
+      expect(lime.with_brightness(0).rgb).to eq(black.rgb)
+      expect(blue.with_brightness(0).rgb).to eq(black.rgb)
     end
 
     it 'expects to return white when a ratio > 100 is passed to white' do
-      expect(white.new_brightness_color(120).rgb).to eq(white.rgb)
+      expect(white.with_brightness(120).rgb).to eq(white.rgb)
     end
 
     it 'expects to return yellow when a ratio > 100 is passed to yellow' do
-      expect(yellow.new_brightness_color(120).rgb).to eq(yellow.rgb)
+      expect(yellow.with_brightness(120).rgb).to eq(yellow.rgb)
     end
   end
 
-  describe 'new_invert_color' do
+  describe 'with_invert' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
     blue = Color.new([0, 0, 255])
@@ -286,116 +286,116 @@ RSpec.describe ColorContrastCalc::Color do
     gray = Color.new([128, 128, 128])
 
     it 'expects to return a same color as the original when 0 is passed' do
-      expect(yellow.new_invert_color(0).rgb).to eq(yellow.rgb)
-      expect(orange.new_invert_color(0).rgb).to eq(orange.rgb)
-      expect(blue.new_invert_color(0).rgb).to eq(blue.rgb)
-      expect(royalblue.new_invert_color(0).rgb).to eq(royalblue.rgb)
-      expect(gray.new_invert_color(0).rgb).to eq(gray.rgb)
+      expect(yellow.with_invert(0).rgb).to eq(yellow.rgb)
+      expect(orange.with_invert(0).rgb).to eq(orange.rgb)
+      expect(blue.with_invert(0).rgb).to eq(blue.rgb)
+      expect(royalblue.with_invert(0).rgb).to eq(royalblue.rgb)
+      expect(gray.with_invert(0).rgb).to eq(gray.rgb)
     end
 
     it 'expects to return blue if nothing is passed to yellow' do
-      expect(yellow.new_invert_color.rgb).to eq(blue.rgb)
+      expect(yellow.with_invert.rgb).to eq(blue.rgb)
     end
 
     it 'expects to return blue if 100 is passed to yellow' do
-      expect(yellow.new_invert_color(100).rgb).to eq(blue.rgb)
+      expect(yellow.with_invert(100).rgb).to eq(blue.rgb)
     end
 
     it 'expects to return yellow if 100 is passed to blue' do
-      expect(blue.new_invert_color(100).rgb).to eq(yellow.rgb)
+      expect(blue.with_invert(100).rgb).to eq(yellow.rgb)
     end
 
     it 'expects to return [0, 90, 255] color if 100 is passed to orange' do
-      expect(orange.new_invert_color(100).rgb).to eq([0, 90, 255])
+      expect(orange.with_invert(100).rgb).to eq([0, 90, 255])
     end
 
     it 'expects to return [190, 150, 30] color if 100 is passed to royalblue' do
-      expect(royalblue.new_invert_color(100).rgb).to eq([190, 150, 30])
+      expect(royalblue.with_invert(100).rgb).to eq([190, 150, 30])
     end
 
     it 'expects to return a gray color if 50 is passed to yellow' do
-      expect(yellow.new_invert_color(50).rgb).to eq(gray.rgb)
-      expect(orange.new_invert_color(50).rgb).to eq(gray.rgb)
-      expect(blue.new_invert_color(50).rgb).to eq(gray.rgb)
-      expect(royalblue.new_invert_color(50).rgb).to eq(gray.rgb)
-      expect(gray.new_invert_color(50).rgb).to eq(gray.rgb)
+      expect(yellow.with_invert(50).rgb).to eq(gray.rgb)
+      expect(orange.with_invert(50).rgb).to eq(gray.rgb)
+      expect(blue.with_invert(50).rgb).to eq(gray.rgb)
+      expect(royalblue.with_invert(50).rgb).to eq(gray.rgb)
+      expect(gray.with_invert(50).rgb).to eq(gray.rgb)
     end
   end
 
-  describe 'new_hue_rotate_color' do
+  describe 'with_hue_rotate' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
     blue = Color.new([0, 0, 255])
 
     it 'expects to return a same color as the original when 0 is passed' do
-      expect(yellow.new_hue_rotate_color(0).rgb).to eq(yellow.rgb)
-      expect(orange.new_hue_rotate_color(0).rgb).to eq(orange.rgb)
-      expect(blue.new_hue_rotate_color(0).rgb).to eq(blue.rgb)
+      expect(yellow.with_hue_rotate(0).rgb).to eq(yellow.rgb)
+      expect(orange.with_hue_rotate(0).rgb).to eq(orange.rgb)
+      expect(blue.with_hue_rotate(0).rgb).to eq(blue.rgb)
     end
 
     it 'expects to return a same color as the original when 360 is passed' do
-      expect(yellow.new_hue_rotate_color(360).rgb).to eq(yellow.rgb)
-      expect(orange.new_hue_rotate_color(360).rgb).to eq(orange.rgb)
-      expect(blue.new_hue_rotate_color(360).rgb).to eq(blue.rgb)
+      expect(yellow.with_hue_rotate(360).rgb).to eq(yellow.rgb)
+      expect(orange.with_hue_rotate(360).rgb).to eq(orange.rgb)
+      expect(blue.with_hue_rotate(360).rgb).to eq(blue.rgb)
     end
 
     it 'expects to return new colors when 180 is passed' do
-      expect(yellow.new_hue_rotate_color(180).rgb).to eq([218, 218, 255])
-      expect(orange.new_hue_rotate_color(180).rgb).to eq([90, 180, 255])
-      expect(blue.new_hue_rotate_color(180).rgb).to eq([37, 37, 0])
+      expect(yellow.with_hue_rotate(180).rgb).to eq([218, 218, 255])
+      expect(orange.with_hue_rotate(180).rgb).to eq([90, 180, 255])
+      expect(blue.with_hue_rotate(180).rgb).to eq([37, 37, 0])
     end
 
     it 'expects to return new colors when 90 is passed' do
-      expect(yellow.new_hue_rotate_color(90).rgb).to eq([0, 255, 218])
-      expect(orange.new_hue_rotate_color(90).rgb).to eq([0, 232, 90])
-      expect(blue.new_hue_rotate_color(90).rgb).to eq([255, 0, 37])
+      expect(yellow.with_hue_rotate(90).rgb).to eq([0, 255, 218])
+      expect(orange.with_hue_rotate(90).rgb).to eq([0, 232, 90])
+      expect(blue.with_hue_rotate(90).rgb).to eq([255, 0, 37])
     end
   end
 
-  describe 'new_saturate_color' do
+  describe 'with_saturate' do
     red = Color.new([255, 0, 0])
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
     blue = Color.new([0, 0, 255])
 
     it 'expects to return a same color as the original when 100 is passed' do
-      expect(orange.new_saturate_color(100).rgb).to eq(orange.rgb)
-      expect(yellow.new_saturate_color(100).rgb).to eq(yellow.rgb)
-      expect(blue.new_saturate_color(100).rgb).to eq(blue.rgb)
+      expect(orange.with_saturate(100).rgb).to eq(orange.rgb)
+      expect(yellow.with_saturate(100).rgb).to eq(yellow.rgb)
+      expect(blue.with_saturate(100).rgb).to eq(blue.rgb)
     end
 
     it 'expects to return a gray color when 0 is passed' do
-      expect(orange.new_saturate_color(0).rgb).to eq([172, 172, 172])
-      expect(yellow.new_saturate_color(0).rgb).to eq([237, 237, 237])
-      expect(blue.new_saturate_color(0).rgb).to eq([18, 18, 18])
+      expect(orange.with_saturate(0).rgb).to eq([172, 172, 172])
+      expect(yellow.with_saturate(0).rgb).to eq([237, 237, 237])
+      expect(blue.with_saturate(0).rgb).to eq([18, 18, 18])
     end
 
     it 'expects to return red if 2357 is passed to orange' do
-      expect(orange.new_saturate_color(2357).rgb).to eq(red.rgb)
+      expect(orange.with_saturate(2357).rgb).to eq(red.rgb)
     end
 
     it 'expects to return red if 3000 is passed to orange' do
-      expect(orange.new_saturate_color(3000).rgb).to eq(red.rgb)
+      expect(orange.with_saturate(3000).rgb).to eq(red.rgb)
     end
   end
 
-  describe 'new_grayscale_color' do
+  describe 'with_grayscale' do
     orange = Color.new([255, 165, 0])
 
     it 'expects to return a same color as the original when 0 is passed' do
-      expect(orange.new_grayscale_color(0).rgb).to eq(orange.rgb)
+      expect(orange.with_grayscale(0).rgb).to eq(orange.rgb)
     end
 
     it 'expects to return a gray color when 100 is passed' do
-      expect(orange.new_grayscale_color(100).rgb).to eq([172, 172, 172])
+      expect(orange.with_grayscale(100).rgb).to eq([172, 172, 172])
     end
 
     it 'expects to return a gray color when nothing is passed' do
-      expect(orange.new_grayscale_color.rgb).to eq([172, 172, 172])
+      expect(orange.with_grayscale.rgb).to eq([172, 172, 172])
     end
 
     it 'expects to return a graysh orange when 50 is passed' do
-      expect(orange.new_grayscale_color(50).rgb).to eq([214, 169, 86])
+      expect(orange.with_grayscale(50).rgb).to eq([214, 169, 86])
     end
   end
 

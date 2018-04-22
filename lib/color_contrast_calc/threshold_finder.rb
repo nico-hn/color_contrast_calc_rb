@@ -135,6 +135,15 @@ module ColorContrastCalc
       end
 
       private :find_ratio
+
+      # @private
+
+      def rgb_with_ratio(rgb, ratio)
+        raise(NotImplementedError,
+              "Implement ##{__method__} with arguments #{rgb} and #{ratio}")
+      end
+
+      private :rgb_with_ratio
     end
 
     ##

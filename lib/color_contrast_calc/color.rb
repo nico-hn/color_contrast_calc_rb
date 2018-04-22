@@ -3,6 +3,7 @@
 require 'color_contrast_calc/utils'
 require 'color_contrast_calc/checker'
 require 'color_contrast_calc/threshold_finder'
+require 'color_contrast_calc/deprecated'
 require 'json'
 
 module ColorContrastCalc
@@ -13,6 +14,7 @@ module ColorContrastCalc
   # instances of Color class.
 
   class Color
+    include Deprecated::Color
     # @private
     RGB_LIMITS = [0, 255].freeze
 
@@ -102,7 +104,7 @@ module ColorContrastCalc
     #   code is assigned instead.
     # @return [Color] New color with adjusted contrast
 
-    def new_contrast_color(ratio, name = nil)
+    def with_contrast(ratio, name = nil)
       generate_new_color(Converter::Contrast, ratio, name)
     end
 
@@ -115,7 +117,7 @@ module ColorContrastCalc
     #   code is assigned instead.
     # @return [Color] New color with adjusted brightness
 
-    def new_brightness_color(ratio, name = nil)
+    def with_brightness(ratio, name = nil)
       generate_new_color(Converter::Brightness, ratio, name)
     end
 
@@ -128,7 +130,7 @@ module ColorContrastCalc
     #   code is assigned instead.
     # @return [Color] New inverted color
 
-    def new_invert_color(ratio = 100, name = nil)
+    def with_invert(ratio = 100, name = nil)
       generate_new_color(Converter::Invert, ratio, name)
     end
 
@@ -141,7 +143,7 @@ module ColorContrastCalc
     #   code is assigned instead.
     # @return [Color] New hue rotation applied color
 
-    def new_hue_rotate_color(degree, name = nil)
+    def with_hue_rotate(degree, name = nil)
       generate_new_color(Converter::HueRotate, degree, name)
     end
 
@@ -154,7 +156,7 @@ module ColorContrastCalc
     #   code is assigned instead.
     # @return [Color] New saturated color
 
-    def new_saturate_color(ratio, name = nil)
+    def with_saturate(ratio, name = nil)
       generate_new_color(Converter::Saturate, ratio, name)
     end
 
@@ -167,7 +169,7 @@ module ColorContrastCalc
     #   code is assigned instead.
     # @return [Color] New grayscale color
 
-    def new_grayscale_color(ratio = 100, name = nil)
+    def with_grayscale(ratio = 100, name = nil)
       generate_new_color(Converter::Grayscale, ratio, name)
     end
 
@@ -290,7 +292,7 @@ module ColorContrastCalc
     # The max contrast in this context means that of colors modified
     # by the operation defined at
     # * {https://www.w3.org/TR/filter-effects/#funcdef-contrast}
-    # @return [Boolean] true if self.new_contrast_color(r) where r is
+    # @return [Boolean] true if self.with_contrast(r) where r is
     #   greater than 100 returns the same color as self.
 
     def max_contrast?
