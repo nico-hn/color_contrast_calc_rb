@@ -6,5 +6,5 @@ yellow = ColorContrastCalc.color_from('yellow')
 orange = ColorContrastCalc.color_from('orange')
 
 report = 'The grayscale of %s is %s.'
-puts(format(report, yellow.hex, yellow.new_grayscale_color))
-puts(format(report, orange.hex, orange.new_grayscale_color))
+puts(format(report, yellow.hex, yellow.with_grayscale))
+puts(format(report, orange.hex, orange.with_grayscale))
