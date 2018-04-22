@@ -6,7 +6,7 @@ module ColorContrastCalc
   class ColorGroup
     module Rotation
       ANALOGOUS = [-1, 0, 1].freeze
-      SQUARE = [0, 1, 2, 3].freeze
+      TETRAD = [0, 1, 2, 3].freeze
     end
 
     def self.analogous(main_color, degree = 15)
@@ -18,7 +18,7 @@ module ColorContrastCalc
     end
 
     def self.tetrad(main_color)
-      group_by_hue_rotations(main_color, Rotation::SQUARE, 90)
+      group_by_hue_rotations(main_color, Rotation::TETRAD, 90)
     end
 
     def self.complementary_split(main_color, degree = 15)
