@@ -71,12 +71,11 @@ module ColorContrastCalc
 
     def harmonize(ref_hsl = nil, h: false, s: false, l: true)
       should_harmonize = [h, s, l]
-      harmonized_colors = @colors.map do |color|
+      map do |color|
         hsl = color.hsl.dup
         0.upto(2) {|i| hsl[i] = ref_hsl[i] if should_harmonize[i] }
         Color.new_from_hsl(hsl)
       end
-      self.class.new(harmonized_colors)
     end
 
     def find_contrast(ref_color, level: Checker::Level::AA, harmonize: false)
