@@ -261,6 +261,11 @@ RSpec.describe ColorContrastCalc::ColorGroup do
       grayscale = group.grayscale
       expect(grayscale.hex).to eq(%w[#363636 #b6b6b6 #121212])
     end
+
+    it 'expects to retain some degree of hue when a ratio is given' do
+      grayscale = group.grayscale(80)
+      expect(grayscale.hex).to eq(%w[#5e2b2b #92c592 #0f0f42])
+    end
   end
 end
 
