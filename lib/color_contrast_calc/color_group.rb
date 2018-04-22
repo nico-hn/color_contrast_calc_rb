@@ -99,6 +99,10 @@ module ColorContrastCalc
       self.class.new(grays)
     end
 
+    def map
+      self.class.new(@colors.map {|color| yield color })
+    end
+
     def most_satisfying_lightness_color(ref_color, colors)
       if darker_dominant?(ref_color, colors)
         return colors.min_by {|color| color.hsl[2] }
