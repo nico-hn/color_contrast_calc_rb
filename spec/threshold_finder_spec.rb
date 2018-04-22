@@ -164,7 +164,7 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
         end
 
         it 'expects the upper ratio limit of mintcream to be 105' do
-          new_color = mintcream.new_brightness_color(105)
+          new_color = mintcream.with_brightness(105)
 
           expect(Brightness.calc_upper_ratio_limit(mintcream.rgb)).to be 105
           expect(new_color.same_color?(white)).to be true
