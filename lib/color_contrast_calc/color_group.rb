@@ -92,6 +92,13 @@ module ColorContrastCalc
       new_group.harmonize(satisfying.hsl)
     end
 
+    def grayscale(ratio = 100)
+      grays = @colors.map do |color|
+        color.with_grayscale(ratio)
+      end
+      self.class.new(grays)
+    end
+
     def most_satisfying_lightness_color(ref_color, colors)
       if darker_dominant?(ref_color, colors)
         return colors.min_by {|color| color.hsl[2] }

@@ -253,6 +253,15 @@ RSpec.describe ColorContrastCalc::ColorGroup do
       end
     end
   end
+
+  describe '#grayscale' do
+    group = ColorGroup.new(%w[#ff0000 #00ff00 #0000ff])
+
+    it 'expects to return a group of grays' do
+      grayscale = group.grayscale
+      expect(grayscale.hex).to eq(%w[#363636 #b6b6b6 #121212])
+    end
+  end
 end
 
 
