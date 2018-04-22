@@ -93,10 +93,7 @@ module ColorContrastCalc
     end
 
     def grayscale(ratio = 100)
-      grays = @colors.map do |color|
-        color.with_grayscale(ratio)
-      end
-      self.class.new(grays)
+      map {|color| color.with_grayscale(ratio) }
     end
 
     def map
