@@ -174,7 +174,7 @@ The contrast ratio between #ffff00 and #9d6600 is 4.5121
 ### 例3: ある色のグレースケール
 
 ある色のグレースケールを得るために`ColorContrastCalc::Color` には
-`new_grayscale_color`というインスタンスメソッドがあります。
+`with_grayscale`というインスタンスメソッドがあります。
 
 例えば次のコードを`grayscale.rb`として保存し:
 
@@ -185,8 +185,8 @@ yellow = ColorContrastCalc.color_from('yellow')
 orange = ColorContrastCalc.color_from('orange')
 
 report = 'The grayscale of %s is %s.'
-puts(format(report, yellow.hex, yellow.new_grayscale_color))
-puts(format(report, orange.hex, orange.new_grayscale_color))
+puts(format(report, yellow.hex, yellow.with_grayscale))
+puts(format(report, orange.hex, orange.with_grayscale))
 ```
 
 以下のように実行します:
@@ -197,9 +197,20 @@ The grayscale of #ffff00 is #ededed.
 The grayscale of #ffa500 is #acacac.
 ```
 
-また`new_grayscale_color`以外に、以下のインスタンスメッソドが
+また`with_grayscale`以外に、以下のインスタンスメッソドが
 `ColorContrastCalc::Color`では利用できます。:
 
+* `with_brightness`
+* `with_contrast`
+* `with_hue_rotate`
+* `with_invert`
+* `with_saturate`
+
+#### 非推奨のメソッド
+
+以下のメソッドは非推奨であることにご注意下さい。
+
+* `new_grayscale_color`
 * `new_brightness_color`
 * `new_contrast_color`
 * `new_hue_rotate_color`
