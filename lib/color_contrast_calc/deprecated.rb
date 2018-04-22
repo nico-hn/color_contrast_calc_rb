@@ -5,6 +5,10 @@ module ColorContrastCalc
   # Collection of deprecated methods.
 
   module Deprecated
+    def self.warn(old_method, new_method)
+      STDERR.puts "##{old_method} is deprecated. Use ##{new_method} instead"
+    end
+
     module Color
       # @deprecated Use {#with_contrast} instead
       def new_contrast_color(ratio, name = nil)
