@@ -104,6 +104,24 @@ RSpec.describe ColorContrastCalc do
       expect(ColorContrastCalc.sort(colors, &:first)).to eq(default_order)
       expect(ColorContrastCalc.sort(colors, "RGB") {|i| i[0] }).to eq(rgb_order)
     end
+
+    it 'expects to overwrite the common name of a color with a given name - rgb' do
+      yellow = ColorContrastCalc.color_from([255, 255, 0])
+      named_yellow = ColorContrastCalc.color_from([255, 255, 0], 'named_yellow')
+
+      expect(yellow.name).to eq('yellow')
+      expect(named_yellow.name).to eq('named_yellow')
+    end
+
+    it 'expects to overwrite the common name of a color with a given name - hex' do
+      yellow = ColorContrastCalc.color_from('#ff0')
+      named_yellow = ColorContrastCalc.color_from('#ff0', 'named_yellow')
+      long_yellow = ColorContrastCalc.color_from('#ffff00', 'long_yellow')
+
+      expect(yellow.name).to eq('yellow')
+      expect(named_yellow.name).to eq('named_yellow')
+      expect(long_yellow.name).to eq('long_yellow')
+    end
   end
 
   describe '.named_colors' do

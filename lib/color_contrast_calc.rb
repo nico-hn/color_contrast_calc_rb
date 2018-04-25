@@ -110,7 +110,7 @@ module ColorContrastCalc
     end
 
     hex_code = Utils.rgb_to_hex(color_value)
-    Color::List::HEX_TO_COLOR[hex_code] || Color.new(color_value, name)
+    !name && Color::List::HEX_TO_COLOR[hex_code] || Color.new(color_value, name)
   end
 
   private_class_method :color_from_rgb
@@ -118,7 +118,7 @@ module ColorContrastCalc
   def self.color_from_str(color_value, name = nil)
     error_message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
 
-    named_color = Color::List::NAME_TO_COLOR[color_value]
+    named_color = !name && Color::List::NAME_TO_COLOR[color_value]
     return named_color if named_color
 
     unless Utils.valid_hex?(color_value)
@@ -126,7 +126,7 @@ module ColorContrastCalc
     end
 
     hex_code = Utils.normalize_hex(color_value)
-    Color::List::HEX_TO_COLOR[hex_code] || Color.new(hex_code, name)
+    !name && Color::List::HEX_TO_COLOR[hex_code] || Color.new(hex_code, name)
   end
 
   private_class_method :color_from_str
