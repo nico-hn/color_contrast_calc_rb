@@ -20,6 +20,17 @@ module ColorContrastCalc
     # Module that implements class methods of Color
 
     module Factory
+      ##
+      # Return an instance of Color for a predefined color name.
+      #
+      # Color names are defined at
+      # * {https://www.w3.org/TR/SVG/types.html#ColorKeywords}
+      # @param name [String] Name of color
+      # @return [Color] Instance of Color
+
+      def from_name(name)
+        List::NAME_TO_COLOR[name.downcase]
+      end
     end
 
     extend Factory
@@ -38,18 +49,6 @@ module ColorContrastCalc
     #   @return [Float] Relative luminance of the color
 
     attr_reader :rgb, :hex, :name, :relative_luminance
-
-    ##
-    # Return an instance of Color for a predefined color name.
-    #
-    # Color names are defined at
-    # * {https://www.w3.org/TR/SVG/types.html#ColorKeywords}
-    # @param name [String] Name of color
-    # @return [Color] Instance of Color
-
-    def self.from_name(name)
-      List::NAME_TO_COLOR[name.downcase]
-    end
 
     ##
     # Return an instance of Color for a hex color code.
