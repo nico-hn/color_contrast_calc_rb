@@ -189,6 +189,8 @@ RSpec.describe ColorContrastCalc::Color do
     yellow_short_hex = '#ff0'
     yellow_name = 'yellow'
     yellow_hsl = [60, 100, 50]
+    unnamed_rgb = [123, 234, 123]
+    unnamed_hex = "#7bea7b"
 
     it 'expects to generate an instance with rgb and name properties' do
       yellow = Color.new(yellow_rgb, yellow_name)
@@ -213,12 +215,20 @@ RSpec.describe ColorContrastCalc::Color do
       expect(yellow_short.relative_luminance).to within(0.01).of(0.9278)
     end
 
-    it 'expects to assign the value of .hex to .name if no name is specified' do
+    it 'expects to assign the color keyword name of the color to .name if the color is a named color' do
       temp_color = Color.new(yellow_rgb)
 
       expect(temp_color.rgb).to eq(yellow_rgb)
       expect(temp_color.hex).to eq(yellow_hex)
-      expect(temp_color.name).to eq(yellow_hex)
+      expect(temp_color.name).to eq(yellow_name)
+    end
+
+    it 'expects to assign the value of .hex to .name if the color is not a named color' do
+      temp_color = Color.new(unnamed_rgb)
+
+      expect(temp_color.rgb).to eq(unnamed_rgb)
+      expect(temp_color.hex).to eq(unnamed_hex)
+      expect(temp_color.name).to eq(unnamed_hex)
     end
   end
 
