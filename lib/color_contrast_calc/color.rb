@@ -50,7 +50,8 @@ module ColorContrastCalc
 
     def self.from_hex(hex, name = nil)
       normalized_hex = Utils.normalize_hex(hex)
-      List::HEX_TO_COLOR[normalized_hex] || Color.new(normalized_hex, name)
+      !name && List::HEX_TO_COLOR[normalized_hex] ||
+        Color.new(normalized_hex, name)
     end
 
     ##
