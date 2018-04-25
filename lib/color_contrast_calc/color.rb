@@ -31,6 +31,19 @@ module ColorContrastCalc
       def from_name(name)
         List::NAME_TO_COLOR[name.downcase]
       end
+
+      ##
+      # Return an instance of Color for a hex color code.
+      #
+      # @param hex [String] Hex color code such as "#ffff00"
+      # @param name [String] You can name the color to be created
+      # @return [Color] Instance of Color
+
+      def from_hex(hex, name = nil)
+        normalized_hex = Utils.normalize_hex(hex)
+        !name && List::HEX_TO_COLOR[normalized_hex] ||
+          Color.new(normalized_hex, name)
+      end
     end
 
     extend Factory
@@ -49,19 +62,6 @@ module ColorContrastCalc
     #   @return [Float] Relative luminance of the color
 
     attr_reader :rgb, :hex, :name, :relative_luminance
-
-    ##
-    # Return an instance of Color for a hex color code.
-    #
-    # @param hex [String] Hex color code such as "#ffff00"
-    # @param name [String] You can name the color to be created
-    # @return [Color] Instance of Color
-
-    def self.from_hex(hex, name = nil)
-      normalized_hex = Utils.normalize_hex(hex)
-      !name && List::HEX_TO_COLOR[normalized_hex] ||
-        Color.new(normalized_hex, name)
-    end
 
     ##
     # Create an instance of Color from an HSL value.
