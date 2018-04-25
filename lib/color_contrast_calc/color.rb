@@ -15,6 +15,15 @@ module ColorContrastCalc
 
   class Color
     include Deprecated::Color
+
+    ##
+    # Module that implements class methods of Color
+
+    module Factory
+    end
+
+    extend Factory
+
     # @private
     RGB_LIMITS = [0, 255].freeze
 
