@@ -33,6 +33,19 @@ module ColorContrastCalc
       end
 
       ##
+      # Return an instance of Color for an RGB value
+      #
+      # @param rgb [Array<Integer>, String] RGB value represented
+      #   as an array of integers such as [255, 255, 0]
+      # @param name [String] You can name the color to be created
+      # @return [Color] Instance of Color
+
+      def from_rgb(rgb, name = nil)
+        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
+          Color.new(rgb, name)
+      end
+
+      ##
       # Return an instance of Color for a hex color code.
       #
       # @param hex [String] Hex color code such as "#ffff00"

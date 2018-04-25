@@ -20,6 +20,39 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe '.from_rgb' do
+      yellow_rgb = [255, 255, 0]
+      yellow_name = 'yellow'
+
+    it 'expects to return a Color representing yellow when [255, 255, 0] is passed' do
+      yellow = Color.from_rgb(yellow_rgb)
+
+      expect(yellow).to be_instance_of(Color)
+      expect(yellow.rgb).to eq(yellow_rgb)
+      expect(yellow.name).to eq(yellow_name)
+    end
+
+    it 'expects to be able to assign a name to the returned Color instance' do
+      new_name = 'new_yellow'
+      yellow = Color.from_rgb(yellow_rgb, new_name)
+
+      expect(yellow).to be_instance_of(Color)
+      expect(yellow.rgb).to eq(yellow_rgb)
+      expect(yellow.name).to eq(new_name)
+    end
+
+    it 'expects to return a new Color if an RGB value passed is not registered' do
+      unnamed_rgb = [123, 234, 123]
+      unnamed_hex = Utils.rgb_to_hex(unnamed_rgb)
+      new_color = Color.from_rgb(unnamed_rgb)
+
+      expect(Color::List::HEX_TO_COLOR[unnamed_hex]).to be_falsy
+      expect(new_color).to be_instance_of(Color)
+      expect(new_color.name).to eq(unnamed_hex)
+      expect(new_color.hex).to eq(unnamed_hex)
+    end
+  end
+
   describe '.from_hex' do
     yellow_normalized_hex = '#ffff00'
     yellow_name = 'yellow'
