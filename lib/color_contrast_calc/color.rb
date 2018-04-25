@@ -59,6 +59,7 @@ module ColorContrastCalc
       end
 
       ##
+      # @deprecated Use Color.from_hsl() instead.
       # Create an instance of Color from an HSL value.
       #
       # @param hsl [Float] HSL value represented as an array of numbers
