@@ -46,6 +46,7 @@ module ColorContrastCalc
     # Return an instance of Color for a hex color code.
     #
     # @param hex [String] Hex color code such as "#ffff00"
+    # @param name [String] You can name the color to be created
     # @return [Color] Instance of Color
 
     def self.from_hex(hex, name = nil)
