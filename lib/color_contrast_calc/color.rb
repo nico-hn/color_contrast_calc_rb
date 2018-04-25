@@ -46,6 +46,19 @@ module ColorContrastCalc
       end
 
       ##
+      # Return an instance of Color from an HSL value.
+      #
+      # @param hsl [Float] HSL value represented as an array of numbers
+      # @param name [String] You can name the color to be created
+      # @return [Color] Instance of Color
+
+      def from_hsl(hsl, name = nil)
+        rgb = Utils.hsl_to_rgb(hsl)
+        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
+          Color.new(rgb, name)
+      end
+
+      ##
       # Create an instance of Color from an HSL value.
       #
       # @param hsl [Float] HSL value represented as an array of numbers
