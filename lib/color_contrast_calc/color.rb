@@ -98,6 +98,18 @@ module ColorContrastCalc
     end
 
     ##
+    # Return a {https://www.w3.org/TR/SVG/types.html#ColorKeywords
+    # color keyword name} when the name corresponds to the hex code
+    # of the color. Otherwise the hex code will be returned.
+    #
+    # @return [String] Color keyword name or hex color code
+
+    def common_name
+      named_color = List::HEX_TO_COLOR[@hex]
+      named_color && named_color.name || @hex
+    end
+
+    ##
     # Return a new instance of Color with adjusted contrast.
     #
     # @param ratio [Float] Adjustment ratio in percentage

@@ -222,6 +222,20 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'common_name' do
+    it 'expects to return when a color keyword name when the color is a named color' do
+      yellow = Color.new('#ff0')
+
+      expect(yellow.common_name).to eq('yellow')
+    end
+
+    it 'expects to return when a hex code when the color is not a named color' do
+      unnamed = Color.new('#123456')
+
+      expect(unnamed.common_name).to eq('#123456')
+    end
+  end
+
   describe 'with_contrast' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
