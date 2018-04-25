@@ -102,15 +102,15 @@ module ColorContrastCalc
     Color::List.hsl_colors(s: s, l: l, h_interval: h_interval)
   end
 
-  def self.color_from_rgb(color_value, name = nil)
+  def self.color_from_rgb(rgb_value, name = nil)
     error_message = 'An RGB value should be given in form of [r, g, b].'
 
-    unless Utils.valid_rgb?(color_value)
+    unless Utils.valid_rgb?(rgb_value)
       raise InvalidColorRepresentationError, error_message
     end
 
-    hex_code = Utils.rgb_to_hex(color_value)
-    !name && Color::List::HEX_TO_COLOR[hex_code] || Color.new(color_value, name)
+    hex_code = Utils.rgb_to_hex(rgb_value)
+    !name && Color::List::HEX_TO_COLOR[hex_code] || Color.new(rgb_value, name)
   end
 
   private_class_method :color_from_rgb
