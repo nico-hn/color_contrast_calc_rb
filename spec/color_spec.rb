@@ -57,6 +57,12 @@ RSpec.describe ColorContrastCalc::Color do
       expect(new_color.name).to eq(new_hex)
       expect(new_color.hex).to eq(new_hex)
     end
+
+    it 'expects to return a common name when no name is given' do
+      yellow = Color.from_hex('#ff0')
+
+      expect(yellow.name).to eq('yellow')
+    end
   end
 
   describe '.find_brightness_threshold' do
