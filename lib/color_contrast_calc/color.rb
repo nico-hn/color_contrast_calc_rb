@@ -122,7 +122,7 @@ module ColorContrastCalc
     # Return HSL value of the color.
     #
     # The value is calculated from the RGB value, so if you create
-    # the instance by Color.new_from_hsl method, the value used to
+    # the instance by Color.from_hsl method, the value used to
     # create the color does not necessarily correspond to the value
     # of this property.
     #
@@ -451,7 +451,7 @@ module ColorContrastCalc
       #   saturation and lightness
 
       def self.hsl_colors(s: 100, l: 50, h_interval: 1)
-        0.step(360, h_interval).map {|h| Color.new_from_hsl([h, s, l]) }.freeze
+        0.step(360, h_interval).map {|h| Color.from_hsl([h, s, l]) }.freeze
       end
     end
 
