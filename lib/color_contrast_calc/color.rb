@@ -37,8 +37,8 @@ module ColorContrastCalc
       ##
       # Return an instance of Color for an RGB value
       #
-      # @param rgb [Array<Integer>, String] RGB value represented
-      #   as an array of integers such as [255, 255, 0]
+      # @param rgb [Array<Integer>] RGB value represented as an
+      #   array of integers such as [255, 255, 0]
       # @param name [String] You can name the color to be created
       # @return [Color] Instance of Color
 
