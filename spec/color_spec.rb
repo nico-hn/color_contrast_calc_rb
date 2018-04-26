@@ -248,7 +248,7 @@ RSpec.describe ColorContrastCalc::Color do
       expect(yellow_short.relative_luminance).to within(0.01).of(0.9278)
     end
 
-    it 'expects to assign the color keyword name of the color to .name if the color is a named color' do
+    it 'expects to assign the color keyword name of the color to #name if the color is a named color' do
       temp_color = Color.new(yellow_rgb)
 
       expect(temp_color.rgb).to eq(yellow_rgb)
