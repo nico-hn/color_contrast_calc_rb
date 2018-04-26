@@ -20,6 +20,8 @@ module ColorContrastCalc
     # Module that implements class methods of Color
 
     module Factory
+      include Deprecated::Color::Factory
+
       ##
       # Return an instance of Color for a predefined color name.
       #
@@ -69,18 +71,6 @@ module ColorContrastCalc
         rgb = Utils.hsl_to_rgb(hsl)
         !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
           Color.new(rgb, name)
-      end
-
-      ##
-      # @deprecated Use Color.from_hsl() instead.
-      # Create an instance of Color from an HSL value.
-      #
-      # @param hsl [Float] HSL value represented as an array of numbers
-      # @param name [String] You can name the color to be created
-      # @return [Color] Instance of Color
-
-      def new_from_hsl(hsl, name = nil)
-        Color.new(Utils.hsl_to_rgb(hsl), name)
       end
     end
 
