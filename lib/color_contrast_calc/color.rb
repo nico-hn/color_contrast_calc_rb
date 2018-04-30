@@ -103,6 +103,29 @@ module ColorContrastCalc
         color_from_str(color_value, name)
       end
 
+      ##
+      # Return an instance of Color.
+      #
+      # As +color_value+, you can pass a Color instance, a predefined color
+      # name, or an RGB value represented as an array of integers or a hex
+      # code such as [255, 255, 0] or "#ffff00". +name+ is assigned to the
+      # returned instance.
+      # @param color_value [Color, String, Array<Integer>] An instance of
+      #   Color, a name of a predefined, color, hex color code or RGB value
+      # @param name [String] Without specifying a name, a color keyword name
+      #   (if exists) or the value of normalized hex color code is assigned
+      #   to Color#name
+      # @return [Color] Instance of Color
+
+      def as_color(color_value, name = nil)
+        if color_value.is_a? Color
+          return color_value if color_value.name == name
+          color_value = color_value.rgb
+        end
+
+        color_from(color_value, name)
+      end
+
       def color_from_rgb(rgb_value, name = nil)
         error_message = 'An RGB value should be given in form of [r, g, b].'
 

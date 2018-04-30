@@ -179,6 +179,61 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe '.as_color' do
+    yellow_name = 'yellow'
+    yellow_hex = '#ffff00'
+    yellow_rgb = [255, 255, 0]
+
+    context 'when a color keyword name is passed' do
+      color = Color.as_color(yellow_name)
+
+      it 'expects to return an instance whose #name is set to the passed value' do
+        expect(color.name).to eq(yellow_name)
+      end
+    end
+
+    context 'when a hex color code is passed' do
+      named_color = Color.as_color(yellow_hex)
+
+      it 'expects to return an instance whose #hex is set to the passed value' do
+        expect(named_color.hex).to eq(yellow_hex)
+      end
+
+      it 'expects to return an instance with name when the color is named one' do
+        expect(named_color.name).to eq(yellow_name)
+      end
+    end
+
+    context 'when an RGB value is passed' do
+      named_color = Color.as_color(yellow_rgb)
+
+      it 'expects to return an instance whose #rgb is set to the passed value' do
+        expect(named_color.rgb).to eq(yellow_rgb)
+      end
+
+      it 'expects to return an instance with name when the color is named one' do
+        expect(named_color.name).to eq(yellow_name)
+      end
+    end
+
+    context 'when a Color instance is passed' do
+      yellow = Color.new(yellow_rgb)
+      new_name = 'yellow_color'
+      default_yellow = Color.as_color(yellow)
+      new_name_yellow = Color.new(yellow_rgb, new_name)
+
+      it 'expects to return an instance with a default name when no name is passed' do
+        expect(default_yellow.rgb).to eq(yellow_rgb)
+        expect(default_yellow.name).to eq(yellow_name)
+      end
+
+      it 'expects to return an instance whose #name is overwritten by a passed name' do
+        expect(new_name_yellow.rgb).to eq(yellow_rgb)
+        expect(new_name_yellow.name).to eq(new_name)
+      end
+    end
+end
+
   describe '.find_brightness_threshold' do
     yellow = Color.new([255, 255, 0])
     orange = Color.new([255, 165, 0])
