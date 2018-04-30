@@ -166,7 +166,7 @@ module ColorContrastCalc
                           [-0.2126, -0.7152, 0.9278]]
 
       ##
-      # Convert passed a passed color to grayscale.
+      # Convert a passed color to grayscale.
       #
       # The calculation is based on the definition found at
       # https://www.w3.org/TR/filter-effects/#funcdef-grayscale
