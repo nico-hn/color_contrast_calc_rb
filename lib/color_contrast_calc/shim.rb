@@ -11,7 +11,7 @@ module ColorContrastCalc
       # and the following implementation does not satisfy
       # the full specification of the original method.
 
-      alias_method(:===, :match?)
+      alias_method(:match?, :===)
     end
 
     refine Numeric do
