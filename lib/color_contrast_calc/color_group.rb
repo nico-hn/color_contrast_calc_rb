@@ -28,16 +28,12 @@ module ColorContrastCalc
     end
 
     def self.group_by_hue_rotations(main_color, rotation_rates, degree)
-      main = as_color_object(main_color)
+      main = Color.as_color(main_color)
       colors = hue_rotated_colors(main.hsl, rotation_rates, degree)
       new(colors, main)
     end
 
     private_class_method :group_by_hue_rotations
-
-    def self.as_color_object(color)
-      color.is_a?(Color) ? color : ColorContrastCalc.color_from(color)
-    end
 
     def self.hue_rotated_colors(main_hsl, rotation_rates, degree)
       main_hue = main_hsl[0]
@@ -53,7 +49,7 @@ module ColorContrastCalc
     attr_reader :colors, :main_color
 
     def initialize(colors, main_color = nil)
-      @colors = colors.map {|color| self.class.as_color_object(color) }
+      @colors = colors.map {|color| Color.as_color(color) }
       @main_color = main_color
     end
 
