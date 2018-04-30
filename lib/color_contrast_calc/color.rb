@@ -8,6 +8,11 @@ require 'json'
 
 module ColorContrastCalc
   ##
+  # Error raised if creating a Color instance with invalid value.
+
+  class InvalidColorRepresentationError < StandardError; end
+
+  ##
   # Represent specific colors.
   #
   # This class also provides lists of predefined colors represented as
@@ -72,6 +77,60 @@ module ColorContrastCalc
         !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
           Color.new(rgb, name)
       end
+
+      ##
+      # Return an instance of Color.
+      #
+      # As +color_value+, you can pass a predefined color name, or an
+      # RGB value represented as an array of integers or a hex code such
+      # as [255, 255, 0] or "#ffff00". +name+ is assigned to the returned
+      # instance.
+      # @param color_value [String, Array<Integer>] Name of a predefined
+      #   color, hex color code or RGB value
+      # @param name [String] Without specifying a name, a color keyword name
+      #   (if exists) or the value of normalized hex color code is assigned
+      #   to Color#name
+      # @return [Color] Instance of Color
+
+      def color_from(color_value, name = nil)
+        error_message = 'A color should be given as an array or string.'
+
+        if !color_value.is_a?(String) && !color_value.is_a?(Array)
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        return color_from_rgb(color_value, name) if color_value.is_a?(Array)
+        color_from_str(color_value, name)
+      end
+
+      def color_from_rgb(rgb_value, name = nil)
+        error_message = 'An RGB value should be given in form of [r, g, b].'
+
+        unless Utils.valid_rgb?(rgb_value)
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        hex_code = Utils.rgb_to_hex(rgb_value)
+        !name && List::HEX_TO_COLOR[hex_code] || Color.new(rgb_value, name)
+      end
+
+      private :color_from_rgb
+
+      def color_from_str(color_value, name = nil)
+        error_message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+
+        named_color = !name && List::NAME_TO_COLOR[color_value]
+        return named_color if named_color
+
+        unless Utils.valid_hex?(color_value)
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        hex_code = Utils.normalize_hex(color_value)
+        !name && List::HEX_TO_COLOR[hex_code] || Color.new(hex_code, name)
+      end
+
+      private :color_from_str
     end
 
     extend Factory
