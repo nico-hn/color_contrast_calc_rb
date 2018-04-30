@@ -66,7 +66,7 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     it 'expects to accept a Color object as its arguement' do
       expected_hues = [315, 345, 15]
       main_hsl = [345, 100, 50]
-      main = Color.new_from_hsl(main_hsl)
+      main = Color.from_hsl(main_hsl)
       group = ColorGroup.analogous(main, 30)
       group.hsl.each_with_index do |hsl, i|
         expect(hsl[0]).to within(0.2).of(expected_hues[i])
@@ -110,7 +110,7 @@ RSpec.describe ColorContrastCalc::ColorGroup do
     it 'expects to accept a Color object as its arguement' do
       expected_hues = [0, 90, 180, 270]
       main_hsl = [0, 100, 50]
-      main = Color.new_from_hsl(main_hsl)
+      main = Color.from_hsl(main_hsl)
       group = ColorGroup.tetrad(main)
       group.hsl.each_with_index do |hsl, i|
         expect(hsl[0]).to within(0.2).of(expected_hues[i])
@@ -175,9 +175,9 @@ RSpec.describe ColorContrastCalc::ColorGroup do
   end
 
   describe '#harmonize' do
-    light_red = Color.new_from_hsl([0, 100, 70])
-    lime = Color.new_from_hsl([120, 100, 50])
-    dark_blue = Color.new_from_hsl([240, 60, 30])
+    light_red = Color.from_hsl([0, 100, 70])
+    lime = Color.from_hsl([120, 100, 50])
+    dark_blue = Color.from_hsl([240, 60, 30])
     group = ColorGroup.new([light_red, lime, dark_blue])
     hues = [0, 120, 240]
 

@@ -40,7 +40,7 @@ module ColorContrastCalc
       rotation_rates.map do |i|
         hsl = main_hsl.dup
         hsl[0] = (360 + main_hue + degree * i) % 360
-        Color.new_from_hsl(hsl)
+        Color.from_hsl(hsl)
       end
     end
 
@@ -70,7 +70,7 @@ module ColorContrastCalc
       map do |color|
         hsl = color.hsl.dup
         0.upto(2) {|i| hsl[i] = ref_hsl[i] if should_harmonize[i] }
-        Color.new_from_hsl(hsl)
+        Color.from_hsl(hsl)
       end
     end
 
