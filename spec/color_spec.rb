@@ -20,6 +20,39 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe '.from_rgb' do
+      yellow_rgb = [255, 255, 0]
+      yellow_name = 'yellow'
+
+    it 'expects to return a Color representing yellow when [255, 255, 0] is passed' do
+      yellow = Color.from_rgb(yellow_rgb)
+
+      expect(yellow).to be_instance_of(Color)
+      expect(yellow.rgb).to eq(yellow_rgb)
+      expect(yellow.name).to eq(yellow_name)
+    end
+
+    it 'expects to be able to assign a name to the returned Color instance' do
+      new_name = 'new_yellow'
+      yellow = Color.from_rgb(yellow_rgb, new_name)
+
+      expect(yellow).to be_instance_of(Color)
+      expect(yellow.rgb).to eq(yellow_rgb)
+      expect(yellow.name).to eq(new_name)
+    end
+
+    it 'expects to return a new Color if an RGB value passed is not registered' do
+      unnamed_rgb = [123, 234, 123]
+      unnamed_hex = Utils.rgb_to_hex(unnamed_rgb)
+      new_color = Color.from_rgb(unnamed_rgb)
+
+      expect(Color::List::HEX_TO_COLOR[unnamed_hex]).to be_falsy
+      expect(new_color).to be_instance_of(Color)
+      expect(new_color.name).to eq(unnamed_hex)
+      expect(new_color.hex).to eq(unnamed_hex)
+    end
+  end
+
   describe '.from_hex' do
     yellow_normalized_hex = '#ffff00'
     yellow_name = 'yellow'
@@ -57,7 +90,149 @@ RSpec.describe ColorContrastCalc::Color do
       expect(new_color.name).to eq(new_hex)
       expect(new_color.hex).to eq(new_hex)
     end
+
+    it 'expects to return a common name when no name is given' do
+      yellow = Color.from_hex('#ff0')
+
+      expect(yellow.name).to eq('yellow')
+    end
+
+    it 'expects to overwrite the common name when a new name is given' do
+      yellow = Color.from_hex('#ff0', 'new_yellow')
+
+      expect(yellow.name).to eq('new_yellow')
+    end
   end
+
+  describe '.color_from' do
+    yellow_name = 'yellow'
+    yellow_hex = '#ffff00'
+    yellow_short_hex = '#ff0'
+    yellow_rgb = [255, 255, 0]
+    invalid_name = 'imaginaryblue'
+    invalid_hex = '#ff00'
+    invalid_rgb = [255, 256, 0]
+    unnamed_hex = '#767676'
+    unnamed_rgb = [118, 118, 118]
+    unnamed_gray = "unnamed_gray"
+
+    error = ColorContrastCalc::InvalidColorRepresentationError
+
+    it 'is expected to return an instance of Color when "yellow" is passed' do
+      yellow = Color.color_from(yellow_name)
+      expect(yellow.hex).to eq(yellow_hex)
+      expect(yellow.name).to eq(yellow_name)
+    end
+
+    it 'is expected to return an instance of Color when "#ffff00" is passed' do
+      yellow = Color.color_from(yellow_hex)
+      expect(yellow.hex).to eq(yellow_hex)
+      expect(yellow.name).to eq(yellow_name)
+    end
+
+    it 'is expected to return an instance of Color when "#ff0" is passed' do
+      yellow = Color.color_from(yellow_short_hex)
+      expect(yellow.hex).to eq(yellow_hex)
+      expect(yellow.name).to eq(yellow_name)
+    end
+
+    it 'is expected to return an instance of Color when [255, 255, 0] is passed' do
+      yellow = Color.color_from(yellow_rgb)
+      expect(yellow.hex).to eq(yellow_hex)
+      expect(yellow.name).to eq(yellow_name)
+    end
+
+    it 'is expected to raise an error when "imaginaryblue" is passed' do
+      expect {
+        Color.color_from(invalid_name)
+      }.to raise_error(error)
+    end
+
+    it 'is expected to raise an error when "#ff00" is passed' do
+      expect {
+        Color.color_from(invalid_hex)
+      }.to raise_error(error)
+    end
+
+    it 'is expected to raise an error when [255, 256, 0] is passed' do
+      expect {
+        Color.color_from(invalid_rgb)
+      }.to raise_error(error)
+    end
+
+    it 'is expected to raise an error when a number is passed' do
+      expect {
+       Color.color_from(0)
+      }.to raise_error(error)
+    end
+
+    it 'is expected to return a Color with a name given by user when "#767676" is passed' do
+      unnamed = Color.color_from(unnamed_hex, unnamed_gray)
+      expect(unnamed.rgb).to eq(unnamed_rgb)
+      expect(unnamed.name).to eq(unnamed_gray)
+    end
+
+    it 'is expected to return a Color with a name given by user when [118, 118, 118] is passed' do
+      unnamed = Color.color_from(unnamed_hex, unnamed_gray)
+      expect(unnamed.hex).to eq(unnamed_hex)
+      expect(unnamed.name).to eq(unnamed_gray)
+    end
+  end
+
+  describe '.as_color' do
+    yellow_name = 'yellow'
+    yellow_hex = '#ffff00'
+    yellow_rgb = [255, 255, 0]
+
+    context 'when a color keyword name is passed' do
+      color = Color.as_color(yellow_name)
+
+      it 'expects to return an instance whose #name is set to the passed value' do
+        expect(color.name).to eq(yellow_name)
+      end
+    end
+
+    context 'when a hex color code is passed' do
+      named_color = Color.as_color(yellow_hex)
+
+      it 'expects to return an instance whose #hex is set to the passed value' do
+        expect(named_color.hex).to eq(yellow_hex)
+      end
+
+      it 'expects to return an instance with name when the color is named one' do
+        expect(named_color.name).to eq(yellow_name)
+      end
+    end
+
+    context 'when an RGB value is passed' do
+      named_color = Color.as_color(yellow_rgb)
+
+      it 'expects to return an instance whose #rgb is set to the passed value' do
+        expect(named_color.rgb).to eq(yellow_rgb)
+      end
+
+      it 'expects to return an instance with name when the color is named one' do
+        expect(named_color.name).to eq(yellow_name)
+      end
+    end
+
+    context 'when a Color instance is passed' do
+      yellow = Color.new(yellow_rgb)
+      new_name = 'yellow_color'
+      default_yellow = Color.as_color(yellow)
+      new_name_yellow = Color.new(yellow_rgb, new_name)
+
+      it 'expects to return an instance with a default name when no name is passed' do
+        expect(default_yellow.rgb).to eq(yellow_rgb)
+        expect(default_yellow.name).to eq(yellow_name)
+      end
+
+      it 'expects to return an instance whose #name is overwritten by a passed name' do
+        expect(new_name_yellow.rgb).to eq(yellow_rgb)
+        expect(new_name_yellow.name).to eq(new_name)
+      end
+    end
+end
 
   describe '.find_brightness_threshold' do
     yellow = Color.new([255, 255, 0])
@@ -161,13 +336,13 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
-  describe '.new_from_hsl' do
+  describe '.from_hsl' do
     it 'expects to return a Color of #ffff00 when [60, 100, 50] is passed' do
-      expect(Color.new_from_hsl([60, 100, 50]).hex).to eq('#ffff00')
+      expect(Color.from_hsl([60, 100, 50]).hex).to eq('#ffff00')
     end
 
     it 'expects to return a Color of #ff8000 when [30, 100, 50] is passed' do
-      expect(Color.new_from_hsl([30, 100, 50]).hex).to eq('#ff8000')
+      expect(Color.from_hsl([30, 100, 50]).hex).to eq('#ff8000')
     end
   end
 
@@ -177,6 +352,8 @@ RSpec.describe ColorContrastCalc::Color do
     yellow_short_hex = '#ff0'
     yellow_name = 'yellow'
     yellow_hsl = [60, 100, 50]
+    unnamed_rgb = [123, 234, 123]
+    unnamed_hex = "#7bea7b"
 
     it 'expects to generate an instance with rgb and name properties' do
       yellow = Color.new(yellow_rgb, yellow_name)
@@ -201,12 +378,34 @@ RSpec.describe ColorContrastCalc::Color do
       expect(yellow_short.relative_luminance).to within(0.01).of(0.9278)
     end
 
-    it 'expects to assign the value of .hex to .name if no name is specified' do
+    it 'expects to assign the color keyword name of the color to #name if the color is a named color' do
       temp_color = Color.new(yellow_rgb)
 
       expect(temp_color.rgb).to eq(yellow_rgb)
       expect(temp_color.hex).to eq(yellow_hex)
-      expect(temp_color.name).to eq(yellow_hex)
+      expect(temp_color.name).to eq(yellow_name)
+    end
+
+    it 'expects to assign the value of .hex to .name if the color is not a named color' do
+      temp_color = Color.new(unnamed_rgb)
+
+      expect(temp_color.rgb).to eq(unnamed_rgb)
+      expect(temp_color.hex).to eq(unnamed_hex)
+      expect(temp_color.name).to eq(unnamed_hex)
+    end
+  end
+
+  describe 'common_name' do
+    it 'expects to return when a color keyword name when the color is a named color' do
+      yellow = Color.new('#ff0')
+
+      expect(yellow.common_name).to eq('yellow')
+    end
+
+    it 'expects to return when a hex code when the color is not a named color' do
+      unnamed = Color.new('#123456')
+
+      expect(unnamed.common_name).to eq('#123456')
     end
   end
 

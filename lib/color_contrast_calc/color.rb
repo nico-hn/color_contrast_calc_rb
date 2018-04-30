@@ -8,6 +8,11 @@ require 'json'
 
 module ColorContrastCalc
   ##
+  # Error raised if creating a Color instance with invalid value.
+
+  class InvalidColorRepresentationError < StandardError; end
+
+  ##
   # Represent specific colors.
   #
   # This class also provides lists of predefined colors represented as
@@ -15,6 +20,144 @@ module ColorContrastCalc
 
   class Color
     include Deprecated::Color
+
+    ##
+    # Module that implements class methods of Color
+
+    module Factory
+      include Deprecated::Color::Factory
+
+      ##
+      # Return an instance of Color for a predefined color name.
+      #
+      # Color names are defined at
+      # * {https://www.w3.org/TR/SVG/types.html#ColorKeywords}
+      # @param name [String] Name of color
+      # @return [Color] Instance of Color
+
+      def from_name(name)
+        List::NAME_TO_COLOR[name.downcase]
+      end
+
+      ##
+      # Return an instance of Color for an RGB value
+      #
+      # @param rgb [Array<Integer>] RGB value represented as an
+      #   array of integers such as [255, 255, 0]
+      # @param name [String] You can name the color to be created
+      # @return [Color] Instance of Color
+
+      def from_rgb(rgb, name = nil)
+        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
+          Color.new(rgb, name)
+      end
+
+      ##
+      # Return an instance of Color for a hex color code.
+      #
+      # @param hex [String] Hex color code such as "#ffff00"
+      # @param name [String] You can name the color to be created
+      # @return [Color] Instance of Color
+
+      def from_hex(hex, name = nil)
+        normalized_hex = Utils.normalize_hex(hex)
+        !name && List::HEX_TO_COLOR[normalized_hex] ||
+          Color.new(normalized_hex, name)
+      end
+
+      ##
+      # Return an instance of Color from an HSL value.
+      #
+      # @param hsl [Float] HSL value represented as an array of numbers
+      # @param name [String] You can name the color to be created
+      # @return [Color] Instance of Color
+
+      def from_hsl(hsl, name = nil)
+        rgb = Utils.hsl_to_rgb(hsl)
+        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
+          Color.new(rgb, name)
+      end
+
+      ##
+      # Return an instance of Color.
+      #
+      # As +color_value+, you can pass a predefined color name, or an
+      # RGB value represented as an array of integers or a hex code such
+      # as [255, 255, 0] or "#ffff00". +name+ is assigned to the returned
+      # instance.
+      # @param color_value [String, Array<Integer>] Name of a predefined
+      #   color, hex color code or RGB value
+      # @param name [String] Without specifying a name, a color keyword name
+      #   (if exists) or the value of normalized hex color code is assigned
+      #   to Color#name
+      # @return [Color] Instance of Color
+
+      def color_from(color_value, name = nil)
+        error_message = 'A color should be given as an array or string.'
+
+        if !color_value.is_a?(String) && !color_value.is_a?(Array)
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        return color_from_rgb(color_value, name) if color_value.is_a?(Array)
+        color_from_str(color_value, name)
+      end
+
+      ##
+      # Return an instance of Color.
+      #
+      # As +color_value+, you can pass a Color instance, a predefined color
+      # name, or an RGB value represented as an array of integers or a hex
+      # code such as [255, 255, 0] or "#ffff00". +name+ is assigned to the
+      # returned instance.
+      # @param color_value [Color, String, Array<Integer>] An instance of
+      #   Color, a name of a predefined, color, hex color code or RGB value
+      # @param name [String] Without specifying a name, a color keyword name
+      #   (if exists) or the value of normalized hex color code is assigned
+      #   to Color#name
+      # @return [Color] Instance of Color
+
+      def as_color(color_value, name = nil)
+        if color_value.is_a? Color
+          return color_value if color_value.name == name
+          color_value = color_value.rgb
+        end
+
+        color_from(color_value, name)
+      end
+
+      def color_from_rgb(rgb_value, name = nil)
+        error_message = 'An RGB value should be given in form of [r, g, b].'
+
+        unless Utils.valid_rgb?(rgb_value)
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        hex_code = Utils.rgb_to_hex(rgb_value)
+        !name && List::HEX_TO_COLOR[hex_code] || Color.new(rgb_value, name)
+      end
+
+      private :color_from_rgb
+
+      def color_from_str(color_value, name = nil)
+        error_message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+
+        named_color = !name && List::NAME_TO_COLOR[color_value]
+        return named_color if named_color
+
+        unless Utils.valid_hex?(color_value)
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        hex_code = Utils.normalize_hex(color_value)
+        !name && List::HEX_TO_COLOR[hex_code] || Color.new(hex_code, name)
+      end
+
+      private :color_from_str
+    end
+
+    extend Factory
+
     # @private
     RGB_LIMITS = [0, 255].freeze
 
@@ -31,53 +174,19 @@ module ColorContrastCalc
     attr_reader :rgb, :hex, :name, :relative_luminance
 
     ##
-    # Return an instance of Color for a predefined color name.
-    #
-    # Color names are defined at
-    # * {https://www.w3.org/TR/SVG/types.html#ColorKeywords}
-    # @param name [String] Name of color
-    # @return [Color] Instance of Color
-
-    def self.from_name(name)
-      List::NAME_TO_COLOR[name.downcase]
-    end
-
-    ##
-    # Return an instance of Color for a hex color code.
-    #
-    # @param hex [String] Hex color code such as "#ffff00"
-    # @return [Color] Instance of Color
-
-    def self.from_hex(hex)
-      normalized_hex = Utils.normalize_hex(hex)
-      List::HEX_TO_COLOR[normalized_hex] || Color.new(normalized_hex)
-    end
-
-    ##
-    # Create an instance of Color from an HSL value.
-    #
-    # @param hsl [Float] HSL value represented as an array of numbers
-    # @param name [String] You can name the color to be created
-    # @return [Color] Instance of Color
-
-    def self.new_from_hsl(hsl, name = nil)
-      new(Utils.hsl_to_rgb(hsl), name)
-    end
-
-    ##
     # Create a new instance of Color.
     #
     # @param rgb [Array<Integer>, String] RGB value represented as an array
     #   of integers or hex color code such as [255, 255, 0] or "#ffff00".
     # @param name [String] You can name the color to be created.
-    #   Without this option, the value of normalized hex color code is
-    #   assigned instead.
+    #   Without this option, a color keyword name (if exists) or the value
+    #   of normalized hex color code is assigned instead.
     # @return [Color] New instance of Color
 
     def initialize(rgb, name = nil)
       @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb
       @hex = Utils.rgb_to_hex(@rgb)
-      @name = name || @hex
+      @name = name || common_name
       @relative_luminance = Checker.relative_luminance(@rgb)
     end
 
@@ -85,7 +194,7 @@ module ColorContrastCalc
     # Return HSL value of the color.
     #
     # The value is calculated from the RGB value, so if you create
-    # the instance by Color.new_from_hsl method, the value used to
+    # the instance by Color.from_hsl method, the value used to
     # create the color does not necessarily correspond to the value
     # of this property.
     #
@@ -93,6 +202,18 @@ module ColorContrastCalc
 
     def hsl
       @hsl ||= Utils.rgb_to_hsl(@rgb)
+    end
+
+    ##
+    # Return a {https://www.w3.org/TR/SVG/types.html#ColorKeywords
+    # color keyword name} when the name corresponds to the hex code
+    # of the color. Otherwise the hex code will be returned.
+    #
+    # @return [String] Color keyword name or hex color code
+
+    def common_name
+      named_color = List::HEX_TO_COLOR[@hex]
+      named_color && named_color.name || @hex
     end
 
     ##
@@ -402,7 +523,7 @@ module ColorContrastCalc
       #   saturation and lightness
 
       def self.hsl_colors(s: 100, l: 50, h_interval: 1)
-        0.step(360, h_interval).map {|h| Color.new_from_hsl([h, s, l]) }.freeze
+        0.step(360, h_interval).map {|h| Color.from_hsl([h, s, l]) }.freeze
       end
     end
 

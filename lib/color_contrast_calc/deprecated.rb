@@ -10,6 +10,15 @@ module ColorContrastCalc
     end
 
     module Color
+      module Factory
+        ##
+        # @deprecated Use Color.from_hsl() instead.
+        def new_from_hsl(hsl, name = nil)
+          Deprecated.warn(__method__, :from_hsl)
+          new(Utils.hsl_to_rgb(hsl), name)
+        end
+      end
+
       # @deprecated Use {#with_contrast} instead
       def new_contrast_color(ratio, name = nil)
         Deprecated.warn(__method__, :with_contrast)

@@ -691,9 +691,9 @@ RSpec.describe ColorContrastCalc::Sorter do
   end
 
   describe '.compile_color_compare_function -- hsl' do
-    color1 = Color.new_from_hsl([20, 80, 50])
-    color2 = Color.new_from_hsl([80, 50, 20])
-    color3 = Color.new_from_hsl([20, 50, 80])
+    color1 = Color.from_hsl([20, 80, 50])
+    color2 = Color.from_hsl([80, 50, 20])
+    color3 = Color.from_hsl([20, 50, 80])
 
     context 'when color_order is sLh' do
       compare = Sorter.compile_color_compare_function('sLh')
