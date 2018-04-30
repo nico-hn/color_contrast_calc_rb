@@ -33,7 +33,7 @@ module ColorContrastCalc
       ##
       # Return contrast adjusted RGB value of passed color.
       #
-      # THe calculation is based on the definition found at
+      # The calculation is based on the definition found at
       # https://www.w3.org/TR/filter-effects/#funcdef-contrast
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
       # @param rgb [Array<Integer>] The Original RGB value before the adjustment
@@ -50,7 +50,7 @@ module ColorContrastCalc
       ##
       # Return brightness adjusted RGB value of passed color.
       #
-      # THe calculation is based on the definition found at
+      # The calculation is based on the definition found at
       # https://www.w3.org/TR/filter-effects/#funcdef-brightness
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
       # @param rgb [Array<Integer>] The Original RGB value before the adjustment
@@ -100,7 +100,7 @@ module ColorContrastCalc
       ##
       # Return a hue rotation applied RGB value of passed color.
       #
-      # THe calculation is based on the definition found at
+      # The calculation is based on the definition found at
       # https://www.w3.org/TR/filter-effects/#funcdef-hue-rotate
       # https://www.w3.org/TR/SVG/filters.html#TransferFunctionElementAttributes
       # @param rgb [Array<Integer>] The Original RGB value before the rotation
