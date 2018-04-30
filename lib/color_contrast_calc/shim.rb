@@ -11,9 +11,7 @@ module ColorContrastCalc
       # and the following implementation does not satisfy
       # the full specification of the original method.
 
-      def match?(str)
-        self === str
-      end
+      alias_method(:===, :match?)
     end
 
     refine Numeric do
