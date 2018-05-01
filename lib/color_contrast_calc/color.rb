@@ -295,6 +295,18 @@ module ColorContrastCalc
     end
 
     ##
+    # Return a complementary color of the original color.
+    #
+    # @param name [String] You can name the color to be created.
+    #   Without this option, the value of normalized hex color
+    #   code is assigned instead.
+    # @return [Color] New  complementary color
+    def complementary(name = nil)
+      minmax = rgb.minmax.reduce {|min, max| min + max }
+      self.class.new(rgb.map {|c| minmax - c }, name)
+    end
+
+    ##
     # Try to find a color who has a satisfying contrast ratio.
     #
     # The returned color is gained by modifying the brightness of

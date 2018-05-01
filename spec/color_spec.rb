@@ -598,6 +598,37 @@ end
     end
   end
 
+  describe 'complementary' do
+    it 'expects to have a passed name' do
+      color_name = 'color_name'
+      color = Color.new([200, 100, 50])
+      complementary_color = color.complementary(color_name)
+
+      expect(complementary_color.name).to eq(color_name)
+    end
+
+    context 'when a pure color is given' do
+      orange = Color.new([255, 165, 0])
+      orange_complementary_rgb = [0, 90, 255]
+
+      it 'expects to return a same rgb color as #invert(100)' do
+        expect(orange.complementary.rgb).to eq(orange_complementary_rgb)
+        expect(orange.with_invert(100).rgb).to eq(orange_complementary_rgb)
+      end
+    end
+
+    context 'when a non-pure color is given' do
+      color = Color.new([200, 100, 50])
+      complementary_rgb = [50, 150, 200]
+      inverted_rgb = [55, 155, 205]
+
+      it 'expects to return a color whose rgb differs from that of inverted color' do
+        expect(color.complementary.rgb).to eq(complementary_rgb)
+        expect(color.with_invert(100).rgb).to eq(inverted_rgb)
+      end
+    end
+  end
+
   describe 'contrast_ratio_against' do
     color = Color.new([127, 127, 32])
     white = Color.new([255, 255, 255])
