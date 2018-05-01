@@ -9,42 +9,42 @@ module ColorContrastCalc
       TETRAD = [0, 1, 2, 3].freeze
     end
 
-    def self.analogous(main_color, degree = 15)
-      group_by_hue_rotations(main_color, Rotation::ANALOGOUS, degree)
-    end
+    module Factory
+      def analogous(main_color, degree = 15)
+        group_by_hue_rotations(main_color, Rotation::ANALOGOUS, degree)
+      end
 
-    def self.triad(main_color)
-      analogous(main_color, 120)
-    end
+      def triad(main_color)
+        analogous(main_color, 120)
+      end
 
-    def self.tetrad(main_color)
-      group_by_hue_rotations(main_color, Rotation::TETRAD, 90)
-    end
+      def tetrad(main_color)
+        group_by_hue_rotations(main_color, Rotation::TETRAD, 90)
+      end
 
-    def self.complementary_split(main_color, degree = 15)
-      opposite_pos = 180 / degree
-      rotation = [0, opposite_pos - 1, opposite_pos, opposite_pos + 1]
-      group_by_hue_rotations(main_color, rotation, degree)
-    end
+      def complementary_split(main_color, degree = 15)
+        opposite_pos = 180 / degree
+        rotation = [0, opposite_pos - 1, opposite_pos, opposite_pos + 1]
+        group_by_hue_rotations(main_color, rotation, degree)
+      end
 
-    def self.group_by_hue_rotations(main_color, rotation_rates, degree)
-      main = Color.as_color(main_color)
-      colors = hue_rotated_colors(main.hsl, rotation_rates, degree)
-      new(colors, main)
-    end
+      private def group_by_hue_rotations(main_color, rotation_rates, degree)
+        main = Color.as_color(main_color)
+        colors = hue_rotated_colors(main.hsl, rotation_rates, degree)
+        new(colors, main)
+      end
 
-    private_class_method :group_by_hue_rotations
-
-    def self.hue_rotated_colors(main_hsl, rotation_rates, degree)
-      main_hue = main_hsl[0]
-      rotation_rates.map do |i|
-        hsl = main_hsl.dup
-        hsl[0] = (360 + main_hue + degree * i) % 360
-        Color.from_hsl(hsl)
+      private def hue_rotated_colors(main_hsl, rotation_rates, degree)
+        main_hue = main_hsl[0]
+        rotation_rates.map do |i|
+          hsl = main_hsl.dup
+          hsl[0] = (360 + main_hue + degree * i) % 360
+          Color.from_hsl(hsl)
+        end
       end
     end
 
-    private_class_method :hue_rotated_colors
+    extend Factory
 
     attr_reader :colors, :main_color
 
