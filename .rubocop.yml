@@ -6,3 +6,7 @@ Metrics/BlockLength:
   Exclude: ["spec/**/*", "test/**/*"]
 Documentation:
   Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+Naming/UncommunicativeMethodParamName:
+  MinNameLength: 1
