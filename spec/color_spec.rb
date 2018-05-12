@@ -353,7 +353,7 @@ end
     yellow_name = 'yellow'
     yellow_hsl = [60, 100, 50]
     unnamed_rgb = [123, 234, 123]
-    unnamed_hex = "#7bea7b"
+    unnamed_hex = '#7bea7b'
 
     it 'expects to generate an instance with rgb and name properties' do
       yellow = Color.new(yellow_rgb, yellow_name)
@@ -378,7 +378,7 @@ end
       expect(yellow_short.relative_luminance).to within(0.01).of(0.9278)
     end
 
-    it 'expects to assign the color keyword name of the color to #name if the color is a named color' do
+    it 'expects to assign the predefined name to #name if the color is a named one' do
       temp_color = Color.new(yellow_rgb)
 
       expect(temp_color.rgb).to eq(yellow_rgb)
@@ -386,7 +386,7 @@ end
       expect(temp_color.name).to eq(yellow_name)
     end
 
-    it 'expects to assign the value of .hex to .name if the color is not a named color' do
+    it 'expects to assign the value of #hex to #name if the color is not a named one' do
       temp_color = Color.new(unnamed_rgb)
 
       expect(temp_color.rgb).to eq(unnamed_rgb)
@@ -402,7 +402,7 @@ end
       expect(yellow.common_name).to eq('yellow')
     end
 
-    it 'expects to return when a hex code when the color is not a named color' do
+    it 'expects to return a hex code when the color is not a named color' do
       unnamed = Color.new('#123456')
 
       expect(unnamed.common_name).to eq('#123456')
