@@ -7,4 +7,4 @@ rvm:
   - 2.5
   - ruby-head
   - jruby-head
-before_install: gem install bundler -v 1.15.3
+before_install: gem install bundler -v '~>2.0'
