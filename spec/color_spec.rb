@@ -143,27 +143,35 @@ RSpec.describe ColorContrastCalc::Color do
     end
 
     it 'is expected to raise an error when "imaginaryblue" is passed' do
+      message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+
       expect {
         Color.color_from(invalid_name)
-      }.to raise_error(error)
+      }.to raise_error(error, message)
     end
 
     it 'is expected to raise an error when "#ff00" is passed' do
+      message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+
       expect {
         Color.color_from(invalid_hex)
-      }.to raise_error(error)
+      }.to raise_error(error, message)
     end
 
     it 'is expected to raise an error when [255, 256, 0] is passed' do
+      message = 'An RGB value should be given in form of [r, g, b].'
+
       expect {
         Color.color_from(invalid_rgb)
-      }.to raise_error(error)
+      }.to raise_error(error, message)
     end
 
     it 'is expected to raise an error when a number is passed' do
+      message = 'A color should be given as an array or string.'
+
       expect {
        Color.color_from(0)
-      }.to raise_error(error)
+      }.to raise_error(error, message)
     end
 
     it 'is expected to return a Color with a name given by user when "#767676" is passed' do
