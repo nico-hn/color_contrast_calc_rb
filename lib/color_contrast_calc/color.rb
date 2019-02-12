@@ -96,7 +96,7 @@ module ColorContrastCalc
         error_message = 'A color should be given as an array or string.'
 
         if !color_value.is_a?(String) && !color_value.is_a?(Array)
-          raise InvalidColorRepresentationError, error_message
+          raise_invalid_value(color_value, error_message)
         end
 
         return color_from_rgb(color_value, name) if color_value.is_a?(Array)
@@ -130,7 +130,7 @@ module ColorContrastCalc
         error_message = 'An RGB value should be given in form of [r, g, b].'
 
         unless Utils.valid_rgb?(rgb_value)
-          raise InvalidColorRepresentationError, error_message
+          raise_invalid_value(rgb_value, error_message)
         end
 
         hex_code = Utils.rgb_to_hex(rgb_value)
@@ -146,7 +146,7 @@ module ColorContrastCalc
         return named_color if named_color
 
         unless Utils.valid_hex?(color_value)
-          raise InvalidColorRepresentationError, error_message
+          raise_invalid_value(color_value, error_message)
         end
 
         hex_code = Utils.normalize_hex(color_value)
@@ -154,6 +154,12 @@ module ColorContrastCalc
       end
 
       private :color_from_str
+
+      def raise_invalid_value(value, error_message)
+        raise InvalidColorRepresentationError, format(error_message, value)
+      end
+
+      private :raise_invalid_value
     end
 
     extend Factory
