@@ -60,7 +60,7 @@ RSpec.describe ColorContrastCalc do
     end
 
     it 'is expected to raise an error when [255, 256, 0] is passed' do
-      message = 'An RGB value should be given in form of [r, g, b].'
+      message = 'An RGB value should be in form of [r, g, b], but [255, 256, 0].'
 
       expect {
         ColorContrastCalc.color_from(invalid_rgb)
