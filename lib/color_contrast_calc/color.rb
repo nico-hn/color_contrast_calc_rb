@@ -10,7 +10,25 @@ module ColorContrastCalc
   ##
   # Error raised if creating a Color instance with invalid value.
 
-  class InvalidColorRepresentationError < StandardError; end
+  class InvalidColorRepresentationError < StandardError
+    def self.select_message_template(value)
+      case value
+      when Array
+        'An RGB value should be in form of [r, g, b], but %s.'
+      when String
+        'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
+      else
+        'A color should be given as an array or string.'
+      end
+    end
+
+    private_class_method :select_message_template
+
+    def self.from_value(value)
+      message = format(select_message_template(value), value)
+      new(message)
+    end
+  end
 
   ##
   # Represent specific colors.
