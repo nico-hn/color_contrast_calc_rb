@@ -11,18 +11,25 @@ module ColorContrastCalc
   # Error raised if creating a Color instance with invalid value.
 
   class InvalidColorRepresentationError < StandardError
+    module Template
+      RGB = 'An RGB value should be in form of [r, g, b], but %s.'
+      COLOR_NAME = '%s seems to be an undefined color name.'
+      HEX = 'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
+      UNEXPECTED = 'A color should be given as an array or string.'
+    end
+
     def self.select_message_template(value)
       case value
       when Array
-        'An RGB value should be in form of [r, g, b], but %s.'
+        Template::RGB
       when String
         if !/^#/.match?(value) && /[g-z]/i.match?(value)
-          return '%s seems to be an undefined color name.'
+          return Template::COLOR_NAME
         end
 
-        'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
+        Template::HEX
       else
-        'A color should be given as an array or string.'
+        Template::UNEXPECTED
       end
     end
 
