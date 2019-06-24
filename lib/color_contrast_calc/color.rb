@@ -15,7 +15,7 @@ module ColorContrastCalc
       RGB = 'An RGB value should be in form of [r, g, b], but %s.'
       COLOR_NAME = '%s seems to be an undefined color name.'
       HEX = 'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
-      UNEXPECTED = 'A color should be given as an array or string.'
+      UNEXPECTED = 'A color should be given as an array or string, but %s.'
     end
 
     def self.may_be_name?(value)

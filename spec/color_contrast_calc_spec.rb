@@ -68,7 +68,7 @@ RSpec.describe ColorContrastCalc do
     end
 
     it 'is expected to raise an error when a number is passed' do
-      message = 'A color should be given as an array or string.'
+      message = 'A color should be given as an array or string, but 0.'
 
       expect {
        ColorContrastCalc.color_from(0)
