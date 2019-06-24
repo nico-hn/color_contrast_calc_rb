@@ -20,7 +20,7 @@ module ColorContrastCalc
 
     def self.may_be_name?(value)
       # all of the color keywords contain an alphabet between g-z.
-      !/^#/.match?(value) && /[g-z]/i.match?(value)
+      /^#/ !~ value && /[g-z]/i =~ value
     end
 
     private_class_method :may_be_name?
