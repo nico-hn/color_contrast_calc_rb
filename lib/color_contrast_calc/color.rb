@@ -143,10 +143,8 @@ module ColorContrastCalc
       end
 
       def color_from_rgb(rgb_value, name = nil)
-        error_message = 'An RGB value should be in form of [r, g, b], but %s.'
-
         unless Utils.valid_rgb?(rgb_value)
-          raise_invalid_value(rgb_value, error_message)
+          raise InvalidColorRepresentationError.from_value(rgb_value)
         end
 
         hex_code = Utils.rgb_to_hex(rgb_value)
