@@ -18,16 +18,19 @@ module ColorContrastCalc
       UNEXPECTED = 'A color should be given as an array or string.'
     end
 
+    def self.may_be_name?(value)
+      # all of the color keywords contain an alphabet between g-z.
+      !/^#/.match?(value) && /[g-z]/i.match?(value)
+    end
+
+    private_class_method :may_be_name?
+
     def self.select_message_template(value)
       case value
       when Array
         Template::RGB
       when String
-        if !/^#/.match?(value) && /[g-z]/i.match?(value)
-          return Template::COLOR_NAME
-        end
-
-        Template::HEX
+        may_be_name?(value) ? Template::COLOR_NAME : Template::HEX
       else
         Template::UNEXPECTED
       end
