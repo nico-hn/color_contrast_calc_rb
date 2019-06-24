@@ -111,10 +111,8 @@ module ColorContrastCalc
       # @return [Color] Instance of Color
 
       def color_from(color_value, name = nil)
-        error_message = 'A color should be given as an array or string.'
-
         if !color_value.is_a?(String) && !color_value.is_a?(Array)
-          raise_invalid_value(color_value, error_message)
+          raise InvalidColorRepresentationError.from_value(color_value)
         end
 
         return color_from_rgb(color_value, name) if color_value.is_a?(Array)
