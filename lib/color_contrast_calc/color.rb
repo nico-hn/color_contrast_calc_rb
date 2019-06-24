@@ -16,6 +16,10 @@ module ColorContrastCalc
       when Array
         'An RGB value should be in form of [r, g, b], but %s.'
       when String
+        if !/^#/.match?(value) && /[g-z]/i.match?(value)
+          return '%s seems to be an undefined color name.'
+        end
+
         'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
       else
         'A color should be given as an array or string.'

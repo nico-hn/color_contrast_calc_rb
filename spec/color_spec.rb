@@ -143,7 +143,7 @@ RSpec.describe ColorContrastCalc::Color do
     end
 
     it 'is expected to raise an error when "imaginaryblue" is passed' do
-      message = 'A hex code #xxxxxx where 0 <= x <= f is expected, but imaginaryblue.'
+      message = 'imaginaryblue seems to be an undefined color name.'
 
       expect {
         Color.color_from(invalid_name)
