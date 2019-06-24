@@ -140,13 +140,13 @@ module ColorContrastCalc
       private :color_from_rgb
 
       def color_from_str(color_value, name = nil)
-        error_message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+        message = 'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
 
         named_color = !name && List::NAME_TO_COLOR[color_value]
         return named_color if named_color
 
         unless Utils.valid_hex?(color_value)
-          raise_invalid_value(color_value, error_message)
+          raise_invalid_value(color_value, message)
         end
 
         hex_code = Utils.normalize_hex(color_value)

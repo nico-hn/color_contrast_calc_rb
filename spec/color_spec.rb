@@ -143,7 +143,7 @@ RSpec.describe ColorContrastCalc::Color do
     end
 
     it 'is expected to raise an error when "imaginaryblue" is passed' do
-      message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+      message = 'A hex code #xxxxxx where 0 <= x <= f is expected, but imaginaryblue.'
 
       expect {
         Color.color_from(invalid_name)
@@ -151,7 +151,7 @@ RSpec.describe ColorContrastCalc::Color do
     end
 
     it 'is expected to raise an error when "#ff00" is passed' do
-      message = 'A hex code is in form of "#xxxxxx" where 0 <= x <= f.'
+      message = 'A hex code #xxxxxx where 0 <= x <= f is expected, but #ff00.'
 
       expect {
         Color.color_from(invalid_hex)
