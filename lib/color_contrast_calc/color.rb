@@ -166,12 +166,6 @@ module ColorContrastCalc
       end
 
       private :color_from_str
-
-      def raise_invalid_value(value, error_message)
-        raise InvalidColorRepresentationError, format(error_message, value)
-      end
-
-      private :raise_invalid_value
     end
 
     extend Factory
