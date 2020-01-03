@@ -45,7 +45,10 @@ module ColorContrastCalc
     def self.read_scheme!(scanner)
       scheme = read_token!(scanner, TokenRe::SCHEME)
 
-      parsed_value = { scheme: scheme.downcase }
+      parsed_value = {
+        scheme: scheme.downcase,
+        parameters: []
+      }
 
       read_open_paren!(scanner, parsed_value)
     end
@@ -75,7 +78,6 @@ module ColorContrastCalc
     def self.read_number!(scanner, parsed_value)
       number = read_token!(scanner, TokenRe::NUMBER)
 
-      parsed_value[:parameters] ||= []
       parsed_value[:parameters].push({ number: number, unit: nil })
 
       read_unit!(scanner, parsed_value)
