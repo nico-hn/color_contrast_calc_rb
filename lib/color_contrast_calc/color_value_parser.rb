@@ -72,7 +72,7 @@ module ColorContrastCalc
     private_class_method :read_scheme!
 
     def self.read_open_paren!(scanner, parsed_value)
-      scanner.scan(TokenRe::OPEN_PAREN)
+      read_token!(scanner, TokenRe::OPEN_PAREN)
 
       read_parameters!(scanner, parsed_value)
     end

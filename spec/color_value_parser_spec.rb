@@ -47,6 +47,18 @@ ERROR
       }.to raise_error(error, message)
     end
 
+    it 'expects to raise an error if the open parenthesis is missing' do
+      message = <<ERROR
+"rgb255, 255, 255)" is not a valid code. An error occurred at:
+rgb255, 255, 255)
+   ^ while searching with (?-mix:\\()
+ERROR
+      wrong_white = StringScanner.new('rgb255, 255, 255)')
+      expect {
+        Parser.send :read_scheme!, wrong_white
+      }.to raise_error(error, message)
+    end
+
     it 'expects to read a valid scheme' do
       valid_whites = ['rgb(255, 255, 255)', 'RGB(255, 255, 255)']
       expected = {
