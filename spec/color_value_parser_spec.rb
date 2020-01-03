@@ -36,10 +36,15 @@ RSpec.describe ColorContrastCalc::ColorValueParser do
 
   describe 'read_scheme!' do
     it 'expects to raise an error for a wrong scheme' do
+      message = <<ERROR
+"rjb(255, 255, 255)" is not a valid code. An error occurred at:
+rjb(255, 255, 255)
+^ while searching with (?i-mx:(rgb|hsl))
+ERROR
       wrong_white = StringScanner.new('rjb(255, 255, 255)')
       expect {
         Parser.send :read_scheme!, wrong_white
-      }.to raise_error(error)
+      }.to raise_error(error, message)
     end
 
     it 'expects to read a valid scheme' do

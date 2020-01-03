@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'strscan'
+require 'stringio'
 require 'color_contrast_calc/invalid_color_representation_error'
 
 module ColorContrastCalc
@@ -24,6 +25,21 @@ module ColorContrastCalc
 
     RGB_PAT = /\Argb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)\Z/i
 
+    def self.format_error_message(scanner, re)
+      out = StringIO.new(String.new, 'w')
+      first_line = '"%s" is not a valid code. An error occurred at:'
+      color_value = scanner.string
+      [
+        format(first_line, color_value),
+        color_value,
+        "#{' ' * scanner.charpos}^ while searching with #{re}"
+      ].each do |line|
+        out.puts line
+      end
+
+      out.string
+    end
+
     def self.skip_spaces!(scanner)
       scanner.scan(TokenRe::SPACES)
     end
@@ -36,7 +52,7 @@ module ColorContrastCalc
 
       return token if token
 
-      error_message = format(RGB_ERROR_TEMPLATE, scanner.string)
+      error_message = format_error_message(scanner, re)
       raise InvalidColorRepresentationError, error_message
     end
 
