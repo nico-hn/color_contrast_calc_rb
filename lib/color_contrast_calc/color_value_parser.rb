@@ -30,6 +30,30 @@ module ColorContrastCalc
 
     private_class_method :skip_spaces!
 
+    def self.read_scheme!(scanner)
+      scheme = scanner.scan(TokenRe::SCHEME)
+
+      unless scheme
+        error_message = format(RGB_ERROR_TEMPLATE, scanner.string)
+        raise InvalidColorRepresentationError, error_message
+      end
+
+      parsed_value = { scheme: scheme.downcase }
+
+      read_open_paren!(scanner, parsed_value)
+    end
+
+    private_class_method :read_scheme!
+
+    def self.read_open_paren!(scanner, parsed_value)
+      skip_spaces!(scanner)
+      open_paren = scanner.scan(TokenRe::OPEN_PAREN)
+
+      return parsed_value
+    end
+
+    private_class_method :read_open_paren!
+
     def self.parse(color_value)
       m = RGB_PAT.match(color_value)
 

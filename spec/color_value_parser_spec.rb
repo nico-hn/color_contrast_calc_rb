@@ -33,4 +33,24 @@ RSpec.describe ColorContrastCalc::ColorValueParser do
       end
     end
   end
+
+  describe 'read_scheme!' do
+    it 'expects to raise an error for a wrong scheme' do
+      wrong_white = StringScanner.new('rjb(255, 255, 255)')
+      expect {
+        Parser.send :read_scheme!, wrong_white
+      }.to raise_error(error)
+    end
+
+    it 'expects to read a valid scheme' do
+      valid_whites = ['rgb(255, 255, 255)', 'RGB(255, 255, 255)']
+      expected = { scheme: Scheme::RGB }
+
+      valid_whites.each do |val|
+        white = StringScanner.new('rgb(255, 255, 255)')
+        result = Parser.send(:read_scheme!, white)
+        expect(result).to eq(expected)
+      end
+    end
+  end
 end
