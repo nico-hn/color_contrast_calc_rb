@@ -42,12 +42,7 @@ module ColorContrastCalc
     private_class_method :read_token!
 
     def self.read_scheme!(scanner)
-      scheme = scanner.scan(TokenRe::SCHEME)
-
-      unless scheme
-        error_message = format(RGB_ERROR_TEMPLATE, scanner.string)
-        raise InvalidColorRepresentationError, error_message
-      end
+      scheme = read_token!(scanner, TokenRe::SCHEME)
 
       parsed_value = { scheme: scheme.downcase }
 
