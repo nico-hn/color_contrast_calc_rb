@@ -72,11 +72,10 @@ module ColorContrastCalc
     end
 
     def self.format_error_message(scanner, re)
-      out = StringIO.new(String.new, 'w')
-      first_line = '"%s" is not a valid code. An error occurred at:'
+      out = StringIO.new
       color_value = scanner.string
       [
-        format(first_line, color_value),
+        format('"%s" is not a valid code. An error occurred at:', color_value),
         color_value,
         "#{' ' * scanner.charpos}^ while searching with #{re}"
       ].each do |line|
@@ -85,6 +84,8 @@ module ColorContrastCalc
 
       out.string
     end
+
+    private_class_method :format_error_message
 
     def self.skip_spaces!(scanner)
       scanner.scan(TokenRe::SPACES)
