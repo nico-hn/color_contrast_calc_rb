@@ -30,6 +30,17 @@ module ColorContrastCalc
 
     private_class_method :skip_spaces!
 
+    def self.read_token!(scanner, re)
+      token = scanner.scan(re)
+
+      return token if token
+
+      error_message = format(RGB_ERROR_TEMPLATE, scanner.string)
+      raise InvalidColorRepresentationError, error_message
+    end
+
+    private_class_method :read_token!
+
     def self.read_scheme!(scanner)
       scheme = scanner.scan(TokenRe::SCHEME)
 
