@@ -22,4 +22,15 @@ RSpec.describe ColorContrastCalc::ColorValueParser do
       }.to raise_error(error, message)
     end
   end
+
+  describe 'skip_spaces!' do
+    it 'expects to skip the spaces at the current scan pointer.' do
+      str_with_2_spaces = StringScanner.new('  a string with spaces at the head')
+
+      2.times do
+        Parser.send :skip_spaces!, str_with_2_spaces
+        expect(str_with_2_spaces.charpos).to eq(2)
+      end
+    end
+  end
 end

@@ -24,6 +24,12 @@ module ColorContrastCalc
 
     RGB_PAT = /\Argb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)\Z/i
 
+    def self.skip_spaces!(scanner)
+      scanner.scan(TokenRe::SPACES)
+    end
+
+    private_class_method :skip_spaces!
+
     def self.parse(color_value)
       m = RGB_PAT.match(color_value)
 
