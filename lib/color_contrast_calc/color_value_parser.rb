@@ -53,12 +53,54 @@ module ColorContrastCalc
     private_class_method :read_scheme!
 
     def self.read_open_paren!(scanner, parsed_value)
-      open_paren = scanner.scan(TokenRe::OPEN_PAREN)
+      scanner.scan(TokenRe::OPEN_PAREN)
 
-      return parsed_value
+      read_parameters!(scanner, parsed_value)
     end
 
     private_class_method :read_open_paren!
+
+    def self.read_close_paren!(scanner)
+      scanner.scan(TokenRe::CLOSE_PAREN)
+    end
+
+    private_class_method :read_close_paren!
+
+    def self.read_parameters!(scanner, parsed_value)
+      read_number!(scanner, parsed_value)
+    end
+
+    private_class_method :read_parameters!
+
+    def self.read_number!(scanner, parsed_value)
+      number = read_token!(scanner, TokenRe::NUMBER)
+
+      parsed_value[:parameters] ||= []
+      parsed_value[:parameters].push({ number: number, unit: nil })
+
+      read_unit!(scanner, parsed_value)
+    end
+
+    private_class_method :read_number!
+
+    def self.read_unit!(scanner, parsed_value)
+      unit = scanner.scan(TokenRe::UNIT)
+
+      parsed_value[:parameters].last[:unit] = unit if unit
+
+      read_comma!(scanner, parsed_value)
+    end
+
+    private_class_method :read_unit!
+
+    def self.read_comma!(scanner, parsed_value)
+      return parsed_value if read_close_paren!(scanner)
+
+      read_token!(scanner, TokenRe::COMMA)
+      read_number!(scanner, parsed_value)
+    end
+
+    private_class_method :read_comma!
 
     def self.parse(color_value)
       m = RGB_PAT.match(color_value)

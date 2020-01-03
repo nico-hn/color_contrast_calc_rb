@@ -44,7 +44,14 @@ RSpec.describe ColorContrastCalc::ColorValueParser do
 
     it 'expects to read a valid scheme' do
       valid_whites = ['rgb(255, 255, 255)', 'RGB(255, 255, 255)']
-      expected = { scheme: Scheme::RGB }
+      expected = {
+        scheme: Scheme::RGB,
+        parameters: [
+          { number: '255', unit: nil },
+          { number: '255', unit: nil },
+          { number: '255', unit: nil }
+        ]
+      }
 
       valid_whites.each do |val|
         white = StringScanner.new('rgb(255, 255, 255)')
