@@ -76,5 +76,31 @@ ERROR
         expect(result).to eq(expected)
       end
     end
+
+    it 'expects to read a valid hsl values' do
+      valid_hsls = ['hsl(60deg, 100%, 50%)', 'HSL(60.0deg, 25.0%, 50.0%)']
+      expected_values = [
+        {
+          scheme: Scheme::HSL,
+          parameters: [
+            { number: '60', unit: 'deg' },
+            { number: '100', unit: '%' },
+            { number: '50', unit: '%' }
+          ]
+        },
+        {
+          scheme: Scheme::HSL,
+          parameters: [
+            { number: '60.0', unit: 'deg' },
+            { number: '25.0', unit: '%' },
+            { number: '50.0', unit: '%' }
+          ]
+        }
+      ]
+      valid_hsls.zip(expected_values) do |hsl, expected|
+        result = Parser.send(:read_scheme!, StringScanner.new(hsl))
+        expect(result).to eq(expected)
+      end
+    end
   end
 end
