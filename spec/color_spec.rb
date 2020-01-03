@@ -115,6 +115,8 @@ RSpec.describe ColorContrastCalc::Color do
     unnamed_hex = '#767676'
     unnamed_rgb = [118, 118, 118]
     unnamed_gray = "unnamed_gray"
+    rgb_func = 'rgb(255, 255, 0)'
+    hsl_func = 'hsl(60deg, 100%, 50%)'
 
     error = ColorContrastCalc::InvalidColorRepresentationError
 
@@ -184,6 +186,18 @@ RSpec.describe ColorContrastCalc::Color do
       unnamed = Color.color_from(unnamed_hex, unnamed_gray)
       expect(unnamed.hex).to eq(unnamed_hex)
       expect(unnamed.name).to eq(unnamed_gray)
+    end
+
+    it 'is expected to return a Color for a rgb function when rgb(255, 255, 0) is passed' do
+      func_color = Color.color_from(rgb_func)
+      expect(func_color.name).to eq(rgb_func)
+      expect(func_color.hex).to eq('#ffff00')
+    end
+
+    it 'is expected to return a Color for a hsl function when hsl(60deg, 100%, 50%) is passed' do
+      func_color = Color.color_from(hsl_func)
+      expect(func_color.name).to eq(hsl_func)
+      expect(func_color.hex).to eq('#ffff00')
     end
   end
 
