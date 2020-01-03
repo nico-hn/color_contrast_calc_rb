@@ -11,6 +11,56 @@ module ColorContrastCalc
       HSL = 'hsl'
     end
 
+    class Converter
+      attr_reader :scheme, :source
+
+      def initialize(parsed_value, original_value)
+        @scheme = parsed_value[:scheme]
+        @params = parsed_value[:parameters]
+        @source = original_value
+        @normalized = normalize_params
+      end
+
+      def normalize_params
+        raise NotImplementedError, 'Overwrite the method in a subclass'
+      end
+
+      private :normalize_params
+
+      def to_a
+        @normalized
+      end
+
+      class Rgb < self
+        def normalize_params
+          @params.map do |param|
+            if param[:unit] == '%'
+              (param[:number] * 255.0 / 100).round
+            else
+              param[:number].to_i
+            end
+          end
+        end
+      end
+
+      class Hsl < self
+        def normalize_params
+          @params.map do |param|
+            param[:number].to_f
+          end
+        end
+      end
+
+      def self.create(parsed_value, original_value)
+        case parsed_value[:scheme]
+        when Scheme::RGB
+          Rgb.new(parsed_value, original_value)
+        when Scheme::HSL
+          Hsl.new(parsed_value, original_value)
+        end
+      end
+    end
+
     module TokenRe
       SPACES = /\s+/.freeze
       SCHEME = /(rgb|hsl)/i.freeze
