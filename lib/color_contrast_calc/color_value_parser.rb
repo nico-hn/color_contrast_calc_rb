@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'strscan'
 require 'color_contrast_calc/invalid_color_representation_error'
 
 module ColorContrastCalc
@@ -7,6 +8,16 @@ module ColorContrastCalc
     module Scheme
       RGB = 'rgb'
       HSL = 'hsl'
+    end
+
+    module TokenRe
+      SPACES = /\s+/.freeze
+      SCHEME = /(rgb|hsl)/i.freeze
+      OPEN_PAREN = /\(/.freeze
+      CLOSE_PAREN = /\)/.freeze
+      COMMA = /,/.freeze
+      NUMBER = /(\d+)(:?\.\d+)?/.freeze
+      UNIT = /(%|deg)/.freeze
     end
 
     RGB_ERROR_TEMPLATE = '"%s" is not a valid RGB code.'
