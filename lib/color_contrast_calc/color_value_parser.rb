@@ -31,6 +31,7 @@ module ColorContrastCalc
     private_class_method :skip_spaces!
 
     def self.read_token!(scanner, re)
+      skip_spaces!(scanner)
       token = scanner.scan(re)
 
       return token if token
@@ -52,7 +53,6 @@ module ColorContrastCalc
     private_class_method :read_scheme!
 
     def self.read_open_paren!(scanner, parsed_value)
-      skip_spaces!(scanner)
       open_paren = scanner.scan(TokenRe::OPEN_PAREN)
 
       return parsed_value
