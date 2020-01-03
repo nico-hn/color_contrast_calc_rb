@@ -71,10 +71,6 @@ module ColorContrastCalc
       UNIT = /(%|deg)/.freeze
     end
 
-    RGB_ERROR_TEMPLATE = '"%s" is not a valid RGB code.'
-
-    RGB_PAT = /\Argb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)\Z/i
-
     def self.format_error_message(scanner, re)
       out = StringIO.new(String.new, 'w')
       first_line = '"%s" is not a valid code. An error occurred at:'
@@ -171,21 +167,8 @@ module ColorContrastCalc
     private_class_method :read_comma!
 
     def self.parse(color_value)
-      m = RGB_PAT.match(color_value)
-
-      unless m
-        error_message = format(RGB_ERROR_TEMPLATE, color_value)
-        raise InvalidColorRepresentationError, error_message
-      end
-
-      _, r, g, b = m.to_a
-
-      {
-        scheme: Scheme::RGB,
-        r: r && r.to_i,
-        g: g && g.to_i,
-        b: b && b.to_i
-      }
+      parsed_value = read_scheme!(StringScanner.new(color_value))
+      Converter.create(parsed_value, color_value)
     end
   end
 end
