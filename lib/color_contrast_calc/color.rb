@@ -137,8 +137,8 @@ module ColorContrastCalc
       private :color_from_rgb
 
       def color_from_func(color_value, name = nil)
-        conv = ColorValueParser.parse(color_value)
-        if conv.scheme == ColorValueParser::Scheme::RGB
+        conv = ColorFunctionParser.parse(color_value)
+        if conv.scheme == ColorFunctionParser::Scheme::RGB
           return color_from_rgb(conv.to_a, name || color_value)
         end
 

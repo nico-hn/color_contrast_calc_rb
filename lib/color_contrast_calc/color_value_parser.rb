@@ -5,7 +5,7 @@ require 'stringio'
 require 'color_contrast_calc/invalid_color_representation_error'
 
 module ColorContrastCalc
-  module ColorValueParser
+  module ColorFunctionParser
     module Scheme
       RGB = 'rgb'
       HSL = 'hsl'

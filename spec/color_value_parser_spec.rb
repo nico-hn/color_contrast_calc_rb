@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'color_contrast_calc/color_value_parser'
 
-Parser = ColorContrastCalc::ColorValueParser
+Parser = ColorContrastCalc::ColorFunctionParser
 Scheme = Parser::Scheme
 
-RSpec.describe ColorContrastCalc::ColorValueParser do
+RSpec.describe ColorContrastCalc::ColorFunctionParser do
   error = ColorContrastCalc::InvalidColorRepresentationError
 
   describe 'parse' do
