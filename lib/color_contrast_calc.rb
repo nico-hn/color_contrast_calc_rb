@@ -24,6 +24,11 @@ module ColorContrastCalc
   # @return [Color] Instance of Color
 
   def self.color_from(color_value, name = nil)
+    if color_value.is_a?(Color)
+      return color_value if color_value.name == name
+      color_value = color_value.rgb
+    end
+
     Color.color_from(color_value, name)
   end
 
