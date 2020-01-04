@@ -2,48 +2,13 @@
 
 require 'color_contrast_calc/utils'
 require 'color_contrast_calc/checker'
+require 'color_contrast_calc/invalid_color_representation_error'
 require 'color_contrast_calc/threshold_finder'
+require 'color_contrast_calc/color_function_parser'
 require 'color_contrast_calc/deprecated'
 require 'json'
 
 module ColorContrastCalc
-  ##
-  # Error raised if creating a Color instance with invalid value.
-
-  class InvalidColorRepresentationError < StandardError
-    module Template
-      RGB = 'An RGB value should be in form of [r, g, b], but %s.'
-      COLOR_NAME = '%s seems to be an undefined color name.'
-      HEX = 'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
-      UNEXPECTED = 'A color should be given as an array or string, but %s.'
-    end
-
-    def self.may_be_name?(value)
-      # all of the color keywords contain an alphabet between g-z.
-      /^#/ !~ value && /[g-z]/i =~ value
-    end
-
-    private_class_method :may_be_name?
-
-    def self.select_message_template(value)
-      case value
-      when Array
-        Template::RGB
-      when String
-        may_be_name?(value) ? Template::COLOR_NAME : Template::HEX
-      else
-        Template::UNEXPECTED
-      end
-    end
-
-    private_class_method :select_message_template
-
-    def self.from_value(value)
-      message = format(select_message_template(value), value)
-      new(message)
-    end
-  end
-
   ##
   # Represent specific colors.
   #
@@ -118,7 +83,7 @@ module ColorContrastCalc
       # as [255, 255, 0] or "#ffff00". +name+ is assigned to the returned
       # instance.
       # @param color_value [String, Array<Integer>] Name of a predefined
-      #   color, hex color code or RGB value
+      #   color, hex color code, rgb/hsl functions or RGB value
       # @param name [String] Without specifying a name, a color keyword name
       #   (if exists) or the value of normalized hex color code is assigned
       #   to Color#name
@@ -130,6 +95,10 @@ module ColorContrastCalc
         end
 
         return color_from_rgb(color_value, name) if color_value.is_a?(Array)
+
+        if /\A(?:rgb|hsl)/i =~ color_value
+          return color_from_func(color_value, name)
+        end
         color_from_str(color_value, name)
       end
 
@@ -166,6 +135,17 @@ module ColorContrastCalc
       end
 
       private :color_from_rgb
+
+      def color_from_func(color_value, name = nil)
+        conv = ColorFunctionParser.parse(color_value)
+        if conv.scheme == ColorFunctionParser::Scheme::RGB
+          return color_from_rgb(conv.to_a, name || color_value)
+        end
+
+        from_hsl(conv.to_a, name || color_value)
+      end
+
+      private :color_from_func
 
       def color_from_str(color_value, name = nil)
         named_color = !name && List::NAME_TO_COLOR[color_value]
