@@ -7,7 +7,7 @@ Scheme = Parser::Scheme
 RSpec.describe ColorContrastCalc::ColorFunctionParser do
   error = ColorContrastCalc::InvalidColorRepresentationError
 
-  describe 'parse' do
+  describe '.parse' do
     it 'expects to return a hash with 4 keys for a valid rgb value' do
       parsed = Parser.parse('rgb(255, 255, 0)')
 
@@ -36,7 +36,7 @@ ERROR
     end
   end
 
-  describe 'skip_spaces!' do
+  describe '.skip_spaces!' do
     it 'expects to skip the spaces at the current scan pointer.' do
       str_with_2_spaces = StringScanner.new('  a string with spaces at the head')
 
@@ -47,7 +47,7 @@ ERROR
     end
   end
 
-  describe 'read_scheme!' do
+  describe '.read_scheme!' do
     it 'expects to raise an error for a wrong scheme' do
       message = <<ERROR
 "rjb(255, 255, 255)" is not a valid code. An error occurred at:
