@@ -2,6 +2,7 @@
 
 require 'strscan'
 require 'stringio'
+require 'color_contrast_calc/utils'
 require 'color_contrast_calc/invalid_color_representation_error'
 
 module ColorContrastCalc
@@ -25,6 +26,10 @@ module ColorContrastCalc
         raise NotImplementedError, 'Overwrite the method in a subclass'
       end
 
+      def rgb
+        raise NotImplementedError, 'Overwrite the method in a subclass'
+      end
+
       private :normalize_params
 
       def to_a
@@ -41,6 +46,8 @@ module ColorContrastCalc
             end
           end
         end
+
+        alias rgb to_a
       end
 
       class Hsl < self
@@ -48,6 +55,10 @@ module ColorContrastCalc
           @params.map do |param|
             param[:number].to_f
           end
+        end
+
+        def rgb
+          Utils.hsl_to_rgb(to_a)
         end
       end
 
@@ -170,6 +181,10 @@ module ColorContrastCalc
     def self.parse(color_value)
       parsed_value = read_scheme!(StringScanner.new(color_value))
       Converter.create(parsed_value, color_value)
+    end
+
+    def self.to_rgb(color_value)
+      parse(color_value).rgb
     end
   end
 end

@@ -28,6 +28,14 @@ ERROR
     end
   end
 
+  describe '.to_rgb' do
+    it 'expects to convert directly a rgb/hsl function into a rgb value' do
+      ['rgb(255, 255, 0)', 'hsl(60deg, 100%, 50%)'].each do |func|
+        expect(Parser.to_rgb(func)).to eq([255, 255, 0])
+      end
+    end
+  end
+
   describe 'skip_spaces!' do
     it 'expects to skip the spaces at the current scan pointer.' do
       str_with_2_spaces = StringScanner.new('  a string with spaces at the head')
