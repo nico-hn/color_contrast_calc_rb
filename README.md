@@ -71,6 +71,28 @@ red
 
 ### Example 1: Calculate the contrast ratio between two colors
 
+#### 1.1: The easiest way
+
+To calculate the contrast ratio between two colors, a class method of `ColorContrastCalc`, `.contrast_ratio()` is available.
+
+For example, if you want calculate the contrast ratio between  yellow and black at the command line, you can do as follows:
+
+```bash
+$ ruby -rcolor_contrast_calc -e 'puts ColorContrastCalc.contrast_ratio("#ff0", "#000")'
+19.555999999999997
+```
+
+Or
+
+```bash
+$ ruby -rcolor_contrast_calc -e 'puts ColorContrastCalc.contrast_ratio("rgb(255, 255, 0)", "black")'
+19.555999999999997
+```
+
+(To represent a yellow, you can also use "hsl(60deg, 100%, 50%)", "#FFFF00", [255, 255, 0]...)
+
+#### 1.2: Calculate using Color instances
+
 If you want to calculate the contrast ratio between yellow and black,
 save the following code as `yellow_black_contrast.rb`:
 
@@ -95,7 +117,9 @@ The contrast ratio between yellow and black is 19.5560
 The contrast ratio between #ffff00 and #000000 is 19.5560
 ```
 
-Or it is also possible to calculate the contrast ratio of two colors from
+#### 1.3: Calculate from low level RGB values
+
+It is also possible to calculate the contrast ratio of two colors from
 their hex color codes or RGB values.
 
 Save the following code as `yellow_black_hex_contrast.rb`:
@@ -117,6 +141,7 @@ puts "Contrast level: #{level}"
 Then execute the script:
 
 ```bash
+$ ruby yellow_black_hex_contrast.rb
 Contrast ratio between yellow and black: 19.555999999999997
 Contrast level: AAA
 ```

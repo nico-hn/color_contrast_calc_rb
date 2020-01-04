@@ -72,6 +72,28 @@ red
 
 ### 例1: 2つの色のコントラスト比を計算する
 
+#### 1.1: 最も簡便なやり方
+
+2色間のコントラスト比を計算するために`ColorContrastCalc`のクラスメソッドである`.contrast_ratio()`が利用可能です。
+
+例えば黄色と黒のコントラスト比をコマンドラインで計算したい場合、次のように出来ます:
+
+```bash
+$ ruby -rcolor_contrast_calc -e 'puts ColorContrastCalc.contrast_ratio("#ff0", "#000")'
+19.555999999999997
+```
+
+もしくは
+
+```bash
+$ ruby -rcolor_contrast_calc -e 'puts ColorContrastCalc.contrast_ratio("rgb(255, 255, 0)", "black")'
+19.555999999999997
+```
+
+(黄色を表すためには"hsl(60deg, 100%, 50%)", "#FFFF00", [255, 255, 0]等も使えます。)
+
+#### 1.2: Colorクラスのインスタンスを使っての計算
+
 例えば黄色と黒のコントラスト比を計算したい場合、
 次のコードを`yellow_black_contrast.rb`として保存し:
 
@@ -96,7 +118,9 @@ The contrast ratio between yellow and black is 19.5560
 The contrast ratio between #ffff00 and #000000 is 19.5560
 ```
 
-もしくは2色の16進数カラーコードあるいはRGB値からコントラスト比を計算することも可能です。
+#### 1.3: RGBを表す低レベルの値からの計算
+
+2色の16進数カラーコードあるいはRGB値からコントラスト比を計算することも可能です。
 
 次のコードを `yellow_black_hex_contrast.rb`として保存し:
 
@@ -117,6 +141,7 @@ puts "Contrast level: #{level}"
 以下のように実行します:
 
 ```bash
+$ ruby yellow_black_hex_contrast.rb
 Contrast ratio between yellow and black: 19.555999999999997
 Contrast level: AAA
 ```
