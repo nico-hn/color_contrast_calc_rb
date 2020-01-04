@@ -4,7 +4,7 @@ require 'color_contrast_calc/utils'
 require 'color_contrast_calc/checker'
 require 'color_contrast_calc/invalid_color_representation_error'
 require 'color_contrast_calc/threshold_finder'
-require 'color_contrast_calc/color_value_parser'
+require 'color_contrast_calc/color_function_parser'
 require 'color_contrast_calc/deprecated'
 require 'json'
 

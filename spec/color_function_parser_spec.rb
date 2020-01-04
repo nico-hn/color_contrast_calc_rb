@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'color_contrast_calc/color_value_parser'
+require 'color_contrast_calc/color_function_parser'
 
 Parser = ColorContrastCalc::ColorFunctionParser
 Scheme = Parser::Scheme
