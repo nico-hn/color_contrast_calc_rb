@@ -16,7 +16,7 @@ module ColorContrastCalc
 
     private_constant :HSL_UPPER_LIMIT
 
-    HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i
+    HEX_RE = /\A#?[0-9a-f]{3}([0-9a-f]{3})?\z/i.freeze
 
     private_constant :HEX_RE
 
