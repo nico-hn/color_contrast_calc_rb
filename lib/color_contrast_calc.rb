@@ -58,6 +58,26 @@ module ColorContrastCalc
   end
 
   ##
+  # Calculate the contrast ratio of given colors.
+  #
+  # The definition of contrast ratio is given at
+  # {https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef}
+  #
+  # Please note that this method may be slow, as it internally creates
+  # Color instances.
+  #
+  # @param color1 [String, Array<Integer>] RGB color given as a string or
+  #   an array of integers. Yellow, for example, can be given as "#ffff00",
+  #   "#ff0", "rgb(255, 255, 0)", "hsl(60deg, 100%, 50%)" or [255, 255, 0].
+  # @param color2 [String, Array<Integer>] RGB color given as a string or
+  #   an array of integers.
+  # @return [Float] Contrast ratio
+
+  def self.contrast_ratio(color1, color2)
+    color_from(color1).contrast_ratio_against(color_from(color2))
+  end
+
+  ##
   # Return an array of named colors.
   #
   # You can find the color names at

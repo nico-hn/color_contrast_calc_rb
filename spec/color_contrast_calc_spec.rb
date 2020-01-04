@@ -146,6 +146,33 @@ RSpec.describe ColorContrastCalc do
     end
   end
 
+  describe '.contrast_ratio' do
+    blacks = [
+      'black',
+      '#000',
+      '000',
+      'rgb(0, 0, 0)',
+      'hsl(0deg, 0%, 0%)',
+      [0, 0, 0],
+      ColorContrastCalc.color_from('#000')
+    ]
+    whites = [
+      'white',
+      '#fff',
+      'fff',
+      'rgb(255, 255, 255)',
+      'hsl(0deg, 0%, 100%)',
+      [255, 255, 255],
+      ColorContrastCalc.color_from('#fff')
+    ]
+
+    it 'is expected to return 21 for all of the black and white pairs' do
+      blacks.product(whites).each do |black, white|
+        expect(ColorContrastCalc.contrast_ratio(black, white)).to eq(21)
+      end
+    end
+  end
+
   describe '.named_colors' do
     it 'is expected to return an array of predefined Color instances' do
       named_colors = ColorContrastCalc.named_colors
