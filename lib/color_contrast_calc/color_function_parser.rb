@@ -26,11 +26,11 @@ module ColorContrastCalc
         raise NotImplementedError, 'Overwrite the method in a subclass'
       end
 
+      private :normalize_params
+
       def rgb
         raise NotImplementedError, 'Overwrite the method in a subclass'
       end
-
-      private :normalize_params
 
       def to_a
         @normalized
