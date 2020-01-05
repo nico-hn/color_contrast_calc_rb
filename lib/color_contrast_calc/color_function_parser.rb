@@ -211,7 +211,7 @@ module ColorContrastCalc
 
     private_class_method :read_unit!
 
-    def self.spaces_as_separator?(scanner)
+    def self.next_spaces_as_separator?(scanner)
       cur_pos = scanner.pos
       spaces = skip_spaces!(scanner)
       next_token_is_number = scanner.check(TokenRe::NUMBER)
@@ -219,12 +219,14 @@ module ColorContrastCalc
       spaces && next_token_is_number
     end
 
+    private_class_method :next_spaces_as_separator?
+
     def self.read_comma!(scanner, parsed_value)
-      space_used_as_separator = spaces_as_separator?(scanner)
+      if next_spaces_as_separator?(scanner)
+        return read_number!(scanner, parsed_value)
+      end
 
       skip_spaces!(scanner)
-
-      return read_number!(scanner, parsed_value) if space_used_as_separator
 
       return parsed_value if read_close_paren!(scanner)
 
