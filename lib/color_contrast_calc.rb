@@ -74,7 +74,7 @@ module ColorContrastCalc
   # @return [Float] Contrast ratio
 
   def self.contrast_ratio(color1, color2)
-    color_from(color1).contrast_ratio_against(color_from(color2))
+    Color.as_color(color1).contrast_ratio_against(Color.as_color(color2))
   end
 
   ##
