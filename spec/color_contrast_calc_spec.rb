@@ -43,20 +43,6 @@ RSpec.describe ColorContrastCalc do
       expect(yellow.name).to eq(yellow_name)
     end
 
-    it 'is expected to return a Color instance when an existing instance is passed' do
-      old_name = 'old_yellow'
-      new_name = 'new_yellow'
-      old_yellow = ColorContrastCalc.color_from('#ff0', old_name)
-      new_yellow = ColorContrastCalc.color_from(old_yellow, new_name)
-      another_yellow = ColorContrastCalc.color_from(old_yellow)
-      expect(old_yellow.hex).to eq(yellow_hex)
-      expect(old_yellow.name).to eq(old_name)
-      expect(new_yellow.hex).to eq(yellow_hex)
-      expect(new_yellow.name).to eq(new_name)
-      expect(another_yellow.hex).to eq(yellow_hex)
-      expect(another_yellow.name).to eq(yellow_name)
-    end
-
     it 'is expected to raise an error when "imaginaryblue" is passed' do
       message = 'imaginaryblue seems to be an undefined color name.'
 
