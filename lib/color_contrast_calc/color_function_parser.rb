@@ -212,6 +212,8 @@ module ColorContrastCalc
     private_class_method :read_unit!
 
     def self.read_comma!(scanner, parsed_value)
+      skip_spaces!(scanner)
+
       return parsed_value if read_close_paren!(scanner)
 
       read_token!(scanner, TokenRe::COMMA)
