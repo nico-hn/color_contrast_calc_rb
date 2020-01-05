@@ -34,6 +34,10 @@ ERROR
         expect(Parser.to_rgb(func)).to eq([255, 255, 0])
       end
     end
+
+    it 'expects to accept rgb parameters with units' do
+      expect(Parser.to_rgb('rgb(100%, 100%, 0%)')).to eq([255, 255, 0])
+    end
   end
 
   describe '.skip_spaces!' do

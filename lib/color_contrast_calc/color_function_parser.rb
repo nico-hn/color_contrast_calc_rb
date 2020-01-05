@@ -79,7 +79,7 @@ module ColorContrastCalc
         def normalize_params
           @params.map do |param|
             if param[:unit] == '%'
-              (param[:number] * 255.0 / 100).round
+              (param[:number].to_i * 255.0 / 100).round
             else
               param[:number].to_i
             end
