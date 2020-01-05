@@ -73,7 +73,11 @@ ERROR
     end
 
     it 'expects to read a valid scheme' do
-      valid_whites = ['rgb(255, 255, 255)', 'RGB(255, 255, 255)']
+      valid_whites = [
+        'rgb(255, 255, 255)',
+        'RGB(255, 255, 255)',
+        'rgb(255,255,255)'
+      ]
       expected = {
         scheme: Scheme::RGB,
         parameters: [
@@ -84,7 +88,7 @@ ERROR
       }
 
       valid_whites.each do |val|
-        white = StringScanner.new('rgb(255, 255, 255)')
+        white = StringScanner.new(val)
         result = Parser.send(:read_scheme!, white)
         expect(result).to eq(expected)
       end
