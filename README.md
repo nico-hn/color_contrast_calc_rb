@@ -75,7 +75,7 @@ red
 
 To calculate the contrast ratio between two colors, a class method of `ColorContrastCalc`, `.contrast_ratio()` is available.
 
-For example, if you want calculate the contrast ratio between  yellow and black at the command line, you can do as follows:
+For example, if you want to calculate the contrast ratio between  yellow and black at the command line, you can do as follows:
 
 ```bash
 $ ruby -rcolor_contrast_calc -e 'puts ColorContrastCalc.contrast_ratio("#ff0", "#000")'
