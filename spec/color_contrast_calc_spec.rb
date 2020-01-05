@@ -159,6 +159,39 @@ RSpec.describe ColorContrastCalc do
     end
   end
 
+  describe '.select_higher_contrast_base_color' do
+    context 'with default base colors' do
+      it 'is expected to return by default the black, when yellow is passed' do
+        base_color = ColorContrastCalc.select_higher_contrast_base_color('yellow')
+        expect(base_color.name).to eq('black')
+      end
+
+      it 'is expected to return by default the white, when blue is passed' do
+        base_color = ColorContrastCalc.select_higher_contrast_base_color('blue')
+        expect(base_color.name).to eq('white')
+      end
+
+      it 'is expectd to return by default the black when #767676 is passed' do
+        base_color = ColorContrastCalc.select_higher_contrast_base_color('#767676')
+        expect(base_color.name).to eq('black')
+      end
+    end
+
+    context 'when the dark base color is #333' do
+      it 'is expectd to return #333 when yellow is passed' do
+        base_color = ColorContrastCalc.select_higher_contrast_base_color('yellow',
+                                                                         dark_base: '#333')
+        expect(base_color).to eq('#333')
+      end
+
+      it 'is expectd to return the white when #767676 is passed' do
+        base_color = ColorContrastCalc.select_higher_contrast_base_color('#767676',
+                                                                         dark_base: '#333')
+        expect(base_color.name).to eq('white')
+      end
+    end
+  end
+
   describe '.named_colors' do
     it 'is expected to return an array of predefined Color instances' do
       named_colors = ColorContrastCalc.named_colors

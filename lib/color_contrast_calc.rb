@@ -73,6 +73,32 @@ module ColorContrastCalc
   end
 
   ##
+  # Select from two colors the one of which the contrast ratio is higher
+  # than the other's, against a given color.
+  #
+  # Note that this method is tentatively provided and may be changed later
+  # including its name.
+  #
+  # @param color [String, Array<Integer>, Color] A color against which
+  #   the contrast ratio of other two colors will be calculated
+  # @param light_base [String, Array<Integer>, Color] One of two colors
+  #   which will be returned depending their contrast ratio: This one
+  #   will be returned when the contast ratio of the colors happen to
+  #   be same.
+  # @param dark_base [String, Array<Integer>, Color] One of two colors
+  #   which will be returned depending their contrast ratio
+  # @return [String, Array<Integer>, Color] One of the values
+  #   specified as +light_base+ and +dark_base+
+
+  def self.select_higher_contrast_base_color(color,
+                                             light_base: Color::WHITE,
+                                             dark_base: Color::BLACK)
+    ratio_with_light = contrast_ratio(color, light_base)
+    ratio_with_dark = contrast_ratio(color, dark_base)
+    ratio_with_light < ratio_with_dark ? dark_base : light_base
+  end
+
+  ##
   # Return an array of named colors.
   #
   # You can find the color names at
