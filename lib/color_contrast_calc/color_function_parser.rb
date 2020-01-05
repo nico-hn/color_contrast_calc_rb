@@ -78,11 +78,8 @@ module ColorContrastCalc
       class Rgb < self
         def normalize_params
           @params.map do |param|
-            if param[:unit] == '%'
-              (param[:number].to_i * 255.0 / 100).round
-            else
-              param[:number].to_i
-            end
+            n = param[:number].to_i
+            param[:unit] == '%' ? (n * 255 / 100.0).round : n
           end
         end
 
