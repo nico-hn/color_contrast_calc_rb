@@ -241,7 +241,7 @@ module ColorContrastCalc
       ##
       # ref: https://www.w3.org/TR/2019/WD-css-color-4-20191105/
 
-      def self.normalize_hwb(hwb)
+      def normalize_hwb(hwb)
         h, w, b = hwb
 
         achromatic_percent = w + b
@@ -253,9 +253,9 @@ module ColorContrastCalc
         [h, normalized_w, normalized_b]
       end
 
-      private_class_method :normalize_hwb
+      private :normalize_hwb
 
-      def self.hwb_to_rgb(hwb)
+      def hwb_to_rgb(hwb)
         hue, white, black = normalize_hwb(hwb)
         rgb = Utils.hsl_to_rgb([hue, 100, 50])
 
@@ -264,10 +264,12 @@ module ColorContrastCalc
         end
       end
 
-      def self.rgb_to_hwb(_rgb)
+      def rgb_to_hwb(_rgb)
         raise Notimplementederror, 'Must be implemented later'
       end
     end
+
+    extend Hwb
   end
 
   ##
