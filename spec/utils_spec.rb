@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'color_contrast_calc/utils'
 
+load("#{__dir__}/test_data/hwb_color_table.rb")
+
 Utils = ColorContrastCalc::Utils
 
 RSpec.describe ColorContrastCalc::Utils do
@@ -376,6 +378,26 @@ RSpec.describe ColorContrastCalc::Utils do
 
   describe Utils::Hwb do
     describe '.hwb_to_rgb' do
+      context 'Examples in CSS4 color module definition' do
+        tables = HwbColorDef::TABLES
+        tables.each do |table|
+          deg = table[:deg]
+          name = table[:name]
+          context "Hue is #{name} (#{deg}deg)" do
+            rgb_table = table[:rgb]
+            0.upto(5) do |r|
+              0.upto(5) do |c|
+                hwb = [deg, r * 20, c * 20]
+                rgb = Utils.hex_to_rgb(rgb_table[r][c])
+                it "expects to return #{rgb} when #{hwb} is passed" do
+                  expect(Utils::Hwb.hwb_to_rgb(hwb)).to eq(rgb)
+                end
+              end
+            end
+          end
+        end
+      end
+
       context 'Red without blackness' do
         it 'expects to return [255, 0, 0] when [0, 0, 0] is passed' do
           expect(Utils::Hwb.hwb_to_rgb([0, 0, 0])).to eq(Utils.hex_to_rgb('#ff0000'))
