@@ -373,4 +373,34 @@ RSpec.describe ColorContrastCalc::Utils do
       expect(Utils.uppercase?('Ul')).to be false
     end
   end
+
+  describe Utils::Hwb do
+    describe '.hwb_to_rgb' do
+      context 'Red without blackness' do
+        it 'expects to return [255, 0, 0] when [0, 0, 0] is passed' do
+          expect(Utils::Hwb.hwb_to_rgb([0, 0, 0])).to eq(Utils.hex_to_rgb('#ff0000'))
+        end
+
+        it 'expects to return [255, 0, 0] when [0, 20, 0] is passed' do
+          expect(Utils::Hwb.hwb_to_rgb([0, 20, 0])).to eq(Utils.hex_to_rgb('#ff3333'))
+        end
+
+        it 'expects to return [255, 0, 0] when [0, 40, 0] is passed' do
+          expect(Utils::Hwb.hwb_to_rgb([0, 40, 0])).to eq(Utils.hex_to_rgb('#ff6666'))
+        end
+
+        it 'expects to return [255, 0, 0] when [0, 60, 0] is passed' do
+          expect(Utils::Hwb.hwb_to_rgb([0, 60, 0])).to eq(Utils.hex_to_rgb('#ff9999'))
+        end
+
+        it 'expects to return [255, 0, 0] when [0, 80, 0] is passed' do
+          expect(Utils::Hwb.hwb_to_rgb([0, 80, 0])).to eq(Utils.hex_to_rgb('#ffcccc'))
+        end
+
+        it 'expects to return [255, 0, 0] when [0, 100, 0] is passed' do
+          expect(Utils::Hwb.hwb_to_rgb([0, 100, 0])).to eq(Utils.hex_to_rgb('#ffffff'))
+        end
+      end
+    end
+  end
 end

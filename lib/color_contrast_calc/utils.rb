@@ -236,6 +236,38 @@ module ColorContrastCalc
     def self.uppercase?(str)
       !/[[:lower:]]/.match?(str)
     end
+
+    module Hwb
+      ##
+      # ref: https://www.w3.org/TR/2019/WD-css-color-4-20191105/
+
+      def self.normalize_hwb(hwb)
+        h, w, b = hwb
+
+        achromatic_percent = w + b
+        denominator = achromatic_percent > 100 ? achromatic_percent : 100
+
+        normalized_w = w.to_f / denominator
+        normalized_b = b.to_f / denominator
+
+        [h, normalized_w, normalized_b]
+      end
+
+      private_class_method :normalize_hwb
+
+      def self.hwb_to_rgb(hwb)
+        hue, white, black = normalize_hwb(hwb)
+        rgb = Utils.hsl_to_rgb([hue, 100, 50])
+
+        rgb.map do |c|
+          (((c / 255.0 * (1.0 - white - black)) + white) * 255).round
+        end
+      end
+
+      def self.rgb_to_hwb(_rgb)
+        raise Notimplementederror, 'Must be implemented later'
+      end
+    end
   end
 
   ##
