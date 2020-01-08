@@ -260,7 +260,7 @@ module ColorContrastCalc
         rgb = Utils.hsl_to_rgb([hue, 100, 50])
 
         rgb.map do |c|
-          (((c / 255.0 * (1.0 - white - black)) + white) * 255).round
+          ((c * (1.0 - white - black)) + white * 255).round
         end
       end
 
