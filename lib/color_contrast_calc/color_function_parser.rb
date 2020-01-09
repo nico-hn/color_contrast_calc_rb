@@ -161,18 +161,23 @@ module ColorContrastCalc
       def format_error_message(scanner, re)
         out = StringIO.new
         color_value = scanner.string
-        [
-          format('"%s" is not a valid code. An error occurred at:', color_value),
-          color_value,
-          "#{' ' * scanner.charpos}^ while searching with #{re}"
-        ].each do |line|
-          out.puts line
-        end
+
+        out.print format('"%s" is not a valid code. ', color_value)
+        print_error_pos!(out, color_value, scanner.charpos)
+        out.puts " while searching with #{re}"
 
         out.string
       end
 
       private :format_error_message
+
+      def print_error_pos!(out, color_value, pos)
+        out.puts 'An error occurred at:'
+        out.puts color_value
+        out.print "#{' ' * pos}^"
+      end
+
+      private :print_error_pos!
 
       def read_token!(scanner, re)
         skip_spaces!(scanner)
