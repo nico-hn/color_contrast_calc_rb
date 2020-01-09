@@ -253,6 +253,22 @@ module ColorContrastCalc
     end
 
     class FunctionParser < Parser
+      def read_comma!(scanner, parsed_value)
+        if next_spaces_as_separator?(scanner)
+          return read_number!(scanner, parsed_value)
+        end
+
+        skip_spaces!(scanner)
+
+        if scanner.check(TokenRe::COMMA)
+          error_message = format_error_message(scanner, '" "')
+          raise InvalidColorRepresentationError, error_message
+        end
+
+        return parsed_value if read_close_paren!(scanner)
+
+        read_number!(scanner, parsed_value)
+      end
     end
 
     Parser.parsers = {

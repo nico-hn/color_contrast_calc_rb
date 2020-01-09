@@ -171,6 +171,35 @@ ERROR
             expect(result).to eq(expected)
           end
         end
+
+        it 'expects to raise an error for an invalid HWB function' do
+          message_template = <<TEMPLATE
+"%s" is not a valid code. An error occurred at:
+%s
+%s^ while searching with " "
+TEMPLATE
+          invalid_whites = [
+            'hwb(60, 0%, 0%)',
+            'HWB(60, 0% 0%)',
+            'hwb(60 0%, 0%)',
+            'hwb(60 0% , 0%)'
+          ]
+
+          messages = [
+            ' ' * 6,
+            ' ' * 6,
+            ' ' * 9,
+            ' ' * 10
+          ]
+
+          invalid_whites.each_with_index do |hwb, i|
+            message = format(message_template, hwb, hwb, messages[i])
+            wrong_white = StringScanner.new(hwb)
+            expect {
+              parser.read_scheme!(wrong_white)
+            }.to raise_error(error, message)
+          end
+        end
       end
     end
   end
