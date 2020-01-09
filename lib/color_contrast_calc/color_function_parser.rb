@@ -150,6 +150,10 @@ module ColorContrastCalc
 
         out.string
       end
+
+      def skip_spaces!(scanner)
+        scanner.scan(TokenRe::SPACES)
+      end
     end
 
     def self.format_error_message(scanner, re)
@@ -159,7 +163,7 @@ module ColorContrastCalc
     private_class_method :format_error_message
 
     def self.skip_spaces!(scanner)
-      scanner.scan(TokenRe::SPACES)
+      Parser.new.skip_spaces!(scanner)
     end
 
     private_class_method :skip_spaces!
