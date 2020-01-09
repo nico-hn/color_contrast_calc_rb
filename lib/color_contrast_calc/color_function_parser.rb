@@ -137,19 +137,25 @@ module ColorContrastCalc
     end
 
     class Parser
+      class << self
+        attr_accessor :parsers
+      end
+
       def skip_spaces!(scanner)
         scanner.scan(TokenRe::SPACES)
       end
 
       def read_scheme!(scanner)
-        scheme = read_token!(scanner, TokenRe::SCHEME)
+        scheme = read_token!(scanner, TokenRe::SCHEME).downcase
 
         parsed_value = {
-          scheme: scheme.downcase,
+          scheme: scheme,
           parameters: []
         }
 
-        read_open_paren!(scanner, parsed_value)
+        parser = Parser.parsers[scheme] || self
+
+        parser.read_open_paren!(scanner, parsed_value)
       end
 
       def format_error_message(scanner, re)
@@ -186,7 +192,7 @@ module ColorContrastCalc
         read_parameters!(scanner, parsed_value)
       end
 
-      private :read_open_paren!
+      protected :read_open_paren!
 
       def read_close_paren!(scanner)
         scanner.scan(TokenRe::CLOSE_PAREN)
@@ -246,6 +252,15 @@ module ColorContrastCalc
       private :read_comma!
     end
 
+    class FunctionParser < Parser
+    end
+
+    Parser.parsers = {
+      Scheme::HWB => FunctionParser.new
+    }
+
+    MAIN_PARSER = Parser.new
+
     ##
     # Parse an RGB/HSL function and store the result as an instance of
     # ColorFunctionParser::Converter.
@@ -255,7 +270,7 @@ module ColorContrastCalc
     # @return [Converter] An instance of ColorFunctionParser::Converter
 
     def self.parse(color_value)
-      parsed_value = Parser.new.read_scheme!(StringScanner.new(color_value))
+      parsed_value = MAIN_PARSER.read_scheme!(StringScanner.new(color_value))
       Converter.create(parsed_value, color_value)
     end
 
