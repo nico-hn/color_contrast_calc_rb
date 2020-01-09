@@ -54,12 +54,14 @@ ERROR
   end
 
   describe ColorContrastCalc::ColorFunctionParser::Parser do
+    parser = Parser::Parser.new
+
     describe '.skip_spaces!' do
       it 'expects to skip the spaces at the current scan pointer.' do
         str_with_2_spaces = StringScanner.new('  a string with spaces at the head')
 
         2.times do
-          Parser::Parser.new.skip_spaces!(str_with_2_spaces)
+          parser.skip_spaces!(str_with_2_spaces)
           expect(str_with_2_spaces.charpos).to eq(2)
         end
       end
