@@ -164,6 +164,68 @@ module ColorContrastCalc
         error_message = format_error_message(scanner, re)
         raise InvalidColorRepresentationError, error_message
       end
+
+      def read_scheme!(scanner)
+        scheme = read_token!(scanner, TokenRe::SCHEME)
+
+        parsed_value = {
+          scheme: scheme.downcase,
+          parameters: []
+        }
+
+        read_open_paren!(scanner, parsed_value)
+      end
+
+      def read_open_paren!(scanner, parsed_value)
+        read_token!(scanner, TokenRe::OPEN_PAREN)
+
+        read_parameters!(scanner, parsed_value)
+      end
+
+      def read_close_paren!(scanner)
+        scanner.scan(TokenRe::CLOSE_PAREN)
+      end
+
+      def read_parameters!(scanner, parsed_value)
+        read_number!(scanner, parsed_value)
+      end
+
+      def read_number!(scanner, parsed_value)
+        number = read_token!(scanner, TokenRe::NUMBER)
+
+        parsed_value[:parameters].push({ number: number, unit: nil })
+
+        read_unit!(scanner, parsed_value)
+      end
+
+      def read_unit!(scanner, parsed_value)
+        unit = scanner.scan(TokenRe::UNIT)
+
+        parsed_value[:parameters].last[:unit] = unit if unit
+
+        read_comma!(scanner, parsed_value)
+      end
+
+      def next_spaces_as_separator?(scanner)
+        cur_pos = scanner.pos
+        spaces = skip_spaces!(scanner)
+        next_token_is_number = scanner.check(TokenRe::NUMBER)
+        scanner.pos = cur_pos
+        spaces && next_token_is_number
+      end
+
+      def read_comma!(scanner, parsed_value)
+        if next_spaces_as_separator?(scanner)
+          return read_number!(scanner, parsed_value)
+        end
+
+        skip_spaces!(scanner)
+
+        return parsed_value if read_close_paren!(scanner)
+
+        read_token!(scanner, TokenRe::COMMA)
+        read_number!(scanner, parsed_value)
+      end
     end
 
     def self.format_error_message(scanner, re)
@@ -185,79 +247,49 @@ module ColorContrastCalc
     private_class_method :read_token!
 
     def self.read_scheme!(scanner)
-      scheme = read_token!(scanner, TokenRe::SCHEME)
-
-      parsed_value = {
-        scheme: scheme.downcase,
-        parameters: []
-      }
-
-      read_open_paren!(scanner, parsed_value)
+      Parser.new.read_scheme!(scanner)
     end
 
     private_class_method :read_scheme!
 
     def self.read_open_paren!(scanner, parsed_value)
-      read_token!(scanner, TokenRe::OPEN_PAREN)
-
-      read_parameters!(scanner, parsed_value)
+      Parser.new.read_open_paren!(scanner, parsed_value)
     end
 
     private_class_method :read_open_paren!
 
     def self.read_close_paren!(scanner)
-      scanner.scan(TokenRe::CLOSE_PAREN)
+      Parser.new.read_close_paren!(scanner)
     end
 
     private_class_method :read_close_paren!
 
     def self.read_parameters!(scanner, parsed_value)
-      read_number!(scanner, parsed_value)
+      Parser.new.read_parameters!(scanner, parsed_value)
     end
 
     private_class_method :read_parameters!
 
     def self.read_number!(scanner, parsed_value)
-      number = read_token!(scanner, TokenRe::NUMBER)
-
-      parsed_value[:parameters].push({ number: number, unit: nil })
-
-      read_unit!(scanner, parsed_value)
+      Parser.new.read_number!(scanner, parsed_value)
     end
 
     private_class_method :read_number!
 
     def self.read_unit!(scanner, parsed_value)
-      unit = scanner.scan(TokenRe::UNIT)
-
-      parsed_value[:parameters].last[:unit] = unit if unit
-
-      read_comma!(scanner, parsed_value)
+      Parser.new.read_unit!(scanner, parsed_value)
     end
 
     private_class_method :read_unit!
 
     def self.next_spaces_as_separator?(scanner)
-      cur_pos = scanner.pos
-      spaces = skip_spaces!(scanner)
-      next_token_is_number = scanner.check(TokenRe::NUMBER)
-      scanner.pos = cur_pos
-      spaces && next_token_is_number
+      Parser.new.next_spaces_as_separator?(scanner)
     end
 
     private_class_method :next_spaces_as_separator?
 
     def self.read_comma!(scanner, parsed_value)
-      if next_spaces_as_separator?(scanner)
-        return read_number!(scanner, parsed_value)
-      end
-
-      skip_spaces!(scanner)
-
-      return parsed_value if read_close_paren!(scanner)
-
-      read_token!(scanner, TokenRe::COMMA)
-      read_number!(scanner, parsed_value)
+      Parser.new.read_comma!(scanner, parsed_value)
     end
 
     private_class_method :read_comma!
