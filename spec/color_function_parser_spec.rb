@@ -28,6 +28,17 @@ ERROR
         }.to raise_error(error, message)
       end
     end
+
+    context 'When HWB functions are passed' do
+      it 'expects to return a Hwb instance' do
+        hwb_yellow = 'hwb(60deg 0% 0%)'
+        parsed = Parser.parse(hwb_yellow)
+
+        expect(parsed.scheme).to eq(Scheme::HWB)
+        expect(parsed.to_a).to eq([60.0, 0.0, 0.0])
+        expect(parsed.rgb).to eq([255, 255, 0])
+      end
+    end
   end
 
   describe '.to_rgb' do
@@ -58,7 +69,7 @@ ERROR
       message = <<ERROR
 "rjb(255, 255, 255)" is not a valid code. An error occurred at:
 rjb(255, 255, 255)
-^ while searching with (?i-mx:(rgb|hsl))
+^ while searching with (?i-mx:(rgb|hsl|hwb))
 ERROR
       wrong_white = StringScanner.new('rjb(255, 255, 255)')
       expect {

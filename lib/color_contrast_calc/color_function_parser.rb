@@ -16,6 +16,7 @@ module ColorContrastCalc
     module Scheme
       RGB = 'rgb'
       HSL = 'hsl'
+      HWB = 'hwb'
     end
 
     ##
@@ -99,6 +100,18 @@ module ColorContrastCalc
         end
       end
 
+      class Hwb < self
+        def normalize_params
+          @params.map do |param|
+            param[:number].to_f
+          end
+        end
+
+        def rgb
+          Utils.hwb_to_rgb(to_a)
+        end
+      end
+
       # @private
       def self.create(parsed_value, original_value)
         case parsed_value[:scheme]
@@ -106,6 +119,8 @@ module ColorContrastCalc
           Rgb.new(parsed_value, original_value)
         when Scheme::HSL
           Hsl.new(parsed_value, original_value)
+        when Scheme::HWB
+          Hwb.new(parsed_value, original_value)
         end
       end
     end
@@ -113,7 +128,7 @@ module ColorContrastCalc
     # @private
     module TokenRe
       SPACES = /\s+/.freeze
-      SCHEME = /(rgb|hsl)/i.freeze
+      SCHEME = /(rgb|hsl|hwb)/i.freeze
       OPEN_PAREN = /\(/.freeze
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
