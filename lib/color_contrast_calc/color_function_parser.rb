@@ -260,15 +260,19 @@ module ColorContrastCalc
 
         skip_spaces!(scanner)
 
-        if scanner.check(TokenRe::COMMA)
-          error_message = format_error_message(scanner, '" "')
-          raise InvalidColorRepresentationError, error_message
-        end
+        wrong_separator_error(scanner) if scanner.check(TokenRe::COMMA)
 
         return parsed_value if read_close_paren!(scanner)
 
         read_number!(scanner, parsed_value)
       end
+
+      def wrong_separator_error(scanner)
+        error_message = format_error_message(scanner, '" "')
+        raise InvalidColorRepresentationError, error_message
+      end
+
+      private :wrong_separator_error
     end
 
     Parser.parsers = {
