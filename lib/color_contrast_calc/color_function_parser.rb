@@ -234,12 +234,6 @@ module ColorContrastCalc
 
     private_class_method :format_error_message
 
-    def self.skip_spaces!(scanner)
-      Parser.new.skip_spaces!(scanner)
-    end
-
-    private_class_method :skip_spaces!
-
     def self.read_token!(scanner, re)
       Parser.new.read_token!(scanner, re)
     end
