@@ -142,5 +142,30 @@ ERROR
         expect(result).to eq(expected)
       end
     end
+
+    it 'expects to read valid HWB functions' do
+      valid_whites = [
+        'hwb(60 0% 0%)',
+        'HWB(60 0% 0%)',
+        'hwb(60  0%  0%)',
+        'hwb( 60 0% 0%)',
+        'hwb(60 0% 0% )',
+        'hwb( 60 0% 0% )'
+      ]
+      expected = {
+        scheme: Scheme::HWB,
+        parameters: [
+          { number: '60', unit: nil },
+          { number: '0', unit: '%' },
+          { number: '0', unit: '%' }
+        ]
+      }
+
+      valid_whites.each do |val|
+        white = StringScanner.new(val)
+        result = Parser.send(:read_scheme!, white)
+        expect(result).to eq(expected)
+      end
+    end
   end
 end
