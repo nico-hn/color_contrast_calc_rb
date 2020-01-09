@@ -136,18 +136,24 @@ module ColorContrastCalc
       UNIT = /(%|deg)/.freeze
     end
 
-    def self.format_error_message(scanner, re)
-      out = StringIO.new
-      color_value = scanner.string
-      [
-        format('"%s" is not a valid code. An error occurred at:', color_value),
-        color_value,
-        "#{' ' * scanner.charpos}^ while searching with #{re}"
-      ].each do |line|
-        out.puts line
-      end
+    class Parser
+      def format_error_message(scanner, re)
+        out = StringIO.new
+        color_value = scanner.string
+        [
+          format('"%s" is not a valid code. An error occurred at:', color_value),
+          color_value,
+          "#{' ' * scanner.charpos}^ while searching with #{re}"
+        ].each do |line|
+          out.puts line
+        end
 
-      out.string
+        out.string
+      end
+    end
+
+    def self.format_error_message(scanner, re)
+      Parser.new.format_error_message(scanner, re)
     end
 
     private_class_method :format_error_message
