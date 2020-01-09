@@ -265,15 +265,29 @@ module ColorContrastCalc
 
         skip_spaces!(scanner)
 
-        wrong_separator_error(scanner) if scanner.check(TokenRe::COMMA)
+        if scanner.check(TokenRe::COMMA)
+          wrong_separator_error(scanner, parsed_value)
+        end
 
         return parsed_value if read_close_paren!(scanner)
 
         read_number!(scanner, parsed_value)
       end
 
-      def wrong_separator_error(scanner)
-        error_message = format_error_message(scanner, '" "')
+      def report_wrong_separator!(scanner, parsed_value)
+        out = StringIO.new
+        color_value = scanner.string
+        scheme = parsed_value[:scheme].upcase
+        out.print "\",\" is not a valid separator for #{scheme} functions. "
+        print_error_pos!(out, color_value, scanner.charpos)
+        out.puts
+        out.string
+      end
+
+      private :report_wrong_separator!
+
+      def wrong_separator_error(scanner, parsed_value)
+        error_message = report_wrong_separator!(scanner, parsed_value)
         raise InvalidColorRepresentationError, error_message
       end
 
