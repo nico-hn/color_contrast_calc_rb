@@ -137,6 +137,21 @@ module ColorContrastCalc
     end
 
     class Parser
+      def skip_spaces!(scanner)
+        scanner.scan(TokenRe::SPACES)
+      end
+
+      def read_scheme!(scanner)
+        scheme = read_token!(scanner, TokenRe::SCHEME)
+
+        parsed_value = {
+          scheme: scheme.downcase,
+          parameters: []
+        }
+
+        read_open_paren!(scanner, parsed_value)
+      end
+
       def format_error_message(scanner, re)
         out = StringIO.new
         color_value = scanner.string
@@ -151,9 +166,7 @@ module ColorContrastCalc
         out.string
       end
 
-      def skip_spaces!(scanner)
-        scanner.scan(TokenRe::SPACES)
-      end
+      private :format_error_message
 
       def read_token!(scanner, re)
         skip_spaces!(scanner)
@@ -165,16 +178,7 @@ module ColorContrastCalc
         raise InvalidColorRepresentationError, error_message
       end
 
-      def read_scheme!(scanner)
-        scheme = read_token!(scanner, TokenRe::SCHEME)
-
-        parsed_value = {
-          scheme: scheme.downcase,
-          parameters: []
-        }
-
-        read_open_paren!(scanner, parsed_value)
-      end
+      private :read_token!
 
       def read_open_paren!(scanner, parsed_value)
         read_token!(scanner, TokenRe::OPEN_PAREN)
@@ -182,13 +186,19 @@ module ColorContrastCalc
         read_parameters!(scanner, parsed_value)
       end
 
+      private :read_open_paren!
+
       def read_close_paren!(scanner)
         scanner.scan(TokenRe::CLOSE_PAREN)
       end
 
+      private :read_close_paren!
+
       def read_parameters!(scanner, parsed_value)
         read_number!(scanner, parsed_value)
       end
+
+      private :read_parameters!
 
       def read_number!(scanner, parsed_value)
         number = read_token!(scanner, TokenRe::NUMBER)
@@ -198,6 +208,8 @@ module ColorContrastCalc
         read_unit!(scanner, parsed_value)
       end
 
+      private :read_number!
+
       def read_unit!(scanner, parsed_value)
         unit = scanner.scan(TokenRe::UNIT)
 
@@ -206,6 +218,8 @@ module ColorContrastCalc
         read_comma!(scanner, parsed_value)
       end
 
+      private :read_unit!
+
       def next_spaces_as_separator?(scanner)
         cur_pos = scanner.pos
         spaces = skip_spaces!(scanner)
@@ -213,6 +227,8 @@ module ColorContrastCalc
         scanner.pos = cur_pos
         spaces && next_token_is_number
       end
+
+      private :next_spaces_as_separator?
 
       def read_comma!(scanner, parsed_value)
         if next_spaces_as_separator?(scanner)
@@ -226,6 +242,8 @@ module ColorContrastCalc
         read_token!(scanner, TokenRe::COMMA)
         read_number!(scanner, parsed_value)
       end
+
+      private :read_comma!
     end
 
     ##
