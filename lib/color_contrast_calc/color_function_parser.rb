@@ -228,60 +228,6 @@ module ColorContrastCalc
       end
     end
 
-    def self.format_error_message(scanner, re)
-      Parser.new.format_error_message(scanner, re)
-    end
-
-    private_class_method :format_error_message
-
-    def self.read_token!(scanner, re)
-      Parser.new.read_token!(scanner, re)
-    end
-
-    private_class_method :read_token!
-
-    def self.read_open_paren!(scanner, parsed_value)
-      Parser.new.read_open_paren!(scanner, parsed_value)
-    end
-
-    private_class_method :read_open_paren!
-
-    def self.read_close_paren!(scanner)
-      Parser.new.read_close_paren!(scanner)
-    end
-
-    private_class_method :read_close_paren!
-
-    def self.read_parameters!(scanner, parsed_value)
-      Parser.new.read_parameters!(scanner, parsed_value)
-    end
-
-    private_class_method :read_parameters!
-
-    def self.read_number!(scanner, parsed_value)
-      Parser.new.read_number!(scanner, parsed_value)
-    end
-
-    private_class_method :read_number!
-
-    def self.read_unit!(scanner, parsed_value)
-      Parser.new.read_unit!(scanner, parsed_value)
-    end
-
-    private_class_method :read_unit!
-
-    def self.next_spaces_as_separator?(scanner)
-      Parser.new.next_spaces_as_separator?(scanner)
-    end
-
-    private_class_method :next_spaces_as_separator?
-
-    def self.read_comma!(scanner, parsed_value)
-      Parser.new.read_comma!(scanner, parsed_value)
-    end
-
-    private_class_method :read_comma!
-
     ##
     # Parse an RGB/HSL function and store the result as an instance of
     # ColorFunctionParser::Converter.
