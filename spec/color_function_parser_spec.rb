@@ -8,23 +8,25 @@ RSpec.describe ColorContrastCalc::ColorFunctionParser do
   error = ColorContrastCalc::InvalidColorRepresentationError
 
   describe '.parse' do
-    it 'expects to return a hash with 4 keys for a valid rgb value' do
-      parsed = Parser.parse('rgb(255, 255, 0)')
+    context 'When RGB functions are passed' do
+      it 'expects to return a hash with 4 keys for a valid rgb value' do
+        parsed = Parser.parse('rgb(255, 255, 0)')
 
-      expect(parsed.scheme).to eq(Scheme::RGB)
-      expect(parsed.to_a).to eq([255, 255, 0])
-    end
+        expect(parsed.scheme).to eq(Scheme::RGB)
+        expect(parsed.to_a).to eq([255, 255, 0])
+      end
 
-    it 'expects to raise an error for a malformed rgb value' do
-      message = <<ERROR
+      it 'expects to raise an error for a malformed rgb value' do
+        message = <<ERROR
 "rgb(255, 255, 0" is not a valid code. An error occurred at:
 rgb(255, 255, 0
                ^ while searching with (?-mix:,)
 ERROR
 
-      expect {
-        Parser.parse('rgb(255, 255, 0')
-      }.to raise_error(error, message)
+        expect {
+          Parser.parse('rgb(255, 255, 0')
+        }.to raise_error(error, message)
+      end
     end
   end
 
