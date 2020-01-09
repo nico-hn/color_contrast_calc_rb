@@ -154,6 +154,16 @@ module ColorContrastCalc
       def skip_spaces!(scanner)
         scanner.scan(TokenRe::SPACES)
       end
+
+      def read_token!(scanner, re)
+        skip_spaces!(scanner)
+        token = scanner.scan(re)
+
+        return token if token
+
+        error_message = format_error_message(scanner, re)
+        raise InvalidColorRepresentationError, error_message
+      end
     end
 
     def self.format_error_message(scanner, re)
@@ -169,13 +179,7 @@ module ColorContrastCalc
     private_class_method :skip_spaces!
 
     def self.read_token!(scanner, re)
-      skip_spaces!(scanner)
-      token = scanner.scan(re)
-
-      return token if token
-
-      error_message = format_error_message(scanner, re)
-      raise InvalidColorRepresentationError, error_message
+      Parser.new.read_token!(scanner, re)
     end
 
     private_class_method :read_token!
