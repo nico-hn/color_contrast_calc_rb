@@ -240,12 +240,6 @@ module ColorContrastCalc
 
     private_class_method :read_token!
 
-    def self.read_scheme!(scanner)
-      Parser.new.read_scheme!(scanner)
-    end
-
-    private_class_method :read_scheme!
-
     def self.read_open_paren!(scanner, parsed_value)
       Parser.new.read_open_paren!(scanner, parsed_value)
     end
@@ -297,7 +291,7 @@ module ColorContrastCalc
     # @return [Converter] An instance of ColorFunctionParser::Converter
 
     def self.parse(color_value)
-      parsed_value = read_scheme!(StringScanner.new(color_value))
+      parsed_value = Parser.new.read_scheme!(StringScanner.new(color_value))
       Converter.create(parsed_value, color_value)
     end
 

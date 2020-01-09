@@ -76,7 +76,7 @@ rjb(255, 255, 255)
 ERROR
         wrong_white = StringScanner.new('rjb(255, 255, 255)')
         expect {
-          Parser.send :read_scheme!, wrong_white
+          parser.read_scheme!(wrong_white)
         }.to raise_error(error, message)
       end
 
@@ -88,7 +88,7 @@ rgb255, 255, 255)
 ERROR
         wrong_white = StringScanner.new('rgb255, 255, 255)')
         expect {
-          Parser.send :read_scheme!, wrong_white
+          parser.read_scheme!(wrong_white)
         }.to raise_error(error, message)
       end
 
@@ -115,7 +115,7 @@ ERROR
 
         valid_whites.each do |val|
           white = StringScanner.new(val)
-          result = Parser.send(:read_scheme!, white)
+          result = parser.read_scheme!(white)
           expect(result).to eq(expected)
         end
       end
@@ -141,7 +141,7 @@ ERROR
           }
         ]
         valid_hsls.zip(expected_values) do |hsl, expected|
-          result = Parser.send(:read_scheme!, StringScanner.new(hsl))
+          result = parser.read_scheme!(StringScanner.new(hsl))
           expect(result).to eq(expected)
         end
       end
@@ -166,7 +166,7 @@ ERROR
 
         valid_whites.each do |val|
           white = StringScanner.new(val)
-          result = Parser.send(:read_scheme!, white)
+          result = parser.read_scheme!(white)
           expect(result).to eq(expected)
         end
       end
