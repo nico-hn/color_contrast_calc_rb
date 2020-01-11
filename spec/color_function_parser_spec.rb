@@ -289,7 +289,7 @@ TEMPLATE
           end
 
           it 'expects to raise an error for a saturation value without unit ' do
-            error_message = "\"\" in [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>nil}, {:number=>50, :unit=>\"%\"}] is not allowed for HSL function."
+            error_message = "You should add a unit to the 2nd parameter of HSL function [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>nil}, {:number=>50, :unit=>\"%\"}]."
             params = [
               { number: 60, unit: 'deg' } ,
               { number: 100, unit: nil } ,

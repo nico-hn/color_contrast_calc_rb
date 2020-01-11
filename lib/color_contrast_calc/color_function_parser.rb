@@ -27,14 +27,23 @@ module ColorContrastCalc
     class Validator
       include Unit
 
+      POS = %w[1st 2nd 3rd].freeze
+
+      private_constant :POS
+
       def initialize
         @config = yield
         @scheme = @config[:scheme]
       end
 
-      def error_message(parameters, passed_unit)
-        format('"%s" in %s is not allowed for %s function.',
-               passed_unit, parameters, @scheme.upcase)
+      def error_message(parameters, passed_unit, pos)
+        if passed_unit
+          return format('"%s" in %s is not allowed for %s function.',
+                        passed_unit, parameters, @scheme.upcase)
+        end
+
+        format('You should add a unit to the %s parameter of %s function %s.',
+               POS[pos], @scheme.upcase, parameters)
       end
 
       def validate_units(parameters)
@@ -43,7 +52,7 @@ module ColorContrastCalc
 
           unless unit.include? passed_unit
             raise InvalidColorRepresentationError,
-                  error_message(parameters, passed_unit)
+                  error_message(parameters, passed_unit, i)
           end
         end
 
