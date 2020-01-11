@@ -44,6 +44,8 @@ module ColorContrastCalc
         "#{@scheme}(#{params.join(' ')})"
       end
 
+      private :format_to_function
+
       def error_message(parameters, passed_unit, pos, original_value = nil)
         color_func = original_value || format_to_function(parameters)
 
@@ -56,6 +58,9 @@ module ColorContrastCalc
                POS[pos], color_func)
       end
 
+      private :error_message
+
+      # @private
       def validate_units(parameters, original_value = nil)
         @config[:units].each_with_index do |unit, i|
           passed_unit = parameters[i][:unit]
@@ -69,6 +74,7 @@ module ColorContrastCalc
         true
       end
 
+      # @private
       RGB = Validator.new do
         {
           scheme: Scheme::RGB,
@@ -80,6 +86,7 @@ module ColorContrastCalc
         }
       end
 
+      # @private
       HSL = Validator.new do
         {
           scheme: Scheme::HSL,
@@ -91,6 +98,7 @@ module ColorContrastCalc
         }
       end
 
+      # @private
       HWB = Validator.new do
         {
           scheme: Scheme::HWB,
@@ -141,6 +149,8 @@ module ColorContrastCalc
 
       UNIT_CONV.default = proc {|n| /\./ =~ n ? n.to_f : n.to_i }
       UNIT_CONV.freeze
+
+      private_constant :UNIT_CONV
 
       ##
       # @!attribute [r] scheme
@@ -214,6 +224,7 @@ module ColorContrastCalc
         end
       end
 
+      # @private
       class Hwb < self
         def normalize_params
           @params.map do |param|
