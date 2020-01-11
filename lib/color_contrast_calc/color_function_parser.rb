@@ -119,6 +119,7 @@ module ColorContrastCalc
       }
 
       UNIT_CONV.default = proc {|n| /\./ =~ n ? n.to_f : n.to_i }
+      UNIT_CONV.freeze
 
       ##
       # @!attribute [r] scheme
