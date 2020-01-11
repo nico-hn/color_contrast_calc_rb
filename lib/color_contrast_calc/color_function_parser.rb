@@ -277,6 +277,8 @@ module ColorContrastCalc
         scanner.scan(TokenRe::SPACES)
       end
 
+      private :skip_spaces!
+
       def read_scheme!(scanner)
         scheme = read_token!(scanner, TokenRe::SCHEME).downcase
 
