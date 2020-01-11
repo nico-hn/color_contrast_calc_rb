@@ -101,6 +101,19 @@ module ColorContrastCalc
     # They may change in the future.
 
     class Converter
+      UNIT_CONV = {
+        Unit::PERCENT => proc do |n, base|
+          if base == 255
+            (n.to_f * base / 100.0).round
+          else
+            n.to_f
+          end
+        end,
+        Unit::DEG => proc {|n| n.to_f }
+      }
+
+      UNIT_CONV.default = proc {|n| /\./ =~ n ? n.to_f : n.to_i }
+
       ##
       # @!attribute [r] scheme
       #   @return [String] Type of function: 'rgb' or 'hsl'
@@ -153,8 +166,7 @@ module ColorContrastCalc
       class Rgb < self
         def normalize_params
           @params.map do |param|
-            n = param[:number].to_i
-            param[:unit] == '%' ? (n * 255 / 100.0).round : n
+            UNIT_CONV[param[:unit]][param[:number], 255]
           end
         end
 
@@ -165,7 +177,7 @@ module ColorContrastCalc
       class Hsl < self
         def normalize_params
           @params.map do |param|
-            param[:number].to_f
+            UNIT_CONV[param[:unit]][param[:number]]
           end
         end
 
@@ -177,7 +189,7 @@ module ColorContrastCalc
       class Hwb < self
         def normalize_params
           @params.map do |param|
-            param[:number].to_f
+            UNIT_CONV[param[:unit]][param[:number]]
           end
         end
 
