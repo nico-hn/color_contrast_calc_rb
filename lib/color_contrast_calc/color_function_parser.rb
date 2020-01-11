@@ -39,23 +39,30 @@ module ColorContrastCalc
         @scheme = @config[:scheme]
       end
 
-      def error_message(parameters, passed_unit, pos)
-        if passed_unit
-          return format('"%s" in %s is not allowed for %s function.',
-                        passed_unit, parameters, @scheme.upcase)
-        end
-
-        format('You should add a unit to the %s parameter of %s function %s.',
-               POS[pos], @scheme.upcase, parameters)
+      def format_to_function(parameters)
+        params = parameters.map {|param| "#{param[:number]}#{param[:unit]}" }
+        "#{@scheme}(#{params.join(' ')})"
       end
 
-      def validate_units(parameters)
+      def error_message(parameters, passed_unit, pos, original_value = nil)
+        color_func = original_value || format_to_function(parameters)
+
+        if passed_unit
+          return format('"%s" is not allowed for %s.',
+                        passed_unit, format_to_function(parameters))
+        end
+
+        format('A unit is required for the %s parameter of %s.',
+               POS[pos], color_func)
+      end
+
+      def validate_units(parameters, original_value = nil)
         @config[:units].each_with_index do |unit, i|
           passed_unit = parameters[i][:unit]
 
           unless unit.include? passed_unit
             raise InvalidColorRepresentationError,
-                  error_message(parameters, passed_unit, i)
+                  error_message(parameters, passed_unit, i, original_value)
           end
         end
 
@@ -103,10 +110,10 @@ module ColorContrastCalc
 
       private_constant :VALIDATORS
 
-      def self.validate(parsed_value, original_value=nil)
+      def self.validate(parsed_value, original_value = nil)
         scheme = parsed_value[:scheme]
         params = parsed_value[:parameters]
-        VALIDATORS[scheme].validate_units(params)
+        VALIDATORS[scheme].validate_units(params, original_value)
       end
     end
 

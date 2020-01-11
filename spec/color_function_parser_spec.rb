@@ -32,7 +32,15 @@ ERROR
     context 'When HSL functions are passed' do
       it 'expects to raise an error if a unit is not given for saturation' do
         hsl_yellow = 'hsl(60deg 100 50%)'
-        expected_message = 'You should add a unit to the 2nd parameter of HSL function [{:number=>"60", :unit=>"deg"}, {:number=>"100", :unit=>nil}, {:number=>"50", :unit=>"%"}].'
+        expected_message = 'A unit is required for the 2nd parameter of hsl(60deg 100 50%).'
+        expect {
+          Parser.parse(hsl_yellow)
+        }.to raise_error expected_message
+      end
+
+      it 'expects to preserve the original form of a function in errors' do
+        hsl_yellow = 'hsl( 60 100% 50 )'
+        expected_message = 'A unit is required for the 3rd parameter of hsl( 60 100% 50 ).'
         expect {
           Parser.parse(hsl_yellow)
         }.to raise_error expected_message
@@ -243,7 +251,7 @@ TEMPLATE
 
         context 'When invalid parameters are passed' do
           it 'expects to raise an error' do
-            error_message = "\"%%\" in [{:number=>255, :unit=>nil}, {:number=>255, :unit=>\"%%\"}, {:number=>0, :unit=>nil}] is not allowed for RGB function."
+            error_message = "\"%%\" is not allowed for rgb(255 255%% 0)."
             params = [
               { number: 255, unit: nil } ,
               { number: 255, unit: '%%' },
@@ -286,10 +294,10 @@ TEMPLATE
 
         context 'When invalid parameters are passed' do
           it 'expects to raise an error for an invalid unit ' do
-            error_message = "\"%%\" in [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>\"%%\"}, {:number=>50, :unit=>\"%\"}] is not allowed for HSL function."
+            error_message = "\"%%\" is not allowed for hsl(60deg 100%% 50%)."
             params = [
-              { number: 60, unit: 'deg' } ,
-              { number: 100, unit: '%%' } ,
+              { number: 60, unit: 'deg' },
+              { number: 100, unit: '%%' },
               { number: 50, unit: '%' }
             ]
 
@@ -299,10 +307,10 @@ TEMPLATE
           end
 
           it 'expects to raise an error for a saturation value without unit ' do
-            error_message = "You should add a unit to the 2nd parameter of HSL function [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>nil}, {:number=>50, :unit=>\"%\"}]."
+            error_message = "A unit is required for the 2nd parameter of hsl(60deg 100 50%)."
             params = [
-              { number: 60, unit: 'deg' } ,
-              { number: 100, unit: nil } ,
+              { number: 60, unit: 'deg' },
+              { number: 100, unit: nil },
               { number: 50, unit: '%' }
             ]
 
@@ -342,11 +350,11 @@ TEMPLATE
 
         context 'When invalid parameters are passed' do
           it 'expects to raise an error for an invalid unit ' do
-            error_message = "\"%%\" in [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>\"%%\"}, {:number=>50, :unit=>\"%\"}] is not allowed for HWB function."
+            error_message = "\"%%\" is not allowed for hwb(60deg 0%% 0%)."
             params = [
               { number: 60, unit: 'deg' } ,
-              { number: 100, unit: '%%' } ,
-              { number: 50, unit: '%' }
+              { number: 0, unit: '%%' } ,
+              { number: 0, unit: '%' }
             ]
 
             expect {
@@ -355,7 +363,7 @@ TEMPLATE
           end
 
           it 'expects to raise an error for a saturation value without unit ' do
-            error_message = "You should add a unit to the 2nd parameter of HWB function [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>nil}, {:number=>50, :unit=>\"%\"}]."
+            error_message = "A unit is required for the 2nd parameter of hwb(60deg 100 50%)."
             params = [
               { number: 60, unit: 'deg' } ,
               { number: 100, unit: nil } ,
