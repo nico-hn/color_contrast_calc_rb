@@ -369,5 +369,11 @@ TEMPLATE
         expect(Parser.to_rgb('hsl(100grad, 100%, 50%)')).to eq(deg)
       end
     end
+
+    describe 'turn' do
+      it 'expects to be converted to [255, 255, 0]' do
+        expect(Parser.to_rgb('hsl(0.25turn, 100%, 50%)')).to eq(deg)
+      end
+    end
   end
 end
