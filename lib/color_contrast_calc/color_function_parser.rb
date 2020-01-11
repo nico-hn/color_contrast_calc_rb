@@ -60,6 +60,17 @@ module ColorContrastCalc
           ]
         }
       end
+
+      HSL = Validator.new do
+        {
+          scheme: Scheme::HSL,
+          units: [
+            [nil, DEG],
+            [PERCENT],
+            [PERCENT]
+          ]
+        }
+      end
     end
 
     ##

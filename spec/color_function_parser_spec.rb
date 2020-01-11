@@ -247,5 +247,61 @@ TEMPLATE
         end
       end
     end
+
+    describe Parser::Validator::HSL do
+      validator = Parser::Validator::HSL
+
+      describe '#validate_units' do
+        context 'When valid parameters are passed' do
+          it 'expects to accept a hue value without unit' do
+            params = [
+              { number: 60, unit: nil } ,
+              { number: 100, unit: '%' } ,
+              { number: 50, unit: '%' }
+            ]
+
+            expect(validator.validate_units(params)).to be true
+          end
+
+          it 'expects to return true for parameters with units' do
+            params = [
+              { number: 60, unit: 'deg' } ,
+              { number: 100, unit: '%' } ,
+              { number: 50, unit: '%' }
+            ]
+
+            expect(validator.validate_units(params)).to be true
+          end
+        end
+
+        context 'When invalid parameters are passed' do
+          it 'expects to raise an error for an invalid unit ' do
+            error_message = "\"%%\" in [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>\"%%\"}, {:number=>50, :unit=>\"%\"}] is not allowed for HSL function."
+            params = [
+              { number: 60, unit: 'deg' } ,
+              { number: 100, unit: '%%' } ,
+              { number: 50, unit: '%' }
+            ]
+
+            expect {
+              validator.validate_units(params)
+            }.to raise_error(error, error_message)
+          end
+
+          it 'expects to raise an error for a saturation value without unit ' do
+            error_message = "\"\" in [{:number=>60, :unit=>\"deg\"}, {:number=>100, :unit=>nil}, {:number=>50, :unit=>\"%\"}] is not allowed for HSL function."
+            params = [
+              { number: 60, unit: 'deg' } ,
+              { number: 100, unit: nil } ,
+              { number: 50, unit: '%' }
+            ]
+
+            expect {
+              validator.validate_units(params)
+            }.to raise_error(error, error_message)
+          end
+        end
+      end
+    end
   end
 end
