@@ -23,6 +23,7 @@ module ColorContrastCalc
       PERCENT = '%'
       DEG = 'deg'
       GRAD = 'grad'
+      RAD = 'rad'
       TURN = 'turn'
     end
 
@@ -76,7 +77,7 @@ module ColorContrastCalc
         {
           scheme: Scheme::HSL,
           units: [
-            [nil, DEG, GRAD, TURN],
+            [nil, DEG, GRAD, RAD, TURN],
             [PERCENT],
             [PERCENT]
           ]
@@ -87,7 +88,7 @@ module ColorContrastCalc
         {
           scheme: Scheme::HWB,
           units: [
-            [nil, DEG, GRAD, TURN],
+            [nil, DEG, GRAD, RAD, TURN],
             [PERCENT],
             [PERCENT]
           ]
@@ -113,7 +114,8 @@ module ColorContrastCalc
         end,
         Unit::DEG => proc {|n| n.to_f },
         Unit::GRAD => proc {|n| n.to_f * 9 / 10 },
-        Unit::TURN => proc {|n| n.to_f * 360 }
+        Unit::TURN => proc {|n| n.to_f * 360 },
+        Unit::RAD => proc {|n| n.to_f * 180 / Math::PI }
       }
 
       UNIT_CONV.default = proc {|n| /\./ =~ n ? n.to_f : n.to_i }
@@ -223,7 +225,7 @@ module ColorContrastCalc
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
       NUMBER = /(\d+)(:?\.\d+)?/.freeze
-      UNIT = /(%|deg|grad|turn)/.freeze
+      UNIT = /(%|deg|grad|rad|turn)/.freeze
     end
 
     class Parser
