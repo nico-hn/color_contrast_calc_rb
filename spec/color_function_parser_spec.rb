@@ -203,4 +203,49 @@ TEMPLATE
       end
     end
   end
+
+  describe Parser::Validator do
+    describe Parser::Validator::RGB do
+      validator = Parser::Validator::RGB
+
+      describe '#validate_units' do
+        context 'When valid parameters are passed' do
+          it 'expects to return true for parameters without units' do
+            params = [
+              { number: 255, unit: nil } ,
+              { number: 255, unit: nil } ,
+              { number: 0, unit: nil }
+            ]
+
+            expect(validator.validate_units(params)).to be true
+          end
+
+          it 'expects to return true for parameters with units' do
+            params = [
+              { number: 100, unit: '%' } ,
+              { number: 100, unit: '%' } ,
+              { number: 0, unit: '%' }
+            ]
+
+            expect(validator.validate_units(params)).to be true
+          end
+        end
+
+        context 'When invalid parameters are passed' do
+          it 'expects to raise an error' do
+            error_message = "\"%%\" in [{:number=>255, :unit=>nil}, {:number=>255, :unit=>\"%%\"}, {:number=>0, :unit=>nil}] is not allowed for RGB function."
+            params = [
+              { number: 255, unit: nil } ,
+              { number: 255, unit: '%%' },
+              { number: 0, unit: nil }
+            ]
+
+            expect {
+              validator.validate_units(params)
+            }.to raise_error(error, error_message)
+          end
+        end
+      end
+    end
+  end
 end

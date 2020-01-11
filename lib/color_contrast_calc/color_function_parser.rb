@@ -19,6 +19,49 @@ module ColorContrastCalc
       HWB = 'hwb'
     end
 
+    module Unit
+      PERCENT = '%'
+      DEG = 'deg'
+    end
+
+    class Validator
+      include Unit
+
+      def initialize
+        @config = yield
+        @scheme = @config[:scheme]
+      end
+
+      def error_message(parameters, passed_unit)
+        format('"%s" in %s is not allowed for %s function.',
+               passed_unit, parameters, @scheme.upcase)
+      end
+
+      def validate_units(parameters)
+        @config[:units].each_with_index do |unit, i|
+          passed_unit = parameters[i][:unit]
+
+          unless unit.include? passed_unit
+            raise InvalidColorRepresentationError,
+                  error_message(parameters, passed_unit)
+          end
+        end
+
+        true
+      end
+
+      RGB = Validator.new do
+        {
+          scheme: Scheme::RGB,
+          units: [
+            [nil, PERCENT],
+            [nil, PERCENT],
+            [nil, PERCENT]
+          ]
+        }
+      end
+    end
+
     ##
     # Hold information about a parsed RGB/HSL function.
     #
