@@ -19,6 +19,9 @@ module ColorContrastCalc
       HWB = 'hwb'
     end
 
+    ##
+    # Supported units
+
     module Unit
       PERCENT = '%'
       DEG = 'deg'
@@ -26,6 +29,9 @@ module ColorContrastCalc
       RAD = 'rad'
       TURN = 'turn'
     end
+
+    ##
+    # Validate the unit of each parameter in a color functions.
 
     class Validator
       include Unit
