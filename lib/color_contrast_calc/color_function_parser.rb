@@ -80,6 +80,17 @@ module ColorContrastCalc
           ]
         }
       end
+
+      HWB = Validator.new do
+        {
+          scheme: Scheme::HWB,
+          units: [
+            [nil, DEG],
+            [PERCENT],
+            [PERCENT]
+          ]
+        }
+      end
     end
 
     ##
