@@ -94,6 +94,20 @@ module ColorContrastCalc
           ]
         }
       end
+
+      VALIDATORS = {
+        Scheme::RGB => RGB,
+        Scheme::HSL => HSL,
+        Scheme::HWB => HWB
+      }.freeze
+
+      private_constant :VALIDATORS
+
+      def self.validate(parsed_value, original_value=nil)
+        scheme = parsed_value[:scheme]
+        params = parsed_value[:parameters]
+        VALIDATORS[scheme].validate_units(params)
+      end
     end
 
     ##
@@ -207,6 +221,7 @@ module ColorContrastCalc
 
       # @private
       def self.create(parsed_value, original_value)
+        Validator.validate(parsed_value, original_value)
         case parsed_value[:scheme]
         when Scheme::RGB
           Rgb.new(parsed_value, original_value)

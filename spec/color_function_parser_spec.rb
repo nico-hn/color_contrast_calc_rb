@@ -29,6 +29,16 @@ ERROR
       end
     end
 
+    context 'When HSL functions are passed' do
+      it 'expects to raise an error if a unit is not given for saturation' do
+        hsl_yellow = 'hsl(60deg 100 50%)'
+        expected_message = 'You should add a unit to the 2nd parameter of HSL function [{:number=>"60", :unit=>"deg"}, {:number=>"100", :unit=>nil}, {:number=>"50", :unit=>"%"}].'
+        expect {
+          Parser.parse(hsl_yellow)
+        }.to raise_error expected_message
+      end
+    end
+
     context 'When HWB functions are passed' do
       it 'expects to return a Hwb instance' do
         hwb_yellow = 'hwb(60deg 0% 0%)'
