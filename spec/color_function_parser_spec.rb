@@ -360,4 +360,14 @@ TEMPLATE
       end
     end
   end
+
+  describe 'Units of ngle for hue values' do
+    deg = Parser.to_rgb('hsl(90deg, 100%, 50%)')
+
+    describe 'grad' do
+      it 'expects to be converted to [255, 255, 0]' do
+        expect(Parser.to_rgb('hsl(100grad, 100%, 50%)')).to eq(deg)
+      end
+    end
+  end
 end

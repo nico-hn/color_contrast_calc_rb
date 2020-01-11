@@ -22,6 +22,7 @@ module ColorContrastCalc
     module Unit
       PERCENT = '%'
       DEG = 'deg'
+      GRAD = 'grad'
     end
 
     class Validator
@@ -74,7 +75,7 @@ module ColorContrastCalc
         {
           scheme: Scheme::HSL,
           units: [
-            [nil, DEG],
+            [nil, DEG, GRAD],
             [PERCENT],
             [PERCENT]
           ]
@@ -85,7 +86,7 @@ module ColorContrastCalc
         {
           scheme: Scheme::HWB,
           units: [
-            [nil, DEG],
+            [nil, DEG, GRAD],
             [PERCENT],
             [PERCENT]
           ]
@@ -109,7 +110,8 @@ module ColorContrastCalc
             n.to_f
           end
         end,
-        Unit::DEG => proc {|n| n.to_f }
+        Unit::DEG => proc {|n| n.to_f },
+        Unit::GRAD => proc {|n| n.to_f * 9 / 10 }
       }
 
       UNIT_CONV.default = proc {|n| /\./ =~ n ? n.to_f : n.to_i }
@@ -219,7 +221,7 @@ module ColorContrastCalc
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
       NUMBER = /(\d+)(:?\.\d+)?/.freeze
-      UNIT = /(%|deg)/.freeze
+      UNIT = /(%|deg|grad)/.freeze
     end
 
     class Parser
