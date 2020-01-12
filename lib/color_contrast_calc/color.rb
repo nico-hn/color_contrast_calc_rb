@@ -83,7 +83,7 @@ module ColorContrastCalc
       # as [255, 255, 0] or "#ffff00". +name+ is assigned to the returned
       # instance.
       # @param color_value [String, Array<Integer>] Name of a predefined
-      #   color, hex color code, rgb/hsl functions or RGB value
+      #   color, hex color code, rgb/hsl/hwb functions or RGB value
       # @param name [String] Without specifying a name, a color keyword name
       #   (if exists) or the value of normalized hex color code is assigned
       #   to Color#name

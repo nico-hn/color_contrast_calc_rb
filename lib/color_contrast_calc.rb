@@ -63,7 +63,8 @@ module ColorContrastCalc
   #
   # @param color1 [String, Array<Integer>] RGB color given as a string or
   #   an array of integers. Yellow, for example, can be given as "#ffff00",
-  #   "#ff0", "rgb(255, 255, 0)", "hsl(60deg, 100%, 50%)" or [255, 255, 0].
+  #   "#ff0", "rgb(255, 255, 0)", "hsl(60deg, 100%, 50%)", "hwb(60deg 0% 0%)"
+  #   or [255, 255, 0].
   # @param color2 [String, Array<Integer>] RGB color given as a string or
   #   an array of integers.
   # @return [Float] Contrast ratio
