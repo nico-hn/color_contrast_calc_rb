@@ -96,7 +96,7 @@ module ColorContrastCalc
 
         return color_from_rgb(color_value, name) if color_value.is_a?(Array)
 
-        if /\A(?:rgb|hsl)/i =~ color_value
+        if /\A(?:rgb|hsl|hwb)/i =~ color_value
           return color_from_func(color_value, name)
         end
         color_from_str(color_value, name)
@@ -138,11 +138,11 @@ module ColorContrastCalc
 
       def color_from_func(color_value, name = nil)
         conv = ColorFunctionParser.parse(color_value)
-        if conv.scheme == ColorFunctionParser::Scheme::RGB
-          return color_from_rgb(conv.to_a, name || color_value)
+        if conv.scheme == ColorFunctionParser::Scheme::HSL
+          return from_hsl(conv.to_a, name || color_value)
         end
 
-        from_hsl(conv.to_a, name || color_value)
+        color_from_rgb(conv.rgb, name || color_value)
       end
 
       private :color_from_func

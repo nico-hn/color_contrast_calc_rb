@@ -86,6 +86,37 @@ RSpec.describe ColorContrastCalc do
       expect(unnamed.hex).to eq(unnamed_hex)
       expect(unnamed.name).to eq(unnamed_gray)
     end
+
+    it 'is expected to accept RGB functions' do
+      [
+        ['rgb(255, 255, 0)', [255, 255, 0]],
+        ['rgb(100%, 100%, 0%)', [255, 255, 0]],
+        ['rgb(50%, 50%, 50%)', [128, 128, 128]]
+      ].each do |rgb, expected|
+        expect(ColorContrastCalc.color_from(rgb).rgb).to eq(expected)
+      end
+    end
+
+    it 'is expected to accept HSL functions' do
+      [
+        ['hsl(60deg, 100%, 50%)', [255, 255, 0]],
+        ['hsl(0.1667turn, 100%, 50%)', [255, 255, 0]],
+        ['hsl(60deg, 100%, 0%)', [0, 0, 0]]
+      ].each do |rgb, expected|
+        expect(ColorContrastCalc.color_from(rgb).rgb).to eq(expected)
+      end
+    end
+
+    it 'is expected to accept HWB functions' do
+      [
+        ['hwb(60deg 0% 0%)', [255, 255, 0]],
+        ['hwb(0.1667turn 0% 0%)', [255, 255, 0]],
+        ['hwb(60deg 0% 100%)', [0, 0, 0]],
+        ['hwb(60deg 100% 0%)', [255, 255, 255]]
+      ].each do |rgb, expected|
+        expect(ColorContrastCalc.color_from(rgb).rgb).to eq(expected)
+      end
+    end
   end
 
   describe '.sort' do
