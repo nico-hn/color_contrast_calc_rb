@@ -78,12 +78,14 @@ module ColorContrastCalc
       ##
       # Return an instance of Color.
       #
-      # As +color_value+, you can pass a predefined color name, or an
-      # RGB value represented as an array of integers or a hex code such
-      # as [255, 255, 0] or "#ffff00". +name+ is assigned to the returned
-      # instance.
+      # As +color_value+, you can pass a predefined color name, an
+      # RGB value represented as an array of integers like [255, 255, 0],
+      # or a string such as a hex code like "#ffff00". +name+ is assigned
+      # to the returned instance.
       # @param color_value [String, Array<Integer>] Name of a predefined
-      #   color, hex color code, rgb/hsl/hwb functions or RGB value
+      #   color, hex color code, rgb/hsl/hwb functions or RGB value.
+      #   Yellow, for example, can be given as [255, 255, 0], "#ffff00",
+      #   "rgb(255, 255, 255)", "hsl(60deg, 100% 50%)" or "hwb(60deg 0% 0%)".
       # @param name [String] Without specifying a name, a color keyword name
       #   (if exists) or the value of normalized hex color code is assigned
       #   to Color#name
@@ -106,11 +108,12 @@ module ColorContrastCalc
       # Return an instance of Color.
       #
       # As +color_value+, you can pass a Color instance, a predefined color
-      # name, or an RGB value represented as an array of integers or a hex
-      # code such as [255, 255, 0] or "#ffff00". +name+ is assigned to the
-      # returned instance.
-      # @param color_value [Color, String, Array<Integer>] An instance of
-      #   Color, a name of a predefined, color, hex color code or RGB value
+      # name, an RGB value represented as an array of integers like
+      # [255, 255, 0], or a string such as a hex code like "#ffff00".
+      #  +name+ is assigned to the returned instance.
+      # @param color_value [String, Array<Integer>] An instance of Color,
+      #   a predefined color name, hex color code, rgb/hsl/hwb functions
+      #   or RGB value
       # @param name [String] Without specifying a name, a color keyword name
       #   (if exists) or the value of normalized hex color code is assigned
       #   to Color#name
