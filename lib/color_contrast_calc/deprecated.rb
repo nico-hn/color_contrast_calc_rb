@@ -6,7 +6,7 @@ module ColorContrastCalc
 
   module Deprecated
     def self.warn(old_method, new_method)
-      STDERR.puts "##{old_method} is deprecated. Use ##{new_method} instead"
+      Kernel.warn "##{old_method} is deprecated. Use ##{new_method} instead"
     end
 
     module Color
