@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ColorContrastCalc
   ##
   # Error raised if creating a Color instance with invalid value.
