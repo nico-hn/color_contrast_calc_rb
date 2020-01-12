@@ -71,7 +71,7 @@ red
 
 #### Color units for the argument of `ColorContrastCalc.color_from()`
 
-The following formats are supported for the the first argument of `ColorContrastCalc.color_from()`.
+The following formats are supported for the first argument of `ColorContrastCalc.color_from()`.
 
 * RGB values in hexadecimal notation: #ff0, #ffff00, #FF0, etc.
 * RGB values in functional notation: rgb(255, 255, 0), rgb(255 255 0), etc.
