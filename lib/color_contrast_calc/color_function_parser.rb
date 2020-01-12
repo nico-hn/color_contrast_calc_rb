@@ -439,7 +439,7 @@ module ColorContrastCalc
     # ColorFunctionParser::Converter.
     #
     # @param color_value [String] RGB/HSL function defined at
-    #   https://www.w3.org/TR/css-color-4/
+    #   https://www.w3.org/TR/2019/WD-css-color-4-20191105/
     # @return [Converter] An instance of ColorFunctionParser::Converter
 
     def self.parse(color_value)
