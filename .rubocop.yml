@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 Layout/SpaceInsideBlockBraces:
   SpaceBeforeBlockParameters: false
 Layout/EmptyLineAfterGuardClause:
@@ -12,5 +12,5 @@ Style/FormatStringToken:
   Enabled: false
 Style/AccessModifierDeclarations:
   EnforcedStyle: inline
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   MinNameLength: 1
