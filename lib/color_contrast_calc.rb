@@ -91,9 +91,9 @@ module ColorContrastCalc
   # @return [String, Array<Integer>, Color] One of the values
   #   specified as +light_base+ and +dark_base+
 
-  def self.select_higher_contrast_base_color(color,
-                                             light_base: Color::WHITE,
-                                             dark_base: Color::BLACK)
+  def self.higher_contrast_base_color_for(color,
+                                          light_base: Color::WHITE,
+                                          dark_base: Color::BLACK)
     ratio_with_light = contrast_ratio(color, light_base)
     ratio_with_dark = contrast_ratio(color, dark_base)
     ratio_with_light < ratio_with_dark ? dark_base : light_base
