@@ -69,6 +69,17 @@ red
 
 ```
 
+#### Color units for the argument of `ColorContrastCalc.color_from()`
+
+The following formats are supported for the the first argument of `ColorContrastCalc.color_from()`.
+
+* RGB values in hexadecimal notation: #ff0, #ffff00, #FF0, etc.
+* RGB values in functional notation: rgb(255, 255, 0), rgb(255 255 0), etc.
+* RGB values as an Array of Integers: [255, 255, 0], etc.
+* HSL colors in functional notation: hsl(60deg, 100%, 50%), hsl(60 100% 50%), etc.
+* [Experimental] HWB colors in functional notation: hwb(60deg 0% 0%), hwb(60 0% 0%), etc.
+* [Extended color keywords](https://www.w3.org/TR/css-color-3/#svg-color): white, black, red, etc.
+
 ### Example 1: Calculate the contrast ratio between two colors
 
 #### 1.1: The easiest way

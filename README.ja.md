@@ -70,6 +70,17 @@ red
 
 ```
 
+#### `ColorContrastCalc.color_from()`の引数に使える色の表現
+
+`ColorContrastCalc.color_from()`の第1引数は以下の形式で指定できます。
+
+* RGB値の16進数表記: #ff0, #ffff00, #FF0, etc.
+* RGB値の関数形式表記: rgb(255, 255, 0), rgb(255 255 0), etc.
+* Integerの配列で表したRGB値: [255, 255, 0], etc.
+* HSL値の関数形式表記: hsl(60deg, 100%, 50%), hsl(60 100% 50%), etc.
+* [実験的対応] HWB値の関数形式表記: hwb(60deg 0% 0%), hwb(60 0% 0%), etc.
+* [拡張カラーキーワード](https://www.w3.org/TR/css-color-3/#svg-color): white, black, red, etc.
+
 ### 例1: 2つの色のコントラスト比を計算する
 
 #### 1.1: 最も簡便なやり方
