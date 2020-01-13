@@ -7,7 +7,7 @@ require 'color_contrast_calc/invalid_color_representation_error'
 
 module ColorContrastCalc
   ##
-  # Module that converts RGB/HSL functions into data apt for calculation.
+  # Module that converts RGB/HSL/HWB functions into data apt for calculation.
 
   module ColorFunctionParser
     ##
@@ -132,7 +132,7 @@ module ColorContrastCalc
     end
 
     ##
-    # Hold information about a parsed RGB/HSL function.
+    # Hold information about a parsed RGB/HSL/HWB function.
     #
     # This class is intended to be used internally in ColorFunctionParser,
     # so do not rely on the current class name and its interfaces.
@@ -162,7 +162,8 @@ module ColorContrastCalc
       # @!attribute [r] scheme
       #   @return [String] Type of function: 'rgb' or 'hsl'
       # @!attribute [r] source
-      #   @return [String] The original RGB/HSL function before the conversion
+      #   @return [String] The original RGB/HSL/HWB function before
+      #     the conversion
 
       attr_reader :scheme, :source
 
@@ -187,7 +188,7 @@ module ColorContrastCalc
       private :normalize_params
 
       ##
-      # Return the RGB value gained from a RGB/HSL function.
+      # Return the RGB value gained from a RGB/HSL/HWB function.
       #
       # @return [Array<Integer>] RGB value represented as an array
 
@@ -196,11 +197,12 @@ module ColorContrastCalc
       end
 
       ##
-      # Return the parameters of a RGB/HSL function as an array of
+      # Return the parameters of a RGB/HSL/HWB function as an array of
       # Integer/Float.
       # The unit for H, S, L is assumed to be deg, %, % respectively.
       #
-      # @return [Array<Integer, Float>] RGB/HSL value represented as an array
+      # @return [Array<Integer, Float>] RGB/HSL/HWB value represented
+      #   as an array
 
       def to_a
         @normalized
@@ -437,10 +439,10 @@ module ColorContrastCalc
     MAIN_PARSER = Parser.new
 
     ##
-    # Parse an RGB/HSL function and store the result as an instance of
+    # Parse an RGB/HSL/HWB function and store the result as an instance of
     # ColorFunctionParser::Converter.
     #
-    # @param color_value [String] RGB/HSL function defined at
+    # @param color_value [String] RGB/HSL/HWB function defined at
     #   https://www.w3.org/TR/2019/WD-css-color-4-20191105/
     # @return [Converter] An instance of ColorFunctionParser::Converter
 
@@ -450,7 +452,7 @@ module ColorContrastCalc
     end
 
     ##
-    # Return An RGB value gained from an RGB/HSL function.
+    # Return An RGB value gained from an RGB/HSL/HWB function.
     #
     # @return [Array<Integer>] RGB value represented as an array
 
