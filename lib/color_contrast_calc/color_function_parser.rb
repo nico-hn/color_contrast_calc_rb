@@ -412,6 +412,8 @@ module ColorContrastCalc
         out = StringIO.new
         color_value = scanner.string
         scheme = parsed_value[:scheme].upcase
+        # The trailing space after the first message is intentional,
+        # because it is immediately followed by another message.
         out.print "\",\" is not a valid separator for #{scheme} functions. "
         print_error_pos!(out, color_value, scanner.charpos)
         out.puts
