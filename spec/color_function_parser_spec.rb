@@ -45,6 +45,12 @@ ERROR
           Parser.parse(hsl_yellow)
         }.to raise_error expected_message
       end
+
+      it 'expects to accept .<digit> notation for floating numbers' do
+        hsl = 'hsl(.5deg .4% .3%)'
+
+        expect(Parser.parse(hsl).to_a).to eq([0.5, 0.4, 0.3])
+      end
     end
 
     context 'When HWB functions are passed' do
@@ -158,6 +164,33 @@ ERROR
             ]
           }
         ]
+        valid_hsls.zip(expected_values) do |hsl, expected|
+          result = parser.read_scheme!(StringScanner.new(hsl))
+          expect(result).to eq(expected)
+        end
+      end
+
+      it 'expects to accept .<digit> notation for floating numbers' do
+        valid_hsls = ['hsl(.5deg, .4%, .3%)', 'hsl(.05deg, .04%, .03%)']
+        expected_values = [
+          {
+            scheme: Scheme::HSL,
+            parameters: [
+              { number: '.5', unit: 'deg' },
+              { number: '.4', unit: '%' },
+              { number: '.3', unit: '%' }
+            ]
+          },
+          {
+            scheme: Scheme::HSL,
+            parameters: [
+              { number: '.05', unit: 'deg' },
+              { number: '.04', unit: '%' },
+              { number: '.03', unit: '%' }
+            ]
+          }
+        ]
+
         valid_hsls.zip(expected_values) do |hsl, expected|
           result = parser.read_scheme!(StringScanner.new(hsl))
           expect(result).to eq(expected)

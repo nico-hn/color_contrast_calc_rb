@@ -266,7 +266,7 @@ module ColorContrastCalc
       OPEN_PAREN = /\(/.freeze
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
-      NUMBER = /(\d+)(:?\.\d+)?/.freeze
+      NUMBER = /((\d+)(?:\.\d+)?|\.\d+)/.freeze
       UNIT = /(%|deg|grad|rad|turn)/.freeze
     end
 
