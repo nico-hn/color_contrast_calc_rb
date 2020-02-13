@@ -379,7 +379,7 @@ TEMPLATE
     end
   end
 
-  describe 'Units of ngle for hue values' do
+  describe 'Units of angle for hue values' do
     deg = Parser.to_rgb('hsl(90deg, 100%, 50%)')
 
     describe 'grad' do
