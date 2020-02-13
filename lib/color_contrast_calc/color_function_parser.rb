@@ -181,6 +181,12 @@ module ColorContrastCalc
         @normalized = normalize_params
       end
 
+      def convert_unit(param, base=nil)
+        UNIT_CONV[param[:unit]][param[:number], base]
+      end
+
+      private :convert_unit
+
       def normalize_params
         raise NotImplementedError, 'Overwrite the method in a subclass'
       end
@@ -211,9 +217,7 @@ module ColorContrastCalc
       # @private
       class Rgb < self
         def normalize_params
-          @params.map do |param|
-            UNIT_CONV[param[:unit]][param[:number], 255]
-          end
+          @params.map {|param| convert_unit(param, 255) }
         end
 
         alias rgb to_a
@@ -222,9 +226,7 @@ module ColorContrastCalc
       # @private
       class Hsl < self
         def normalize_params
-          @params.map do |param|
-            UNIT_CONV[param[:unit]][param[:number]]
-          end
+          @params.map {|param| convert_unit(param) }
         end
 
         def rgb
@@ -235,9 +237,7 @@ module ColorContrastCalc
       # @private
       class Hwb < self
         def normalize_params
-          @params.map do |param|
-            UNIT_CONV[param[:unit]][param[:number]]
-          end
+          @params.map {|param| convert_unit(param) }
         end
 
         def rgb
