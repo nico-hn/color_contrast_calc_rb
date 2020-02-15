@@ -94,6 +94,15 @@ ERROR
         end
       end
     end
+
+    context 'When opacity is specified' do
+      it 'expects to accepts 4 parameters' do
+        hsla = 'hsl(60deg 100% 50% / 0.5)'
+        parsed = Parser.parse(hsla)
+
+        expect(parsed.to_a).to eq([60.0, 100.0, 50.0, 0.5])
+      end
+    end
   end
 
   describe '.to_rgb' do

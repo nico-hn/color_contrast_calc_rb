@@ -68,10 +68,10 @@ module ColorContrastCalc
 
       # @private
       def validate_units(parameters, original_value = nil)
-        @config[:units].each_with_index do |unit, i|
-          passed_unit = parameters[i][:unit]
+        parameters.each_with_index do |param, i|
+          passed_unit = param[:unit]
 
-          unless unit.include? passed_unit
+          unless @config[:units][i].include? passed_unit
             raise InvalidColorRepresentationError,
                   error_message(parameters, passed_unit, i, original_value)
           end
@@ -87,6 +87,7 @@ module ColorContrastCalc
           units: [
             [nil, PERCENT],
             [nil, PERCENT],
+            [nil, PERCENT],
             [nil, PERCENT]
           ]
         }
@@ -99,7 +100,8 @@ module ColorContrastCalc
           units: [
             [nil, DEG, GRAD, RAD, TURN],
             [PERCENT],
-            [PERCENT]
+            [PERCENT],
+            [nil, PERCENT]
           ]
         }
       end
@@ -111,7 +113,8 @@ module ColorContrastCalc
           units: [
             [nil, DEG, GRAD, RAD, TURN],
             [PERCENT],
-            [PERCENT]
+            [PERCENT],
+            [nil, PERCENT]
           ]
         }
       end
