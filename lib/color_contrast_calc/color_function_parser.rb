@@ -315,6 +315,19 @@ module ColorContrastCalc
 
       private :print_error_pos!
 
+      def source_until_current_pos(scanner)
+        scanner.string[0, scanner.charpos]
+      end
+
+      private :source_until_current_pos
+
+      def fix_value!(parsed_value, scanner)
+        parsed_value[:source] = source_until_current_pos(scanner)
+        parsed_value
+      end
+
+      private :fix_value!
+
       def read_token!(scanner, re)
         skip_spaces!(scanner)
         token = scanner.scan(re)
@@ -384,7 +397,7 @@ module ColorContrastCalc
 
         skip_spaces!(scanner)
 
-        return parsed_value if read_close_paren!(scanner)
+        return fix_value!(parsed_value, scanner) if read_close_paren!(scanner)
 
         read_token!(scanner, TokenRe::COMMA)
         read_number!(scanner, parsed_value)
@@ -405,7 +418,7 @@ module ColorContrastCalc
           wrong_separator_error(scanner, parsed_value)
         end
 
-        return parsed_value if read_close_paren!(scanner)
+        return fix_value!(parsed_value, scanner) if read_close_paren!(scanner)
 
         read_number!(scanner, parsed_value)
       end

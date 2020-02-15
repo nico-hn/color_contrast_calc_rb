@@ -128,7 +128,7 @@ ERROR
           'rgb(255 255 255 )',
           'rgb( 255 255 255 )'
         ]
-        expected = {
+        expected_template = {
           scheme: Scheme::RGB,
           parameters: [
             { number: '255', unit: nil },
@@ -140,6 +140,8 @@ ERROR
         valid_whites.each do |val|
           white = StringScanner.new(val)
           result = parser.read_scheme!(white)
+          expected = expected_template.dup
+          expected[:source] = val
           expect(result).to eq(expected)
         end
       end
@@ -153,7 +155,8 @@ ERROR
               { number: '60', unit: 'deg' },
               { number: '100', unit: '%' },
               { number: '50', unit: '%' }
-            ]
+            ],
+            source: 'hsl(60deg, 100%, 50%)'
           },
           {
             scheme: Scheme::HSL,
@@ -161,7 +164,8 @@ ERROR
               { number: '60.0', unit: 'deg' },
               { number: '25.0', unit: '%' },
               { number: '50.0', unit: '%' }
-            ]
+            ],
+            source: 'HSL(60.0deg, 25.0%, 50.0%)'
           }
         ]
         valid_hsls.zip(expected_values) do |hsl, expected|
@@ -179,7 +183,8 @@ ERROR
               { number: '.5', unit: 'deg' },
               { number: '.4', unit: '%' },
               { number: '.3', unit: '%' }
-            ]
+            ],
+            source: 'hsl(.5deg, .4%, .3%)'
           },
           {
             scheme: Scheme::HSL,
@@ -187,7 +192,8 @@ ERROR
               { number: '.05', unit: 'deg' },
               { number: '.04', unit: '%' },
               { number: '.03', unit: '%' }
-            ]
+            ],
+            source: 'hsl(.05deg, .04%, .03%)'
           }
         ]
 
@@ -207,7 +213,7 @@ ERROR
             'hwb(60 0% 0% )',
             'hwb( 60 0% 0% )'
           ]
-          expected = {
+          expected_template = {
             scheme: Scheme::HWB,
             parameters: [
               { number: '60', unit: nil },
@@ -219,6 +225,8 @@ ERROR
           valid_whites.each do |val|
             white = StringScanner.new(val)
             result = parser.read_scheme!(white)
+            expected = expected_template.dup
+            expected[:source] = val
             expect(result).to eq(expected)
           end
         end
