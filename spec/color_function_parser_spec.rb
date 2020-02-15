@@ -113,7 +113,7 @@ ERROR
         message = <<ERROR
 "rjb(255, 255, 255)" is not a valid code. An error occurred at:
 rjb(255, 255, 255)
-^ while searching with (?i-mx:(rgb|hsl|hwb))
+^ while searching with (?i-mx:rgb|hsl|hwb)
 ERROR
         wrong_white = StringScanner.new('rjb(255, 255, 255)')
         expect {

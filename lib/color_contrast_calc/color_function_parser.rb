@@ -262,12 +262,12 @@ module ColorContrastCalc
     # @private
     module TokenRe
       SPACES = /\s+/.freeze
-      SCHEME = /(rgb|hsl|hwb)/i.freeze
+      SCHEME = /rgb|hsl|hwb/i.freeze
       OPEN_PAREN = /\(/.freeze
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
-      NUMBER = /((\d+)(?:\.\d+)?|\.\d+)/.freeze
-      UNIT = /(%|deg|grad|rad|turn)/.freeze
+      NUMBER = /(?:\d+)(?:\.\d+)?|\.\d+/.freeze
+      UNIT = /%|deg|grad|rad|turn/.freeze
     end
 
     class Parser
