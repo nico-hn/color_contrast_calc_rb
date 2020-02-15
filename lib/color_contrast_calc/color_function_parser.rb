@@ -406,7 +406,8 @@ module ColorContrastCalc
           return read_number!(scanner, parsed_value)
         end
 
-        if check_next_token(scanner, TokenRe::SLASH)
+        if parsed_value[:parameters].length == 3 &&
+           check_next_token(scanner, TokenRe::SLASH)
           return read_opacity!(scanner, parsed_value)
         end
 

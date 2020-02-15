@@ -320,6 +320,20 @@ TEMPLATE
 
         expect(parsed).to eq(expected)
       end
+
+      it 'expects to reject less than 3 components' do
+        message = <<ERROR
+"hsl(60deg 50% / 0.5)" is not a valid code. An error occurred at:
+hsl(60deg 50% / 0.5)
+              ^ while searching with (?-mix:,)
+ERROR
+        hsla = 'hsl(60deg 50% / 0.5)'
+        scanner = StringScanner.new(hsla)
+
+        expect {
+          parser.read_scheme!(scanner)
+        }.to raise_error(error, message)
+      end
     end
   end
 
