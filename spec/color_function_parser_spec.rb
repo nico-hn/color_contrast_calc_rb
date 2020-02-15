@@ -500,7 +500,9 @@ ERROR
         [
           'rgb(255 255 0)',
           'hsl(60deg 100% 50%)',
-          'hwb(60deg 0% 0%)'
+          'hwb(60deg 0% 0%)',
+          'hsl(60deg 100% 50% / 0.5)',
+          'hwb(60deg 0% 0% / 0.5)'
         ].each do |func|
           expect(Parser.parse(func).rgb).to eq([255, 255, 0])
         end

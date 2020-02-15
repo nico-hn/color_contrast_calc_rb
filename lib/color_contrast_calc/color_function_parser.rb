@@ -196,6 +196,13 @@ module ColorContrastCalc
 
       private :normalize_params
 
+      def color_components
+        return @normalized if @normalized.length == 3
+        @normalized[0, 3]
+      end
+
+      private :color_components
+
       ##
       # Return the RGB value gained from a RGB/HSL/HWB function.
       #
@@ -223,7 +230,9 @@ module ColorContrastCalc
           @params.map {|param| convert_unit(param, 255) }
         end
 
-        alias rgb to_a
+        alias rgb color_components
+
+        public :rgb
       end
 
       # @private
@@ -233,7 +242,7 @@ module ColorContrastCalc
         end
 
         def rgb
-          Utils.hsl_to_rgb(to_a)
+          Utils.hsl_to_rgb(color_components)
         end
       end
 
@@ -244,7 +253,7 @@ module ColorContrastCalc
         end
 
         def rgb
-          Utils.hwb_to_rgb(to_a)
+          Utils.hwb_to_rgb(color_components)
         end
       end
 
