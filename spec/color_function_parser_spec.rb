@@ -516,7 +516,7 @@ ERROR
           'hsl(60deg 100% 50%)',
           'hwb(60deg 0% 0%)'
         ].each do |func|
-          expect(Parser.parse(func).opacity).to eq(1)
+          expect(Parser.parse(func).opacity).to eq(1.0)
         end
       end
 
@@ -541,7 +541,7 @@ ERROR
           'hsl(60deg 100% 50%)',
           'hwb(60deg 0% 0%)'
         ].each do |func|
-          expect(Parser.parse(func).rgba).to eq([255, 255, 0, 1])
+          expect(Parser.parse(func).rgba).to eq([255, 255, 0, 1.0])
         end
       end
 

@@ -237,7 +237,7 @@ module ColorContrastCalc
       end
 
       def opacity
-        @normalized.length == 3 ? 1 : @normalized.last
+        @normalized.length == 3 ? 1.0 : @normalized.last
       end
 
       def rgba
