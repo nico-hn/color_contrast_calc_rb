@@ -392,10 +392,20 @@ module ColorContrastCalc
 
         parsed_value[:parameters].last[:unit] = unit if unit
 
-        read_comma!(scanner, parsed_value)
+        read_separator!(scanner, parsed_value)
       end
 
       private :read_unit!
+
+      def read_separator!(scanner, parsed_value)
+        if next_spaces_as_separator?(scanner)
+          return read_number!(scanner, parsed_value)
+        end
+
+        read_comma!(scanner, parsed_value)
+      end
+
+      private :read_separator!
 
       def next_spaces_as_separator?(scanner)
         cur_pos = scanner.pos
@@ -408,10 +418,6 @@ module ColorContrastCalc
       private :next_spaces_as_separator?
 
       def read_comma!(scanner, parsed_value)
-        if next_spaces_as_separator?(scanner)
-          return read_number!(scanner, parsed_value)
-        end
-
         skip_spaces!(scanner)
 
         return fix_value!(parsed_value, scanner) if read_close_paren!(scanner)
@@ -425,10 +431,6 @@ module ColorContrastCalc
 
     class FunctionParser < Parser
       def read_comma!(scanner, parsed_value)
-        if next_spaces_as_separator?(scanner)
-          return read_number!(scanner, parsed_value)
-        end
-
         skip_spaces!(scanner)
 
         if scanner.check(TokenRe::COMMA)
