@@ -292,6 +292,26 @@ TEMPLATE
         end
       end
     end
+
+    context 'When opacity is specified' do
+      it 'expects to accepts 4 parameters' do
+        expected = {
+          parameters: [
+            { number: "60", unit:"deg" },
+            { number: "100", unit: "%" },
+            { number: "50", unit: "%" },
+            { number: "0.5", unit: nil }
+          ],
+          scheme: "hsl",
+          source: "hsl(60deg 100% 50% / 0.5)"
+        }
+        hsla = 'hsl(60deg 100% 50% / 0.5)'
+        scanner = StringScanner.new(hsla)
+        parsed = parser.read_scheme!(scanner)
+
+        expect(parsed).to eq(expected)
+      end
+    end
   end
 
   describe Parser::Validator do

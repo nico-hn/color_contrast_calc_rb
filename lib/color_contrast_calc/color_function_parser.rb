@@ -266,6 +266,7 @@ module ColorContrastCalc
       OPEN_PAREN = /\(/.freeze
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
+      SLASH = /\//.freeze
       NUMBER = /(?:\d+)(?:\.\d+)?|\.\d+/.freeze
       UNIT = /%|deg|grad|rad|turn/.freeze
     end
@@ -402,10 +403,24 @@ module ColorContrastCalc
           return read_number!(scanner, parsed_value)
         end
 
+        if check_next_token(scanner, TokenRe::SLASH)
+          return read_opacity!(scanner, parsed_value)
+        end
+
         read_comma!(scanner, parsed_value)
       end
 
       private :read_separator!
+
+      def check_next_token(scanner, re)
+        cur_pos = scanner.pos
+        skip_spaces!(scanner)
+        result = scanner.check(re)
+        scanner.pos = cur_pos
+        result
+      end
+
+      private :check_next_token
 
       def next_spaces_as_separator?(scanner)
         cur_pos = scanner.pos
@@ -416,6 +431,11 @@ module ColorContrastCalc
       end
 
       private :next_spaces_as_separator?
+
+      def read_opacity!(scanner, parsed_value)
+        read_token!(scanner, TokenRe::SLASH)
+        read_number!(scanner, parsed_value)
+      end
 
       def read_comma!(scanner, parsed_value)
         skip_spaces!(scanner)
