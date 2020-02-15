@@ -236,9 +236,22 @@ module ColorContrastCalc
         @normalized
       end
 
+      ##
+      # Return the opacity of a color presented as a RGB/HSL/HWB
+      # function. The returned value is normalized to a floating number
+      # between 0 and 1.
+      #
+      # @return [Float] Normalized opacity
+
       def opacity
         @normalized.length == 3 ? 1.0 : @normalized.last
       end
+
+      ##
+      # Return the RGBA value gained from a RGB/HSL/HWB function.
+      # The opacity is normalized to a floating number between 0 and 1.
+      #
+      # @return [Array<Integer, Float>] RGBA value represented as an array.
 
       def rgba
         rgb + [opacity]
