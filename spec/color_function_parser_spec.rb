@@ -27,6 +27,20 @@ ERROR
           Parser.parse('rgb(255, 255, 0')
         }.to raise_error(error, message)
       end
+
+      context 'When non ascii charactors are passed' do
+        it 'expects to sanitize source string' do
+          message = <<ERROR
+"rgb\\u0000(255, 255, 0)" is not a valid code. An error occurred at:
+rgb\\u0000(255, 255, 0)
+   ^ while searching with (?-mix:\\()
+ERROR
+
+          expect {
+            Parser.parse("rgb\x00(255, 255, 0)")
+          }.to raise_error(error, message)
+        end
+      end
     end
 
     context 'When HSL functions are passed' do

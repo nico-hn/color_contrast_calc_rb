@@ -271,6 +271,10 @@ module ColorContrastCalc
     end
 
     class Parser
+      MAX_SOURCE_LENGTH = 60
+
+      private_constant :MAX_SOURCE_LENGTH
+
       class << self
         attr_accessor :parsers
       end
@@ -294,9 +298,22 @@ module ColorContrastCalc
         parser.read_open_paren!(scanner, parsed_value)
       end
 
+      def sanitized_source(scanner)
+        src = scanner.string
+        parsed = src[0, scanner.charpos]
+        max_src = src[0, MAX_SOURCE_LENGTH]
+
+        return max_src if /\A[[:ascii:]&&[:^cntrl:]]+\Z/.match(max_src)
+
+        suspicious_chars = max_src[parsed.length, MAX_SOURCE_LENGTH]
+        "#{parsed}#{suspicious_chars.inspect[1..-2]}"
+      end
+
+      private :sanitized_source
+
       def format_error_message(scanner, re)
         out = StringIO.new
-        color_value = scanner.string
+        color_value = sanitized_source(scanner)
 
         out.print format('"%s" is not a valid code. ', color_value)
         print_error_pos!(out, color_value, scanner.charpos)
