@@ -533,6 +533,31 @@ ERROR
         end
       end
     end
+
+    describe 'rgba' do
+      it 'expects to return fully opaque rgba when opacity is not passed' do
+        [
+          'rgb(255 255 0)',
+          'hsl(60deg 100% 50%)',
+          'hwb(60deg 0% 0%)'
+        ].each do |func|
+          expect(Parser.parse(func).rgba).to eq([255, 255, 0, 1])
+        end
+      end
+
+      it 'expects to return rgba with a normalized opacity' do
+        [
+          'rgb(255 255 0 / 50%)',
+          'hsl(60deg 100% 50% / 50%)',
+          'hwb(60deg 0% 0% / 50%)',
+          'rgb(255 255 0 / 0.5)',
+          'hsl(60deg 100% 50% / 0.5)',
+          'hwb(60deg 0% 0% / 0.5)'
+        ].each do |func|
+          expect(Parser.parse(func).rgba).to eq([255, 255, 0, 0.5])
+        end
+      end
+    end
   end
 
   describe 'Units of angle for hue values' do

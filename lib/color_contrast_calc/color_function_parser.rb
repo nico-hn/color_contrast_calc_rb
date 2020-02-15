@@ -240,6 +240,10 @@ module ColorContrastCalc
         @normalized.length == 3 ? 1 : @normalized.last
       end
 
+      def rgba
+        rgb + [opacity]
+      end
+
       # @private
       class Rgb < self
         def normalize_params
