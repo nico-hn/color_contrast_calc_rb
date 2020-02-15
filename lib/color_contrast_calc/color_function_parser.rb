@@ -174,10 +174,10 @@ module ColorContrastCalc
       # ColorFunctionParser.parse() and the manual creation of
       # instances of this class by end users is not expected.
 
-      def initialize(parsed_value, original_value)
+      def initialize(parsed_value)
         @scheme = parsed_value[:scheme]
         @params = parsed_value[:parameters]
-        @source = original_value
+        @source = parsed_value[:source]
         @normalized = normalize_params
       end
 
@@ -250,11 +250,11 @@ module ColorContrastCalc
         Validator.validate(parsed_value, original_value)
         case parsed_value[:scheme]
         when Scheme::RGB
-          Rgb.new(parsed_value, original_value)
+          Rgb.new(parsed_value)
         when Scheme::HSL
-          Hsl.new(parsed_value, original_value)
+          Hsl.new(parsed_value)
         when Scheme::HWB
-          Hwb.new(parsed_value, original_value)
+          Hwb.new(parsed_value)
         end
       end
     end

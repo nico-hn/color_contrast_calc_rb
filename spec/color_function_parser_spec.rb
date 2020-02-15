@@ -63,6 +63,21 @@ ERROR
         expect(parsed.rgb).to eq([255, 255, 0])
       end
     end
+
+    context 'When unnecessary tokens are included in the source' do
+      it 'expects to ignore them' do
+        hsl_function = 'hsl(60deg 100% 50%)'
+        with_trailing_spaces = "#{hsl_function} "
+        with_alphabets = "#{hsl_function}a"
+        [
+          with_trailing_spaces,
+          with_alphabets
+        ].each do |src|
+          parsed = Parser.parse(src)
+          expect(parsed.source).to eq(hsl_function)
+        end
+      end
+    end
   end
 
   describe '.to_rgb' do
