@@ -322,7 +322,7 @@ module ColorContrastCalc
       private :source_until_current_pos
 
       def fix_value!(parsed_value, scanner)
-        parsed_value[:source] = source_until_current_pos(scanner)
+        parsed_value[:source] = source_until_current_pos(scanner).strip
         parsed_value
       end
 

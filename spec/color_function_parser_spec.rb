@@ -67,9 +67,11 @@ ERROR
     context 'When unnecessary tokens are included in the source' do
       it 'expects to ignore them' do
         hsl_function = 'hsl(60deg 100% 50%)'
+        with_preceding_spaces = "  #{hsl_function}"
         with_trailing_spaces = "#{hsl_function} "
         with_alphabets = "#{hsl_function}a"
         [
+          with_preceding_spaces,
           with_trailing_spaces,
           with_alphabets
         ].each do |src|
