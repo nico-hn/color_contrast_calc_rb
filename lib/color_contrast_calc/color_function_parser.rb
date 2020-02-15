@@ -182,6 +182,7 @@ module ColorContrastCalc
         @params = parsed_value[:parameters]
         @source = parsed_value[:source]
         @normalized = normalize_params
+        normalize_opacity!(@normalized)
       end
 
       def convert_unit(param, base = nil)
@@ -203,6 +204,17 @@ module ColorContrastCalc
 
       private :color_components
 
+      def normalize_opacity!(normalized)
+        return unless @params.length == 4
+
+        param = @params.last
+        n = param[:number]
+        base = param[:unit] == Unit::PERCENT ? 100 : 1
+        normalized[-1] = n.to_f / base
+      end
+
+      private :normalize_opacity!
+
       ##
       # Return the RGB value gained from a RGB/HSL/HWB function.
       #
@@ -222,6 +234,10 @@ module ColorContrastCalc
 
       def to_a
         @normalized
+      end
+
+      def opacity
+        @normalized.length == 3 ? 1 : @normalized.last
       end
 
       # @private

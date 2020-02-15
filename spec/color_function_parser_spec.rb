@@ -508,6 +508,31 @@ ERROR
         end
       end
     end
+
+    describe 'opacity' do
+      it 'expect to return 1 when opacity is not specified' do
+        [
+          'rgb(255 255 0)',
+          'hsl(60deg 100% 50%)',
+          'hwb(60deg 0% 0%)'
+        ].each do |func|
+          expect(Parser.parse(func).opacity).to eq(1)
+        end
+      end
+
+      it 'expects to return a normalized opacity' do
+        [
+          'rgb(255 255 0 / 50%)',
+          'hsl(60deg 100% 50% / 50%)',
+          'hwb(60deg 0% 0% / 50%)',
+          'rgb(255 255 0 / 0.5)',
+          'hsl(60deg 100% 50% / 0.5)',
+          'hwb(60deg 0% 0% / 0.5)'
+        ].each do |func|
+          expect(Parser.parse(func).opacity).to eq(0.5)
+        end
+      end
+    end
   end
 
   describe 'Units of angle for hue values' do
