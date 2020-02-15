@@ -184,7 +184,7 @@ module ColorContrastCalc
         @normalized = normalize_params
       end
 
-      def convert_unit(param, base=nil)
+      def convert_unit(param, base = nil)
         UNIT_CONV[param[:unit]][param[:number], base]
       end
 
