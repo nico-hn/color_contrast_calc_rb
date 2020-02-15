@@ -494,6 +494,20 @@ ERROR
     end
   end
 
+  describe Parser::Converter do
+    describe 'rgb' do
+      it 'expects to return a RGB value' do
+        [
+          'rgb(255 255 0)',
+          'hsl(60deg 100% 50%)',
+          'hwb(60deg 0% 0%)'
+        ].each do |func|
+          expect(Parser.parse(func).rgb).to eq([255, 255, 0])
+        end
+      end
+    end
+  end
+
   describe 'Units of angle for hue values' do
     deg = Parser.to_rgb('hsl(90deg, 100%, 50%)')
 
