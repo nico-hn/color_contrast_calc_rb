@@ -96,7 +96,10 @@ module ColorContrastCalc
           raise InvalidColorRepresentationError.from_value(color_value)
         end
 
-        return color_from_rgb(color_value, name) if color_value.is_a?(Array)
+        if color_value.is_a?(Array)
+          return color_from_rgba(color_value, name) if color_value.length == 4
+          return color_from_rgb(color_value, name)
+        end
 
         if /\A(?:rgb|hsl|hwb)/i =~ color_value
           return color_from_func(color_value, name)
@@ -127,6 +130,18 @@ module ColorContrastCalc
 
         color_from(color_value, name)
       end
+
+      def color_from_rgba(rgba_value, name = nil)
+        unless Utils.valid_rgb?(rgba_value[0, 3])
+          raise Invalidcolorrepresentationerror.from_value(rgb_value)
+        end
+
+        return color_from_rgb(rgba_value[0, 3], name) if rgba_value.last == 1.0
+
+        Color.new(rgba_value, name)
+      end
+
+      private :color_from_rgba
 
       def color_from_rgb(rgb_value, name = nil)
         unless Utils.valid_rgb?(rgb_value)
@@ -180,7 +195,7 @@ module ColorContrastCalc
     # @!attribute [r] relative_luminance
     #   @return [Float] Relative luminance of the color
 
-    attr_reader :rgb, :hex, :name, :relative_luminance
+    attr_reader :rgb, :hex, :name, :relative_luminance, :opacity
 
     ##
     # Create a new instance of Color.
@@ -193,7 +208,8 @@ module ColorContrastCalc
     # @return [Color] New instance of Color
 
     def initialize(rgb, name = nil)
-      @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb
+      @rgb = rgb.is_a?(String) ? Utils.hex_to_rgb(rgb) : rgb.dup
+      @opacity = @rgb.length == 4 ? @rgb.pop : 1.0
       @hex = Utils.rgb_to_hex(@rgb)
       @name = name || common_name
       @relative_luminance = Checker.relative_luminance(@rgb)

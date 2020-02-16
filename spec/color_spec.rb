@@ -199,6 +199,24 @@ RSpec.describe ColorContrastCalc::Color do
       expect(func_color.name).to eq(hsl_func)
       expect(func_color.hex).to eq('#ffff00')
     end
+
+    context 'When RGBA colors are passed' do
+      rgba = [255, 255, 0, 0.5]
+      opaque_rgba = [255, 255, 0, 1.0]
+
+      it 'is expected to create a Color with opacity from rgba' do
+        color = Color.color_from(rgba)
+        expect(color.rgb).to eq([255, 255, 0])
+        expect(color.opacity).to eq(0.5)
+      end
+
+      it 'may return a predefined color for some opaque colors' do
+        color = Color.color_from(opaque_rgba)
+        expect(color.rgb).to eq([255, 255, 0])
+        expect(color.opacity).to eq(1.0)
+        expect(color.common_name).to eq('yellow')
+      end
+    end
   end
 
   describe '.as_color' do
