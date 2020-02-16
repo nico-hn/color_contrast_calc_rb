@@ -101,11 +101,15 @@ module ColorContrastCalc
           return color_from_rgb(color_value, name)
         end
 
-        if /\A(?:rgb|hsl|hwb)/i =~ color_value
-          return color_from_func(color_value, name)
-        end
+        return color_from_func(color_value, name) if function?(color_value)
         color_from_str(color_value, name)
       end
+
+      def function?(color_value)
+        /\A(?:rgb|hsl|hwb)/i =~ color_value
+      end
+
+      private :function?
 
       ##
       # Return an instance of Color.
