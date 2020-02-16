@@ -29,6 +29,24 @@ module ColorContrastCalc
       vals.map {|val| val.round.clamp(0, 255) }
     end
 
+    module AlphaComposing
+      def self.calc(source, backdrop)
+        return source if source.last == 1
+
+        fore = source.dup
+        af = fore.pop
+        back = backdrop.dup
+        ab = back.pop
+
+        composed = fore.zip(back).map {|f, b| f * af + b * ab * (1 - af) }
+        a_composed = af + ab * (1 - af)
+
+        composed.push a_composed
+      end
+
+      private_class_method :calc
+    end
+
     module Contrast
       ##
       # Return contrast adjusted RGB value of passed color.

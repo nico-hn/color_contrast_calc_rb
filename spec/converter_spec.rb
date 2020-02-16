@@ -12,6 +12,28 @@ RSpec.describe ColorContrastCalc::Converter do
   gray = [128, 128, 128]
   white = [255, 255, 255]
 
+  describe ColorContrastCalc::Converter::AlphaComposing do
+    describe 'calc' do
+      it 'expects to return a rgba value composed from two rgba values' do
+        [
+          {
+            colors: [[255, 255, 0, 0.5], [0, 255, 0, 1.0]],
+            expected: [127.5, 255.0, 0, 1.0]
+          },
+          {
+            colors: [[128, 128, 0, 0.5], [0, 255, 128, 1.0]],
+            expected: [64.0, 191.5, 64.0, 1.0]
+          }
+        ].each do |data|
+          foreground, background = data[:colors]
+          composed = Converter::AlphaComposing.send(:calc, foreground, background)
+
+          expect(composed).to eq(data[:expected])
+        end
+      end
+    end
+  end
+
   describe ColorContrastCalc::Converter::Contrast do
     describe 'calc_rgb' do
       it 'expects to return the same rgb as the original if a given ratio is 100' do
