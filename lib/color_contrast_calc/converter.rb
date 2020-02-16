@@ -35,6 +35,18 @@ module ColorContrastCalc
         WHITE = [255, 255, 255, 1.0].freeze
       end
 
+      ##
+      # Return a pair of RGBA colors created from two other RGBA
+      # colors placed on a base color.
+      #
+      # The calculation is based on the definition found at
+      # https://www.w3.org/TR/compositing-1/#simplealphacompositing
+      # @param foreground [Array<Integer, Float>] RGBA value
+      # @param background [Array<Integer, Float>] RGBA value
+      # @param base [Array<Integer, Float>] RGBA value
+      # @return [Hash] A pair of RGBA values with :foreground and
+      #   :background as its keys
+
       def self.compose(foreground, background, base = Rgba::WHITE)
         back = calc(background, base)
         fore = calc(foreground, back)
