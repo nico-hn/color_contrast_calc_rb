@@ -32,6 +32,54 @@ RSpec.describe ColorContrastCalc::Converter do
         end
       end
     end
+
+    describe 'compose' do
+      it 'expects to return a pair of foreground and background colors' do
+        [
+          {
+            colors: [[255, 255, 0, 0.5], [0, 255, 0, 1.0]],
+            expected: {
+              foreground: [128, 255, 0, 1.0],
+              background: [0, 255, 0, 1.0]
+            }
+          },
+          {
+            colors: [[128, 128, 0, 0.5], [0, 255, 128, 1.0]],
+            expected: {
+              foreground: [64, 192, 64, 1.0],
+              background: [0, 255, 128, 1.0]
+            }
+          }
+        ].each do |data|
+          foreground, background = data[:colors]
+          composed = Converter::AlphaComposing.compose(foreground, background)
+          expect(composed).to eq(data[:expected])
+        end
+      end
+
+      it 'expect to accept a base color' do
+        [
+          {
+            colors: [[255, 255, 0, 0.5], [0, 0, 0, 0.5], [255, 255, 255, 1.0]],
+            expected: {
+              foreground: [191, 191, 64, 1.0],
+              background: [128, 128, 128, 1.0]
+            }
+          },
+          {
+            colors: [[128, 128, 0, 0.5], [255, 255, 255, 0.5], [0, 0, 0, 1.0]],
+            expected: {
+              foreground: [128, 128, 64, 1.0],
+              background: [128, 128, 128, 1.0]
+            }
+          }
+        ].each do |data|
+          foreground, background, base = data[:colors]
+          composed = Converter::AlphaComposing.compose(foreground, background, base)
+          expect(composed).to eq(data[:expected])
+        end
+      end
+    end
   end
 
   describe ColorContrastCalc::Converter::Contrast do

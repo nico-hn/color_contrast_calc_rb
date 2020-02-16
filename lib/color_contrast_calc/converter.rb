@@ -30,6 +30,28 @@ module ColorContrastCalc
     end
 
     module AlphaComposing
+      module Rgba
+        BLACK = [0, 0, 0, 1.0].freeze
+        WHITE = [255, 255, 255, 1.0].freeze
+      end
+
+      def self.compose(foreground, background, base = Rgba::WHITE)
+        back = calc(background, base)
+        fore = calc(foreground, back)
+
+        {
+          foreground: normalize(fore),
+          background: normalize(back)
+        }
+      end
+
+      def self.normalize(raw_rgba)
+        rgb = Converter.rgb_map(raw_rgba[0, 3], &:round)
+        rgb.push(raw_rgba.last)
+      end
+
+      private_class_method :normalize
+
       def self.calc(source, backdrop)
         return source if source.last == 1
 
