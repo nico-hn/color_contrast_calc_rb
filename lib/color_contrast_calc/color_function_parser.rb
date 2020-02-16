@@ -316,11 +316,44 @@ module ColorContrastCalc
       UNIT = /%|deg|grad|rad|turn/.freeze
     end
 
-    class Parser
+    # @private
+    module ErrorReporter
       MAX_SOURCE_LENGTH = 60
 
       private_constant :MAX_SOURCE_LENGTH
 
+      def self.format_error_message(scanner, re)
+        out = StringIO.new
+        color_value = sanitized_source(scanner)
+
+        out.print format('"%s" is not a valid code. ', color_value)
+        print_error_pos!(out, color_value, scanner.charpos)
+        out.puts " while searching with #{re}"
+
+        out.string
+      end
+
+      def self.print_error_pos!(out, color_value, pos)
+        out.puts 'An error occurred at:'
+        out.puts color_value
+        out.print "#{' ' * pos}^"
+      end
+
+      def self.sanitized_source(scanner)
+        src = scanner.string
+        parsed = src[0, scanner.charpos]
+        max_src = src[0, MAX_SOURCE_LENGTH]
+
+        return max_src if /\A[[:ascii:]&&[:^cntrl:]]+\Z/.match(max_src)
+
+        suspicious_chars = max_src[parsed.length, MAX_SOURCE_LENGTH]
+        "#{parsed}#{suspicious_chars.inspect[1..-2]}"
+      end
+
+      private_class_method :sanitized_source
+    end
+
+    class Parser
       class << self
         attr_accessor :parsers
       end
@@ -344,36 +377,14 @@ module ColorContrastCalc
         parser.read_open_paren!(scanner, parsed_value)
       end
 
-      def sanitized_source(scanner)
-        src = scanner.string
-        parsed = src[0, scanner.charpos]
-        max_src = src[0, MAX_SOURCE_LENGTH]
-
-        return max_src if /\A[[:ascii:]&&[:^cntrl:]]+\Z/.match(max_src)
-
-        suspicious_chars = max_src[parsed.length, MAX_SOURCE_LENGTH]
-        "#{parsed}#{suspicious_chars.inspect[1..-2]}"
-      end
-
-      private :sanitized_source
-
       def format_error_message(scanner, re)
-        out = StringIO.new
-        color_value = sanitized_source(scanner)
-
-        out.print format('"%s" is not a valid code. ', color_value)
-        print_error_pos!(out, color_value, scanner.charpos)
-        out.puts " while searching with #{re}"
-
-        out.string
+        ErrorReporter.format_error_message(scanner, re)
       end
 
       private :format_error_message
 
       def print_error_pos!(out, color_value, pos)
-        out.puts 'An error occurred at:'
-        out.puts color_value
-        out.print "#{' ' * pos}^"
+        ErrorReporter.print_error_pos!(out, color_value, pos)
       end
 
       private :print_error_pos!
