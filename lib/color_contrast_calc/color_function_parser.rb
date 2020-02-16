@@ -557,5 +557,15 @@ module ColorContrastCalc
     def self.to_rgb(color_value)
       parse(color_value).rgb
     end
+
+    ##
+    # Return An RGBA value gained from an RGB/HSL/HWB function.
+    # The opacity is normalized to a floating number between 0 and 1.
+    #
+    # @return [Array<Integer, Float>] RGBA value represented as an array
+
+    def self.to_rgba(color_value)
+      parse(color_value).rgba
+    end
   end
 end

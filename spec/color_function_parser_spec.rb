@@ -117,6 +117,20 @@ ERROR
     end
   end
 
+  describe '.to_rgba' do
+    it 'expects to convert directly a rgb/hsl function into a rgba value' do
+      ['rgb(255, 255, 0 / 0.5)', 'hsl(60deg, 100%, 50% / 0.5)'].each do |func|
+        expect(Parser.to_rgba(func)).to eq([255, 255, 0, 0.5])
+      end
+    end
+
+    it 'expects to accept color functions without opacity' do
+      ['rgb(255, 255, 0)', 'hsl(60deg, 100%, 50%)'].each do |func|
+        expect(Parser.to_rgba(func)).to eq([255, 255, 0, 1.0])
+      end
+    end
+  end
+
   describe ColorContrastCalc::ColorFunctionParser::Parser do
     parser = Parser::Parser.new
 
