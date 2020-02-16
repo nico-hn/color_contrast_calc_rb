@@ -383,12 +383,6 @@ module ColorContrastCalc
 
       private :format_error_message
 
-      def print_error_pos!(out, color_value, pos)
-        ErrorReporter.print_error_pos!(out, color_value, pos)
-      end
-
-      private :print_error_pos!
-
       def source_until_current_pos(scanner)
         scanner.string[0, scanner.charpos]
       end
@@ -526,7 +520,7 @@ module ColorContrastCalc
         # The trailing space after the first message is intentional,
         # because it is immediately followed by another message.
         out.print "\",\" is not a valid separator for #{scheme} functions. "
-        print_error_pos!(out, color_value, scanner.charpos)
+        ErrorReporter.print_error_pos!(out, color_value, scanner.charpos)
         out.puts
         out.string
       end
