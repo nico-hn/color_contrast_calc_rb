@@ -29,7 +29,7 @@ module ColorContrastCalc
       vals.map {|val| val.round.clamp(0, 255) }
     end
 
-    module AlphaComposing
+    module AlphaCompositing
       module Rgba
         BLACK = [0, 0, 0, 1.0].freeze
         WHITE = [255, 255, 255, 1.0].freeze
