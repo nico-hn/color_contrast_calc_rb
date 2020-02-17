@@ -286,7 +286,7 @@ RSpec.describe ColorContrastCalc::Color do
         expect(new_name_yellow.name).to eq(new_name)
       end
     end
-end
+  end
 
   describe '.find_brightness_threshold' do
     yellow = Color.new([255, 255, 0])
