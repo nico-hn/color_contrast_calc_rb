@@ -70,7 +70,13 @@ module ColorContrastCalc
       # @return [Color] Instance of Color
 
       def from_hsl(hsl, name = nil)
-        rgb = Utils.hsl_to_rgb(hsl)
+        if hsl.length == 4
+          rgb = Utils.hsl_to_rgb(hsl[0, 3])
+          opacity = hsl.last
+          return Color.new(rgb.push(opacity), name) unless opacity == 1.0
+        end
+
+        rgb ||= Utils.hsl_to_rgb(hsl)
         !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
           Color.new(rgb, name)
       end
@@ -164,7 +170,10 @@ module ColorContrastCalc
           return from_hsl(conv.to_a, name || color_value)
         end
 
-        color_from_rgb(conv.rgb, name || color_value)
+        name ||= color_value
+
+        return color_from_rgb(conv.rgb, name) if conv.opacity == 1
+        color_from_rgba(conv.rgba, name)
       end
 
       private :color_from_func
