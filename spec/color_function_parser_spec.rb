@@ -548,6 +548,20 @@ ERROR
       end
     end
 
+    describe 'opaque?' do
+      it 'expects to be true when a given color is opaque' do
+        opaque_yellow = 'rgb(255 255 0 / 100%)'
+
+        expect(Parser.parse(opaque_yellow).opaque?).to be_truthy
+      end
+
+      it 'expects to be false when a given color is not opaque' do
+        transparent_yellow = 'rgb(255 255 0 / 50%)'
+
+        expect(Parser.parse(transparent_yellow).opaque?).to be_falsey
+      end
+    end
+
     describe 'rgba' do
       it 'expects to return fully opaque rgba when opacity is not passed' do
         [

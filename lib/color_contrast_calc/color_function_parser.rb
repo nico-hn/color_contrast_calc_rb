@@ -257,6 +257,15 @@ module ColorContrastCalc
         rgb + [opacity]
       end
 
+      ##
+      # Return true when the Color is completely opaque.
+      #
+      # @return [true, false] return true when the opacity equals 1.0
+
+      def opaque?
+        opacity == 1.0
+      end
+
       # @private
       class Rgb < self
         def normalize_params
