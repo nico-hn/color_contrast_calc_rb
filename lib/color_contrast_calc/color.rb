@@ -72,8 +72,7 @@ module ColorContrastCalc
       def from_hsl(hsl, name = nil)
         if hsl.length == 4
           rgb = Utils.hsl_to_rgb(hsl[0, 3])
-          opacity = hsl.last
-          return Color.new(rgb.push(opacity), name) unless opacity == 1.0
+          return Color.new(rgb.push(hsl.last), name) unless opaque?(hsl)
         end
 
         rgb ||= Utils.hsl_to_rgb(hsl)
@@ -141,12 +140,18 @@ module ColorContrastCalc
         color_from(color_value, name)
       end
 
+      def opaque?(color_value)
+        color_value[-1] == 1.0
+      end
+
+      private :opaque?
+
       def color_from_rgba(rgba_value, name = nil)
         unless Utils.valid_rgb?(rgba_value[0, 3])
           raise Invalidcolorrepresentationerror.from_value(rgb_value)
         end
 
-        return color_from_rgb(rgba_value[0, 3], name) if rgba_value.last == 1.0
+        return color_from_rgb(rgba_value[0, 3], name) if opaque?(rgba_value)
 
         Color.new(rgba_value, name)
       end
