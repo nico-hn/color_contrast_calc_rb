@@ -172,7 +172,7 @@ module ColorContrastCalc
 
         name ||= color_value
 
-        return color_from_rgb(conv.rgb, name) if conv.opacity == 1
+        return color_from_rgb(conv.rgb, name) if conv.opaque?
         color_from_rgba(conv.rgba, name)
       end
 
