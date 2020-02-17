@@ -244,7 +244,7 @@ module ColorContrastCalc
       # @return [Float] Normalized opacity
 
       def opacity
-        @normalized.length == 3 ? 1.0 : @normalized.last
+        @opacity ||= @normalized.length == 3 ? 1.0 : @normalized.last
       end
 
       ##
