@@ -111,7 +111,7 @@ module ColorContrastCalc
       end
 
       def function?(color_value)
-        /\A(?:rgb|hsl|hwb)/i =~ color_value
+        /\A(?:rgba?|hsla?|hwb)/i =~ color_value
       end
 
       private :function?
@@ -171,7 +171,8 @@ module ColorContrastCalc
 
       def color_from_func(color_value, name = nil)
         conv = ColorFunctionParser.parse(color_value)
-        if conv.scheme == ColorFunctionParser::Scheme::HSL
+        if conv.scheme == ColorFunctionParser::Scheme::HSL ||
+           conv.scheme == ColorFunctionParser::Scheme::HSLA
           return from_hsl(conv.to_a, name || color_value)
         end
 
