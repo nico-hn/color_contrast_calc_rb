@@ -200,7 +200,7 @@ RSpec.describe ColorContrastCalc::Color do
       expect(func_color.hex).to eq('#ffff00')
     end
 
-    context 'When RGBA colors are passed' do
+    context 'When colors with opacity are passed' do
       rgba = [255, 255, 0, 0.5]
       opaque_rgba = [255, 255, 0, 1.0]
       hsl_func = 'hsl(60deg 100% 50% / 0.5)'
