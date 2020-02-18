@@ -78,6 +78,38 @@ ERROR
       end
     end
 
+    context 'When RGBA functions are passed' do
+      it 'expects to return an Rgb instance' do
+        [
+          'rgba(255, 255, 0, 0.5)',
+          'rgba(100%, 100%, 0%, 50%)'
+        ].each do |yellow|
+          parsed = Parser.parse(yellow)
+
+          expect(parsed.scheme).to eq('rgba')
+          expect(parsed.to_a).to eq([255, 255, 0, 0.5])
+          expect(parsed.rgba).to eq([255, 255, 0, 0.5])
+          expect(parsed.opacity).to eq(0.5)
+        end
+      end
+    end
+
+    context 'When HSLA functions are passed' do
+      it 'expects to return an Hsl instance' do
+        [
+          'hsla(60deg, 100%, 50%, 50%)',
+          'hsla(60, 100%, 50%, 0.5)'
+        ].each do |yellow|
+          parsed = Parser.parse(yellow)
+
+          expect(parsed.scheme).to eq('hsla')
+          expect(parsed.to_a).to eq([60.0, 100.0, 50.0, 0.5])
+          expect(parsed.rgba).to eq([255, 255, 0, 0.5])
+          expect(parsed.opacity).to eq(0.5)
+        end
+      end
+    end
+
     context 'When unnecessary tokens are included in the source' do
       it 'expects to ignore them' do
         hsl_function = 'hsl(60deg 100% 50%)'
@@ -150,7 +182,7 @@ ERROR
         message = <<ERROR
 "rjb(255, 255, 255)" is not a valid code. An error occurred at:
 rjb(255, 255, 255)
-^ while searching with (?i-mx:rgb|hsl|hwb)
+^ while searching with (?i-mx:rgba?|hsla?|hwb)
 ERROR
         wrong_white = StringScanner.new('rjb(255, 255, 255)')
         expect {

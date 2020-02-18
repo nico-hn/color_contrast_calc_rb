@@ -15,7 +15,9 @@ module ColorContrastCalc
 
     module Scheme
       RGB = 'rgb'
+      RGBA = 'rgba'
       HSL = 'hsl'
+      HSLA = 'hsla'
       HWB = 'hwb'
     end
 
@@ -121,7 +123,9 @@ module ColorContrastCalc
 
       VALIDATORS = {
         Scheme::RGB => RGB,
+        Scheme::RGBA => RGB,
         Scheme::HSL => HSL,
+        Scheme::HSLA => HSL,
         Scheme::HWB => HWB
       }.freeze
 
@@ -303,9 +307,9 @@ module ColorContrastCalc
       def self.create(parsed_value, original_value)
         Validator.validate(parsed_value, original_value)
         case parsed_value[:scheme]
-        when Scheme::RGB
+        when Scheme::RGB, Scheme::RGBA
           Rgb.new(parsed_value)
-        when Scheme::HSL
+        when Scheme::HSL, Scheme::HSLA
           Hsl.new(parsed_value)
         when Scheme::HWB
           Hwb.new(parsed_value)
@@ -316,7 +320,7 @@ module ColorContrastCalc
     # @private
     module TokenRe
       SPACES = /\s+/.freeze
-      SCHEME = /rgb|hsl|hwb/i.freeze
+      SCHEME = /rgba?|hsla?|hwb/i.freeze
       OPEN_PAREN = /\(/.freeze
       CLOSE_PAREN = /\)/.freeze
       COMMA = /,/.freeze
