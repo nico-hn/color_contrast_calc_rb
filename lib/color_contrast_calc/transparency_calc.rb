@@ -12,10 +12,9 @@ module ColorContrastCalc
 
       if colors.all? {|color| opaque?(color) }
         rgb_colors = colors.map {|color| to_rgb(color) }
-        return Checker.contrast_ratio(*rgb_colors)
       end
 
-      rgb_colors = to_opaque_rgbs(foreground, background, base)
+      rgb_colors ||= to_opaque_rgbs(foreground, background, base)
 
       Checker.contrast_ratio(*rgb_colors)
     end
