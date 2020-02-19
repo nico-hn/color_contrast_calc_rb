@@ -14,6 +14,13 @@ module ColorContrastCalc
         rgb_colors = colors.map {|color| to_rgb(color) }
         return Checker.contrast_ratio(*rgb_colors)
       end
+
+      new_colors = compose(foreground, background, base)
+      new_rgb_colors = %i[foreground background].map do |key|
+        to_rgb(new_colors[key])
+      end
+
+      Checker.contrast_ratio(*new_rgb_colors)
     end
 
     def self.opaque?(rgba)
@@ -27,5 +34,11 @@ module ColorContrastCalc
     end
 
     private_class_method :to_rgb
+
+    def self.compose(foreground, background, base)
+      Converter::AlphaCompositing.compose(foreground, background, base)
+    end
+
+    private_class_method :compose
   end
 end
