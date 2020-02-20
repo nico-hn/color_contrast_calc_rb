@@ -25,7 +25,7 @@ RSpec.describe ColorContrastCalc::TransparencyCalc do
       yellow = [255, 255, 0, 1.0]
       green = [0, 255, 0, 0.5]
 
-      context 'When darker background in on lighter base' do
+      context 'When darker background is on lighter base' do
         it 'expects to return lower contrast ratio' do
           ratio = Calc.contrast_ratio(yellow, green)
 
