@@ -190,6 +190,29 @@ RSpec.describe ColorContrastCalc do
     end
   end
 
+  describe 'contrast_ratio_with_opacity' do
+    context 'When RGB colors are passed' do
+      yellow = 'rgb(255, 255, 0, 1.0)'
+      green = 'rgb(0, 255, 0, 0.5)'
+
+      context 'When darker background is on ligther base' do
+        it 'expects tu return lower contrast ratio' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(yellow, green)
+
+          expect(ratio).to within(0.01).of(1.18)
+        end
+      end
+
+      context 'When lighter background is darker than base' do
+        it 'epxects to return higher contrast ratio' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(green, yellow)
+
+          expect(ratio).to within(0.01).of(1.20)
+        end
+      end
+    end
+  end
+
   describe '.higher_contrast_base_color_for' do
     context 'with default base colors' do
       it 'is expected to return by default the black, when yellow is passed' do

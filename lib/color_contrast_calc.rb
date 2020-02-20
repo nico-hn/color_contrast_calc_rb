@@ -75,6 +75,16 @@ module ColorContrastCalc
     Color.as_color(color1).contrast_ratio_against(Color.as_color(color2))
   end
 
+  def self.contrast_ratio_with_opacity(foreground, background,
+                                       base = Color::WHITE)
+    params = [foreground, background, base].map do |c|
+      color = Color.as_color(c)
+      color.rgb + [color.opacity]
+    end
+
+    TransparencyCalc.contrast_ratio(*params)
+  end
+
   ##
   # Select from two colors the one of which the contrast ratio is higher
   # than the other's, against a given color.
