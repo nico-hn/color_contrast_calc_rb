@@ -63,12 +63,12 @@ module ColorContrastCalc
   # Please note that this method may be slow, as it internally creates
   # Color instances.
   #
-  # @param color1 [String, Array<Integer>] RGB color given as a string or
-  #   an array of integers. Yellow, for example, can be given as "#ffff00",
-  #   "#ff0", "rgb(255, 255, 0)", "hsl(60deg, 100%, 50%)", "hwb(60deg 0% 0%)"
-  #   or [255, 255, 0].
-  # @param color2 [String, Array<Integer>] RGB color given as a string or
-  #   an array of integers.
+  # @param color1 [String, Array<Integer>, Color] color given as a string,
+  #   an array of integers or a Color instance. Yellow, for example, can be
+  #   given as "#ffff00", "#ff0", "rgb(255, 255, 0)", "hsl(60deg, 100%, 50%)",
+  #   "hwb(60deg 0% 0%)" or [255, 255, 0].
+  # @param color2 [String, Array<Integer>, Color] color given as a string,
+  #   an array of integers or a Color instance.
   # @return [Float] Contrast ratio
 
   def self.contrast_ratio(color1, color2)
