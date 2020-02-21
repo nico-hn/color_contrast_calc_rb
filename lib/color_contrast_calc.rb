@@ -75,6 +75,21 @@ module ColorContrastCalc
     Color.as_color(color1).contrast_ratio_against(Color.as_color(color2))
   end
 
+  ##
+  # Calculate the contrast ratio of transparent colors.
+  #
+  # For the calculation, you have to specify three colors because
+  # when both of two colors to be compared are transparent,
+  # the third color put under them filters through them.
+  #
+  # @param foreground [String, Array<Integer>, Color] The uppermost
+  #   color such as "rgb(255, 255, 0, 0.5)" or "hsl(60 100% 50% / 50%)"
+  # @param background [String, Array<Integer>, Color] The color placed
+  #   between the others
+  # @param base [String, Array<Integer>, Color] The color placed in
+  #   the bottom. When the backgound is completely opaque, this color
+  #   is ignored.
+
   def self.contrast_ratio_with_opacity(foreground, background,
                                        base = Color::WHITE)
     params = [foreground, background, base].map do |c|
