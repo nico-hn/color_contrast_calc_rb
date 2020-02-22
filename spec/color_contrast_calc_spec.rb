@@ -211,6 +211,27 @@ RSpec.describe ColorContrastCalc do
         end
       end
     end
+
+    context 'When HSL colors are passed' do
+      yellow = 'hsl(60deg 100% 50% / 1.0)'
+      green = 'hsl(120deg 100% 50% / 0.5)'
+
+      context 'When darker background is on ligther base' do
+        it 'expects tu return lower contrast ratio' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(yellow, green)
+
+          expect(ratio).to within(0.005).of(1.18)
+        end
+      end
+
+      context 'When lighter background is darker than base' do
+        it 'epxects to return higher contrast ratio' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(green, yellow)
+
+          expect(ratio).to within(0.01).of(1.20)
+        end
+      end
+    end
   end
 
   describe '.higher_contrast_base_color_for' do
