@@ -199,7 +199,7 @@ RSpec.describe ColorContrastCalc do
         it 'expects tu return lower contrast ratio' do
           ratio = ColorContrastCalc.contrast_ratio_with_opacity(yellow, green)
 
-          expect(ratio).to within(0.01).of(1.18)
+          expect(ratio).to within(0.005).of(1.18)
         end
       end
 
