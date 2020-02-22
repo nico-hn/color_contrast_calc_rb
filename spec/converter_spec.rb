@@ -44,6 +44,13 @@ RSpec.describe ColorContrastCalc::Converter do
             }
           },
           {
+            colors: [[255, 255, 0, 1.0], [0, 255, 0, 0.5]],
+            expected: {
+              foreground: [255, 255, 0, 1.0],
+              background: [128, 255, 128, 1.0]
+            }
+          },
+          {
             colors: [[128, 128, 0, 0.5], [0, 255, 128, 1.0]],
             expected: {
               foreground: [64, 192, 64, 1.0],

@@ -40,6 +40,24 @@ RSpec.describe ColorContrastCalc::TransparencyCalc do
           expect(ratio).to within(0.01).of(1.20)
         end
       end
+
+      context 'When base is set to black' do
+        context 'When darker background is on darker base' do
+          it 'expects to return higher contrast ratio' do
+            ratio = Calc.contrast_ratio(yellow, green, Calc::BLACK)
+
+            expect(ratio).to within(0.01).of(4.78)
+          end
+        end
+
+        context 'When the backround is opaque' do
+          it 'is expected that the base color does not change the ratio' do
+            ratio = Calc.contrast_ratio(green, yellow, Calc::BLACK)
+
+            expect(ratio).to within(0.01).of(1.20)
+          end
+        end
+      end
     end
   end
 end
