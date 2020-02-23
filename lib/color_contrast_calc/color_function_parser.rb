@@ -145,7 +145,7 @@ module ColorContrastCalc
     # so do not rely on the current class name and its interfaces.
     # They may change in the future.
 
-    class Converter
+    class ColorFunction
       UNIT_CONV = {
         Unit::PERCENT => proc do |n, base|
           if base == 255
@@ -556,15 +556,15 @@ module ColorContrastCalc
 
     ##
     # Parse an RGB/HSL/HWB function and store the result as an instance of
-    # ColorFunctionParser::Converter.
+    # ColorFunctionParser::ColorFunction.
     #
     # @param color_value [String] RGB/HSL/HWB function defined at
     #   https://www.w3.org/TR/2019/WD-css-color-4-20191105/
-    # @return [Converter] An instance of ColorFunctionParser::Converter
+    # @return [ColorFunction] An instance of ColorFunctionParser::ColorFunction
 
     def self.parse(color_value)
       parsed_value = MAIN_PARSER.read_scheme!(StringScanner.new(color_value))
-      Converter.create(parsed_value, color_value)
+      ColorFunction.create(parsed_value, color_value)
     end
 
     ##

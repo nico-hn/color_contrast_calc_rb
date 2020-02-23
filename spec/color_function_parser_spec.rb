@@ -540,7 +540,7 @@ ERROR
     end
   end
 
-  describe Parser::Converter do
+  describe Parser::ColorFunction do
     describe 'rgb' do
       it 'expects to return a RGB value' do
         [
