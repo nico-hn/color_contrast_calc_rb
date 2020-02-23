@@ -232,6 +232,43 @@ RSpec.describe ColorContrastCalc do
         end
       end
     end
+
+    context 'When base is changed' do
+      yellow = 'rgb(255, 255, 0, 1.0)'
+      green = 'rgb(0, 255, 0, 0.5)'
+
+      context 'When a Color instance is passed as base' do
+        black = ColorContrastCalc::Color::BLACK
+
+        it 'is expected base does not affect the result when background is opaque' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(green, yellow, black)
+
+          expect(ratio).to within(0.01).of(1.20)
+        end
+
+        it 'is expected the ratio is higher than with white base' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(yellow, green, black)
+
+          expect(ratio).to within(0.01).of(4.78)
+        end
+      end
+
+      context 'When a color name is passed as base' do
+        black = 'black'
+
+        it 'is expected base does not affect the result when background is opaque' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(green, yellow, black)
+
+          expect(ratio).to within(0.01).of(1.20)
+        end
+
+        it 'is expected the ratio is higher than with white base' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(yellow, green, black)
+
+          expect(ratio).to within(0.01).of(4.78)
+        end
+      end
+    end
   end
 
   describe '.higher_contrast_base_color_for' do
