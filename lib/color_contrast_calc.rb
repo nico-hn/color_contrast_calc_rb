@@ -89,6 +89,7 @@ module ColorContrastCalc
   # @param base [String, Array<Integer>, Color] The color placed in
   #   the bottom. When the backgound is completely opaque, this color
   #   is ignored.
+  # @return [Float] Contrast ratio
 
   def self.contrast_ratio_with_opacity(foreground, background,
                                        base = Color::WHITE)
