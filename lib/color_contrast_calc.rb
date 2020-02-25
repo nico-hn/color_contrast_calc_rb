@@ -5,6 +5,7 @@ require 'color_contrast_calc/utils'
 require 'color_contrast_calc/converter'
 require 'color_contrast_calc/checker'
 require 'color_contrast_calc/threshold_finder'
+require 'color_contrast_calc/transparency_calc'
 require 'color_contrast_calc/color'
 require 'color_contrast_calc/sorter'
 
