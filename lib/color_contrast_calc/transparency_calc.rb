@@ -4,6 +4,14 @@ require 'color_contrast_calc/converter'
 require 'color_contrast_calc/checker'
 
 module ColorContrastCalc
+  ##
+  # Provides methods to calculate the contrast ratio between transparent colors.
+  #
+  # Colors are given as RGBA values represented as arrays of Float.
+  # Note that during the process of calculation, each of RGB components
+  # is treated as a Float, though some of them may be rounded up/down in the
+  # final return value.
+
   module TransparencyCalc
     include Converter::AlphaCompositing::Rgba
 
