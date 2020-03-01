@@ -157,6 +157,26 @@ Contrast ratio between yellow and black: 19.555999999999997
 Contrast level: AAA
 ```
 
+
+#### [Experimental] Calculate the contrast ratio between transparent colors
+
+``ColorContrastCalc.contrast_ratio_with_opacity()`` is provided for the
+calculation.
+
+Note that the method takes an optional argument, which specifies the third color
+placed below the other two colors.
+
+For example:
+
+```bash
+$ ruby -rcolor_contrast_calc -e "puts ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'white')"
+1.1828076947731336
+$ ruby -rcolor_contrast_calc -e "puts ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)')" # the default value for the third parameter is white
+1.1828076947731336
+$ ruby -rcolor_contrast_calc -e "puts ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'black')"
+4.78414518008597
+```
+
 ### Example 2: Find colors that have enough contrast ratio with a given color
 
 If you want to find a combination of colors with sufficient contrast
