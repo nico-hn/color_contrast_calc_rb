@@ -158,23 +158,29 @@ Contrast level: AAA
 ```
 
 
-#### [Experimental] Calculate the contrast ratio between transparent colors
+#### 1.4: [Experimental] Calculate the contrast ratio between transparent colors
 
 ``ColorContrastCalc.contrast_ratio_with_opacity()`` is provided for the
 calculation.
 
-Note that the method takes an optional argument, which specifies the third color
-placed below the other two colors.
+The method takes three arguments, foreground color, background color and an
+optional base color.
+
+Please note that the third color is placed below the other two colors and
+expects to be fully opaque.
 
 For example:
 
 ```bash
-$ ruby -rcolor_contrast_calc -e "puts ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'white')"
-1.1828076947731336
-$ ruby -rcolor_contrast_calc -e "puts ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)')" # the default value for the third parameter is white
-1.1828076947731336
-$ ruby -rcolor_contrast_calc -e "puts ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'black')"
-4.78414518008597
+irb -r color_contrast_calc
+irb(main):001:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'white')
+=> 1.1828076947731336
+irb(main):002:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)') # The default value for the third parameter is white.
+=> 1.1828076947731336
+irb(main):003:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'black')
+=> 4.78414518008597
+irb(main):004:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0)', 'rgb(0 255 0 / 0.5)', 'black') # For a fully opaque color, you don't need to specify the opacity.
+=> 4.78414518008597
 ```
 
 ### Example 2: Find colors that have enough contrast ratio with a given color

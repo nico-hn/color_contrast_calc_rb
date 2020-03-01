@@ -157,6 +157,29 @@ Contrast ratio between yellow and black: 19.555999999999997
 Contrast level: AAA
 ```
 
+#### 1.4: [実験的対応] 透明色間のコントラスト比の計算
+
+透明色間の計算のために``ColorContrastCalc.contrast_ratio_with_opacity()``が
+提供されています。
+
+このメソッドは3つの引数として、前景色と背景色、省略可能な基調色、を取ります。
+
+3番目の基調色は他の2色の下に配置され、完全に不透明なことが期待される点にご注意下さい。
+
+例:
+
+```bash
+irb -r color_contrast_calc
+irb(main):001:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'white')
+=> 1.1828076947731336
+irb(main):002:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)') # 3番目の色のデフォルト値は白です。
+=> 1.1828076947731336
+irb(main):003:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0 / 1.0)', 'rgb(0 255 0 / 0.5)', 'black')
+=> 4.78414518008597
+irb(main):004:0> ColorContrastCalc.contrast_ratio_with_opacity('rgb(255 255 0)', 'rgb(0 255 0 / 0.5)', 'black') # 完全に不透明な色について不透明度を指定する必要はありません。
+=> 4.78414518008597
+```
+
 ### 例2: ある色に対し十分なコントラスト比のある色を見つける
 
 2色の組み合わせのうち、一方の色のbrightness/lightnessを変化させることで十分な
