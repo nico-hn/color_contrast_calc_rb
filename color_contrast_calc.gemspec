@@ -7,7 +7,7 @@ require 'color_contrast_calc/version'
 Gem::Specification.new do |spec|
   spec.name          = 'color_contrast_calc'
   spec.version       = ColorContrastCalc::VERSION
-  spec.required_ruby_version = ">= 2.2"
+  spec.required_ruby_version = ">= 2.4"
   spec.authors       = ['HASHIMOTO, Naoki']
   spec.email         = ['hashimoto.naoki@gmail.com']
 
