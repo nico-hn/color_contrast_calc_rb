@@ -481,6 +481,23 @@ RSpec.describe ColorContrastCalc::Color do
     end
   end
 
+  describe 'hwb' do
+    yellow_hex = '#ffff00'
+
+    it 'expects to return the HWB value of a color' do
+      yellow = Color.new(yellow_hex)
+
+      expect(yellow.hwb).to eq([60, 0, 0])
+    end
+
+    it 'expect to return [60, 0, 75] when [64, 64, 0] is passed' do
+      color = Color.new([64, 64, 0])
+
+      expect(color.hwb[0, 2]).to eq([60, 0])
+      expect(color.hwb[2]).to within(0.1).of(75)
+    end
+  end
+
   describe 'common_name' do
     it 'expects to return when a color keyword name when the color is a named color' do
       yellow = Color.new('#ff0')

@@ -249,6 +249,20 @@ module ColorContrastCalc
     end
 
     ##
+    # Return HWB value of the color.
+    #
+    # The value is calculated from the RGB value, so if you create
+    # the instance by Color.color_from method, the value used to
+    # create the color does not necessarily correspond to the value
+    # of this property.
+    #
+    # @return [Array<Float>] HWB value represented as an array of numbers
+
+    def hwb
+      @hwb ||= Utils.rgb_to_hwb(@rgb)
+    end
+
+    ##
     # Return a {https://www.w3.org/TR/SVG/types.html#ColorKeywords
     # color keyword name} when the name corresponds to the hex code
     # of the color. Otherwise the hex code will be returned.
