@@ -270,8 +270,7 @@ module ColorContrastCalc
     # @return [String] Color keyword name or hex color code
 
     def common_name
-      named_color = List::HEX_TO_COLOR[@hex]
-      named_color && named_color.name || @hex
+      List::HEX_TO_COLOR[@hex]&.name || @hex
     end
 
     ##
