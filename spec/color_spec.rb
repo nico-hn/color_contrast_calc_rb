@@ -202,6 +202,7 @@ RSpec.describe ColorContrastCalc::Color do
 
     context 'When colors with opacity are passed' do
       rgba = [255, 255, 0, 0.5]
+      invalid_rgba = [300, 255, 0, 0.5]
       opaque_rgba = [255, 255, 0, 1.0]
       hsl_func = 'hsl(60deg 100% 50% / 0.5)'
       hwb_func = 'hwb(60deg 0% 0% / 0.5)'
@@ -210,6 +211,17 @@ RSpec.describe ColorContrastCalc::Color do
         color = Color.color_from(rgba)
         expect(color.rgb).to eq([255, 255, 0])
         expect(color.opacity).to eq(0.5)
+      end
+
+      it 'is expected to raise an error when an invalid rgba is passed' do
+        message = <<~MESSAGE
+          An RGB value should be in form of [r, g, b, opacity]
+          (r, g, b should be in the range between 0 and 255), but [300, 255, 0, 0.5].
+        MESSAGE
+
+        expect {
+          Color.color_from(invalid_rgba)
+        }.to raise_error(error, message)
       end
 
       it 'may return a predefined color for some opaque colors' do

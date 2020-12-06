@@ -148,7 +148,7 @@ module ColorContrastCalc
 
       def color_from_rgba(rgba_value, name = nil)
         unless Utils.valid_rgb?(rgba_value[0, 3])
-          raise Invalidcolorrepresentationerror.from_value(rgb_value)
+          raise InvalidColorRepresentationError.from_value(rgba_value)
         end
 
         return color_from_rgb(rgba_value[0, 3], name) if opaque?(rgba_value)

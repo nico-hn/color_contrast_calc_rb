@@ -7,6 +7,10 @@ module ColorContrastCalc
   class InvalidColorRepresentationError < StandardError
     module Template
       RGB = 'An RGB value should be in form of [r, g, b], but %s.'
+      RGBA = <<~RGBA_MESSAGE
+        An RGB value should be in form of [r, g, b, opacity]
+        (r, g, b should be in the range between 0 and 255), but %s.
+      RGBA_MESSAGE
       COLOR_NAME = '%s seems to be an undefined color name.'
       HEX = 'A hex code #xxxxxx where 0 <= x <= f is expected, but %s.'
       UNEXPECTED = 'A color should be given as an array or string, but %s.'
@@ -22,7 +26,7 @@ module ColorContrastCalc
     def self.select_message_template(value)
       case value
       when Array
-        Template::RGB
+        value.length == 3 ? Template::RGB : Template::RGBA
       when String
         may_be_name?(value) ? Template::COLOR_NAME : Template::HEX
       else
