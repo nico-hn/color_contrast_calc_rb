@@ -267,8 +267,14 @@ module ColorContrastCalc
         end
       end
 
-      def rgb_to_hwb(_rgb)
-        raise Notimplementederror, 'Must be implemented later'
+      ##
+      # ref: https://www.w3.org/TR/2020/WD-css-color-4-20201112/
+
+      def rgb_to_hwb(rgb)
+        hsl = Utils.rgb_to_hsl(rgb)
+        white = rgb.min
+        black = 255 - rgb.max
+        [hsl[0], white * 100 / 255.0, black * 100 / 255.0]
       end
     end
 
