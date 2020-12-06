@@ -343,6 +343,16 @@ RSpec.describe ColorContrastCalc::Utils do
     end
   end
 
+  describe 'valid_hwb?' do
+    it 'expects to return true for [60, 0, 0]' do
+      expect(Utils.valid_hwb?([60, 0, 0])).to be true
+    end
+
+    it 'expects to return false for [60, 101, 0]' do
+      expect(Utils.valid_hwb?([60, 101, 0])).to be false
+    end
+  end
+
   describe 'same_hex_color?' do
     upper_yellow = '#FFFF00'
     lower_yellow = '#ffff00'

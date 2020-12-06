@@ -241,6 +241,8 @@ module ColorContrastCalc
     end
 
     module Hwb
+      HWB_UPPER_LIMIT = [360, 100, 100].freeze
+
       ##
       # ref: https://www.w3.org/TR/2019/WD-css-color-4-20191105/
 
@@ -275,6 +277,22 @@ module ColorContrastCalc
         white = rgb.min
         black = 255 - rgb.max
         [hsl[0], white * 100 / 255.0, black * 100 / 255.0]
+      end
+
+      ##
+      # Check if a given array is a valid representation of HWB color.
+      #
+      # @param hwb [Array<Float>] HWB value represented as an array of numbers
+      # @return [true, false] true if a valid HWB value is passed
+
+      def valid_hwb?(hwb)
+        return false unless hwb.length == 3
+
+        hwb.each_with_index do |c, i|
+          return false if !c.is_a?(Numeric) || c < 0 || c > HWB_UPPER_LIMIT[i]
+        end
+
+        true
       end
     end
 
