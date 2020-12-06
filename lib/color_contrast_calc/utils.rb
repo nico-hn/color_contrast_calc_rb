@@ -199,11 +199,9 @@ module ColorContrastCalc
     # @return [true, false] true if a valid HSL value is passed
 
     def self.valid_hsl?(hsl)
-      return false unless hsl.length == 3
-      hsl.each_with_index do |c, i|
-        return false if !c.is_a?(Numeric) || c < 0 || c > HSL_UPPER_LIMIT[i]
+      hsl.length == 3 && hsl.each_with_index.all? do |c, i|
+        c.is_a?(Numeric) && c >= 0 && c <= HSL_UPPER_LIMIT[i]
       end
-      true
     end
 
     ##
