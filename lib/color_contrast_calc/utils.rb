@@ -284,13 +284,9 @@ module ColorContrastCalc
       # @return [true, false] true if a valid HWB value is passed
 
       def valid_hwb?(hwb)
-        return false unless hwb.length == 3
-
-        hwb.each_with_index do |c, i|
-          return false if !c.is_a?(Numeric) || c < 0 || c > HWB_UPPER_LIMIT[i]
+        hwb.length == 3 && hwb.each_with_index.all? do |c, i|
+          c.is_a?(Numeric) && c >= 0 && c <= HWB_UPPER_LIMIT[i]
         end
-
-        true
       end
     end
 
