@@ -1,11 +1,18 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.3
   - 2.4
   - 2.5
   - 2.6
   - 2.7
   - ruby-head
-  - jruby-head
 before_install: gem install bundler -v '~>2.0'
+jobs:
+  include:
+  - rvm: 2.4
+    before_install:
+      - yes | gem update --system --force
+      - gem install bundler
+  - rvm: jruby-head
+    before_install:
+      - bundle add rake --version "13.0.0"
