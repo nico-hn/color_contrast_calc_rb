@@ -267,7 +267,7 @@ module ColorContrastCalc
       # @return [true, false] return true when the opacity equals 1.0
 
       def opaque?
-        opacity == 1.0
+        opacity == Utils::MAX_OPACITY
       end
 
       # @private

@@ -28,7 +28,7 @@ module ColorContrastCalc
     end
 
     def self.opaque?(rgba)
-      rgba[-1] == 1.0
+      rgba[-1] == Utils::MAX_OPACITY
     end
 
     private_class_method :opaque?

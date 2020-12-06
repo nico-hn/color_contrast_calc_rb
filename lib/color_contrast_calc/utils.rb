@@ -12,6 +12,9 @@ module ColorContrastCalc
   module Utils
     using Shim unless //.respond_to? :match?
 
+    MIN_OPACITY = 0
+    MAX_OPACITY = 1.0
+
     HSL_UPPER_LIMIT = [360, 100, 100].freeze
 
     private_constant :HSL_UPPER_LIMIT

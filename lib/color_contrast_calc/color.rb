@@ -141,7 +141,7 @@ module ColorContrastCalc
       end
 
       def opaque?(color_value)
-        color_value[-1] == 1.0
+        color_value[-1] == Utils::MAX_OPACITY
       end
 
       private :opaque?
