@@ -45,8 +45,7 @@ module ColorContrastCalc
       # @return [Color] Instance of Color
 
       def from_rgb(rgb, name = nil)
-        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
-          Color.new(rgb, name)
+        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] || new(rgb, name)
       end
 
       ##
@@ -58,8 +57,7 @@ module ColorContrastCalc
 
       def from_hex(hex, name = nil)
         normalized_hex = Utils.normalize_hex(hex)
-        !name && List::HEX_TO_COLOR[normalized_hex] ||
-          Color.new(normalized_hex, name)
+        !name && List::HEX_TO_COLOR[normalized_hex] || new(normalized_hex, name)
       end
 
       ##
@@ -72,12 +70,11 @@ module ColorContrastCalc
       def from_hsl(hsl, name = nil)
         if hsl.length == 4
           rgb = Utils.hsl_to_rgb(hsl[0, 3])
-          return Color.new(rgb.push(hsl.last), name) unless opaque?(hsl)
+          return new(rgb.push(hsl.last), name) unless opaque?(hsl)
         end
 
         rgb ||= Utils.hsl_to_rgb(hsl)
-        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] ||
-          Color.new(rgb, name)
+        !name && List::HEX_TO_COLOR[Utils.rgb_to_hex(rgb)] || new(rgb, name)
       end
 
       ##
@@ -153,7 +150,7 @@ module ColorContrastCalc
 
         return color_from_rgb(rgba_value[0, 3], name) if opaque?(rgba_value)
 
-        Color.new(rgba_value, name)
+        new(rgba_value, name)
       end
 
       private :color_from_rgba
@@ -164,7 +161,7 @@ module ColorContrastCalc
         end
 
         hex_code = Utils.rgb_to_hex(rgb_value)
-        !name && List::HEX_TO_COLOR[hex_code] || Color.new(rgb_value, name)
+        !name && List::HEX_TO_COLOR[hex_code] || new(rgb_value, name)
       end
 
       private :color_from_rgb
@@ -193,7 +190,7 @@ module ColorContrastCalc
         end
 
         hex_code = Utils.normalize_hex(color_value)
-        !name && List::HEX_TO_COLOR[hex_code] || Color.new(hex_code, name)
+        !name && List::HEX_TO_COLOR[hex_code] || new(hex_code, name)
       end
 
       private :color_from_str
@@ -233,6 +230,12 @@ module ColorContrastCalc
       @name = name || common_name
       @relative_luminance = Checker.relative_luminance(@rgb)
     end
+
+    def create(rgb, name = nil)
+      self.class.new(rgb, name)
+    end
+
+    private :create
 
     ##
     # Return HSL value of the color.
@@ -360,7 +363,7 @@ module ColorContrastCalc
     # @return [Color] New  complementary color
     def complementary(name = nil)
       minmax = rgb.minmax.reduce {|min, max| min + max }
-      self.class.new(rgb.map {|c| minmax - c }, name)
+      create(rgb.map {|c| minmax - c }, name)
     end
 
     ##
@@ -376,8 +379,8 @@ module ColorContrastCalc
     #   of +other_color+
 
     def find_brightness_threshold(other_color, level = Checker::Level::AA)
-      other_color = Color.new(other_color) unless other_color.is_a? Color
-      Color.new(ThresholdFinder::Brightness.find(rgb, other_color.rgb, level))
+      other_color = create(other_color) unless other_color.is_a? Color
+      create(ThresholdFinder::Brightness.find(rgb, other_color.rgb, level))
     end
 
     ##
@@ -393,8 +396,8 @@ module ColorContrastCalc
     #   of +other_color+
 
     def find_lightness_threshold(other_color, level = Checker::Level::AA)
-      other_color = Color.new(other_color) unless other_color.is_a? Color
-      Color.new(ThresholdFinder::Lightness.find(rgb, other_color.rgb, level))
+      other_color = create(other_color) unless other_color.is_a? Color
+      create(ThresholdFinder::Lightness.find(rgb, other_color.rgb, level))
     end
 
     ##
@@ -535,7 +538,7 @@ module ColorContrastCalc
 
     def generate_new_color(calc, ratio, name = nil)
       new_rgb = calc.calc_rgb(rgb, ratio)
-      self.class.new(new_rgb, name)
+      create(new_rgb, name)
     end
 
     private :generate_new_color
