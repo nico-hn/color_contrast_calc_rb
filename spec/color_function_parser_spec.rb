@@ -41,6 +41,20 @@ ERROR
           }.to raise_error(error, message)
         end
       end
+
+      context 'When a / is used in the old style notation' do
+        it 'expects to raise an error' do
+          message = <<~ERROR
+          "rgb(255, 255, 0 / 0.5)" is not a valid code. An error occurred at:
+          rgb(255, 255, 0 / 0.5)
+                          ^ while searching with (?-mix:,)
+          ERROR
+
+          expect {
+            Parser.parse('rgb(255, 255, 0 / 0.5)')
+          }.to raise_error(error, message)
+        end
+      end
     end
 
     context 'When HSL functions are passed' do
@@ -371,7 +385,7 @@ TEMPLATE
         message = <<ERROR
 "hsl(60deg 50% / 0.5)" is not a valid code. An error occurred at:
 hsl(60deg 50% / 0.5)
-              ^ while searching with (?-mix:,)
+              ^ while searching with (?-mix:(?:\\d+)(?:\\.\\d+)?|\\.\\d+)
 ERROR
         hsla = 'hsl(60deg 50% / 0.5)'
         scanner = StringScanner.new(hsla)
