@@ -151,7 +151,7 @@ ERROR
 
   describe '.to_rgba' do
     it 'expects to convert directly a rgb/hsl function into a rgba value' do
-      ['rgb(255, 255, 0 / 0.5)', 'hsl(60deg, 100%, 50% / 0.5)'].each do |func|
+      ['rgb(255 255 0 / 0.5)', 'hsl(60deg 100% 50% / 0.5)'].each do |func|
         expect(Parser.to_rgba(func)).to eq([255, 255, 0, 0.5])
       end
     end
