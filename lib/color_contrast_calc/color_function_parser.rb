@@ -466,15 +466,21 @@ module ColorContrastCalc
           return read_number!(scanner, parsed_value)
         end
 
-        if parsed_value[:parameters].length == 3 &&
-           check_next_token(scanner, TokenRe::SLASH)
-          return read_opacity!(scanner, parsed_value)
+        unless opacity_separator_is_next?(scanner, parsed_value)
+          return read_comma!(scanner, parsed_value)
         end
 
-        read_comma!(scanner, parsed_value)
+        read_opacity!(scanner, parsed_value)
       end
 
       private :read_separator!
+
+      def opacity_separator_is_next?(scanner, parsed_value)
+        parsed_value[:parameters].length == 3 &&
+          check_next_token(scanner, TokenRe::SLASH)
+      end
+
+      private :opacity_separator_is_next?
 
       def check_next_token(scanner, re)
         cur_pos = scanner.pos
