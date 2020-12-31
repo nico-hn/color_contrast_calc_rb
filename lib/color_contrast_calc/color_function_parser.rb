@@ -566,9 +566,8 @@ module ColorContrastCalc
       Scheme::HWB => FunctionParser.new
     }
 
+    Parser.value = Parser.new
     Parser.function = FunctionParser.new
-
-    MAIN_PARSER = Parser.new
 
     ##
     # Parse an RGB/HSL/HWB function and store the result as an instance of
@@ -579,7 +578,7 @@ module ColorContrastCalc
     # @return [ColorFunction] An instance of ColorFunctionParser::ColorFunction
 
     def self.parse(color_value)
-      parsed_value = MAIN_PARSER.read_scheme!(StringScanner.new(color_value))
+      parsed_value = Parser.value.read_scheme!(StringScanner.new(color_value))
       ColorFunction.create(parsed_value, color_value)
     end
 
