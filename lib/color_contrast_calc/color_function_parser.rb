@@ -504,14 +504,12 @@ module ColorContrastCalc
     class FunctionParser < Parser
       def read_separator!(scanner, parsed_value)
         if next_spaces_as_separator?(scanner)
-          return read_number!(scanner, parsed_value)
+          read_number!(scanner, parsed_value)
+        elsif opacity_separator_is_next?(scanner, parsed_value)
+          read_opacity!(scanner, parsed_value)
+        else
+          read_comma!(scanner, parsed_value)
         end
-
-        if opacity_separator_is_next?(scanner, parsed_value)
-          return read_opacity!(scanner, parsed_value)
-        end
-
-        read_comma!(scanner, parsed_value)
       end
 
       private :read_separator!
