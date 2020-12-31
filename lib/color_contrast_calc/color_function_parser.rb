@@ -464,21 +464,10 @@ module ColorContrastCalc
           return Parser.function.read_number!(scanner, parsed_value)
         end
 
-        unless opacity_separator_is_next?(scanner, parsed_value)
-          return read_comma!(scanner, parsed_value)
-        end
-
-        read_opacity!(scanner, parsed_value)
+        read_comma!(scanner, parsed_value)
       end
 
       private :read_separator!
-
-      def opacity_separator_is_next?(scanner, parsed_value)
-        parsed_value[:parameters].length == 3 &&
-          check_next_token(scanner, TokenRe::SLASH)
-      end
-
-      private :opacity_separator_is_next?
 
       def check_next_token(scanner, re)
         cur_pos = scanner.pos
@@ -500,11 +489,6 @@ module ColorContrastCalc
 
       private :next_spaces_as_separator?
 
-      def read_opacity!(scanner, parsed_value)
-        read_token!(scanner, TokenRe::COMMA)
-        read_number!(scanner, parsed_value)
-      end
-
       def read_comma!(scanner, parsed_value)
         skip_spaces!(scanner)
 
@@ -518,10 +502,33 @@ module ColorContrastCalc
     end
 
     class FunctionParser < Parser
+      def read_separator!(scanner, parsed_value)
+        if next_spaces_as_separator?(scanner)
+          return read_number!(scanner, parsed_value)
+        end
+
+        if opacity_separator_is_next?(scanner, parsed_value)
+          return read_opacity!(scanner, parsed_value)
+        end
+
+        read_comma!(scanner, parsed_value)
+      end
+
+      private :read_separator!
+
+      def opacity_separator_is_next?(scanner, parsed_value)
+        parsed_value[:parameters].length == 3 &&
+          check_next_token(scanner, TokenRe::SLASH)
+      end
+
+      private :opacity_separator_is_next?
+
       def read_opacity!(scanner, parsed_value)
         read_token!(scanner, TokenRe::SLASH)
         read_number!(scanner, parsed_value)
       end
+
+      private :read_opacity!
 
       def read_comma!(scanner, parsed_value)
         skip_spaces!(scanner)
