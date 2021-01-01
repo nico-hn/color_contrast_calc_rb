@@ -508,7 +508,7 @@ module ColorContrastCalc
         read_number!(scanner, parsed_value)
       end
 
-      private :read_comma!
+      protected :read_comma!
     end
 
     class FunctionParser < Parser
