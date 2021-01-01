@@ -459,6 +459,8 @@ module ColorContrastCalc
         read_unit!(scanner, parsed_value)
       end
 
+      protected :read_number!
+
       def read_unit!(scanner, parsed_value)
         unit = scanner.scan(TokenRe::UNIT)
 
