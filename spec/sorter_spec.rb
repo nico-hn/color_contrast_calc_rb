@@ -347,7 +347,8 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when colors are represented in hex' do
-      compare = Sorter.compile_hex_compare_function('sLh')
+      compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::HEX]
+      compare = compiler.compile_compare_function('sLh')
 
       context 'without key_mapper' do
         color1, color2, color3 = hex_colors
@@ -543,7 +544,8 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '.compile_hex_compare_function' do
+  describe '[HEX].compile_compare_function' do
+    compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::HEX]
     rgb_hex1 = Utils.rgb_to_hex([0, 165, 70])
     rgb_hex2 = Utils.rgb_to_hex([165, 70, 0])
     rgb_hex3 = Utils.rgb_to_hex([0, 70, 165])
@@ -552,7 +554,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     hsl_hex3 = Utils.hsl_to_hex([20, 50, 80])
 
     context 'when color_order is rgb' do
-      compare = Sorter.compile_hex_compare_function('rgb')
+      compare = compiler.compile_compare_function('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(rgb_hex1, rgb_hex2)).to be(-1)
@@ -568,7 +570,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is Rgb' do
-      compare = Sorter.compile_hex_compare_function('Rgb')
+      compare = compiler.compile_compare_function('Rgb')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(rgb_hex1, rgb_hex2)).to be 1
@@ -588,7 +590,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is gBr' do
-      compare = Sorter.compile_hex_compare_function('gBr')
+      compare = compiler.compile_compare_function('gBr')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(rgb_hex1, rgb_hex2)).to be 1
@@ -608,7 +610,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is sLh' do
-      compare = Sorter.compile_hex_compare_function('sLh')
+      compare = compiler.compile_compare_function('sLh')
 
       it 'expects to return 1 when [20, 80, 50] and [80, 50, 20] are passed' do
         expect(compare.call(hsl_hex1, hsl_hex2)).to be 1
