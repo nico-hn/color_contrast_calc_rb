@@ -192,7 +192,7 @@ module ColorContrastCalc
       when KeyTypes::COLOR
         compare = compile_color_compare_function(color_order)
       when KeyTypes::COMPONENTS
-        compare = compile_components_compare_function(color_order)
+        compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
       when KeyTypes::HEX
         compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
       end
@@ -248,13 +248,6 @@ module ColorContrastCalc
       end
 
       0
-    end
-
-    # @private
-
-    def self.compile_components_compare_function(color_order)
-      key_type = KeyTypes::COMPONENTS
-      FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
     end
 
     # @private
