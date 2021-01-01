@@ -575,15 +575,9 @@ module ColorContrastCalc
       end
 
       def report_wrong_separator!(scanner, parsed_value)
-        out = StringIO.new
-        color_value = scanner.string
         scheme = parsed_value[:scheme].upcase
-        # The trailing space after the first message is intentional,
-        # because it is immediately followed by another message.
-        out.print "\",\" is not a valid separator for #{scheme} functions. "
-        ErrorReporter.print_error_pos!(out, color_value, scanner.charpos)
-        out.puts
-        out.string
+        message = "\",\" is not a valid separator for #{scheme} functions."
+        ErrorReporter.compose_error_message(scanner, message)
       end
 
       private :report_wrong_separator!
