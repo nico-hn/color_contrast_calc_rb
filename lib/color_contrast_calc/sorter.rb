@@ -188,14 +188,7 @@ module ColorContrastCalc
                                       key_mapper = nil, &key_mapper_block)
       key_mapper = key_mapper_block if !key_mapper && key_mapper_block
 
-      case key_type
-      when KeyTypes::COLOR
-        compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
-      when KeyTypes::COMPONENTS
-        compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
-      when KeyTypes::HEX
-        compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
-      end
+      compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
 
       compose_function(compare, key_mapper)
     end
