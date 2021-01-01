@@ -76,7 +76,7 @@ module ColorContrastCalc
       private_class_method :function?
     end
 
-    module Hex
+    class CssColor
       # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
       HEX_TO_COMPONENTS = {
         rgb: Utils.method(:hex_to_rgb),
@@ -85,7 +85,7 @@ module ColorContrastCalc
 
       private_constant :HEX_TO_COMPONENTS
 
-      def self.compile_compare_function(color_order)
+      def compile_compare_function(color_order)
         order = Sorter.parse_color_order(color_order)
         scheme = Sorter.hsl_order?(color_order) ? :hsl : :rgb
         converter = HEX_TO_COMPONENTS[scheme]
@@ -99,7 +99,7 @@ module ColorContrastCalc
         end
       end
 
-      def self.to_components(hex, converter, cache)
+      def to_components(hex, converter, cache)
         cached_components = cache[hex]
         return cached_components if cached_components
 
@@ -109,7 +109,15 @@ module ColorContrastCalc
         components
       end
 
-      private_class_method :to_components
+      private :to_components
+    end
+
+    module Hex
+      @compiler = CssColor.new
+
+      def self.compile_compare_function(color_order)
+        @compiler.compile_compare_function(color_order)
+      end
     end
 
     ##
