@@ -69,6 +69,20 @@ ERROR
           }.to raise_error(error, message)
         end
       end
+
+      context 'When old and new separators are mixed in a function' do
+        it 'expects to raise an error' do
+          message = <<~ERROR
+          " " and "," as a separator should not be used mixedly in RGB functions. An error occurred at:
+          rgb(255, 255 0)
+                      ^
+          ERROR
+
+          expect {
+            Parser.parse('rgb(255, 255 0)')
+          }.to raise_error(error, message)
+        end
+      end
     end
 
     context 'When HSL functions are passed' do

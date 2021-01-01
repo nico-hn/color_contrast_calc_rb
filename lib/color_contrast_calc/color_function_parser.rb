@@ -514,11 +514,21 @@ module ColorContrastCalc
     class ValueParser < Parser
       def read_separator!(scanner, parsed_value)
         if next_spaces_as_separator?(scanner)
-          return Parser.function.read_number!(scanner, parsed_value)
+          error_message = report_wrong_separator!(scanner, parsed_value)
+          raise InvalidColorRepresentationError, error_message
         end
 
         read_comma!(scanner, parsed_value)
       end
+
+      def report_wrong_separator!(scanner, parsed_value)
+        scheme = parsed_value[:scheme].upcase
+        template = '" " and "," as a separator should not be used mixedly in %s functions.'
+        message = format(template, scheme)
+        ErrorReporter.compose_error_message(scanner, message)
+      end
+
+      private :report_wrong_separator!
     end
 
     class FunctionParser < Parser
