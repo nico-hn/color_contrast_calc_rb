@@ -92,6 +92,16 @@ module ColorContrastCalc
       end
     end
 
+    module ComponentsCompiler
+      def self.compile_compare_function(color_order)
+        order = Sorter.parse_color_order(color_order)
+
+        proc do |color1, color2|
+          Sorter.compare_color_components(color1, color2, order)
+        end
+      end
+    end
+
     class CssColorCompiler
       def initialize(converters)
         @converters = converters
@@ -132,6 +142,7 @@ module ColorContrastCalc
 
     FUNCTION_COMPILERS = {
       KeyTypes::COLOR => ColorCompiler,
+      KeyTypes::COMPONENTS => ComponentsCompiler,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components)
     }.freeze
 
@@ -242,11 +253,8 @@ module ColorContrastCalc
     # @private
 
     def self.compile_components_compare_function(color_order)
-      order = parse_color_order(color_order)
-
-      proc do |color1, color2|
-        compare_color_components(color1, color2, order)
-      end
+      key_type = KeyTypes::COMPONENTS
+      FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
     end
 
     # @private
