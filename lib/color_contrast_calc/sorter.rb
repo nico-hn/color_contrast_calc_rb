@@ -77,18 +77,14 @@ module ColorContrastCalc
     end
 
     class CssColor
-      # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
-      HEX_TO_COMPONENTS = {
-        rgb: Utils.method(:hex_to_rgb),
-        hsl: Utils.method(:hex_to_hsl)
-      }.freeze
-
-      private_constant :HEX_TO_COMPONENTS
+      def initialize(converters)
+        @converters = converters
+      end
 
       def compile_compare_function(color_order)
         order = Sorter.parse_color_order(color_order)
         scheme = Sorter.hsl_order?(color_order) ? :hsl : :rgb
-        converter = HEX_TO_COMPONENTS[scheme]
+        converter = @converters[scheme]
         cache = {}
 
         proc do |hex1, hex2|
@@ -113,7 +109,13 @@ module ColorContrastCalc
     end
 
     module Hex
-      @compiler = CssColor.new
+      # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
+      hex_to_components = {
+        rgb: Utils.method(:hex_to_rgb),
+        hsl: Utils.method(:hex_to_hsl)
+      }.freeze
+
+      @compiler = CssColor.new(hex_to_components)
 
       def self.compile_compare_function(color_order)
         @compiler.compile_compare_function(color_order)
