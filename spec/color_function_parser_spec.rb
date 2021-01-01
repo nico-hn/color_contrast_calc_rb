@@ -55,6 +55,20 @@ ERROR
           }.to raise_error(error, message)
         end
       end
+
+      context 'When / is not passed as opacity separator in the new style notation' do
+        it 'expects to raise an error' do
+          message = <<~ERROR
+          "/" is expected as a separator for opacity in RGB functions. An error occurred at:
+          rgb(255 255 0 0.5)
+                       ^
+          ERROR
+
+          expect {
+            Parser.parse('rgb(255 255 0 0.5)')
+          }.to raise_error(error, message)
+        end
+      end
     end
 
     context 'When HSL functions are passed' do

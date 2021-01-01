@@ -504,6 +504,7 @@ module ColorContrastCalc
     class FunctionParser < Parser
       def read_separator!(scanner, parsed_value)
         if next_spaces_as_separator?(scanner)
+          error_if_opacity_separator_expected(scanner, parsed_value)
           read_number!(scanner, parsed_value)
         elsif opacity_separator_is_next?(scanner, parsed_value)
           read_opacity!(scanner, parsed_value)
@@ -513,6 +514,29 @@ module ColorContrastCalc
       end
 
       private :read_separator!
+
+      def error_if_opacity_separator_expected(scanner, parsed_value)
+        return unless parsed_value[:parameters].length == 3
+
+        error_message = report_wrong_opacity_separator!(scanner, parsed_value)
+        raise InvalidColorRepresentationError, error_message
+      end
+
+      private :error_if_opacity_separator_expected
+
+      def report_wrong_opacity_separator!(scanner, parsed_value)
+        out = StringIO.new
+        color_value = scanner.string
+        scheme = parsed_value[:scheme].upcase
+        # The trailing space after the first message is intentional,
+        # because it is immediately followed by another message.
+        out.print "\"/\" is expected as a separator for opacity in #{scheme} functions. "
+        ErrorReporter.print_error_pos!(out, color_value, scanner.charpos)
+        out.puts
+        out.string
+      end
+
+      private :report_wrong_opacity_separator!
 
       def opacity_separator_is_next?(scanner, parsed_value)
         parsed_value[:parameters].length == 3 &&
