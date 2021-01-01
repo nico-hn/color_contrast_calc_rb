@@ -722,7 +722,9 @@ RSpec.describe ColorContrastCalc::Sorter do
       rgb = [255, 255, 0]
       hsl = [60, 100, 50]
       hex = '#ffff00'
-      colors = [color, rgb, hsl, hex]
+      rgb_func = 'rgb(255 255 0)'
+      hsl_func = 'hsl(60deg 100% 50%)'
+      colors = [color, rgb, hsl, hex, rgb_func, hsl_func]
 
       context 'when a Color is passed' do
         it 'expects to return KeyTypes::COLOR when a Color is directly passed' do
@@ -765,6 +767,28 @@ RSpec.describe ColorContrastCalc::Sorter do
         it 'expects to return KeyTypes::HEX when hex is in colors' do
           key_type = Sorter::KeyTypes.guess(colors, proc {|c| c[3] })
           expect(key_type).to eq(Sorter::KeyTypes::HEX)
+        end
+      end
+
+      context 'when rgb_func is passed' do
+        it 'expects to return KeyTypes::FUNCTION when rgb_func is directly passed' do
+          expect(Sorter::KeyTypes.guess(rgb_func)).to eq(Sorter::KeyTypes::FUNCTION)
+        end
+
+        it 'expects to return KeyTypes::FUNCTION when rgb_func is in colors' do
+          key_type = Sorter::KeyTypes.guess(colors, proc {|c| c[4] })
+          expect(key_type).to eq(Sorter::KeyTypes::FUNCTION)
+        end
+      end
+
+      context 'when hsl_func is passed' do
+        it 'expects to return KeyTypes::FUNCTION when hsl_func is directly passed' do
+          expect(Sorter::KeyTypes.guess(hsl_func)).to eq(Sorter::KeyTypes::FUNCTION)
+        end
+
+        it 'expects to return KeyTypes::FUNCTION when hsl_func is in colors' do
+          key_type = Sorter::KeyTypes.guess(colors, proc {|c| c[5] })
+          expect(key_type).to eq(Sorter::KeyTypes::FUNCTION)
         end
       end
     end

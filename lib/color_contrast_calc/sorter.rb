@@ -45,6 +45,9 @@ module ColorContrastCalc
       # The function returned by Sorter.compile_compare_function() expects
       # hex color codes as key values when this constants is specified.
       HEX = :hex
+      # The function returned by Sorter.compile_compare_function() expects
+      # color functions as key values when this constants is specified.
+      FUNCTION = :function
       # @private
       CLASS_TO_TYPE = {
         Color => COLOR,
@@ -62,8 +65,15 @@ module ColorContrastCalc
 
       def self.guess(color, key_mapper = nil)
         key = key_mapper ? key_mapper[color] : color
+        return FUNCTION if function?(key)
         CLASS_TO_TYPE[key.class]
       end
+
+      def self.function?(color)
+        color.is_a?(String) && /\A(?:rgba?|hsla?|hwb)/i.match?(color)
+      end
+
+      private_class_method :function?
     end
 
     # @private shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
