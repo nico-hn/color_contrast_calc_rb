@@ -77,7 +77,7 @@ module ColorContrastCalc
     end
 
     module ColorCompiler
-      def self.compile_compare_function(color_order)
+      def self.compile(color_order)
         order = Sorter.parse_color_order(color_order)
 
         if Sorter.hsl_order?(color_order)
@@ -93,7 +93,7 @@ module ColorContrastCalc
     end
 
     module ComponentsCompiler
-      def self.compile_compare_function(color_order)
+      def self.compile(color_order)
         order = Sorter.parse_color_order(color_order)
 
         proc do |color1, color2|
@@ -107,7 +107,7 @@ module ColorContrastCalc
         @converters = converters
       end
 
-      def compile_compare_function(color_order)
+      def compile(color_order)
         order = Sorter.parse_color_order(color_order)
         scheme = Sorter.hsl_order?(color_order) ? :hsl : :rgb
         converter = @converters[scheme]
@@ -140,7 +140,7 @@ module ColorContrastCalc
       hsl: Utils.method(:hex_to_hsl)
     }
 
-    FUNCTION_COMPILERS = {
+    COMPARE_FUNCTION_COMPILERS = {
       KeyTypes::COLOR => ColorCompiler,
       KeyTypes::COMPONENTS => ComponentsCompiler,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components)
@@ -188,7 +188,7 @@ module ColorContrastCalc
                                       key_mapper = nil, &key_mapper_block)
       key_mapper = key_mapper_block if !key_mapper && key_mapper_block
 
-      compare = FUNCTION_COMPILERS[key_type].compile_compare_function(color_order)
+      compare = COMPARE_FUNCTION_COMPILERS[key_type].compile(color_order)
 
       compose_function(compare, key_mapper)
     end

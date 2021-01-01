@@ -301,8 +301,8 @@ RSpec.describe ColorContrastCalc::Sorter do
     key_mapper = proc {|item| item[0] }
 
     context 'when colors are represented in hsl' do
-      compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::COMPONENTS]
-      compare = compiler.compile_compare_function('sLh')
+      compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::COMPONENTS]
+      compare = compiler.compile('sLh')
 
       context 'without key_mapper' do
         color1, color2, color3 = hsl_colors
@@ -348,8 +348,8 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when colors are represented in hex' do
-      compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::HEX]
-      compare = compiler.compile_compare_function('sLh')
+      compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::HEX]
+      compare = compiler.compile('sLh')
 
       context 'without key_mapper' do
         color1, color2, color3 = hex_colors
@@ -483,15 +483,15 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '[COMPONENTS].compile_compare_function' do
-    compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::COMPONENTS]
+  describe '[COMPONENTS].compile' do
+    compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::COMPONENTS]
 
     color1 = [0, 165, 70]
     color2 = [165, 70, 0]
     color3 = [0, 70, 165]
 
     context 'when color_order is rgb' do
-      compare = compiler.compile_compare_function('rgb')
+      compare = compiler.compile('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(color1, color2)).to be(-1)
@@ -507,7 +507,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is Rgb' do
-      compare = compiler.compile_compare_function('Rgb')
+      compare = compiler.compile('Rgb')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(color1, color2)).to be 1
@@ -527,8 +527,8 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is gBr' do
-      compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::COMPONENTS]
-      compare = compiler.compile_compare_function('gBr')
+      compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::COMPONENTS]
+      compare = compiler.compile('gBr')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(color1, color2)).to be 1
@@ -548,8 +548,8 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '[HEX].compile_compare_function' do
-    compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::HEX]
+  describe '[HEX].compile' do
+    compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::HEX]
     rgb_hex1 = Utils.rgb_to_hex([0, 165, 70])
     rgb_hex2 = Utils.rgb_to_hex([165, 70, 0])
     rgb_hex3 = Utils.rgb_to_hex([0, 70, 165])
@@ -558,7 +558,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     hsl_hex3 = Utils.hsl_to_hex([20, 50, 80])
 
     context 'when color_order is rgb' do
-      compare = compiler.compile_compare_function('rgb')
+      compare = compiler.compile('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(rgb_hex1, rgb_hex2)).to be(-1)
@@ -574,7 +574,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is Rgb' do
-      compare = compiler.compile_compare_function('Rgb')
+      compare = compiler.compile('Rgb')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(rgb_hex1, rgb_hex2)).to be 1
@@ -594,7 +594,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is gBr' do
-      compare = compiler.compile_compare_function('gBr')
+      compare = compiler.compile('gBr')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(rgb_hex1, rgb_hex2)).to be 1
@@ -614,7 +614,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is sLh' do
-      compare = compiler.compile_compare_function('sLh')
+      compare = compiler.compile('sLh')
 
       it 'expects to return 1 when [20, 80, 50] and [80, 50, 20] are passed' do
         expect(compare.call(hsl_hex1, hsl_hex2)).to be 1
@@ -634,15 +634,15 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '[COLOR].compile_compare_function -- rgb' do
-    compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::COLOR]
+  describe '[COLOR].compile -- rgb' do
+    compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::COLOR]
 
     color1 = Color.new([0, 165, 70])
     color2 = Color.new([165, 70, 0])
     color3 = Color.new([0, 70, 165])
 
     context 'when color_order is rgb' do
-      compare = compiler.compile_compare_function('rgb')
+      compare = compiler.compile('rgb')
 
       it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(color1, color2)).to be(-1)
@@ -658,7 +658,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is Rgb' do
-      compare = compiler.compile_compare_function('Rgb')
+      compare = compiler.compile('Rgb')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(color1, color2)).to be 1
@@ -678,7 +678,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
 
     context 'when color_order is gBr' do
-      compare = compiler.compile_compare_function('gBr')
+      compare = compiler.compile('gBr')
 
       it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
         expect(compare.call(color1, color2)).to be 1
@@ -698,15 +698,15 @@ RSpec.describe ColorContrastCalc::Sorter do
     end
   end
 
-  describe '[COLOR].compile_compare_function -- hsl' do
-    compiler = Sorter::FUNCTION_COMPILERS[Sorter::KeyTypes::COLOR]
+  describe '[COLOR].compile -- hsl' do
+    compiler = Sorter::COMPARE_FUNCTION_COMPILERS[Sorter::KeyTypes::COLOR]
 
     color1 = Color.from_hsl([20, 80, 50])
     color2 = Color.from_hsl([80, 50, 20])
     color3 = Color.from_hsl([20, 50, 80])
 
     context 'when color_order is sLh' do
-      compare = compiler.compile_compare_function('sLh')
+      compare = compiler.compile('sLh')
 
       it 'expects to return 1 when [20, 80, 50] and [80, 50, 20] are passed' do
         expect(compare.call(color1, color2)).to be 1
