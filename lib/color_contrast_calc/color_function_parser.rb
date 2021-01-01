@@ -378,7 +378,7 @@ module ColorContrastCalc
 
     class Parser
       class << self
-        attr_accessor :parsers, :value, :function
+        attr_accessor :parsers, :main, :value, :function
       end
 
       def skip_spaces!(scanner)
@@ -474,7 +474,7 @@ module ColorContrastCalc
           return Parser.function.read_number!(scanner, parsed_value)
         end
 
-        read_comma!(scanner, parsed_value)
+        Parser.value.read_comma!(scanner, parsed_value)
       end
 
       private :read_separator!
@@ -509,6 +509,16 @@ module ColorContrastCalc
       end
 
       protected :read_comma!
+    end
+
+    class ValueParser < Parser
+      def read_separator!(scanner, parsed_value)
+        if next_spaces_as_separator?(scanner)
+          return Parser.function.read_number!(scanner, parsed_value)
+        end
+
+        read_comma!(scanner, parsed_value)
+      end
     end
 
     class FunctionParser < Parser
@@ -588,7 +598,8 @@ module ColorContrastCalc
       Scheme::HWB => FunctionParser.new
     }
 
-    Parser.value = Parser.new
+    Parser.main = Parser.new
+    Parser.value = ValueParser.new
     Parser.function = FunctionParser.new
 
     ##
@@ -600,7 +611,7 @@ module ColorContrastCalc
     # @return [ColorFunction] An instance of ColorFunctionParser::ColorFunction
 
     def self.parse(color_value)
-      parsed_value = Parser.value.read_scheme!(StringScanner.new(color_value))
+      parsed_value = Parser.main.read_scheme!(StringScanner.new(color_value))
       ColorFunction.create(parsed_value, color_value)
     end
 
