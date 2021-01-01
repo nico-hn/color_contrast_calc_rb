@@ -200,8 +200,8 @@ module ColorContrastCalc
 
     def self.compile_hex_compare_function(color_order)
       order = parse_color_order(color_order)
-      converter = HEX_TO_COMPONENTS[:rgb]
-      converter = HEX_TO_COMPONENTS[:hsl] if hsl_order?(color_order)
+      scheme = hsl_order?(color_order) ? :hsl : :rgb
+      converter = HEX_TO_COMPONENTS[scheme]
       cache = {}
 
       proc do |hex1, hex2|
