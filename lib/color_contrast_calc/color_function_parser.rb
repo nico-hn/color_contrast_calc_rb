@@ -535,15 +535,9 @@ module ColorContrastCalc
       private :error_if_opacity_separator_expected
 
       def report_wrong_opacity_separator!(scanner, parsed_value)
-        out = StringIO.new
-        color_value = scanner.string
         scheme = parsed_value[:scheme].upcase
-        # The trailing space after the first message is intentional,
-        # because it is immediately followed by another message.
-        out.print "\"/\" is expected as a separator for opacity in #{scheme} functions. "
-        ErrorReporter.print_error_pos!(out, color_value, scanner.charpos)
-        out.puts
-        out.string
+        message = "\"/\" is expected as a separator for opacity in #{scheme} functions."
+        ErrorReporter.compose_error_message(scanner, message)
       end
 
       private :report_wrong_opacity_separator!
