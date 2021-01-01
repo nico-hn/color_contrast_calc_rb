@@ -335,6 +335,16 @@ module ColorContrastCalc
 
       private_constant :MAX_SOURCE_LENGTH
 
+      def self.compose_error_message(scanner, message)
+        color_value = sanitized_source(scanner)
+        out = StringIO.new
+        out.print message
+        out.print ' '
+        ErrorReporter.print_error_pos!(out, color_value, scanner.charpos)
+        out.puts
+        out.string
+      end
+
       def self.format_error_message(scanner, re)
         out = StringIO.new
         color_value = sanitized_source(scanner)
