@@ -76,11 +76,41 @@ module ColorContrastCalc
       private_class_method :function?
     end
 
-    # @private shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
-    HEX_TO_COMPONENTS = {
-      rgb: Utils.method(:hex_to_rgb),
-      hsl: Utils.method(:hex_to_hsl)
-    }.freeze
+    module Hex
+      # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
+      HEX_TO_COMPONENTS = {
+        rgb: Utils.method(:hex_to_rgb),
+        hsl: Utils.method(:hex_to_hsl)
+      }.freeze
+
+      private_constant :HEX_TO_COMPONENTS
+
+      def self.compile_compare_function(color_order)
+        order = Sorter.parse_color_order(color_order)
+        scheme = Sorter.hsl_order?(color_order) ? :hsl : :rgb
+        converter = HEX_TO_COMPONENTS[scheme]
+        cache = {}
+
+        proc do |hex1, hex2|
+          color1 = to_components(hex1, converter, cache)
+          color2 = to_components(hex2, converter, cache)
+
+          Sorter.compare_color_components(color1, color2, order)
+        end
+      end
+
+      def self.to_components(hex, converter, cache)
+        cached_components = cache[hex]
+        return cached_components if cached_components
+
+        components = converter[hex]
+        cache[hex] = components
+
+        components
+      end
+
+      private_class_method :to_components
+    end
 
     ##
     # Sort colors in the order specified by +color_order+.
@@ -199,32 +229,8 @@ module ColorContrastCalc
     # @private
 
     def self.compile_hex_compare_function(color_order)
-      order = parse_color_order(color_order)
-      scheme = hsl_order?(color_order) ? :hsl : :rgb
-      converter = HEX_TO_COMPONENTS[scheme]
-      cache = {}
-
-      proc do |hex1, hex2|
-        color1 = hex_to_components(hex1, converter, cache)
-        color2 = hex_to_components(hex2, converter, cache)
-
-        compare_color_components(color1, color2, order)
-      end
+      Hex.compile_compare_function(color_order)
     end
-
-    # @private
-
-    def self.hex_to_components(hex, converter, cache)
-      cached_components = cache[hex]
-      return cached_components if cached_components
-
-      components = converter[hex]
-      cache[hex] = components
-
-      components
-    end
-
-    private_class_method :hex_to_components
 
     # @private
 
