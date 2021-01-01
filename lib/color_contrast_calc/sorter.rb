@@ -76,7 +76,7 @@ module ColorContrastCalc
       private_class_method :function?
     end
 
-    class CssColor
+    class CssColorCompiler
       def initialize(converters)
         @converters = converters
       end
@@ -115,7 +115,7 @@ module ColorContrastCalc
     }
 
     FUNCTION_COMPILERS = {
-      KeyTypes::HEX => CssColor.new(hex_to_components)
+      KeyTypes::HEX => CssColorCompiler.new(hex_to_components)
     }.freeze
 
     ##
