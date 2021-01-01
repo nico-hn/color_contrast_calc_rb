@@ -108,19 +108,15 @@ module ColorContrastCalc
       private :to_components
     end
 
-    module Hex
+    hex_to_components = {
       # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
-      hex_to_components = {
-        rgb: Utils.method(:hex_to_rgb),
-        hsl: Utils.method(:hex_to_hsl)
-      }.freeze
+      rgb: Utils.method(:hex_to_rgb),
+      hsl: Utils.method(:hex_to_hsl)
+    }
 
-      @compiler = CssColor.new(hex_to_components)
-
-      def self.compile_compare_function(color_order)
-        @compiler.compile_compare_function(color_order)
-      end
-    end
+    FUNCTION_COMPILERS = {
+      KeyTypes::HEX => CssColor.new(hex_to_components)
+    }.freeze
 
     ##
     # Sort colors in the order specified by +color_order+.
@@ -239,7 +235,7 @@ module ColorContrastCalc
     # @private
 
     def self.compile_hex_compare_function(color_order)
-      Hex.compile_compare_function(color_order)
+      FUNCTION_COMPILERS[KeyTypes::HEX].compile_compare_function(color_order)
     end
 
     # @private
