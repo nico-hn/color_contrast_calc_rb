@@ -269,6 +269,25 @@ RSpec.describe ColorContrastCalc::Sorter do
         expect(Sorter.sort(unsorted, 'RGB') {|item| item[0] }).to eq(rgb)
       end
     end
+
+    describe 'when color_order is given in HWB' do
+      color_names = %w(black gray green yellow orange blue beige brown olive)
+      key_mapper = proc {|c| Color.from_name(c) }
+
+      it 'expects to be able to sort colors in the order of hue values' do
+        expected = %w(black gray brown orange olive beige yellow green blue)
+        sorted = Sorter.sort(color_names, 'hBW', key_mapper)
+
+        expect(sorted).to eq(expected)
+      end
+
+      it 'expects to be able to sort colors in the order of whiteness' do
+        expected = %w(beige gray brown orange yellow blue olive green black)
+        sorted = Sorter.sort(color_names, 'Wbh', key_mapper)
+
+        expect(sorted).to eq(expected)
+      end
+    end
   end
 
   describe '.compile_compare_function' do

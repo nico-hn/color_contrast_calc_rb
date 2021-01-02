@@ -18,6 +18,7 @@ module ColorContrastCalc
     module ColorComponent
       RGB = 'rgb'.chars
       HSL = 'hsl'.chars
+      HWB = 'hwb'.chars
     end
 
     module CompFunc
@@ -84,6 +85,8 @@ module ColorContrastCalc
         case Sorter.select_scheme(color_order)
         when :hsl
           proc {|c1, c2| compare[c1.hsl, c2.hsl, order] }
+        when :hwb
+          proc {|c1, c2| compare[c1.hwb, c2.hwb, order] }
         else
           proc {|c1, c2| compare[c1.rgb, c2.rgb, order] }
         end
@@ -135,12 +138,14 @@ module ColorContrastCalc
     hex_to_components = {
       # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
       rgb: Utils.method(:hex_to_rgb),
-      hsl: Utils.method(:hex_to_hsl)
+      hsl: Utils.method(:hex_to_hsl),
+      hwb: proc {|hex| Utils.rgb_to_hwb(Utils.hex_to_rgb(hex)) }
     }
 
     function_to_components = {
       rgb: proc {|color| ColorContrastCalc.color_from(color).rgb },
-      hsl: proc {|color| ColorContrastCalc.color_from(color).hsl }
+      hsl: proc {|color| ColorContrastCalc.color_from(color).hsl },
+      hwb: proc {|color| ColorContrastCalc.color_from(color).hwb }
     }
 
     COMPARE_FUNCTION_COMPILERS = {
@@ -250,6 +255,8 @@ module ColorContrastCalc
       case color_order
       when /[hsl]{3}/i
         :hsl
+      when /[hwb]{3}/i
+        :hwb
       else
         :rgb
       end
@@ -259,6 +266,8 @@ module ColorContrastCalc
       case color_order
       when /[hsl]{3}/i
         ColorComponent::HSL
+      when /[hwb]{3}/i
+        ColorComponent::HWB
       else
         ColorComponent::RGB
       end
