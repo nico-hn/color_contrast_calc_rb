@@ -154,7 +154,7 @@ RSpec.describe ColorContrastCalc::Sorter do
     shared_examples 'hsl_order' do |colors, key_mapper|
       white, red, yellow, lime, blue = colors
 
-      context 'when colo_order is hLS' do
+      context 'when color_order is hLS' do
         order = 'hLS'
 
         it 'expects to return [white, red, yellow, lime, blue] when [blue, yellow, white, red, lime] is passed' do
@@ -748,7 +748,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       context 'when rgb is passed' do
-        it 'expects to return KeyTypes::COMPONENTS when rgb id directly passed' do
+        it 'expects to return KeyTypes::COMPONENTS when rgb is directly passed' do
           expect(Sorter::KeyTypes.guess(rgb)).to eq(Sorter::KeyTypes::COMPONENTS)
         end
 
@@ -759,7 +759,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       context 'when hsl is passed' do
-        it 'expects to return KeyTypes::COMPONENTS when hsl id directly passed' do
+        it 'expects to return KeyTypes::COMPONENTS when hsl is directly passed' do
           expect(Sorter::KeyTypes.guess(hsl)).to eq(Sorter::KeyTypes::COMPONENTS)
         end
 
@@ -770,7 +770,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       context 'when hex is passed' do
-        it 'expects to return KeyTypes::HEX when hex id directly passed' do
+        it 'expects to return KeyTypes::HEX when hex is directly passed' do
           expect(Sorter::KeyTypes.guess(hex)).to eq(Sorter::KeyTypes::HEX)
         end
 
