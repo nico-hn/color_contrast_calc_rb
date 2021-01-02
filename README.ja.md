@@ -289,7 +289,7 @@ The grayscale of #ffa500 is #acacac.
 ```ruby
 require 'color_contrast_calc'
 
-color_names = ['red', 'yellow', 'lime', 'cyan', 'fuchsia', 'blue']
+color_names = ['red', 'lime', 'cyan', 'yellow', 'fuchsia', 'blue']
 colors = color_names.map {|c| ColorContrastCalc.color_from(c) }
 
 # Sort by hSL order.  An uppercase for a component of color means
@@ -311,7 +311,7 @@ puts("Colors sorted in the order of GRB: #{grb_ordered.map(&:name)}")
 # And you can directly sort hex color codes.
 
 ## Hex color codes that correspond to the color_names given above.
-hex_codes = ['#ff0000', '#ff0', '#00ff00', '#0ff', '#f0f', '#0000FF']
+hex_codes = ['#ff0000', '#00ff00', '#0ff', '#ff0', '#f0f', '#0000FF']
 
 hsl_ordered = ColorContrastCalc.sort(hex_codes, 'hSL')
 puts("Colors sorted in the order of hSL: #{hsl_ordered}")
