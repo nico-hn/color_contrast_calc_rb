@@ -235,12 +235,6 @@ module ColorContrastCalc
 
     # @private
 
-    def self.hsl_order?(color_order)
-      /[hsl]{3}/i.match?(color_order)
-    end
-
-    # @private
-
     def self.compare_color_components(color1, color2, order)
       funcs = order[:funcs]
       order[:pos].each do |i|
@@ -250,6 +244,8 @@ module ColorContrastCalc
 
       0
     end
+
+    # @private
 
     def self.select_scheme(color_order)
       case color_order
