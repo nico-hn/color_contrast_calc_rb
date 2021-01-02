@@ -287,6 +287,24 @@ RSpec.describe ColorContrastCalc::Sorter do
 
         expect(sorted).to eq(expected)
       end
+
+      context 'When input is colors in hex code' do
+        colors = %w(#00f #808000 #ff0 #8fbc8f #f0f #f5f5dc)
+
+        it 'expects to be able to sort them in the order of hue values' do
+          expected = %w(#808000 #f5f5dc #ff0 #8fbc8f #00f #f0f)
+          sorted = Sorter.sort(colors, 'hBW')
+
+          expect(sorted).to eq(expected)
+        end
+
+        it 'expects to be able to sort them in the order of blackness' do
+          expected = %w(#808000 #8fbc8f #f5f5dc #ff0 #00f #f0f)
+          sorted = Sorter.sort(colors, 'Bwh')
+
+          expect(sorted).to eq(expected)
+        end
+      end
     end
   end
 
