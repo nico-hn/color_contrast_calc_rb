@@ -80,7 +80,8 @@ module ColorContrastCalc
       def self.compile(color_order)
         order = Sorter.parse_color_order(color_order)
 
-        if Sorter.hsl_order?(color_order)
+        case Sorter.select_scheme(color_order)
+        when :hsl
           proc do |color1, color2|
             Sorter.compare_color_components(color1.hsl, color2.hsl, order)
           end
