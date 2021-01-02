@@ -220,8 +220,7 @@ module ColorContrastCalc
     # @private
 
     def self.parse_color_order(color_order)
-      ordered_components = ColorComponent::RGB
-      ordered_components = ColorComponent::HSL if hsl_order?(color_order)
+      ordered_components = select_ordered_components(color_order)
       pos = color_component_pos(color_order, ordered_components)
       funcs = []
       pos.each_with_index do |ci, i|
@@ -248,5 +247,16 @@ module ColorContrastCalc
 
       0
     end
+
+    def self.select_ordered_components(color_order)
+      case color_order
+      when /[hsl]{3}/i
+        ColorComponent::HSL
+      else
+        ColorComponent::RGB
+      end
+    end
+
+    private_class_method :select_ordered_components
   end
 end
