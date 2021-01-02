@@ -66,15 +66,15 @@ module ColorContrastCalc
 
       def self.guess(color, key_mapper = nil)
         key = key_mapper ? key_mapper[color] : color
-        return FUNCTION if function?(key)
+        return FUNCTION if non_hex_code_string?(key)
         CLASS_TO_TYPE[key.class]
       end
 
-      def self.function?(color)
-        color.is_a?(String) && /\A(?:rgba?|hsla?|hwb)/i.match?(color)
+      def self.non_hex_code_string?(color)
+        color.is_a?(String) && !Utils.valid_hex?(color)
       end
 
-      private_class_method :function?
+      private_class_method :non_hex_code_string?
     end
 
     module ColorCompiler

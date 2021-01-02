@@ -306,6 +306,17 @@ RSpec.describe ColorContrastCalc::Sorter do
         end
       end
     end
+
+    describe 'when colors are color keywords' do
+      colors = %w(green red yellow fuchsia blue olive)
+
+      it 'expects to be able to sort them in the order of hue values' do
+        expected = %w(red yellow olive green blue fuchsia)
+        sorted = Sorter.sort(colors)
+
+        expect(sorted).to eq(expected)
+      end
+    end
   end
 
   describe '.compile_compare_function' do
