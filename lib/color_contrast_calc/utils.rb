@@ -256,6 +256,12 @@ module ColorContrastCalc
 
       private :normalize_hwb
 
+      ##
+      # Convert an HWB value to an RGB value.
+      #
+      # @param hwb [Array<Float>] HWB value represented as an array of numbers
+      # @return [Array<Integer>] RGB value represented as an array of integers
+
       def hwb_to_rgb(hwb)
         hue, white, black = normalize_hwb(hwb)
         rgb = Utils.hsl_to_rgb([hue, 100, 50])
@@ -264,6 +270,13 @@ module ColorContrastCalc
           ((c * (1.0 - white - black)) + white * 255).round
         end
       end
+
+      ##
+      # Convert an RGB value to an HWB value.
+      #
+      # @param rgb [Array<Integer>] RGB value represented as an array of
+      #   integers
+      # @return [Array<Float>] HWB value represented as an array of numbers
 
       def rgb_to_hwb(rgb)
         # https://www.w3.org/TR/2020/WD-css-color-4-20201112/
