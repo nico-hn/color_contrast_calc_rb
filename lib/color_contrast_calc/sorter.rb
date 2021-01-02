@@ -109,7 +109,7 @@ module ColorContrastCalc
 
       def compile(color_order)
         order = Sorter.parse_color_order(color_order)
-        scheme = Sorter.hsl_order?(color_order) ? :hsl : :rgb
+        scheme = Sorter.select_scheme(color_order)
         converter = @converters[scheme]
         cache = {}
 
@@ -246,6 +246,15 @@ module ColorContrastCalc
       end
 
       0
+    end
+
+    def self.select_scheme(color_order)
+      case color_order
+      when /[hsl]{3}/i
+        :hsl
+      else
+        :rgb
+      end
     end
 
     def self.select_ordered_components(color_order)
