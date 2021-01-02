@@ -189,6 +189,28 @@ RSpec.describe ColorContrastCalc::Sorter do
       include_examples 'hsl_order', colors2, nil
     end
 
+    describe 'when colors are RGB functions' do
+      white = 'rgb(255 255 255)'
+      red = 'rgb(255 0 0)'
+      yellow = 'rgb(255 255 0)'
+      lime = 'rgb(0 255 0)'
+      blue = 'rgb(0 0 255)'
+      colors2 = [white, red, yellow, lime, blue]
+
+      include_examples 'hsl_order', colors2, nil
+    end
+
+    describe 'when colors are HSL functions' do
+      white = 'hsl(0 0% 100%)'
+      red = 'hsl(0 100% 50%)'
+      yellow = 'hsl(60 100% 50%)'
+      lime = 'hsl(120 100% 50%)'
+      blue = 'hsl(240 100% 50%)'
+      colors2 = [white, red, yellow, lime, blue]
+
+      include_examples 'hsl_order', colors2, nil
+    end
+
     describe 'when each color is a Color object placed in an array' do
       colors = color_names.map {|color| [Color.from_name(color)] }
       key_mapper = proc {|item| item[0] }

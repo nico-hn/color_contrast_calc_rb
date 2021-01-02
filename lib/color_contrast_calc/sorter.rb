@@ -140,10 +140,16 @@ module ColorContrastCalc
       hsl: Utils.method(:hex_to_hsl)
     }
 
+    function_to_components = {
+      rgb: proc {|color| ColorContrastCalc.color_from(color).rgb },
+      hsl: proc {|color| ColorContrastCalc.color_from(color).hsl }
+    }
+
     COMPARE_FUNCTION_COMPILERS = {
       KeyTypes::COLOR => ColorCompiler,
       KeyTypes::COMPONENTS => ComponentsCompiler,
-      KeyTypes::HEX => CssColorCompiler.new(hex_to_components)
+      KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
+      KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
     }.freeze
 
     ##
