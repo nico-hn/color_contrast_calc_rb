@@ -241,10 +241,8 @@ module ColorContrastCalc
     module Hwb
       HWB_UPPER_LIMIT = [360, 100, 100].freeze
 
-      ##
-      # ref: https://www.w3.org/TR/2019/WD-css-color-4-20191105/
-
       def normalize_hwb(hwb)
+        # https://www.w3.org/TR/2019/WD-css-color-4-20191105/
         h, w, b = hwb
 
         achromatic_percent = w + b
@@ -267,10 +265,8 @@ module ColorContrastCalc
         end
       end
 
-      ##
-      # ref: https://www.w3.org/TR/2020/WD-css-color-4-20201112/
-
       def rgb_to_hwb(rgb)
+        # https://www.w3.org/TR/2020/WD-css-color-4-20201112/
         hsl = Utils.rgb_to_hsl(rgb)
         white = rgb.min
         black = 255 - rgb.max
