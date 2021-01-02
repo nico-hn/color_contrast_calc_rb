@@ -139,7 +139,7 @@ module ColorContrastCalc
       # shorthands for Utils.hex_to_rgb() and .hex_to_hsl()
       rgb: Utils.method(:hex_to_rgb),
       hsl: Utils.method(:hex_to_hsl),
-      hwb: proc {|hex| Utils.rgb_to_hwb(Utils.hex_to_rgb(hex)) }
+      hwb: Utils.method(:hex_to_hwb)
     }
 
     function_to_components = {
