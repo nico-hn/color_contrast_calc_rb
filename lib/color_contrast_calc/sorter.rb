@@ -269,11 +269,5 @@ module ColorContrastCalc
         compare_function[key_mapper[color1], key_mapper[color2]]
       end
     end
-
-    def self.select_ordered_components(color_order)
-      CompareFunctionCompiler.new.select_ordered_components(color_order)
-    end
-
-    private_class_method :select_ordered_components
   end
 end
