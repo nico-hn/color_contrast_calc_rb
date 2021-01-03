@@ -101,8 +101,12 @@ module ColorContrastCalc
       def compile_without_cache(order, converter = nil)
         compare = Sorter.method(:compare_color_components)
 
-        proc do |color1, color2|
-          compare[converter[color1], converter[color2], order]
+        if converter
+          proc do |color1, color2|
+            compare[converter[color1], converter[color2], order]
+          end
+        else
+          proc {|color1, color2| compare[color1, color2, order] }
         end
       end
 
@@ -168,7 +172,7 @@ module ColorContrastCalc
 
     COMPARE_FUNCTION_COMPILERS = {
       KeyTypes::COLOR => ColorCompiler.new(color_to_components),
-      KeyTypes::COMPONENTS => ComponentsCompiler.new,
+      KeyTypes::COMPONENTS => ColorCompiler.new,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
       KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
     }.freeze
