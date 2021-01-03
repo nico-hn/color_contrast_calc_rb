@@ -84,16 +84,15 @@ module ColorContrastCalc
 
       def compile(color_order)
         order = Sorter.parse_color_order(color_order)
-        compare = self.method(:compare_components)
-        create_proc(order, compare, color_order)
+        create_proc(order, color_order)
       end
 
-      def create_proc(order, compare, color_order)
+      def create_proc(order, color_order)
         if @converters
           conv = select_converter(color_order)
-          proc {|color1, color2| compare[conv[color1], conv[color2], order] }
+          proc {|color1, color2| compare(conv[color1], conv[color2], order) }
         else
-          proc {|color1, color2| compare[color1, color2, order] }
+          proc {|color1, color2| compare(color1, color2, order) }
         end
       end
 
@@ -108,6 +107,8 @@ module ColorContrastCalc
 
         0
       end
+
+      alias :compare :compare_components
 
       def select_converter(color_order)
         scheme = select_scheme(color_order)
@@ -131,7 +132,7 @@ module ColorContrastCalc
     end
 
     class CachingCompiler < CompareFunctionCompiler
-      def create_proc(order, compare, color_order)
+      def create_proc(order, color_order)
         converter = select_converter(color_order)
         cache = {}
 
@@ -139,7 +140,7 @@ module ColorContrastCalc
           c1 = to_components(color1, converter, cache)
           c2 = to_components(color2, converter, cache)
 
-          compare[c1, c2, order]
+          compare(c1, c2, order)
         end
       end
 
