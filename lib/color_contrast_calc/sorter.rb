@@ -114,17 +114,15 @@ module ColorContrastCalc
     end
 
     class CssColorCompiler < CompareFunctionCompiler
-      def compile(color_order)
-        order = Sorter.parse_color_order(color_order)
-        scheme = Sorter.select_scheme(color_order)
-        converter = @converters[scheme]
+      def create_proc(order, compare, color_order)
+        converter = select_converter(color_order)
         cache = {}
 
         proc do |hex1, hex2|
           color1 = to_components(hex1, converter, cache)
           color2 = to_components(hex2, converter, cache)
 
-          Sorter.compare_color_components(color1, color2, order)
+          compare[color1, color2, order]
         end
       end
 
