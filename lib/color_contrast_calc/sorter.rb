@@ -107,25 +107,25 @@ module ColorContrastCalc
       private :select_converter
     end
 
-    class CssColorCompiler < CompareFunctionCompiler
+    class CachingCompiler < CompareFunctionCompiler
       def create_proc(order, compare, color_order)
         converter = select_converter(color_order)
         cache = {}
 
-        proc do |hex1, hex2|
-          color1 = to_components(hex1, converter, cache)
-          color2 = to_components(hex2, converter, cache)
+        proc do |color1, color2|
+          c1 = to_components(color1, converter, cache)
+          c2 = to_components(color2, converter, cache)
 
-          compare[color1, color2, order]
+          compare[c1, c2, order]
         end
       end
 
-      def to_components(hex, converter, cache)
-        cached_components = cache[hex]
+      def to_components(color, converter, cache)
+        cached_components = cache[color]
         return cached_components if cached_components
 
-        components = converter[hex]
-        cache[hex] = components
+        components = converter[color]
+        cache[color] = components
 
         components
       end
@@ -155,8 +155,8 @@ module ColorContrastCalc
     COMPARE_FUNCTION_COMPILERS = {
       KeyTypes::COLOR => CompareFunctionCompiler.new(color_to_components),
       KeyTypes::COMPONENTS => CompareFunctionCompiler.new,
-      KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
-      KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
+      KeyTypes::HEX => CachingCompiler.new(hex_to_components),
+      KeyTypes::FUNCTION => CachingCompiler.new(function_to_components)
     }.freeze
 
     ##
