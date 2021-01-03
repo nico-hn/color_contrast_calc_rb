@@ -83,8 +83,38 @@ module ColorContrastCalc
       end
 
       def compile(color_order)
-        order = Sorter.parse_color_order(color_order)
+        order = parse_color_order(color_order)
         create_proc(order, color_order)
+      end
+
+      def parse_color_order(color_order)
+        ordered_components = select_ordered_components(color_order)
+        pos = color_component_pos(color_order, ordered_components)
+        funcs = []
+        pos.each_with_index do |ci, i|
+          c = color_order[i]
+          funcs[ci] = Utils.uppercase?(c) ? CompFunc::DESCEND : CompFunc::ASCEND
+        end
+        { pos: pos, funcs: funcs }
+      end
+
+      def select_ordered_components(color_order)
+        case color_order
+        when /[hsl]{3}/i
+          ColorComponent::HSL
+        when /[hwb]{3}/i
+          ColorComponent::HWB
+        else
+          ColorComponent::RGB
+        end
+      end
+
+      private :select_ordered_components
+
+      def color_component_pos(color_order, ordered_components)
+        color_order.downcase.chars.map do |component|
+          ordered_components.index(component)
+        end
       end
 
       def create_proc(order, color_order)
@@ -243,33 +273,17 @@ module ColorContrastCalc
     # @private
 
     def self.color_component_pos(color_order, ordered_components)
-      color_order.downcase.chars.map do |component|
-        ordered_components.index(component)
-      end
+      CompareFunctionCompiler.new.color_component_pos(color_order, ordered_components)
     end
 
     # @private
 
     def self.parse_color_order(color_order)
-      ordered_components = select_ordered_components(color_order)
-      pos = color_component_pos(color_order, ordered_components)
-      funcs = []
-      pos.each_with_index do |ci, i|
-        c = color_order[i]
-        funcs[ci] = Utils.uppercase?(c) ? CompFunc::DESCEND : CompFunc::ASCEND
-      end
-      { pos: pos, funcs: funcs }
+      CompareFunctionCompiler.new.parse_color_order(color_order)
     end
 
     def self.select_ordered_components(color_order)
-      case color_order
-      when /[hsl]{3}/i
-        ColorComponent::HSL
-      when /[hwb]{3}/i
-        ColorComponent::HWB
-      else
-        ColorComponent::RGB
-      end
+      CompareFunctionCompiler.new.select_ordered_components(color_order)
     end
 
     private_class_method :select_ordered_components
