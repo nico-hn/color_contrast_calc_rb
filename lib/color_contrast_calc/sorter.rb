@@ -77,8 +77,14 @@ module ColorContrastCalc
       private_class_method :non_hex_code_string?
     end
 
-    module ColorCompiler
-      def self.compile(color_order)
+    class CompareFunctionCompiler
+      def initialize(converters = nil)
+        @converters = converters
+      end
+    end
+
+    class ColorCompiler < CompareFunctionCompiler
+      def compile(color_order)
         order = Sorter.parse_color_order(color_order)
         compare = Sorter.method(:compare_color_components)
 
@@ -93,8 +99,8 @@ module ColorContrastCalc
       end
     end
 
-    module ComponentsCompiler
-      def self.compile(color_order)
+    class ComponentsCompiler < CompareFunctionCompiler
+      def compile(color_order)
         order = Sorter.parse_color_order(color_order)
 
         proc do |color1, color2|
@@ -103,11 +109,7 @@ module ColorContrastCalc
       end
     end
 
-    class CssColorCompiler
-      def initialize(converters)
-        @converters = converters
-      end
-
+    class CssColorCompiler < CompareFunctionCompiler
       def compile(color_order)
         order = Sorter.parse_color_order(color_order)
         scheme = Sorter.select_scheme(color_order)
@@ -149,8 +151,8 @@ module ColorContrastCalc
     }
 
     COMPARE_FUNCTION_COMPILERS = {
-      KeyTypes::COLOR => ColorCompiler,
-      KeyTypes::COMPONENTS => ComponentsCompiler,
+      KeyTypes::COLOR => ColorCompiler.new,
+      KeyTypes::COMPONENTS => ComponentsCompiler.new,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
       KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
     }.freeze
