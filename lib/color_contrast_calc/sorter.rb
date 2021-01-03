@@ -86,15 +86,12 @@ module ColorContrastCalc
     class ColorCompiler < CompareFunctionCompiler
       def compile(color_order)
         order = Sorter.parse_color_order(color_order)
+        scheme = Sorter.select_scheme(color_order)
+        converter = @converters[scheme]
         compare = Sorter.method(:compare_color_components)
 
-        case Sorter.select_scheme(color_order)
-        when :hsl
-          proc {|c1, c2| compare[c1.hsl, c2.hsl, order] }
-        when :hwb
-          proc {|c1, c2| compare[c1.hwb, c2.hwb, order] }
-        else
-          proc {|c1, c2| compare[c1.rgb, c2.rgb, order] }
+        proc do |color1, color2|
+          compare[converter[color1], converter[color2], order]
         end
       end
     end
@@ -150,8 +147,14 @@ module ColorContrastCalc
       hwb: proc {|color| ColorContrastCalc.color_from(color).hwb }
     }
 
+    color_to_components = {
+      rgb: proc {|color| color.rgb },
+      hsl: proc {|color| color.hsl },
+      hwb: proc {|color| color.hwb }
+    }
+
     COMPARE_FUNCTION_COMPILERS = {
-      KeyTypes::COLOR => ColorCompiler.new,
+      KeyTypes::COLOR => ColorCompiler.new(color_to_components),
       KeyTypes::COMPONENTS => ComponentsCompiler.new,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
       KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
