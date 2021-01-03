@@ -89,25 +89,22 @@ module ColorContrastCalc
       end
 
       def create_proc(order, compare, color_order)
-        proc {|color1, color2| compare[color1, color2, order] }
+        if @converters
+          conv = select_converter(color_order)
+          proc {|color1, color2| compare[conv[color1], conv[color2], order] }
+        else
+          proc {|color1, color2| compare[color1, color2, order] }
+        end
       end
 
       private :create_proc
 
       def select_converter(color_order)
-        return unless @converters
         scheme = Sorter.select_scheme(color_order)
         @converters[scheme]
       end
 
       private :select_converter
-    end
-
-    class ColorCompiler < CompareFunctionCompiler
-      def create_proc(order, compare, color_order)
-        conv = select_converter(color_order)
-        proc {|color1, color2| compare[conv[color1], conv[color2], order] }
-      end
     end
 
     class CssColorCompiler < CompareFunctionCompiler
@@ -156,7 +153,7 @@ module ColorContrastCalc
     }
 
     COMPARE_FUNCTION_COMPILERS = {
-      KeyTypes::COLOR => ColorCompiler.new(color_to_components),
+      KeyTypes::COLOR => CompareFunctionCompiler.new(color_to_components),
       KeyTypes::COMPONENTS => CompareFunctionCompiler.new,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
       KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
