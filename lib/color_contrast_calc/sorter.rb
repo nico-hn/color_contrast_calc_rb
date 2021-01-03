@@ -87,6 +87,8 @@ module ColorContrastCalc
         create_proc(order, color_order)
       end
 
+      # @private
+
       def parse_color_order(color_order)
         ordered_components = select_ordered_components(color_order)
         pos = color_component_pos(color_order, ordered_components)
@@ -111,6 +113,8 @@ module ColorContrastCalc
 
       private :select_ordered_components
 
+      # @private
+
       def color_component_pos(color_order, ordered_components)
         color_order.downcase.chars.map do |component|
           ordered_components.index(component)
@@ -127,6 +131,8 @@ module ColorContrastCalc
       end
 
       private :create_proc
+
+      # @private
 
       def compare_components(color1, color2, order)
         funcs = order[:funcs]
