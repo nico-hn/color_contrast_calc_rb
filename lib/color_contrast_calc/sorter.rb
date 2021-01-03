@@ -261,12 +261,6 @@ module ColorContrastCalc
       { pos: pos, funcs: funcs }
     end
 
-    # @private
-
-    def self.compare_color_components(color1, color2, order)
-      CompareFunctionCompiler.new.compare_components(color1, color2, order)
-    end
-
     def self.select_ordered_components(color_order)
       case color_order
       when /[hsl]{3}/i
