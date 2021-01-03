@@ -138,7 +138,7 @@ module ColorContrastCalc
         0
       end
 
-      alias :compare :compare_components
+      alias compare compare_components
 
       def select_converter(color_order)
         scheme = select_scheme(color_order)
