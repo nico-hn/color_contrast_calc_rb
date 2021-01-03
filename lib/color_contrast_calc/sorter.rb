@@ -81,6 +81,18 @@ module ColorContrastCalc
       def initialize(converters = nil)
         @converters = converters
       end
+
+      def compile(color_order)
+        order = Sorter.parse_color_order(color_order)
+        compare = Sorter.method(:compare_color_components)
+        create_proc(order, compare)
+      end
+
+      def create_proc(order, compare)
+        proc {|color1, color2| compare[color1, color2, order] }
+      end
+
+      private :create_proc
     end
 
     class ColorCompiler < CompareFunctionCompiler
@@ -110,17 +122,6 @@ module ColorContrastCalc
     end
 
     class ComponentsCompiler < CompareFunctionCompiler
-      def compile(color_order)
-        order = Sorter.parse_color_order(color_order)
-        compare = Sorter.method(:compare_color_components)
-        create_proc(order, compare)
-      end
-
-      def create_proc(order, compare)
-        proc {|color1, color2| compare[color1, color2, order] }
-      end
-
-      private :create_proc
     end
 
     class CssColorCompiler < CompareFunctionCompiler
