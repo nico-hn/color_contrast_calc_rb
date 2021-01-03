@@ -93,9 +93,7 @@ module ColorContrastCalc
       end
 
       private :create_proc
-    end
 
-    class ColorCompiler < CompareFunctionCompiler
       def select_converter(color_order)
         return unless @converters
         scheme = Sorter.select_scheme(color_order)
@@ -103,7 +101,9 @@ module ColorContrastCalc
       end
 
       private :select_converter
+    end
 
+    class ColorCompiler < CompareFunctionCompiler
       def create_proc(order, compare, color_order)
         converter = select_converter(color_order)
 
