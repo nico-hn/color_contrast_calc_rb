@@ -110,9 +110,6 @@ module ColorContrastCalc
       end
     end
 
-    class ComponentsCompiler < CompareFunctionCompiler
-    end
-
     class CssColorCompiler < CompareFunctionCompiler
       def create_proc(order, compare, color_order)
         converter = select_converter(color_order)
@@ -160,7 +157,7 @@ module ColorContrastCalc
 
     COMPARE_FUNCTION_COMPILERS = {
       KeyTypes::COLOR => ColorCompiler.new(color_to_components),
-      KeyTypes::COMPONENTS => ComponentsCompiler.new,
+      KeyTypes::COMPONENTS => CompareFunctionCompiler.new,
       KeyTypes::HEX => CssColorCompiler.new(hex_to_components),
       KeyTypes::FUNCTION => CssColorCompiler.new(function_to_components)
     }.freeze
