@@ -86,11 +86,17 @@ module ColorContrastCalc
     class ColorCompiler < CompareFunctionCompiler
       def compile(color_order)
         order = Sorter.parse_color_order(color_order)
-        scheme = Sorter.select_scheme(color_order)
-        converter = @converters[scheme]
 
-        compile_without_cache(order, converter)
+        compile_without_cache(order, select_converter(color_order))
       end
+
+      def select_converter(color_order)
+        return unless @converters
+        scheme = Sorter.select_scheme(color_order)
+        @converters[scheme]
+      end
+
+      private :select_converter
 
       def compile_without_cache(order, converter = nil)
         compare = Sorter.method(:compare_color_components)
