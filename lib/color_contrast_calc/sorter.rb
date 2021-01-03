@@ -100,11 +100,24 @@ module ColorContrastCalc
       private :create_proc
 
       def select_converter(color_order)
-        scheme = Sorter.select_scheme(color_order)
+        scheme = select_scheme(color_order)
         @converters[scheme]
       end
 
       private :select_converter
+
+      def select_scheme(color_order)
+        case color_order
+        when /[hsl]{3}/i
+          :hsl
+        when /[hwb]{3}/i
+          :hwb
+        else
+          :rgb
+        end
+      end
+
+      private :select_scheme
     end
 
     class CachingCompiler < CompareFunctionCompiler
@@ -247,19 +260,6 @@ module ColorContrastCalc
       end
 
       0
-    end
-
-    # @private
-
-    def self.select_scheme(color_order)
-      case color_order
-      when /[hsl]{3}/i
-        :hsl
-      when /[hwb]{3}/i
-        :hwb
-      else
-        :rgb
-      end
     end
 
     def self.select_ordered_components(color_order)
