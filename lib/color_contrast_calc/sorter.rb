@@ -201,9 +201,9 @@ module ColorContrastCalc
     }
 
     function_to_components = {
-      rgb: proc {|color| ColorContrastCalc.color_from(color).rgb },
-      hsl: proc {|color| ColorContrastCalc.color_from(color).hsl },
-      hwb: proc {|color| ColorContrastCalc.color_from(color).hwb }
+      rgb: proc {|func| ColorContrastCalc.color_from(func).rgb },
+      hsl: proc {|func| ColorContrastCalc.color_from(func).hsl },
+      hwb: proc {|func| ColorContrastCalc.color_from(func).hwb }
     }
 
     color_to_components = {
