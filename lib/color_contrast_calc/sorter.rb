@@ -84,7 +84,7 @@ module ColorContrastCalc
 
       def compile(color_order)
         order = Sorter.parse_color_order(color_order)
-        compare = Sorter.method(:compare_color_components)
+        compare = self.method(:compare_components)
         create_proc(order, compare, color_order)
       end
 
@@ -98,6 +98,16 @@ module ColorContrastCalc
       end
 
       private :create_proc
+
+      def compare_components(color1, color2, order)
+        funcs = order[:funcs]
+        order[:pos].each do |i|
+          result = funcs[i][color1[i], color2[i]]
+          return result unless result.zero?
+        end
+
+        0
+      end
 
       def select_converter(color_order)
         scheme = select_scheme(color_order)
@@ -253,13 +263,7 @@ module ColorContrastCalc
     # @private
 
     def self.compare_color_components(color1, color2, order)
-      funcs = order[:funcs]
-      order[:pos].each do |i|
-        result = funcs[i][color1[i], color2[i]]
-        return result unless result.zero?
-      end
-
-      0
+      CompareFunctionCompiler.new.compare_components(color1, color2, order)
     end
 
     def self.select_ordered_components(color_order)
