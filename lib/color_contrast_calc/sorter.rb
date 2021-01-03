@@ -276,12 +276,6 @@ module ColorContrastCalc
       CompareFunctionCompiler.new.color_component_pos(color_order, ordered_components)
     end
 
-    # @private
-
-    def self.parse_color_order(color_order)
-      CompareFunctionCompiler.new.parse_color_order(color_order)
-    end
-
     def self.select_ordered_components(color_order)
       CompareFunctionCompiler.new.select_ordered_components(color_order)
     end

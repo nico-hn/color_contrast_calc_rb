@@ -500,7 +500,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       compiler = Sorter::CompareFunctionCompiler.new
 
       context 'when color_order is rgb' do
-        order = Sorter.parse_color_order('rgb')
+        order = compiler.parse_color_order('rgb')
 
         it 'expects to return -1 when [0, 165, 70] and [165, 70, 0] are passed' do
           expect(compiler.compare_components(color1, color2, order)).to be(-1)
@@ -516,7 +516,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       context 'when color_order is Rgb' do
-        order = Sorter.parse_color_order('Rgb')
+        order = compiler.parse_color_order('Rgb')
 
         it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
           expect(compiler.compare_components(color1, color2, order)).to be 1
@@ -536,7 +536,7 @@ RSpec.describe ColorContrastCalc::Sorter do
       end
 
       context 'when color_order is gBr' do
-        order = Sorter.parse_color_order('gBr')
+        order = compiler.parse_color_order('gBr')
 
         it 'expects to return 1 when [0, 165, 70] and [165, 70, 0] are passed' do
           expect(compiler.compare_components(color1, color2, order)).to be 1
