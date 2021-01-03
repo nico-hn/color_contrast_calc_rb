@@ -272,6 +272,16 @@ module ColorContrastCalc
       end
 
       ##
+      # Convert an HWB value to hex color code.
+      #
+      # @param hwb [Array<Float>] HWB value represented as an array of numbers
+      # @return [String] Hex color code such as "#ffff00"
+
+      def hwb_to_hex(hwb)
+        rgb_to_hex(hwb_to_rgb(hwb))
+      end
+
+      ##
       # Convert an RGB value to an HWB value.
       #
       # @param rgb [Array<Integer>] RGB value represented as an array of

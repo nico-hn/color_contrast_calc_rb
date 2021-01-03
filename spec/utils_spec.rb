@@ -479,6 +479,16 @@ RSpec.describe ColorContrastCalc::Utils do
       end
     end
 
+    describe '.hwb_to_hex' do
+      it 'expect to return #ffff00 when [60, 0, 0] is passed' do
+        expect(Utils.hwb_to_hex([60, 0, 0])).to eq('#ffff00')
+      end
+
+      it 'expect to return #ffffff when [60, 100, 0] is passed' do
+        expect(Utils.hwb_to_hex([60, 100, 0])).to eq('#ffffff')
+      end
+    end
+
     describe '.rgb_to_hwb' do
       it 'expects to return [60, 0, 0] when [255, 255, 0] is passed' do
         expect(Utils.rgb_to_hwb([255, 255, 0])).to eq([60, 0, 0])
