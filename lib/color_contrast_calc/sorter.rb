@@ -105,11 +105,8 @@ module ColorContrastCalc
 
     class ColorCompiler < CompareFunctionCompiler
       def create_proc(order, compare, color_order)
-        converter = select_converter(color_order)
-
-        proc do |color1, color2|
-          compare[converter[color1], converter[color2], order]
-        end
+        conv = select_converter(color_order)
+        proc {|color1, color2| compare[conv[color1], conv[color2], order] }
       end
     end
 
