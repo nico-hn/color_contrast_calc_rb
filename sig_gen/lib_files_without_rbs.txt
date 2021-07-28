@@ -1,5 +1,4 @@
 lib/color_contrast_calc/converter.rb
-lib/color_contrast_calc/transparency_calc.rb
 lib/color_contrast_calc/threshold_finder.rb
 lib/color_contrast_calc/invalid_color_representation_error.rb
 lib/color_contrast_calc/color.rb
