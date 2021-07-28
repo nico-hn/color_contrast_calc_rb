@@ -3,15 +3,17 @@
 # Classes
 module ColorContrastCalc
   module Checker
+    type rgb_val = [Integer, Integer, Integer]
+
     LEVEL_TO_RATIO: Hash[String, Float | Integer]
 
-    def self.relative_luminance: (?[Integer, Integer, Integer] rgb) -> (Complex | Float)
-    def self.contrast_ratio: (untyped color1, untyped color2) -> (Complex | Float)
-    def self.luminance_to_contrast_ratio: (Complex | Float luminance1, Complex | Float luminance2) -> (Complex | Float)
+    def self.relative_luminance: (rgb_val | String rgb) -> Float
+    def self.contrast_ratio: (rgb_val | String color1, rgb_val | String color2) -> Float
+    def self.luminance_to_contrast_ratio: (Float luminance1, Float luminance2) -> Float
     def self.tristimulus_value: (Integer primary_color, ?Integer base) -> Float
-    def self.ratio_to_level: (untyped ratio) -> String
-    def self.level_to_ratio: (untyped level) -> (Float | Integer)
-    def self.light_color?: (untyped color) -> bool
+    def self.ratio_to_level: (Float | Integer ratio) -> String
+    def self.level_to_ratio: (String | Float | Integer level) -> (Float | Integer)
+    def self.light_color?: (rgb_val | String color) -> bool
 
     module Level
       A: String
