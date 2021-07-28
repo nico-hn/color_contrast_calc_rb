@@ -19,7 +19,7 @@ module ColorContrastCalc
         @target_contrast: Float | Integer
         @fixed_luminance: Complex | Float
 
-        def round: (Complex | Float | Rational ratio) -> Float
+        def round: (Complex | Float ratio) -> Float
         def increment_condition: (Complex | Float contrast_ratio) -> bool
       end
 
@@ -27,26 +27,26 @@ module ColorContrastCalc
         @target_contrast: Float | Integer
         @fixed_luminance: Complex | Float
 
-        def round: (Complex | Float | Rational ratio) -> Float
+        def round: (Complex | Float ratio) -> Float
         def increment_condition: (Complex | Float contrast_ratio) -> bool
       end
     end
 
     module FinderUtils
-      def self.binary_search_width: (Complex | Float | Integer | Rational init_width, Float min) ?{ (Float) -> (Complex | Float) } -> nil
+      def self.binary_search_width: (Float | Integer init_width, Float min) ?{ (Float) -> (Complex | Float) } -> nil
 
       private
       def sufficient_contrast?: (Float ref_luminance, untyped rgb, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria) -> bool
-      def rgb_with_better_ratio: ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped] color, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, (Complex | Float | Rational)? last_r, Float? passing_r) -> Array[Integer]
-      def find_ratio: ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped] other_color, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, Complex | Float | Rational init_ratio, Complex | Float | Integer | Rational init_width) -> ([Complex | Float | Rational, Float?])
-      def rgb_with_ratio: ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped] rgb, (Complex | Float | Rational)? ratio) -> untyped
+      def rgb_with_better_ratio: ([Float | Integer, Float | Integer, Float | Integer] color, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, (Complex | Float)? last_r, Float? passing_r) -> Array[Integer]
+      def find_ratio: ([Float | Integer, Float | Integer, Float | Integer] other_color, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, Float init_ratio, Float | Integer init_width) -> ([Complex | Float, Float?])
+      def rgb_with_ratio: ([Float | Integer, Float | Integer, Float | Integer] rgb, (Complex | Float)? ratio) -> untyped
     end
 
     module Brightness
       extend FinderUtils
 
       def self.find: (untyped fixed_rgb, untyped other_rgb, ?String level) -> Array[Integer]
-      def self.rgb_with_ratio: ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped] rgb, (Complex | Float | Rational)? ratio) -> Array[Integer]
+      def self.rgb_with_ratio: ([Float | Integer, Float | Integer, Float | Integer] rgb, (Complex | Float)? ratio) -> Array[Integer]
       def self.upper_limit_rgb: (Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, untyped other_rgb, Float max_ratio) -> Array[Integer]?
       def self.exceed_upper_limit?: (Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, untyped other_rgb, Array[Integer] limit_rgb) -> bool
       def self.calc_upper_ratio_limit: (untyped rgb) -> Integer
@@ -56,9 +56,9 @@ module ColorContrastCalc
       extend FinderUtils
 
       def self.find: (untyped fixed_rgb, untyped other_rgb, ?String level) -> Array[Integer]
-      def self.rgb_with_ratio: ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped] hsl, (Complex | Float | Rational)? ratio) -> Array[untyped]
-      def self.determine_minmax: (untyped fixed_rgb, untyped other_rgb, untyped init_l) -> [Integer, Integer]
-      def self.lightness_boundary_rgb: (untyped rgb, Integer max, Integer min, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria) -> [Integer, Integer, Integer]?
+      def self.rgb_with_ratio: ([Float | Integer, Float | Integer, Float | Integer] hsl, (Complex | Float)? ratio) -> [Integer, Integer, Integer]
+      def self.determine_minmax: (untyped fixed_rgb, untyped other_rgb, Float | Integer init_l) -> ([Float | Integer, Float | Integer])
+      def self.lightness_boundary_rgb: (untyped rgb, Float | Integer max, Float | Integer min, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria) -> [Integer, Integer, Integer]?
     end
   end
 end

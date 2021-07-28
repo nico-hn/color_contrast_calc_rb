@@ -13,8 +13,8 @@ module ColorContrastCalc
 
   module ColorFunctionParser
     def self.parse: (untyped color_value) -> ((ColorFunction::Hsl | ColorFunction::Hwb | ColorFunction::Rgb)?)
-    def self.to_rgb: (untyped color_value) -> Array[untyped]?
-    def self.to_rgba: (untyped color_value) -> Array[Float]
+    def self.to_rgb: (untyped color_value) -> [Integer, Integer, Integer]?
+    def self.to_rgba: (untyped color_value) -> (Array[Float | Integer])
 
     module Scheme
       RGB: String
@@ -73,7 +73,7 @@ module ColorContrastCalc
       def rgb: -> untyped
       def to_a: -> untyped
       def opacity: -> Float
-      def rgba: -> Array[Float]
+      def rgba: -> (Array[Float | Integer])
       def opaque?: -> bool
       def self.create: (untyped parsed_value, untyped original_value) -> ((Hsl | Hwb | Rgb)?)
 
@@ -96,7 +96,7 @@ module ColorContrastCalc
         @opacity: Float
 
         def normalize_params: -> untyped
-        def rgb: -> Array[untyped]
+        def rgb: -> [Integer, Integer, Integer]
       end
 
       class Hwb < ColorFunction
@@ -107,7 +107,7 @@ module ColorContrastCalc
         @opacity: Float
 
         def normalize_params: -> untyped
-        def rgb: -> Array[untyped]
+        def rgb: -> [Integer, Integer, Integer]
       end
     end
 

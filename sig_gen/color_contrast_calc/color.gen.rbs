@@ -8,8 +8,8 @@ module ColorContrastCalc
     GRAY: nil
     BLACK: nil
     extend Factory
-    @hsl: [Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped]
-    @hwb: [Complex | Float | Integer | Rational, untyped, Complex | Float]
+    @hsl: [Float | Integer, Float | Integer, Float | Integer]
+    @hwb: [Float | Integer, Float | Integer, Float | Integer]
     @rgb_code: String
 
     attr_reader rgb: (Array[Complex | Float | Integer | Rational] | String)?
@@ -23,8 +23,8 @@ module ColorContrastCalc
     def create: (Array[Complex | Float | Integer | Rational] rgb, ?nil name) -> Color
 
     public
-    def hsl: -> ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped])
-    def hwb: -> ([Complex | Float | Integer | Rational, untyped, Complex | Float])
+    def hsl: -> ([Float | Integer, Float | Integer, Float | Integer])
+    def hwb: -> ([Float | Integer, Float | Integer, Float | Integer])
     def common_name: -> String
     def with_contrast: (untyped ratio, ?nil name) -> Color
     def with_brightness: (untyped ratio, ?nil name) -> Color
