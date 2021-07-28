@@ -25,16 +25,16 @@ module ColorContrastCalc
       COMPONENTS: :components
       HEX: :hex
       FUNCTION: :function
-      CLASS_TO_TYPE: Hash[singleton(Array) | singleton(String), :color | :components | :hex]
+      CLASS_TO_TYPE: Hash[singleton(Array) | singleton(Color) | singleton(String), :color | :components | :hex]
 
       def self.guess: (untyped color, ?nil key_mapper) -> (:color | :components | :function | :hex)
-      def self.non_hex_code_string?: (untyped color) -> untyped
+      def self.non_hex_code_string?: (untyped color) -> bool
     end
 
     class CompareFunctionCompiler
-      @converters: {rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}?
+      @converters: {rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}?
 
-      def initialize: (?{rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}? converters) -> {rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}?
+      def initialize: (?{rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}? converters) -> ({rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}?)
       def compile: (String color_order) -> ^(untyped, untyped) -> Integer
       def parse_color_order: (String color_order) -> {pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]}
 
@@ -52,17 +52,17 @@ module ColorContrastCalc
       alias compare compare_components
 
       private
-      def select_converter: (String color_order) -> ^(untyped) -> untyped
+      def select_converter: (String color_order) -> (Method | ^(untyped) -> untyped)
       def select_scheme: (String color_order) -> (:hsl | :hwb | :rgb)
     end
 
     class CachingCompiler < CompareFunctionCompiler
-      @converters: {rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}?
+      @converters: {rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}?
 
       def create_proc: ({pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order, String color_order) -> ^(untyped, untyped) -> Integer
 
       private
-      def to_components: (untyped color, ^(untyped) -> untyped converter, Hash[bot, bot] cache) -> untyped
+      def to_components: (untyped color, Method | ^(untyped) -> untyped converter, Hash[bot, bot] cache) -> untyped
     end
   end
 end

@@ -8,24 +8,24 @@ module ColorContrastCalc
     GRAY: nil
     BLACK: nil
     extend Factory
-    @hsl: untyped
-    @hwb: untyped
+    @hsl: [Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped]
+    @hwb: [Complex | Float | Integer | Rational, untyped, Complex | Float]
     @rgb_code: String
 
-    attr_reader rgb: untyped
-    attr_reader hex: untyped
-    attr_reader name: untyped
-    attr_reader relative_luminance: untyped
-    attr_reader opacity: Float
-    def initialize: (untyped rgb, ?nil name) -> untyped
+    attr_reader rgb: (Array[Complex | Float | Integer | Rational] | String)?
+    attr_reader hex: String
+    attr_reader name: String
+    attr_reader relative_luminance: Complex | Float
+    attr_reader opacity: Complex | Float | Integer | Rational
+    def initialize: (Array[Complex | Float | Integer | Rational] | String rgb, ?nil name) -> (Complex | Float)
 
     private
-    def create: (untyped rgb, ?nil name) -> Color
+    def create: (Array[Complex | Float | Integer | Rational] rgb, ?nil name) -> Color
 
     public
-    def hsl: -> untyped
-    def hwb: -> untyped
-    def common_name: -> untyped
+    def hsl: -> ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped])
+    def hwb: -> ([Complex | Float | Integer | Rational, untyped, Complex | Float])
+    def common_name: -> String
     def with_contrast: (untyped ratio, ?nil name) -> Color
     def with_brightness: (untyped ratio, ?nil name) -> Color
     def with_invert: (?Integer ratio, ?nil name) -> Color
@@ -33,21 +33,21 @@ module ColorContrastCalc
     def with_saturate: (untyped ratio, ?nil name) -> Color
     def with_grayscale: (?Integer ratio, ?nil name) -> Color
     def complementary: (?nil name) -> Color
-    def find_brightness_threshold: (untyped other_color, ?untyped level) -> Color
-    def find_lightness_threshold: (untyped other_color, ?untyped level) -> Color
-    def contrast_ratio_against: (untyped other_color) -> untyped
-    def contrast_level: (untyped other_color) -> untyped
+    def find_brightness_threshold: (untyped other_color, ?String level) -> Color
+    def find_lightness_threshold: (untyped other_color, ?String level) -> Color
+    def contrast_ratio_against: (untyped other_color) -> (Complex | Float)
+    def contrast_level: (untyped other_color) -> String
     def to_s: (?Integer base) -> String
-    def sufficient_contrast?: (untyped other_color, ?untyped level) -> untyped
-    def same_color?: (untyped other_color) -> nil
-    def max_contrast?: -> untyped
-    def min_contrast?: -> untyped
-    def higher_luminance_than?: (untyped other_color) -> untyped
-    def same_luminance_as?: (untyped other_color) -> untyped
-    def light_color?: -> untyped
+    def sufficient_contrast?: (untyped other_color, ?String level) -> bool
+    def same_color?: (untyped other_color) -> bool?
+    def max_contrast?: -> bool
+    def min_contrast?: -> bool
+    def higher_luminance_than?: (untyped other_color) -> bool
+    def same_luminance_as?: (untyped other_color) -> bool
+    def light_color?: -> bool
 
     private
-    def generate_new_color: (untyped calc, Integer ratio, ?nil name) -> Color
+    def generate_new_color: (singleton(Converter::Brightness) | singleton(Converter::Contrast) | singleton(Converter::Grayscale) | singleton(Converter::HueRotate) | singleton(Converter::Invert) | singleton(Converter::Saturate) calc, Integer ratio, ?nil name) -> Color
 
     module Factory
       def from_name: (untyped name) -> untyped

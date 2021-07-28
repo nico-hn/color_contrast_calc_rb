@@ -2,10 +2,19 @@
 
 # Classes
 module ColorContrastCalc
+# def self.color_from: (untyped color_value, ?nil name) -> Color
+# def self.sort: (untyped colors, ?String color_order, ?nil key_mapper) -> untyped
+# def self.contrast_ratio: (untyped color1, nil color2) -> (Complex | Float)
+# def self.contrast_ratio_with_opacity: (untyped foreground, untyped background, ?nil base) -> (Complex | Float)
+# def self.higher_contrast_base_color_for: (untyped color, ?light_base: nil, ?dark_base: untyped) -> nil
+# def self.named_colors: (?frozen: true) -> untyped
+# def self.web_safe_colors: (?frozen: true) -> Array[Color]
+# def self.hsl_colors: (?s: Integer, ?l: Integer, ?h_interval: Integer) -> Array[Color]
+
   module ColorFunctionParser
     def self.parse: (untyped color_value) -> ((ColorFunction::Hsl | ColorFunction::Hwb | ColorFunction::Rgb)?)
-    def self.to_rgb: (untyped color_value) -> nil
-    def self.to_rgba: (untyped color_value) -> untyped
+    def self.to_rgb: (untyped color_value) -> Array[untyped]?
+    def self.to_rgba: (untyped color_value) -> Array[Float]
 
     module Scheme
       RGB: String
@@ -64,7 +73,7 @@ module ColorContrastCalc
       def rgb: -> untyped
       def to_a: -> untyped
       def opacity: -> Float
-      def rgba: -> untyped
+      def rgba: -> Array[Float]
       def opaque?: -> bool
       def self.create: (untyped parsed_value, untyped original_value) -> ((Hsl | Hwb | Rgb)?)
 
@@ -87,7 +96,7 @@ module ColorContrastCalc
         @opacity: Float
 
         def normalize_params: -> untyped
-        def rgb: -> untyped
+        def rgb: -> Array[untyped]
       end
 
       class Hwb < ColorFunction
@@ -98,7 +107,7 @@ module ColorContrastCalc
         @opacity: Float
 
         def normalize_params: -> untyped
-        def rgb: -> untyped
+        def rgb: -> Array[untyped]
       end
     end
 
@@ -175,7 +184,7 @@ module ColorContrastCalc
 
       private
       def report_wrong_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> String
-      def wrong_separator_error: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> bot
+      def wrong_separator_error: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> untyped
     end
   end
 end

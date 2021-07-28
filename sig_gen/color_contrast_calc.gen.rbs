@@ -2,12 +2,12 @@
 
 # Classes
 module ColorContrastCalc
-  def self.color_from: (untyped color_value, ?nil name) -> untyped
+  def self.color_from: (untyped color_value, ?nil name) -> Color
   def self.sort: (untyped colors, ?String color_order, ?nil key_mapper) -> untyped
-  def self.contrast_ratio: (untyped color1, untyped color2) -> untyped
-  def self.contrast_ratio_with_opacity: (untyped foreground, untyped background, ?untyped base) -> untyped
-  def self.higher_contrast_base_color_for: (untyped color, ?light_base: untyped, ?dark_base: untyped) -> untyped
+  def self.contrast_ratio: (untyped color1, nil color2) -> (Complex | Float)
+  def self.contrast_ratio_with_opacity: (untyped foreground, untyped background, ?nil base) -> (Complex | Float)
+  def self.higher_contrast_base_color_for: (untyped color, ?light_base: nil, ?dark_base: untyped) -> nil
   def self.named_colors: (?frozen: true) -> untyped
-  def self.web_safe_colors: (?frozen: true) -> untyped
-  def self.hsl_colors: (?s: Integer, ?l: Integer, ?h_interval: Integer) -> untyped
+  def self.web_safe_colors: (?frozen: true) -> Array[Color]
+  def self.hsl_colors: (?s: Integer, ?l: Integer, ?h_interval: Integer) -> Array[Color]
 end
