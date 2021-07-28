@@ -1,4 +1,3 @@
-lib/color_contrast_calc/utils.rb
 lib/color_contrast_calc/converter.rb
 lib/color_contrast_calc/checker.rb
 lib/color_contrast_calc/transparency_calc.rb

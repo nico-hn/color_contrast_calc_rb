@@ -3,42 +3,46 @@
 # Classes
 module ColorContrastCalc
   module Utils
+    type rgb_val = [Integer, Integer, Integer]
+    type hsl_val = [Float | Integer, Float | Integer, Float | Integer]
+    type hwb_val = [Float | Integer, Float | Integer, Float | Integer]
+
     MIN_OPACITY: Integer
     MAX_OPACITY: Float
     HSL_UPPER_LIMIT: [Integer, Integer, Integer]
     HEX_RE: Regexp
     extend Hwb
 
-    def self.hex_to_rgb: (untyped hex_code) -> Array[untyped]?
-    def self.normalize_hex: (untyped code, ?true prefix) -> String
-    def self.rgb_to_hex: (Array[untyped] rgb) -> String
-    def self.hsl_to_rgb: ([untyped, Integer, Integer] hsl) -> Array[untyped]
-    def self.hue_to_rgb: (untyped m1, untyped m2, untyped h) -> untyped
-    def self.hsl_to_hex: (untyped hsl) -> String
-    def self.rgb_to_hsl: (Array[untyped]? rgb) -> ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped])
-    def self.rgb_to_lightness: (Array[untyped]? rgb) -> untyped
-    def self.rgb_to_saturation: (Array[untyped]? rgb) -> (Complex | Float | Integer | Rational)
-    def self.rgb_to_hue: (Array[untyped]? rgb) -> (Complex | Float | Integer | Rational)
-    def self.minmax_with_diff: (Array[untyped]? rgb) { (nil, nil, untyped) -> (Complex | Float | Integer | Rational) } -> (Complex | Float | Integer | Rational)
-    def self.hex_to_hsl: (untyped hex_code) -> ([Complex | Float | Integer | Rational, Complex | Float | Integer | Rational, untyped])
-    def self.valid_rgb?: (untyped rgb) -> untyped
-    def self.valid_hsl?: (untyped hsl) -> untyped
-    def self.valid_hex?: (untyped hex_code) -> bool
-    def self.same_hex_color?: (untyped hex1, untyped hex2) -> bool
-    def self.uppercase?: (untyped str) -> bool
+    def self.hex_to_rgb: (String hex_code) -> rgb_val?
+    def self.normalize_hex: (String code, ?true prefix) -> String
+    def self.rgb_to_hex: ([Integer, Integer, Integer] rgb) -> String
+    def self.hsl_to_rgb: (hsl_val hsl) -> rgb_val
+    def self.hue_to_rgb: (Float m1, Float m2, Float h) -> Float
+    def self.hsl_to_hex: (hsl_val hsl) -> String
+    def self.rgb_to_hsl: (rgb_val rgb) -> hsl_val
+    def self.rgb_to_lightness: (rgb_val rgb) -> Float
+    def self.rgb_to_saturation: (rgb_val rgb) -> Float
+    def self.rgb_to_hue: (rgb_val rgb) -> Float
+    def self.minmax_with_diff: (rgb_val rgb) { (Integer, Integer, Float) -> (Float | Integer) } -> (Float | Integer)
+    def self.hex_to_hsl: (String hex_code) -> hsl_val
+    def self.valid_rgb?: (rgb_val rgb) -> bool
+    def self.valid_hsl?: (hsl_val hsl) -> bool
+    def self.valid_hex?: (String hex_code) -> bool
+    def self.same_hex_color?: (String hex1, String hex2) -> bool
+    def self.uppercase?: (String str) -> bool
 
     module Hwb
       HWB_UPPER_LIMIT: [Integer, Integer, Integer]
 
       private
-      def normalize_hwb: (untyped hwb) -> [untyped, untyped, untyped]
+      def normalize_hwb: (hwb_val hwb) -> [Float, Float, Float]
 
       public
-      def hwb_to_rgb: (untyped hwb) -> Array[untyped]
-      def hwb_to_hex: (untyped hwb) -> untyped
-      def rgb_to_hwb: (Array[untyped]? rgb) -> ([Complex | Float | Integer | Rational, untyped, Complex | Float])
-      def hex_to_hwb: (untyped hex_code) -> ([Complex | Float | Integer | Rational, untyped, Complex | Float])
-      def valid_hwb?: (untyped hwb) -> untyped
+      def hwb_to_rgb: (hwb_val hwb) -> rgb_val
+      def hwb_to_hex: (hwb_val hwb) -> String
+      def rgb_to_hwb: (rgb_val rgb) -> hwb_val
+      def hex_to_hwb: (String hex_code) -> hwb_val
+      def valid_hwb?: (hwb_val hwb) -> bool
     end
   end
 
