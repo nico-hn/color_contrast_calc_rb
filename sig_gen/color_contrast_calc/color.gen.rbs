@@ -1,0 +1,83 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  class Color
+    RGB_LIMITS: [Integer, Integer]
+    WHITE: nil
+    GRAY: nil
+    BLACK: nil
+    extend Factory
+    @hsl: untyped
+    @hwb: untyped
+    @rgb_code: String
+
+    attr_reader rgb: untyped
+    attr_reader hex: untyped
+    attr_reader name: untyped
+    attr_reader relative_luminance: untyped
+    attr_reader opacity: Float
+    def initialize: (untyped rgb, ?nil name) -> untyped
+
+    private
+    def create: (untyped rgb, ?nil name) -> Color
+
+    public
+    def hsl: -> untyped
+    def hwb: -> untyped
+    def common_name: -> untyped
+    def with_contrast: (untyped ratio, ?nil name) -> Color
+    def with_brightness: (untyped ratio, ?nil name) -> Color
+    def with_invert: (?Integer ratio, ?nil name) -> Color
+    def with_hue_rotate: (untyped degree, ?nil name) -> Color
+    def with_saturate: (untyped ratio, ?nil name) -> Color
+    def with_grayscale: (?Integer ratio, ?nil name) -> Color
+    def complementary: (?nil name) -> Color
+    def find_brightness_threshold: (untyped other_color, ?untyped level) -> Color
+    def find_lightness_threshold: (untyped other_color, ?untyped level) -> Color
+    def contrast_ratio_against: (untyped other_color) -> untyped
+    def contrast_level: (untyped other_color) -> untyped
+    def to_s: (?Integer base) -> String
+    def sufficient_contrast?: (untyped other_color, ?untyped level) -> untyped
+    def same_color?: (untyped other_color) -> nil
+    def max_contrast?: -> untyped
+    def min_contrast?: -> untyped
+    def higher_luminance_than?: (untyped other_color) -> untyped
+    def same_luminance_as?: (untyped other_color) -> untyped
+    def light_color?: -> untyped
+
+    private
+    def generate_new_color: (untyped calc, Integer ratio, ?nil name) -> Color
+
+    module Factory
+      def from_name: (untyped name) -> untyped
+      def from_rgb: (untyped rgb, ?nil name) -> untyped
+      def from_hex: (untyped hex, ?nil name) -> untyped
+      def from_hsl: ([Integer | Numeric, Integer, Integer] hsl, ?nil name) -> Color
+      def color_from: (untyped color_value, ?nil name) -> Color
+
+      private
+      def function?: (untyped color_value) -> Integer?
+
+      public
+      def as_color: (untyped color_value, ?nil name) -> Color
+
+      private
+      def opaque?: ([Integer | Numeric, Integer, Integer] color_value) -> bool
+      def color_from_rgba: (untyped rgba_value, ?nil name) -> untyped
+      def color_from_rgb: (untyped rgb_value, ?nil name) -> untyped
+      def color_from_func: (untyped color_value, ?nil name) -> Color
+      def color_from_str: (untyped color_value, ?nil name) -> untyped
+    end
+
+    module List
+      NAMED_COLORS: untyped
+      NAME_TO_COLOR: untyped
+      HEX_TO_COLOR: untyped
+      WEB_SAFE_COLORS: Array[Color]
+
+      def self.generate_web_safe_colors: -> Array[Color]
+      def self.hsl_colors: (?s: Integer, ?l: Integer, ?h_interval: Integer) -> Array[Color]
+    end
+  end
+end

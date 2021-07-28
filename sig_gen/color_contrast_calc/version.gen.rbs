@@ -1,0 +1,6 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  VERSION: String
+end

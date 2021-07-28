@@ -1,0 +1,27 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  module Checker
+    LEVEL_TO_RATIO: Hash[String, Float | Integer]
+
+    def self.relative_luminance: (?[Integer, Integer, Integer] rgb) -> (Complex | Float)
+    def self.contrast_ratio: (untyped color1, untyped color2) -> (Complex | Float)
+    def self.luminance_to_contrast_ratio: (Complex | Float luminance1, Complex | Float luminance2) -> (Complex | Float)
+    def self.tristimulus_value: (Integer primary_color, ?Integer base) -> Float
+    def self.ratio_to_level: (untyped ratio) -> String
+    def self.level_to_ratio: (untyped level) -> (Float | Integer)
+    def self.light_color?: (untyped color) -> bool
+
+    module Level
+      A: String
+      AA: String
+      AAA: String
+    end
+
+    module Luminance
+      WHITE: Float
+      BLACK: Float
+    end
+  end
+end

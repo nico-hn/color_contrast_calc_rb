@@ -1,0 +1,181 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  module ColorFunctionParser
+    def self.parse: (untyped color_value) -> ((ColorFunction::Hsl | ColorFunction::Hwb | ColorFunction::Rgb)?)
+    def self.to_rgb: (untyped color_value) -> nil
+    def self.to_rgba: (untyped color_value) -> untyped
+
+    module Scheme
+      RGB: String
+      RGBA: String
+      HSL: String
+      HSLA: String
+      HWB: String
+    end
+
+    module Unit
+      PERCENT: String
+      DEG: String
+      GRAD: String
+      RAD: String
+      TURN: String
+    end
+
+    class Validator
+      POS: [String, String, String]
+      RGB: Validator
+      HSL: Validator
+      HWB: Validator
+      VALIDATORS: Hash[String, Validator]
+      include Unit
+      @config: {scheme: String, units: [Array[nil], Array[nil], Array[nil], [nil, untyped]]}
+      @scheme: String
+
+      def initialize: { -> {scheme: String, units: [Array[nil], Array[nil], Array[nil], [nil, untyped]]} } -> String
+
+      private
+      def format_to_function: (untyped parameters) -> String
+      def error_message: (untyped parameters, untyped passed_unit, untyped pos, ?nil original_value) -> String
+
+      public
+      def validate_units: (untyped parameters, ?nil original_value) -> true
+      def self.validate: (untyped parsed_value, ?nil original_value) -> true
+    end
+
+    class ColorFunction
+      UNIT_CONV: Hash[String, ^(untyped, ?Integer?) -> untyped]
+      @params: untyped
+      @normalized: untyped
+      @opacity: Float
+
+      attr_reader scheme: untyped
+      attr_reader source: untyped
+      def initialize: (untyped parsed_value) -> nil
+
+      private
+      def convert_unit: (untyped param, ?Integer? base) -> untyped
+      def normalize_params: -> untyped
+      def color_components: -> nil
+      def normalize_opacity!: (untyped normalized) -> nil
+
+      public
+      def rgb: -> untyped
+      def to_a: -> untyped
+      def opacity: -> Float
+      def rgba: -> untyped
+      def opaque?: -> bool
+      def self.create: (untyped parsed_value, untyped original_value) -> ((Hsl | Hwb | Rgb)?)
+
+      class Rgb < ColorFunction
+        @params: untyped
+        @scheme: untyped
+        @source: untyped
+        @normalized: untyped
+        @opacity: Float
+
+        def normalize_params: -> untyped
+        alias rgb color_components
+      end
+
+      class Hsl < ColorFunction
+        @params: untyped
+        @normalized: untyped
+        @scheme: untyped
+        @source: untyped
+        @opacity: Float
+
+        def normalize_params: -> untyped
+        def rgb: -> untyped
+      end
+
+      class Hwb < ColorFunction
+        @params: untyped
+        @normalized: untyped
+        @scheme: untyped
+        @source: untyped
+        @opacity: Float
+
+        def normalize_params: -> untyped
+        def rgb: -> untyped
+      end
+    end
+
+    module TokenRe
+      SPACES: Regexp
+      SCHEME: Regexp
+      OPEN_PAREN: Regexp
+      CLOSE_PAREN: Regexp
+      COMMA: Regexp
+      SLASH: Regexp
+      NUMBER: Regexp
+      UNIT: Regexp
+    end
+
+    module ErrorReporter
+      MAX_SOURCE_LENGTH: Integer
+
+      def self.compose_error_message: (untyped scanner, String message) -> String
+      def self.format_error_message: (untyped scanner, Regexp re) -> String
+      def self.print_error_pos!: (StringIO out, String color_value, untyped pos) -> nil
+      def self.sanitized_source: (untyped scanner) -> String
+    end
+
+    class Parser
+      private
+      def skip_spaces!: (untyped scanner) -> untyped
+
+      public
+      def read_scheme!: (untyped scanner) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      private
+      def format_error_message: (untyped scanner, Regexp re) -> String
+      def source_until_current_pos: (untyped scanner) -> untyped
+      def fix_value!: ({scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value, untyped scanner) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+      def read_token!: (untyped scanner, Regexp re) -> untyped
+
+      public
+      def read_open_paren!: (untyped scanner, {scheme: untyped, parameters: Array[bot]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      private
+      def read_close_paren!: (untyped scanner) -> untyped
+      def read_parameters!: (untyped scanner, {scheme: untyped, parameters: Array[bot]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      public
+      def read_number!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      private
+      def read_unit!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+      def read_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> untyped
+      def check_next_token: (untyped scanner, Regexp re) -> untyped
+      def next_spaces_as_separator?: (untyped scanner) -> untyped
+
+      public
+      def read_comma!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+    end
+
+    class ValueParser < Parser
+      def read_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      private
+      def report_wrong_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> String
+    end
+
+    class FunctionParser < Parser
+      private
+      def read_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+      def error_if_opacity_separator_expected: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> nil
+      def report_wrong_opacity_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> String
+      def opacity_separator_is_next?: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> false
+      def read_opacity!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      public
+      def read_comma!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> {scheme: untyped, parameters: Array[{number: untyped, unit: nil}], source: untyped}
+
+      private
+      def report_wrong_separator!: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> String
+      def wrong_separator_error: (untyped scanner, {scheme: untyped, parameters: Array[{number: untyped, unit: nil}]} parsed_value) -> bot
+    end
+  end
+end

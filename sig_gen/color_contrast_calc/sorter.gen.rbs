@@ -1,0 +1,68 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  module Sorter
+    COMPARE_FUNCTION_COMPILERS: {color: CompareFunctionCompiler, components: CompareFunctionCompiler, hex: CachingCompiler, function: CachingCompiler}
+
+    def self.sort: (untyped colors, ?String color_order, ?nil key_mapper) -> untyped
+    def self.compile_compare_function: (String color_order, :color | :components | :function | :hex key_type, ?nil key_mapper) -> ^(untyped, untyped) -> Integer
+    def self.compose_function: (^(untyped, untyped) -> Integer compare_function, ?nil key_mapper) -> ^(untyped, untyped) -> Integer
+
+    module ColorComponent
+      RGB: Array[String]
+      HSL: Array[String]
+      HWB: Array[String]
+    end
+
+    module CompFunc
+      ASCEND: ^(untyped, untyped) -> untyped
+      DESCEND: ^(untyped, untyped) -> untyped
+    end
+
+    module KeyTypes
+      COLOR: :color
+      COMPONENTS: :components
+      HEX: :hex
+      FUNCTION: :function
+      CLASS_TO_TYPE: Hash[singleton(Array) | singleton(String), :color | :components | :hex]
+
+      def self.guess: (untyped color, ?nil key_mapper) -> (:color | :components | :function | :hex)
+      def self.non_hex_code_string?: (untyped color) -> untyped
+    end
+
+    class CompareFunctionCompiler
+      @converters: {rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}?
+
+      def initialize: (?{rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}? converters) -> {rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}?
+      def compile: (String color_order) -> ^(untyped, untyped) -> Integer
+      def parse_color_order: (String color_order) -> {pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]}
+
+      private
+      def select_ordered_components: (String color_order) -> Array[String]
+
+      public
+      def color_component_pos: (String color_order, Array[String] ordered_components) -> Array[Integer?]
+
+      private
+      def create_proc: ({pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order, String color_order) -> ^(untyped, untyped) -> Integer
+
+      public
+      def compare_components: (untyped color1, untyped color2, {pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order) -> Integer
+      alias compare compare_components
+
+      private
+      def select_converter: (String color_order) -> ^(untyped) -> untyped
+      def select_scheme: (String color_order) -> (:hsl | :hwb | :rgb)
+    end
+
+    class CachingCompiler < CompareFunctionCompiler
+      @converters: {rgb: ^(untyped) -> untyped, hsl: ^(untyped) -> untyped, hwb: ^(untyped) -> untyped}?
+
+      def create_proc: ({pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order, String color_order) -> ^(untyped, untyped) -> Integer
+
+      private
+      def to_components: (untyped color, ^(untyped) -> untyped converter, Hash[bot, bot] cache) -> untyped
+    end
+  end
+end

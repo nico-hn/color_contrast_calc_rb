@@ -1,0 +1,8 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  module Shim
+    def clamp: (untyped lower_bound, untyped upper_bound) -> Shim
+  end
+end

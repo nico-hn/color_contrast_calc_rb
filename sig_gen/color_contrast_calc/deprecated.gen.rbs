@@ -1,0 +1,21 @@
+# TypeProf 0.12.0
+
+# Classes
+module ColorContrastCalc
+  module Deprecated
+    def self.warn: (untyped old_method, :from_hsl | :with_brightness | :with_contrast | :with_grayscale | :with_hue_rotate | :with_invert | :with_saturate new_method) -> nil
+
+    module Color
+      def new_contrast_color: (untyped ratio, ?nil name) -> untyped
+      def new_brightness_color: (untyped ratio, ?nil name) -> untyped
+      def new_invert_color: (?Integer ratio, ?nil name) -> untyped
+      def new_hue_rotate_color: (untyped degree, ?nil name) -> untyped
+      def new_saturate_color: (untyped ratio, ?nil name) -> untyped
+      def new_grayscale_color: (?Integer ratio, ?nil name) -> untyped
+
+      module Factory
+        def new_from_hsl: (untyped hsl, ?nil name) -> untyped
+      end
+    end
+  end
+end

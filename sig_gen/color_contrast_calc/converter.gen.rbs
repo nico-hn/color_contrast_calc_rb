@@ -1,0 +1,81 @@
+# TypeProf 0.12.0
+
+# Classes
+class Matrix
+  alias element []
+  alias component []
+
+  private
+  alias set_element []=
+  alias set_component []=
+
+  public
+  alias map! collect!
+end
+
+class Vector
+  alias element []
+  alias component []
+
+  private
+  alias set_element []=
+  alias set_component []=
+
+  public
+  alias map! collect!
+end
+
+module ColorContrastCalc
+  module Converter
+    def self.rgb_map: (Array[(Array[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?] | Complex | Enumerator[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?, untyped] | Float | Integer | Matrix | Numeric | Rational | String | Vector)?]? vals) ?{ (?(Array[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?] | Complex | Enumerator[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?, untyped] | Float | Integer | Matrix | Numeric | Rational | String | Vector)?) -> ((Complex | Float | Matrix | Vector)?) } -> Array[Integer]
+
+    module AlphaCompositing
+      def self.compose: (untyped foreground, untyped background, ?[Integer, Integer, Integer, Float] base) -> {foreground: Array[Integer], background: Array[Integer]}
+      def self.normalize: (untyped raw_rgba) -> Array[Integer]
+      def self.calc: (untyped source, [Integer, Integer, Integer, Float] backdrop) -> untyped
+
+      module Rgba
+        BLACK: [Integer, Integer, Integer, Float]
+        WHITE: [Integer, Integer, Integer, Float]
+      end
+    end
+
+    module Contrast
+      def self.calc_rgb: (untyped rgb, ?Integer ratio) -> Array[Integer]
+    end
+
+    module Brightness
+      def self.calc_rgb: (untyped rgb, ?Integer ratio) -> Array[Integer]
+    end
+
+    module Invert
+      def self.calc_rgb: (untyped rgb, untyped ratio) -> untyped
+    end
+
+    module HueRotate
+      CONST_PART: Matrix
+      COS_PART: Matrix
+      SIN_PART: Matrix
+
+      def self.calc_rgb: (untyped rgb, untyped deg) -> Array[Integer]
+      def self.deg_to_rad: (untyped deg) -> (Complex | Float)
+      def self.calc_rotation: (untyped deg) -> Matrix
+    end
+
+    module Saturate
+      CONST_PART: Matrix
+      SATURATE_PART: Matrix
+
+      def self.calc_rgb: (untyped rgb, untyped s) -> Array[Integer]
+      def self.calc_saturation: (untyped s) -> Matrix
+    end
+
+    module Grayscale
+      CONST_PART: Matrix
+      RATIO_PART: Matrix
+
+      def self.calc_rgb: (untyped rgb, untyped s) -> Array[Integer]
+      def self.calc_grayscale: (untyped s) -> Matrix
+    end
+  end
+end
