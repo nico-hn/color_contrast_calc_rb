@@ -15,9 +15,9 @@ module ColorContrastCalc
     attr_reader rgb: (Array[Complex | Float | Integer | Rational] | String)?
     attr_reader hex: String
     attr_reader name: String
-    attr_reader relative_luminance: Complex | Float
+    attr_reader relative_luminance: Float
     attr_reader opacity: Complex | Float | Integer | Rational
-    def initialize: (Array[Complex | Float | Integer | Rational] | String rgb, ?nil name) -> (Complex | Float)
+    def initialize: (Array[Complex | Float | Integer | Rational] | String rgb, ?nil name) -> Float
 
     private
     def create: (Array[Complex | Float | Integer | Rational] rgb, ?nil name) -> Color
@@ -35,7 +35,7 @@ module ColorContrastCalc
     def complementary: (?nil name) -> Color
     def find_brightness_threshold: (untyped other_color, ?String level) -> Color
     def find_lightness_threshold: (untyped other_color, ?String level) -> Color
-    def contrast_ratio_against: (untyped other_color) -> (Complex | Float)
+    def contrast_ratio_against: (untyped other_color) -> Float
     def contrast_level: (untyped other_color) -> String
     def to_s: (?Integer base) -> String
     def sufficient_contrast?: (untyped other_color, ?String level) -> bool

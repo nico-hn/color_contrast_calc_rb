@@ -5,7 +5,7 @@ module ColorContrastCalc
   module TransparencyCalc
     include Converter::AlphaCompositing::Rgba
 
-    def self.contrast_ratio: (untyped foreground, untyped background, ?untyped base) -> (Complex | Float)
+    def self.contrast_ratio: (untyped foreground, untyped background, ?untyped base) -> Float
     def self.opaque?: (untyped rgba) -> untyped
     def self.to_rgb: (Array[Integer] rgba) -> Array[Integer]
     def self.compose: (untyped foreground, untyped background, untyped base) -> {foreground: Array[Integer], background: Array[Integer]}

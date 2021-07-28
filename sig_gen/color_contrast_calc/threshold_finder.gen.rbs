@@ -10,25 +10,25 @@ module ColorContrastCalc
       class SearchDirection
         attr_reader target_contrast: bot
         attr_reader fixed_luminance: bot
-        def initialize: (String level, untyped fixed_rgb) -> (Complex | Float)
+        def initialize: (String level, untyped fixed_rgb) -> Float
         def sufficient_contrast?: (Array[Integer] rgb) -> bool
-        def contrast_ratio: (Array[Integer] rgb) -> (Complex | Float)
+        def contrast_ratio: (Array[Integer] rgb) -> Float
       end
 
       class ToDarkerSide < SearchDirection
         @target_contrast: Float | Integer
-        @fixed_luminance: Complex | Float
+        @fixed_luminance: Float
 
         def round: (Complex | Float ratio) -> Float
-        def increment_condition: (Complex | Float contrast_ratio) -> bool
+        def increment_condition: (Float contrast_ratio) -> bool
       end
 
       class ToBrighterSide < SearchDirection
         @target_contrast: Float | Integer
-        @fixed_luminance: Complex | Float
+        @fixed_luminance: Float
 
         def round: (Complex | Float ratio) -> Float
-        def increment_condition: (Complex | Float contrast_ratio) -> bool
+        def increment_condition: (Float contrast_ratio) -> bool
       end
     end
 
