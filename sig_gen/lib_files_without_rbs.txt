@@ -4,10 +4,10 @@ lib/color_contrast_calc/checker.rb
 lib/color_contrast_calc/transparency_calc.rb
 lib/color_contrast_calc/threshold_finder.rb
 lib/color_contrast_calc/invalid_color_representation_error.rb
-lib/color_contrast_calc/color_function_parser.rb
 lib/color_contrast_calc/color.rb
 lib/color_contrast_calc/sorter.rb
 lib/color_contrast_calc.rb
 lib/color_contrast_calc/deprecated.rb
 lib/color_contrast_calc/shim.rb
 lib/color_contrast_calc/version.rb
+lib/color_contrast_calc/color_function_parser.rb
