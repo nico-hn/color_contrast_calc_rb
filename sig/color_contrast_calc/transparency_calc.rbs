@@ -5,10 +5,13 @@ module ColorContrastCalc
   module TransparencyCalc
     include Converter::AlphaCompositing::Rgba
 
-    def self.contrast_ratio: (untyped foreground, untyped background, ?untyped base) -> Float
-    def self.opaque?: (untyped rgba) -> untyped
-    def self.to_rgb: (Array[Integer] rgba) -> Array[Integer]
-    def self.compose: (untyped foreground, untyped background, untyped base) -> {foreground: Array[Integer], background: Array[Integer]}
-    def self.to_opaque_rgbs: (untyped foreground, untyped background, untyped base) -> Array[Array[Integer]]
+    type rgb_val = [Integer, Integer, Integer]
+    type rgba_val = [Integer, Integer, Integer, Float | Integer]
+
+    def self.contrast_ratio: (rgba_val foreground, rgba_val background, ?rgba_val base) -> Float
+    def self.opaque?: (rgba_val rgba) -> bool
+    def self.to_rgb: (rgba_val rgba) -> rgb_val
+    def self.compose: (rgba_val foreground, rgba_val background, rgba_val base) -> {foreground: rgba_val, background: rgba_val}
+    def self.to_opaque_rgbs: (rgba_val foreground, rgba_val background, rgba_val base) -> [rgb_val, rgb_val]
   end
 end
