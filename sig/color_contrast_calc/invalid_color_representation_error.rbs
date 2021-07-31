@@ -3,7 +3,7 @@
 # Classes
 module ColorContrastCalc
   class InvalidColorRepresentationError < StandardError
-    def self.may_be_name?: (untyped value) -> ((Integer | false)?)
+    def self.may_be_name?: (String value) -> ((Integer | false)?)
     def self.select_message_template: (untyped value) -> String
     def self.from_value: (untyped value) -> InvalidColorRepresentationError
 
