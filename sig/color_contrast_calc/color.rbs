@@ -2,82 +2,95 @@
 
 # Classes
 module ColorContrastCalc
+  type rgb_val = [Integer, Integer, Integer]
+  type hsl_val = [Float | Integer, Float | Integer, Float | Integer]
+  type hwb_val = [Float | Integer, Float | Integer, Float | Integer]
+  type rgba_val = [Integer, Integer, Integer, Float | Integer]
+  type hsla_val = [Float | Integer, Float | Integer, Float | Integer, Float | Integer]
+  type unrounded_val = Float | Integer
+
   class Color
     RGB_LIMITS: [Integer, Integer]
-    WHITE: nil
-    GRAY: nil
-    BLACK: nil
+    WHITE: Color
+    GRAY: Color
+    BLACK: Color
     extend Factory
-    @hsl: [Float | Integer, Float | Integer, Float | Integer]
-    @hwb: [Float | Integer, Float | Integer, Float | Integer]
+    @hsl: hsl_val
+    @hwb: hwb_val
     @rgb_code: String
 
-    attr_reader rgb: (Array[Complex | Float | Integer | Rational] | String)?
+    attr_reader rgb: rgb_val?
     attr_reader hex: String
     attr_reader name: String
     attr_reader relative_luminance: Float
-    attr_reader opacity: Complex | Float | Integer | Rational
-    def initialize: (Array[Complex | Float | Integer | Rational] | String rgb, ?nil name) -> Float
+    attr_reader opacity: unrounded_val
+    def initialize: (rgb_val | rgba_val | String rgb, ?String? name) -> Float
 
     private
-    def create: (Array[Complex | Float | Integer | Rational] rgb, ?nil name) -> Color
+    def create: (rgb_val | rgba_val | String rgb, ?String? name) -> Color
 
     public
-    def hsl: -> ([Float | Integer, Float | Integer, Float | Integer])
-    def hwb: -> ([Float | Integer, Float | Integer, Float | Integer])
+    def hsl: -> (hsl_val)
+    def hwb: -> (hwb_val)
     def common_name: -> String
-    def with_contrast: (untyped ratio, ?nil name) -> Color
-    def with_brightness: (untyped ratio, ?nil name) -> Color
-    def with_invert: (?Integer ratio, ?nil name) -> Color
-    def with_hue_rotate: (untyped degree, ?nil name) -> Color
-    def with_saturate: (untyped ratio, ?nil name) -> Color
-    def with_grayscale: (?Integer ratio, ?nil name) -> Color
-    def complementary: (?nil name) -> Color
-    def find_brightness_threshold: (untyped other_color, ?String level) -> Color
-    def find_lightness_threshold: (untyped other_color, ?String level) -> Color
-    def contrast_ratio_against: (untyped other_color) -> Float
-    def contrast_level: (untyped other_color) -> String
+    def with_contrast: (unrounded_val ratio, ?String? name) -> Color
+    def with_brightness: (unrounded_val ratio, ?String? name) -> Color
+    def with_invert: (?unrounded_val ratio, ?String? name) -> Color
+    def with_hue_rotate: (unrounded_val degree, ?String? name) -> Color
+    def with_saturate: (unrounded_val ratio, ?String? name) -> Color
+    def with_grayscale: (?unrounded_val ratio, ?String? name) -> Color
+    def complementary: (?String? name) -> Color
+    def find_brightness_threshold: (rgb_val | String | Color  other_color, ?String level) -> Color
+    def find_lightness_threshold: (rgb_val | String | Color other_color, ?String level) -> Color
+    def contrast_ratio_against: (rgb_val | String | Color other_color) -> Float
+    def contrast_level: (rgb_val | String | Color other_color) -> String
     def to_s: (?Integer base) -> String
-    def sufficient_contrast?: (untyped other_color, ?String level) -> bool
-    def same_color?: (untyped other_color) -> bool?
+    def sufficient_contrast?: (rgb_val | String | Color other_color, ?String level) -> bool
+    def same_color?: (rgb_val | String | Color other_color) -> bool?
     def max_contrast?: -> bool
     def min_contrast?: -> bool
-    def higher_luminance_than?: (untyped other_color) -> bool
-    def same_luminance_as?: (untyped other_color) -> bool
+    def higher_luminance_than?: (Color other_color) -> bool
+    def same_luminance_as?: (Color other_color) -> bool
     def light_color?: -> bool
 
     private
-    def generate_new_color: (singleton(Converter::Brightness) | singleton(Converter::Contrast) | singleton(Converter::Grayscale) | singleton(Converter::HueRotate) | singleton(Converter::Invert) | singleton(Converter::Saturate) calc, Integer ratio, ?nil name) -> Color
+    def generate_new_color: (singleton(Converter::Brightness) |
+                             singleton(Converter::Contrast) |
+                             singleton(Converter::Grayscale) |
+                             singleton(Converter::HueRotate) |
+                             singleton(Converter::Invert) |
+                             singleton(Converter::Saturate) calc,
+                             Integer ratio, ?String? name) -> Color
 
     module Factory
-      def from_name: (untyped name) -> untyped
-      def from_rgb: (untyped rgb, ?nil name) -> untyped
-      def from_hex: (untyped hex, ?nil name) -> untyped
-      def from_hsl: ([Integer | Numeric, Integer, Integer] hsl, ?nil name) -> Color
-      def color_from: (untyped color_value, ?nil name) -> Color
+      def from_name: (String name) -> Color?
+      def from_rgb: (rgb_val rgb, ?String? name) -> Color
+      def from_hex: (String hex, ?String? name) -> Color
+      def from_hsl: (hsl_val | hsla_val hsl, ?String? name) -> Color
+      def color_from: (rgb_val | rgba_val | String color_value, ?String? name) -> Color
 
       private
-      def function?: (untyped color_value) -> Integer?
+      def function?: (String color_value) -> Integer?
 
       public
-      def as_color: (untyped color_value, ?nil name) -> Color
+      def as_color: (rgb_val | rgba_val | String | Color color_value, ?String? name) -> Color
 
       private
-      def opaque?: ([Integer | Numeric, Integer, Integer] color_value) -> bool
-      def color_from_rgba: (untyped rgba_value, ?nil name) -> untyped
-      def color_from_rgb: (untyped rgb_value, ?nil name) -> untyped
-      def color_from_func: (untyped color_value, ?nil name) -> Color
-      def color_from_str: (untyped color_value, ?nil name) -> untyped
+      def opaque?: (rgba_val | hsla_val color_value) -> bool
+      def color_from_rgba: (rgba_val rgba_value, ?String? name) -> Color
+      def color_from_rgb: (rgb_val rgb_value, ?String? name) -> Color
+      def color_from_func: (String color_value, ?String? name) -> Color
+      def color_from_str: (String color_value, ?String? name) -> Color
     end
 
     module List
-      NAMED_COLORS: untyped
-      NAME_TO_COLOR: untyped
-      HEX_TO_COLOR: untyped
+      NAMED_COLORS: Array[Color]
+      NAME_TO_COLOR: Hash[String, Color]
+      HEX_TO_COLOR: Hash[String, Color]
       WEB_SAFE_COLORS: Array[Color]
 
       def self.generate_web_safe_colors: -> Array[Color]
-      def self.hsl_colors: (?s: Integer, ?l: Integer, ?h_interval: Integer) -> Array[Color]
+      def self.hsl_colors: (?s: unrounded_val, ?l: unrounded_val, ?h_interval: Integer) -> Array[Color]
     end
   end
 end
