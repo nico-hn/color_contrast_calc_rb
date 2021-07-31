@@ -1,5 +1,4 @@
 lib/color_contrast_calc/sorter.rb
 lib/color_contrast_calc.rb
 lib/color_contrast_calc/deprecated.rb
-lib/color_contrast_calc/shim.rb
 lib/color_contrast_calc/color_function_parser.rb
