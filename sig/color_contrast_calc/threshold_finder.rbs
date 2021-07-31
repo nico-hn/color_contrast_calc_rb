@@ -3,62 +3,69 @@
 # Classes
 module ColorContrastCalc
   module ThresholdFinder
+    type rgb_val = [Integer, Integer, Integer]
+    type hsl_val = [Float | Integer, Float | Integer, Float | Integer]
+    type level_val = String | Float | Integer
+    type unrounded_val = Float | Integer
+
     module Criteria
-      def self.define: (String level, untyped fixed_rgb, untyped other_rgb) -> (ToBrighterSide | ToDarkerSide)
-      def self.should_scan_darker_side?: (untyped fixed_rgb, untyped other_rgb) -> bool
+      def self.define: (level_val level, rgb_val fixed_rgb, rgb_val other_rgb) -> (ToBrighterSide | ToDarkerSide)
+      def self.should_scan_darker_side?: (rgb_val fixed_rgb, rgb_val other_rgb) -> bool
 
       class SearchDirection
-        attr_reader target_contrast: bot
-        attr_reader fixed_luminance: bot
-        def initialize: (String level, untyped fixed_rgb) -> Float
-        def sufficient_contrast?: ([Integer, Integer, Integer] rgb) -> bool
-        def contrast_ratio: ([Integer, Integer, Integer] rgb) -> Float
+        attr_reader target_contrast: unrounded_val
+        attr_reader fixed_luminance: Float
+        def initialize: (level_val level, rgb_val fixed_rgb) -> Float
+        def sufficient_contrast?: (rgb_val rgb) -> bool
+        def contrast_ratio: (rgb_val rgb) -> Float
       end
 
       class ToDarkerSide < SearchDirection
-        @target_contrast: Float | Integer
+        @target_contrast: unrounded_val
         @fixed_luminance: Float
 
-        def round: (Complex | Float ratio) -> Float
+        def round: (Float ratio) -> Float
         def increment_condition: (Float contrast_ratio) -> bool
       end
 
       class ToBrighterSide < SearchDirection
-        @target_contrast: Float | Integer
+        @target_contrast: unrounded_val
         @fixed_luminance: Float
 
-        def round: (Complex | Float ratio) -> Float
+        def round: (Float ratio) -> Float
         def increment_condition: (Float contrast_ratio) -> bool
       end
     end
 
     module FinderUtils
-      def self.binary_search_width: (Float | Integer init_width, Float min) ?{ (Float) -> (Complex | Float) } -> nil
+      type criteria_val = Criteria::ToBrighterSide | Criteria::ToDarkerSide
+
+      def self.binary_search_width: (unrounded_val init_width, Float min) ?{ (Float) -> Float } -> nil
 
       private
-      def sufficient_contrast?: (Float ref_luminance, untyped rgb, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria) -> bool
-      def rgb_with_better_ratio: ([Float | Integer, Float | Integer, Float | Integer] color, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, (Complex | Float)? last_r, Float? passing_r) -> [Integer, Integer, Integer]
-      def find_ratio: ([Float | Integer, Float | Integer, Float | Integer] other_color, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, Float init_ratio, Float | Integer init_width) -> ([Complex | Float, Float?])
-      def rgb_with_ratio: ([Float | Integer, Float | Integer, Float | Integer] rgb, (Complex | Float)? ratio) -> untyped
+      def sufficient_contrast?: (Float ref_luminance, rgb_val rgb, criteria_val criteria) -> bool
+      def rgb_with_better_ratio: (rgb_val | hsl_val color, criteria_val criteria, Float? last_r, Float? passing_r) -> rgb_val
+      def find_ratio: (rgb_val | hsl_val other_color, criteria_val criteria, Float init_ratio, unrounded_val init_width) -> ([Float, Float?])
+      def rgb_with_ratio: (rgb_val | hsl_val rgb, unrounded_val? ratio) -> rgb_val
     end
 
     module Brightness
       extend FinderUtils
 
-      def self.find: (untyped fixed_rgb, untyped other_rgb, ?String level) -> [Integer, Integer, Integer]
-      def self.rgb_with_ratio: ([Float | Integer, Float | Integer, Float | Integer] rgb, (Complex | Float)? ratio) -> [Integer, Integer, Integer]
-      def self.upper_limit_rgb: (Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, untyped other_rgb, Float max_ratio) -> [Integer, Integer, Integer]?
-      def self.exceed_upper_limit?: (Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria, untyped other_rgb, [Integer, Integer, Integer] limit_rgb) -> bool
-      def self.calc_upper_ratio_limit: (untyped rgb) -> Integer
+      def self.find: (rgb_val fixed_rgb, rgb_val other_rgb, ?level_val level) -> rgb_val
+      def self.rgb_with_ratio: (rgb_val rgb, unrounded_val ratio) -> rgb_val
+      def self.upper_limit_rgb: (criteria_val criteria, rgb_val other_rgb, Float max_ratio) -> rgb_val?
+      def self.exceed_upper_limit?: (criteria_val criteria, rgb_val other_rgb, rgb_val limit_rgb) -> bool
+      def self.calc_upper_ratio_limit: (rgb_val rgb) -> Integer
     end
 
     module Lightness
       extend FinderUtils
 
-      def self.find: (untyped fixed_rgb, untyped other_rgb, ?String level) -> [Integer, Integer, Integer]
-      def self.rgb_with_ratio: ([Float | Integer, Float | Integer, Float | Integer] hsl, (Complex | Float)? ratio) -> [Integer, Integer, Integer]
-      def self.determine_minmax: (untyped fixed_rgb, untyped other_rgb, Float | Integer init_l) -> ([Float | Integer, Float | Integer])
-      def self.lightness_boundary_rgb: (untyped rgb, Float | Integer max, Float | Integer min, Criteria::ToBrighterSide | Criteria::ToDarkerSide criteria) -> [Integer, Integer, Integer]?
+      def self.find: (rgb_val fixed_rgb, rgb_val other_rgb, ?level_val level) -> rgb_val
+      def self.rgb_with_ratio: (hsl_val hsl, unrounded_val ratio) -> rgb_val
+      def self.determine_minmax: (rgb_val fixed_rgb, rgb_val other_rgb, unrounded_val init_l) -> ([unrounded_val, unrounded_val])
+      def self.lightness_boundary_rgb: (rgb_val rgb, unrounded_val max, unrounded_val min, criteria_val criteria) -> rgb_val?
     end
   end
 end
