@@ -39,8 +39,8 @@ module ColorContrastCalc
       SIN_PART: Matrix
 
       def self.calc_rgb: (rgb_val rgb, unrounded_val deg) -> rgb_val
-      def self.deg_to_rad: (unround deg) -> Float
-      def self.calc_rotation: (unround deg) -> Matrix
+      def self.deg_to_rad: (unrounded_val deg) -> Float
+      def self.calc_rotation: (unrounded_val deg) -> Matrix
     end
 
     module Saturate
@@ -56,7 +56,7 @@ module ColorContrastCalc
       RATIO_PART: Matrix
 
       def self.calc_rgb: (rgb_val rgb, unrounded_val s) -> rgb_val
-      def self.calc_grayscale: (unround s) -> Matrix
+      def self.calc_grayscale: (unrounded_val s) -> Matrix
     end
   end
 end
