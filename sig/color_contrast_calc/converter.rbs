@@ -3,29 +3,34 @@
 # Classes
 module ColorContrastCalc
   module Converter
-    def self.rgb_map: (Array[(Array[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?] | Complex | Enumerator[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?, untyped] | Float | Integer | Matrix | Numeric | Rational | String | Vector)?]? vals) ?{ (?(Array[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?] | Complex | Enumerator[(Complex | Float | Integer | Matrix | Numeric | Rational | String | Vector)?, untyped] | Float | Integer | Matrix | Numeric | Rational | String | Vector)?) -> ((Complex | Float | Matrix | Vector)?) } -> Array[Integer]
+    type rgb_val = [Integer, Integer, Integer]
+    type rgba_val = [Integer, Integer, Integer, Float | Integer]
+    type unrounded_val = Float | Integer
+    type raw_rgba_val = [unrounded_val, unrounded_val, unrounded_val, unrounded_val]
+
+    def self.rgb_map: ([unrounded_val, unrounded_val, unrounded_val] vals) ?{ (?unrounded_val?) -> (unroundred_val?) } -> rgb_val
 
     module AlphaCompositing
-      def self.compose: (untyped foreground, untyped background, ?[Integer, Integer, Integer, Float] base) -> {foreground: Array[Integer], background: Array[Integer]}
-      def self.normalize: (untyped raw_rgba) -> Array[Integer]
-      def self.calc: (untyped source, [Integer, Integer, Integer, Float] backdrop) -> untyped
+      def self.compose: (rgba_val foreground, rgba_val background, ?rgba_val base) -> {foreground: rgba_val, background: rgba_val}
+      def self.normalize: (raw_rgba_val raw_rgba) -> rgba_val
+      def self.calc: (rgba_val source, rgba_val backdrop) -> raw_rgba_val
 
       module Rgba
-        BLACK: [Integer, Integer, Integer, Float]
-        WHITE: [Integer, Integer, Integer, Float]
+        BLACK: rgba_val
+        WHITE: rgba_val
       end
     end
 
     module Contrast
-      def self.calc_rgb: (untyped rgb, ?Integer ratio) -> Array[Integer]
+      def self.calc_rgb: (rgb_val rgb, ?unrounded_val ratio) -> rgb_val
     end
 
     module Brightness
-      def self.calc_rgb: (untyped rgb, ?Integer ratio) -> Array[Integer]
+      def self.calc_rgb: (rgb_val rgb, ?unrounded_val ratio) -> rgb_val
     end
 
     module Invert
-      def self.calc_rgb: (untyped rgb, untyped ratio) -> untyped
+      def self.calc_rgb: (rgb_val rgb, unrounded_val ratio) -> rgb_val
     end
 
     module HueRotate
@@ -33,25 +38,25 @@ module ColorContrastCalc
       COS_PART: Matrix
       SIN_PART: Matrix
 
-      def self.calc_rgb: (untyped rgb, untyped deg) -> Array[Integer]
-      def self.deg_to_rad: (untyped deg) -> (Complex | Float)
-      def self.calc_rotation: (untyped deg) -> Matrix
+      def self.calc_rgb: (rgb_val rgb, unrounded_val deg) -> rgb_val
+      def self.deg_to_rad: (unround deg) -> Float
+      def self.calc_rotation: (unround deg) -> Matrix
     end
 
     module Saturate
       CONST_PART: Matrix
       SATURATE_PART: Matrix
 
-      def self.calc_rgb: (untyped rgb, untyped s) -> Array[Integer]
-      def self.calc_saturation: (untyped s) -> Matrix
+      def self.calc_rgb: (rgb_val rgb, unrounded_val s) -> rgb_val
+      def self.calc_saturation: (unrounded_val s) -> Matrix
     end
 
     module Grayscale
       CONST_PART: Matrix
       RATIO_PART: Matrix
 
-      def self.calc_rgb: (untyped rgb, untyped s) -> Array[Integer]
-      def self.calc_grayscale: (untyped s) -> Matrix
+      def self.calc_rgb: (rgb_val rgb, unrounded_val s) -> rgb_val
+      def self.calc_grayscale: (unround s) -> Matrix
     end
   end
 end
