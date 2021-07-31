@@ -57,6 +57,9 @@ module ColorContrastCalc
       def self.upper_limit_rgb: (criteria_val criteria, rgb_val other_rgb, Float max_ratio) -> rgb_val?
       def self.exceed_upper_limit?: (criteria_val criteria, rgb_val other_rgb, rgb_val limit_rgb) -> bool
       def self.calc_upper_ratio_limit: (rgb_val rgb) -> Integer
+
+      def self.rgb_with_better_ratio: (rgb_val other_rgb, criteria_val criteria, Float? last_r, Float? passing_r) -> rgb_val
+      def self.find_ratio: (rgb_val other_rgb, criteria_val criteria, Float init_ratio, unrounded_val init_width) -> ([Float, Float?])
     end
 
     module Lightness
@@ -66,6 +69,9 @@ module ColorContrastCalc
       def self.rgb_with_ratio: (hsl_val hsl, unrounded_val ratio) -> rgb_val
       def self.determine_minmax: (rgb_val fixed_rgb, rgb_val other_rgb, unrounded_val init_l) -> ([unrounded_val, unrounded_val])
       def self.lightness_boundary_rgb: (rgb_val rgb, unrounded_val max, unrounded_val min, criteria_val criteria) -> rgb_val?
+
+      def self.rgb_with_better_ratio: (hsl_val other_hsl, criteria_val criteria, Float? last_r, Float? passing_r) -> rgb_val
+      def self.find_ratio: (hsl_val other_hsl, criteria_val criteria, Float init_ratio, unrounded_val init_width) -> ([Float, Float?])
     end
   end
 end
