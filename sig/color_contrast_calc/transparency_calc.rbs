@@ -3,7 +3,7 @@
 # Classes
 module ColorContrastCalc
   module TransparencyCalc
-    # include Converter::AlphaCompositing::Rgba
+    include Converter::AlphaCompositing::Rgba
 
     type rgb_val = [Integer, Integer, Integer]
     type rgba_val = [Integer, Integer, Integer, Float | Integer]
