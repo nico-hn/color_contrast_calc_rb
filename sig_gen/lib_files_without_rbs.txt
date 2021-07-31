@@ -1,4 +1,3 @@
-lib/color_contrast_calc/invalid_color_representation_error.rb
 lib/color_contrast_calc/color.rb
 lib/color_contrast_calc/sorter.rb
 lib/color_contrast_calc.rb
