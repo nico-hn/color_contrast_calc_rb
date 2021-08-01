@@ -8,6 +8,12 @@ module ColorContrastCalc
     type unrounded_val = Float | Integer
     type key_type_val = :color | :components | :function | :hex
 
+    # ToDo:
+    # I want to do something like following examples, but they don't work.
+    # I have to find information about the handling of constants in RBS.
+    # type parsed_color_order_val = {pos: Array[Integer?], funcs: Array[CompFunc::ASCEND | CompFunc::DESCEND]}
+    # type parsed_color_order_val = {pos: Array[Integer?], funcs: Array[singleton(CompFunc::ASCEND) | singleton(CompFunc::DESCEND)]}
+
     COMPARE_FUNCTION_COMPILERS: {color: CompareFunctionCompiler, components: CompareFunctionCompiler, hex: CachingCompiler, function: CachingCompiler}
 
     def self.sort: (Array[Color] colors, ?String color_order) -> (Array[Color])
