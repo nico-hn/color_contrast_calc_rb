@@ -3,11 +3,29 @@
 # Classes
 module ColorContrastCalc
   module Sorter
+    # rgb_val, hsl_val or hwb_val
+    type components_val =  [Integer, Integer, Integer] | [Float | Integer, Float | Integer, Float | Integer]
+    type unrounded_val = Float | Integer
+    type key_type_val = :color | :components | :function | :hex
+
     COMPARE_FUNCTION_COMPILERS: {color: CompareFunctionCompiler, components: CompareFunctionCompiler, hex: CachingCompiler, function: CachingCompiler}
 
-    def self.sort: (untyped colors, ?String color_order, ?nil key_mapper) -> untyped
-    def self.compile_compare_function: (String color_order, :color | :components | :function | :hex key_type, ?nil key_mapper) -> ^(untyped, untyped) -> Integer
-    def self.compose_function: (^(untyped, untyped) -> Integer compare_function, ?nil key_mapper) -> ^(untyped, untyped) -> Integer
+    def self.sort: (Array[Color] colors, ?String color_order) -> (Array[Color])
+                 | (Array[components_val] colors, ?String color_order) -> (Array[components_val])
+                 | (Array[String] colors, ?String color_order) -> (Array[String])
+                 | [C] (Array[C] colors, ?String color_order, ^(C) -> (Color | components_val | String) key_mapper) -> (Array[C])
+                 | [C] (Array[C] colors, ?String color_order) { (C) -> (Color | components_val | String) } -> (Array[C])
+    def self.compile_compare_function: (String color_order, :color key_type) -> ^(Color, Color) -> Integer
+                                     | (String color_order, :components key_type) -> ^(components_val, components_val) -> Integer
+                                     | (String color_order, (:function | :hex) key_type) -> ^(String, String) -> Integer
+                                     | [C] (String color_order, :color key_type, ^(C) -> Color key_mapper) -> ^(C, C) -> Integer
+                                     | [C] (String color_order, :components key_type, ^(C) -> components_val key_mapper) -> ^(C, C) -> Integer
+                                     | [C] (String color_order, (:function | :hex) key_type, ^(C) -> String key_mapper) -> ^(C, C) -> Integer
+                                     | [C] (String color_order, :color key_type) { (C) -> Color } -> ^(C, C) -> Integer
+                                     | [C] (String color_order, :components key_type) { (C) -> components_val } -> ^(C, C) -> Integer
+                                     | [C] (String color_order, (:function | :hex) key_type) { (C) -> String } -> ^(C, C) -> Integer
+    def self.compose_function: [C] (^(C, C) -> Integer compare_function) -> ^(C, C) -> Integer
+                             | [B, C] (^(C, C) -> Integer compare_function, ^(B) -> C key_mapper) -> ^(B, B) -> Integer
 
     module ColorComponent
       RGB: Array[String]
@@ -16,8 +34,8 @@ module ColorContrastCalc
     end
 
     module CompFunc
-      ASCEND: ^(untyped, untyped) -> untyped
-      DESCEND: ^(untyped, untyped) -> untyped
+      ASCEND: ^(unrounded_val x, unrounded_val y) -> Integer
+      DESCEND: ^(unrounded_val x, unrounded_val y) -> Integer
     end
 
     module KeyTypes
@@ -27,16 +45,20 @@ module ColorContrastCalc
       FUNCTION: :function
       CLASS_TO_TYPE: Hash[singleton(Array) | singleton(Color) | singleton(String), :color | :components | :hex]
 
-      def self.guess: (untyped color, ?nil key_mapper) -> (:color | :components | :function | :hex)
+      def self.guess: (untyped color, ?Proc? key_mapper) -> key_type_val?
       def self.non_hex_code_string?: (untyped color) -> bool
     end
 
     class CompareFunctionCompiler
-      @converters: {rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}?
+      @converters: {rgb: Method | ^(untyped) -> components_val,
+                    hsl: Method | ^(untyped) -> components_val,
+                    hwb: Method | ^(untyped) -> components_val}?
 
-      def initialize: (?{rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}? converters) -> ({rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}?)
+      def initialize: (?{rgb: Method | ^(untyped) -> components_val,
+                         hsl: Method | ^(untyped) -> components_val,
+                         hwb: Method | ^(untyped) -> components_val}? converters) -> void
       def compile: (String color_order) -> ^(untyped, untyped) -> Integer
-      def parse_color_order: (String color_order) -> {pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]}
+      def parse_color_order: (String color_order) -> {pos: Array[Integer?], funcs: Array[^(unrounded_val x, unrounded_val y) -> Integer]}
 
       private
       def select_ordered_components: (String color_order) -> Array[String]
@@ -45,24 +67,29 @@ module ColorContrastCalc
       def color_component_pos: (String color_order, Array[String] ordered_components) -> Array[Integer?]
 
       private
-      def create_proc: ({pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order, String color_order) -> ^(untyped, untyped) -> Integer
+      def create_proc: ({pos: Array[Integer?], funcs: Array[^(unrounded_val x, unrounded_val y) -> Integer]} order,
+                         String color_order) -> ^(components_val color1, components_val color2) -> Integer
 
       public
-      def compare_components: (untyped color1, untyped color2, {pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order) -> Integer
+      def compare_components: (components_val color1, components_val color2,
+                               {pos: Array[Integer?], funcs: Array[^(unrounded_val x, unrounded_val y) -> Integer]} order) -> Integer
       alias compare compare_components
 
       private
-      def select_converter: (String color_order) -> (Method | ^(untyped) -> untyped)
+      def select_converter: (String color_order) -> (Method | ^(untyped) -> components_val)
       def select_scheme: (String color_order) -> (:hsl | :hwb | :rgb)
     end
 
     class CachingCompiler < CompareFunctionCompiler
-      @converters: {rgb: Method | ^(untyped) -> untyped, hsl: Method | ^(untyped) -> untyped, hwb: Method | ^(untyped) -> untyped}?
+      @converters: {rgb: Method | ^(untyped) -> components_val,
+                    hsl: Method | ^(untyped) -> components_val,
+                    hwb: Method | ^(untyped) -> components_val}?
 
-      def create_proc: ({pos: Array[Integer?], funcs: Array[^(untyped, untyped) -> untyped]} order, String color_order) -> ^(untyped, untyped) -> Integer
+      def create_proc: ({pos: Array[Integer?], funcs: Array[^(unrounded_val x, unrounded_val y) -> Integer]} order,
+                         String color_order) -> ^(components_val color1, components_val color2) -> Integer
 
       private
-      def to_components: (untyped color, Method | ^(untyped) -> untyped converter, Hash[bot, bot] cache) -> untyped
+      def to_components: [C] (C color, Method | ^(C) -> components_val converter, Hash[C, components_val] cache) -> components_val
     end
   end
 end
