@@ -231,8 +231,8 @@ module ColorContrastCalc
       #   adjusted from that of +other_rgb+
 
       def self.find(fixed_rgb, other_rgb, level = Checker::Level::AA)
-        other_hsl = Utils.rgb_to_hsl(other_rgb)
         criteria = Criteria.define(level, fixed_rgb, other_rgb)
+        other_hsl = initial_hsl(fixed_rgb, other_rgb, criteria)
         max, min = determine_minmax(fixed_rgb, other_rgb, other_hsl[2])
 
         boundary_rgb = lightness_boundary_rgb(fixed_rgb, max, min, criteria)
@@ -275,6 +275,24 @@ module ColorContrastCalc
       end
 
       private_class_method :lightness_boundary_rgb
+
+      def self.initial_hsl(fixed_rgb, other_rgb, criteria)
+        hsl = Utils.rgb_to_hsl(other_rgb)
+
+        return hsl unless criteria.sufficient_contrast?(other_rgb)
+
+        ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
+
+        # 1.5 and 0.5 are arbitrary chosen
+        if criteria.kind_of?(Criteria::ToBrighterSide) &&
+           ratio - criteria.target_contrast > 1.5
+          hsl[2] = hsl[2] * 0.5
+        end
+
+        hsl
+      end
+
+      private_class_method :initial_hsl
     end
   end
 end

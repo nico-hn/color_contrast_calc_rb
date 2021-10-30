@@ -274,6 +274,24 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
           expect(new_contrast_ratio).to be > 3.0
           expect(new_contrast_ratio).to within(0.1).of(3.0)
         end
+
+        it 'expects to return a darker yellow when yellow is passed to black' do
+          new_rgb = Lightness.find(black.rgb, yellow.rgb, 'A')
+          new_color = Color.new(new_rgb)
+          new_contrast_ratio = new_color.contrast_ratio_against(black)
+
+          expect(new_contrast_ratio).to within(0.1).of(3.0)
+        end
+
+        it 'expects to return a darker yellow when pale yellow is passed to black' do
+          pale_yellow = ColorContrastCalc.color_from('hsl(60 100% 90%)')
+
+          new_rgb = Lightness.find(black.rgb, pale_yellow.rgb, 'A')
+          new_color = Color.new(new_rgb)
+          new_contrast_ratio = new_color.contrast_ratio_against(black)
+
+          expect(new_contrast_ratio).to within(0.1).of(3.0)
+        end
       end
 
       context 'when the required level is AA' do
@@ -336,6 +354,23 @@ RSpec.describe ColorContrastCalc::ThresholdFinder do
 
           expect(new_color.same_color?(white)).to be true
           expect(new_color.contrast_ratio_against(yellow)).to be < 4.5
+        end
+
+        it 'expects to return #7a7a00 when yellow is passed to white' do
+          new_rgb = Lightness.find(white.rgb, yellow.rgb)
+          new_color = Color.new(new_rgb)
+
+          expect(new_color.hex).to eq('#7a7a00')
+        end
+
+        it 'expects to be able to find thresholds for colors in the range hsl(45 100% 50%) to hsl(180 100% 50%)' do
+          45.step(180, 15) do |i|
+            color = ColorContrastCalc.color_from("hsl(#{i} 100% 50%)")
+            threshold = Lightness.find(black.rgb, color.rgb, 'A')
+            ratio = black.contrast_ratio_against(threshold)
+
+            expect(ratio).to within(0.1).of(3.0)
+          end
         end
       end
 
