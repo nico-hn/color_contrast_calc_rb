@@ -318,6 +318,16 @@ RSpec.describe ColorContrastCalc::Color do
         expect(new_name_yellow.name).to eq(new_name)
       end
     end
+
+    context 'When a Color instance with opacity is passed' do
+      yellow_with_opacity = Color.color_from('rgb(255 255 0 / 50%)')
+      result = Color.as_color(yellow_with_opacity)
+
+      it 'expects to return a new instance if the color is not fully opaque' do
+        expect(yellow_with_opacity.rgb).to eq(result.rgb)
+        expect(yellow_with_opacity.opacity).to eq(result.opacity)
+      end
+    end
   end
 
   describe '.find_brightness_threshold' do

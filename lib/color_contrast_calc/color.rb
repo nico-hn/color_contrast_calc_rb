@@ -130,12 +130,19 @@ module ColorContrastCalc
 
       def as_color(color_value, name = nil)
         if color_value.is_a? Color
-          return color_value if color_value.name == name
-          color_value = color_value.rgb
+          return color_value if predefined?(color_value, name)
+          color_value = color_value.rgb + [color_value.opacity]
         end
 
         color_from(color_value, name)
       end
+
+      def predefined?(color_value, name)
+        color_value.opacity == Utils::MAX_OPACITY &&
+          color_value.name == name
+      end
+
+      private :predefined?
 
       def opaque?(color_value)
         color_value[-1] == Utils::MAX_OPACITY
