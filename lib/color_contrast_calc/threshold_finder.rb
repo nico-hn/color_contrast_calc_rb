@@ -284,7 +284,7 @@ module ColorContrastCalc
         ratio = Checker.contrast_ratio(fixed_rgb, other_rgb)
 
         # 1.5 and 0.5 are arbitrary chosen
-        if criteria.kind_of?(Criteria::ToBrighterSide) &&
+        if criteria.is_a?(Criteria::ToBrighterSide) &&
            ratio - criteria.target_contrast > 1.5
           hsl[2] = hsl[2] * 0.5
         end
