@@ -210,6 +210,16 @@ RSpec.describe ColorContrastCalc do
           expect(ratio).to within(0.01).of(1.20)
         end
       end
+
+      context 'When two instances of Color are passed' do
+        y, g = [yellow, green].map {|c| ColorContrastCalc.color_from(c) }
+
+        it 'expects to return ' do
+          ratio = ColorContrastCalc.contrast_ratio_with_opacity(y, g)
+
+          expect(ratio).to within(0.005).of(1.18)
+        end
+      end
     end
 
     context 'When HSL colors are passed' do
