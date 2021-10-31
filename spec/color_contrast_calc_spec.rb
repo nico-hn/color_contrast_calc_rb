@@ -196,7 +196,7 @@ RSpec.describe ColorContrastCalc do
       green = 'rgb(0, 255, 0, 0.5)'
 
       context 'When darker background is on ligther base' do
-        it 'expects tu return lower contrast ratio' do
+        it 'expects to return lower contrast ratio' do
           ratio = ColorContrastCalc.contrast_ratio_with_opacity(yellow, green)
 
           expect(ratio).to within(0.005).of(1.18)
